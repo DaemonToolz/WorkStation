@@ -5,6 +5,16 @@ VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationServices", "WorkstationServices\WorkstationServices.csproj", "{6790BBF8-5865-4799-8AB9-6CDF5D05C704}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationAuthentication", "WorkstationAuthentication\WorkstationAuthentication.csproj", "{52D39487-698F-4CA0-BD3C-0B29E9DECB15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationCommonContracts", "WorkstationCommonContracts\WorkstationCommonContracts.csproj", "{3E75C3B8-BCFE-496A-B19B-53B8F044801B}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "WorkstationAuthenticationDB", "WorkstationAuthenticationDB\WorkstationAuthenticationDB.sqlproj", "{A0D5E405-B17F-453A-8486-672EFCC0316F}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "WorstationServicesDB", "WorstationServicesDB\WorstationServicesDB.sqlproj", "{86EF1021-CF27-4755-BE2C-B02E5AADCB8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationManagementServices", "WorkstationUserManagementServices\WorkstationManagementServices.csproj", "{8DF48FC2-9E60-482E-BDA1-C531755AB535}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +25,30 @@ Global
 		{6790BBF8-5865-4799-8AB9-6CDF5D05C704}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6790BBF8-5865-4799-8AB9-6CDF5D05C704}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6790BBF8-5865-4799-8AB9-6CDF5D05C704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52D39487-698F-4CA0-BD3C-0B29E9DECB15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52D39487-698F-4CA0-BD3C-0B29E9DECB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52D39487-698F-4CA0-BD3C-0B29E9DECB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52D39487-698F-4CA0-BD3C-0B29E9DECB15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E75C3B8-BCFE-496A-B19B-53B8F044801B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E75C3B8-BCFE-496A-B19B-53B8F044801B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E75C3B8-BCFE-496A-B19B-53B8F044801B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E75C3B8-BCFE-496A-B19B-53B8F044801B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0D5E405-B17F-453A-8486-672EFCC0316F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0D5E405-B17F-453A-8486-672EFCC0316F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0D5E405-B17F-453A-8486-672EFCC0316F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A0D5E405-B17F-453A-8486-672EFCC0316F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0D5E405-B17F-453A-8486-672EFCC0316F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0D5E405-B17F-453A-8486-672EFCC0316F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{86EF1021-CF27-4755-BE2C-B02E5AADCB8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86EF1021-CF27-4755-BE2C-B02E5AADCB8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86EF1021-CF27-4755-BE2C-B02E5AADCB8F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{86EF1021-CF27-4755-BE2C-B02E5AADCB8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86EF1021-CF27-4755-BE2C-B02E5AADCB8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86EF1021-CF27-4755-BE2C-B02E5AADCB8F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{8DF48FC2-9E60-482E-BDA1-C531755AB535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DF48FC2-9E60-482E-BDA1-C531755AB535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DF48FC2-9E60-482E-BDA1-C531755AB535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DF48FC2-9E60-482E-BDA1-C531755AB535}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
