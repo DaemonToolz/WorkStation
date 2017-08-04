@@ -259,3 +259,9 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/WorkstationServices/WorkstationAuthenticationV2Old
+/WorkstationServices/WorkstationAuthentication/App_Code
+/WorkstationServices/ServiceProtoMaker
+/WorkstationServices/WorkstationAuthentication/App_Data/PublishProfiles
+/WorkstationServices/WorkstationAuthentication/packages.config
+/WorkstationServices/WorkstationAuthentication/TokenGenerationService.svc

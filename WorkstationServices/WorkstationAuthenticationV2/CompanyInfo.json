@@ -1,0 +1,10 @@
+﻿{
+	"ValidAudiences":["IntranetApplicationAudience"],
+	"ValidIssuers":["CompanyExample"],
+	"Claims":	{
+					"NameIdentifier":"NameIdentifierExample",
+					"Role":"RoleExample",
+					"Name":"NameExample"
+				}
+	
+}

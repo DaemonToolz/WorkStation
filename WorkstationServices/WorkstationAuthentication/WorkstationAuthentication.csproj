@@ -12,7 +12,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WorkstationAuthentication</RootNamespace>
     <AssemblyName>WorkstationAuthentication</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <UseIISExpress>true</UseIISExpress>
@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,13 +42,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.4\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.4\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
@@ -60,21 +79,116 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="App_Code\DataAccess\SQL\Token\TokenModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TokenModel.Context1.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_Code\DataAccess\SQL\Token\TokenModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TokenModel1.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_Code\DataAccess\SQL\User\UserModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UserModel.Context1.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_Code\DataAccess\SQL\User\UserModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UserModel1.cs</LastGenOutput>
+    </Content>
+    <Content Include="TokenGenerationService.svc" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\DataAccess\Authorizer\ConnectionValidationProcess.cs" />
+    <Content Include="App_Code\DataAccess\Authorizer\UserAccessModel.cs" />
+    <Content Include="App_Code\DataAccess\SQL\Token\TokenModel.Context.cs" />
+    <Content Include="App_Code\DataAccess\SQL\Token\TokenModel.cs" />
+    <Content Include="App_Code\DataAccess\SQL\Token\TokenModel.Designer.cs">
+      <DependentUpon>TokenModel.cs</DependentUpon>
+    </Content>
+    <Content Include="App_Code\DataAccess\SQL\User\UserModel.Context.cs" />
+    <Content Include="App_Code\DataAccess\SQL\User\UserModel.cs" />
+    <Content Include="App_Code\DataAccess\SQL\User\UserModel.Designer.cs">
+      <DependentUpon>UserModel.cs</DependentUpon>
+    </Content>
+    <Content Include="App_Code\ITokenGenerationService.cs" />
+    <Content Include="App_Code\ITokenValidationService.cs" />
+    <Content Include="App_Code\Security\IdGenerator.cs" />
+    <Content Include="App_Code\Security\TokenManagementUtil.cs" />
+    <Content Include="App_Code\TokenGenerationService.cs" />
+    <Content Include="App_Code\DataAccess\SQL\Token\TokenModel.Context1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TokenModel.Context.tt</DependentUpon>
+    </Content>
+    <Content Include="App_Code\DataAccess\SQL\Token\Token.cs">
+      <DependentUpon>TokenModel.tt</DependentUpon>
+    </Content>
+    <Content Include="App_Code\DataAccess\SQL\User\UserModel.Context1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserModel.Context.tt</DependentUpon>
+    </Content>
+    <Content Include="App_Code\DataAccess\SQL\Token\TokenModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TokenModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="App_Code\DataAccess\SQL\User\UserModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="App_Code\DataAccess\SQL\User\UsersView.cs">
+      <DependentUpon>UserModel.tt</DependentUpon>
+    </Content>
+    <Compile Include="App_Code\DataAccess\SQL\Token\TokenModel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TokenModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="App_Code\DataAccess\SQL\User\UserModel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
+    <EntityDeploy Include="App_Code\DataAccess\SQL\Token\TokenModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TokenModel1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="App_Code\DataAccess\SQL\Token\TokenModel.edmx.diagram">
+      <DependentUpon>TokenModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="App_Code\DataAccess\SQL\User\UserModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>UserModel1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="App_Code\DataAccess\SQL\User\UserModel.edmx.diagram">
+      <DependentUpon>UserModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="packages.config" />
+    <Content Include="App_Code\Infos\CompanyInfo.json" />
+    <None Include="App_Data\PublishProfiles\local_iis.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorkstationCommon\WorkstationCommon.csproj">
+      <Project>{f455b3bf-8517-4a0b-aa73-d9d07a30b967}</Project>
+      <Name>WorkstationCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
