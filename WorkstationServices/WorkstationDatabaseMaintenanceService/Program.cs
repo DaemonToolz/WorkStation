@@ -17,7 +17,7 @@ namespace WorkstationDatabaseMaintenanceService
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new Service1()
+               new TokenCleanUpService()
             };
             ServiceBase.Run(ServicesToRun);
         }

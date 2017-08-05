@@ -1,6 +1,6 @@
 ﻿namespace WorkstationDatabaseMaintenanceService
 {
-    partial class Service1
+    partial class TokenCleanUpService
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,10 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.ServiceName = "Service1";
+            this.TokenCleanUpLogger = new System.Diagnostics.EventLog();
+            ((System.ComponentModel.ISupportInitialize)(this.TokenCleanUpLogger)).BeginInit();
+            // 
+            // TokenCleanUpLogger
+            // 
+            this.TokenCleanUpLogger.Log = "Application";
+            this.TokenCleanUpLogger.MachineName = "PC-AXEL";
+            this.TokenCleanUpLogger.Source = "TokenCleanUpService";
+            // 
+            // TokenCleanUpService
+            // 
+            this.ServiceName = "TokenCleanUpService";
+            ((System.ComponentModel.ISupportInitialize)(this.TokenCleanUpLogger)).EndInit();
+
         }
 
         #endregion
+
+        private System.Diagnostics.EventLog TokenCleanUpLogger;
     }
 }

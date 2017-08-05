@@ -24,17 +24,13 @@ namespace WorkstationAuthenticationV2.Controllers
     public class TokensController : Controller
     {
         private readonly TokensContext _context;
-        private static readonly TokensContext _GlobalContext = new TokensContext();
-
+        
         private static readonly IdGenerator IdGenerationModel;
         private static readonly Int32 _ID_GEN_SIZE = (int) TokenManagementUtil.MediumIdSize;
         private static readonly ClaimsIdentity Claims;
 
         private static readonly System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler TokenHandler =
             new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-
-        private static readonly Timer TokenVerificationTrigger;
-
 
         private readonly String MessageTemplate = "{\"Message\":{0}}";
         static TokensController()
@@ -53,8 +49,6 @@ namespace WorkstationAuthenticationV2.Controllers
             IdGenerationModel = new IdGenerator(1);
             for (int i = 0; i < 2; ++i) IdGenerationModel.GenerateId(_ID_GEN_SIZE);
 
-            // Nettoyage des tokens expirés
-            TokenVerificationTrigger = new Timer((_ => CheckTokenStates()), null, 2000, (60 * 1000));
 
         }
 
@@ -73,21 +67,6 @@ namespace WorkstationAuthenticationV2.Controllers
 
 
 
-        private static void CheckTokenStates()
-        {
-            try
-            {
-                _GlobalContext.Token.RemoveRange(
-                    _GlobalContext.Token.Where(token => token.Exp != null && token.Exp < DateTime.Now));
-                _GlobalContext.SaveChanges();
-            }
-            catch
-            {
-
-            }
-
-        }
-
 
         /// <summary>
         /// Vérifie que le token est valide
@@ -95,9 +74,9 @@ namespace WorkstationAuthenticationV2.Controllers
         /// <param name="input"></param>
         /// <param name="stoken"></param>
         /// <returns></returns>
-        private static bool IsValidToken(string input, SecurityToken stoken)
+        private bool IsValidToken(string input, SecurityToken stoken)
         {
-            Token token = _GlobalContext.Token.Single(tken => tken.Token1.Equals(input));
+            Token token = _context.Token.Single(tken => tken.Token1.Equals(input));
 
             //
             if (token.Exp != null)
@@ -105,8 +84,8 @@ namespace WorkstationAuthenticationV2.Controllers
                 if (DateTime.Now > token.Exp)
                 {
                     // Si expiré
-                    _GlobalContext.Token.Remove(token);
-                    _GlobalContext.SaveChanges();
+                    _context.Token.Remove(token);
+                    _context.SaveChanges();
                     return false;
                 }
                 else
@@ -232,7 +211,7 @@ namespace WorkstationAuthenticationV2.Controllers
                 if (!TokenExists(signedAndEncodedToken) && CheckToken(signedAndEncodedToken))
                 {
                     //var signingKey = new InMemorySymmetricSecurityKey(Encoding.UTF8.GetBytes(plainTextSecurityKey));
-                    _GlobalContext.Token.Add(new Token()
+                    _context.Token.Add(new Token()
                     {
                         Jni = jni,
                         TKey = signingKey.KeyId.ToString(),
@@ -247,13 +226,13 @@ namespace WorkstationAuthenticationV2.Controllers
 
                 if (TokenExists(signedAndEncodedToken))
                 {
-                    _GlobalContext.Token.Remove(
-                        _GlobalContext.Token.First(token => token.Token1.Equals(signedAndEncodedToken)));
+                    _context.Token.Remove(
+                        _context.Token.First(token => token.Token1.Equals(signedAndEncodedToken)));
                     changes = true;
                 }
 
                 if (changes)
-                    _GlobalContext.SaveChanges();
+                    _context.SaveChanges();
 
                 return new {Message = signedAndEncodedToken};
             }
