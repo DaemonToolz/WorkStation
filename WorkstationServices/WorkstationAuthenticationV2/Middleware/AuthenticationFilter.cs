@@ -44,7 +44,7 @@ namespace WorkstationAuthenticationV2.Middleware
                         Result = new AuthenticationResult()
                         {
                             Status = StatusCodes.Status404NotFound,
-                            FriendlyResult = new { Message=$"Cannot find any user {user} with the password {password}" }
+                            FriendlyResult = new  { Message=$"Cannot find any user {user} with the password {password}" }
                         };
                 }
             }

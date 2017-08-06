@@ -14,7 +14,7 @@ namespace Workstation.Company.Infos
 
         static CompanyInfoUtil()
         {
-            LoadCompanyInfos("./CompanyInfo.json");
+            //LoadCompanyInfos("./CompanyInfo.json");
         }
 
         public static void LoadCompanyInfos(String filename)

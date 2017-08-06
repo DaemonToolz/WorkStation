@@ -1,0 +1,72 @@
+﻿@using WorkstationManagementServices.Models.Database
+@model WorkstationManagementServices.Models.Database.Team
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Team</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <h5>Team</h5>
+        <hr />
+        @foreach (Project project in Model.Project) {
+            <dd>                        
+                @if (Model.Project.Select(e => e).Where(e => e.id == project.id).Count() > 0) {
+                    <input type="checkbox" name="TeacherIds" value="@project.id" checked="checked" />
+                } else {
+                    <input type="checkbox" name="TeacherIds" value="@project.id" />
+                }
+                @project.name
+            </dd>
+        }
+            
+        <h5>Crew</h5>
+        <hr />        
+        @foreach (Users user in Model.Users){
+            <dd>                        
+                @if (Model.Project.Select(e => e).Where(e => e.id == user.id).Count() > 0) {
+                    <input type="checkbox" name="TeacherIds" value="@user.id" checked="checked" />
+                }  else {
+                    <input type="checkbox" name="TeacherIds" value="@user.id" />
+                }
+                @user.username
+            </dd>
+        }
+
+        
+        
+        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

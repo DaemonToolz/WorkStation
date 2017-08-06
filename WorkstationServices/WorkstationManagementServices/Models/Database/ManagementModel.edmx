@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="UserModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="root" Type="varchar" MaxLength="1024" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rank">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="name" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="rights" Type="varchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="TProject">
+          <Key>
+            <PropertyRef Name="team_id" />
+            <PropertyRef Name="project_id" />
+          </Key>
+          <Property Name="team_id" Type="int" Nullable="false" />
+          <Property Name="project_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="encrypted" Type="bit" />
+          <Property Name="department_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UTeam">
+          <Key>
+            <PropertyRef Name="team_id" />
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="team_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_department_id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_pteam_id">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="TProject" Type="Self.TProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TProject">
+              <PropertyRef Name="team_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_team_id">
+          <End Role="Team" Type="Self.Team" Multiplicity="1" />
+          <End Role="UTeam" Type="Self.UTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UTeam">
+              <PropertyRef Name="team_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tproject_id">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="TProject" Type="Self.TProject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TProject">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_user_id">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UTeam" Type="Self.UTeam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UTeam">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UserModelStoreContainer">
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rank" EntityType="Self.Rank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TProject" EntityType="Self.TProject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UTeam" EntityType="Self.UTeam" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_department_id" Association="Self.fk_department_id">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="fk_pteam_id" Association="Self.fk_pteam_id">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="TProject" EntitySet="TProject" />
+          </AssociationSet>
+          <AssociationSet Name="fk_team_id" Association="Self.fk_team_id">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="UTeam" EntitySet="UTeam" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tproject_id" Association="Self.fk_tproject_id">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="TProject" EntitySet="TProject" />
+          </AssociationSet>
+          <AssociationSet Name="fk_user_id" Association="Self.fk_user_id">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UTeam" EntitySet="UTeam" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UserModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.fk_department_id" FromRole="Department" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="root" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Team" Relationship="Self.TProject" FromRole="Project" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Rank">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="rights" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Project" Relationship="Self.TProject" FromRole="Team" ToRole="Project" />
+          <NavigationProperty Name="Users" Relationship="Self.UTeam" FromRole="Team" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="encrypted" Type="Boolean" />
+          <Property Name="department_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="Self.fk_department_id" FromRole="Users" ToRole="Department" />
+          <NavigationProperty Name="Team" Relationship="Self.UTeam" FromRole="Users" ToRole="Team" />
+        </EntityType>
+        <Association Name="fk_department_id">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TProject">
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+        </Association>
+        <Association Name="UTeam">
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="ManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Department" EntityType="Self.Department" />
+          <EntitySet Name="Project" EntityType="Self.Project" />
+          <EntitySet Name="Rank" EntityType="Self.Rank" />
+          <EntitySet Name="Team" EntityType="Self.Team" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="fk_department_id" Association="Self.fk_department_id">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="TProject" Association="Self.TProject">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="UTeam" Association="Self.UTeam">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UserModelStoreContainer" CdmEntityContainer="ManagementEntities">
+          <EntitySetMapping Name="Department">
+            <EntityTypeMapping TypeName="UserModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project">
+            <EntityTypeMapping TypeName="UserModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="root" ColumnName="root" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rank">
+            <EntityTypeMapping TypeName="UserModel.Rank">
+              <MappingFragment StoreEntitySet="Rank">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="rights" ColumnName="rights" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Team">
+            <EntityTypeMapping TypeName="UserModel.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="UserModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="encrypted" ColumnName="encrypted" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TProject" TypeName="UserModel.TProject" StoreEntitySet="TProject">
+            <EndProperty Name="Team">
+              <ScalarProperty Name="id" ColumnName="team_id" />
+            </EndProperty>
+            <EndProperty Name="Project">
+              <ScalarProperty Name="id" ColumnName="project_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UTeam" TypeName="UserModel.UTeam" StoreEntitySet="UTeam">
+            <EndProperty Name="Team">
+              <ScalarProperty Name="id" ColumnName="team_id" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="id" ColumnName="user_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

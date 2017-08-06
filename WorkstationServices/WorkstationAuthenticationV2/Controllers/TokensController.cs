@@ -118,40 +118,32 @@ namespace WorkstationAuthenticationV2.Controllers
         /// <param name="CheckExistence"></param>
         /// <returns></returns>
         [HttpGet("Check")]
-        public bool CheckToken([FromHeader] string CustomAuthorizers, [FromHeader] bool CheckExistence = false)
+        public bool CheckToken([FromHeader] string CustomAuthorizers, [FromHeader] string CheckExistence = "false")
         {
-            try
-            {
-                string realToken = CustomAuthorizers.Substring(0, CustomAuthorizers.Length - 12); // On récupère le vrai token
-                string salt = CustomAuthorizers.Substring(CustomAuthorizers.Length - 12); // Les 12 derniers caractères
-                if (TokenHandler.CanReadToken(realToken))
-                {
-                    SecurityToken stoken;
-                    try
-                    {
-                        stoken = TokenHandler.ReadJwtToken(realToken);
-                    }
-                    catch
-                    {
-                        stoken = TokenHandler.ReadToken(realToken);
-                    }
-
-                    if (CheckExistence && TokenExists(CustomAuthorizers))
-                        if (IsValidToken(CustomAuthorizers, stoken)) return true ;
-                        else return false;
-                    
-                    return true;
-
+            //try
+            //{
+            bool checkExistence = Boolean.Parse(CheckExistence); 
+            string realToken = CustomAuthorizers.Substring(0, CustomAuthorizers.Length - 12); // On récupère le vrai token
+            string salt = CustomAuthorizers.Substring(CustomAuthorizers.Length - 12); // Les 12 derniers caractères
+            if (TokenHandler.CanReadToken(realToken)){
+                SecurityToken stoken;
+                try {
+                    stoken = TokenHandler.ReadJwtToken(realToken);
+                } catch {
+                    stoken = TokenHandler.ReadToken(realToken);
                 }
-                return false;
 
+                if (checkExistence && TokenExists(CustomAuthorizers))
+                    if (IsValidToken(CustomAuthorizers, stoken)) return true ;
+                    else return false;
+                return true;
             }
-            catch
-            {
+            return false;
 
+            /*}
+            catch {
                 return false ;
-
-            }
+            }*/
             //return false;
         }
 
@@ -224,8 +216,7 @@ namespace WorkstationAuthenticationV2.Controllers
                     changes = true;
                 }
 
-                if (TokenExists(signedAndEncodedToken))
-                {
+                if (TokenExists(signedAndEncodedToken)) {
                     _context.Token.Remove(
                         _context.Token.First(token => token.Token1.Equals(signedAndEncodedToken)));
                     changes = true;
@@ -234,7 +225,7 @@ namespace WorkstationAuthenticationV2.Controllers
                 if (changes)
                     _context.SaveChanges();
 
-                return new {Message = signedAndEncodedToken};
+                return new { Message = signedAndEncodedToken};
             }
             /*
             catch (DbEntityValidationException e) {
