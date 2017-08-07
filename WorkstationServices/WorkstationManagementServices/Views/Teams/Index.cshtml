@@ -4,15 +4,21 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2> Teams </h2>
 
 <p>
-    @Html.ActionLink("Add a new team", "Create")
+    @Html.ActionLink(" ", "Create", new { }, new { @class = "glyphicon glyphicon-plus" })
 </p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Department.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Project.name)
         </th>
         <th></th>
     </tr>
@@ -23,9 +29,17 @@
             @Html.DisplayFor(modelItem => item.name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.DisplayFor(modelItem => item.Department.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.name)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id = item.id }, new { @class = "glyphicon glyphicon-cog" }) | 
+           
+            @Html.ActionLink(" ", "Details", new {id = item.id}, new { @class = "glyphicon glyphicon-zoom-in" }) |
+            @Html.ActionLink(" ", "Delete", new {id = item.id}, new { @class = "glyphicon glyphicon-trash" })
+
         </td>
     </tr>
 }

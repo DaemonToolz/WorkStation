@@ -12,7 +12,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.username)
+            Username
         </dt>
 
         <dd>
@@ -20,15 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.password)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.encrypted)
+           Encrypted Password
         </dt>
 
         <dd>
@@ -36,11 +28,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Department.name)
+           Email
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Department.name)
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            Creation Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.creationdate)
+        </dd>
+
+        <dt>
+            Team
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Team.name)
         </dd>
 
     </dl>
@@ -50,7 +58,8 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink(" ", "Index", new { }, new { @class = "glyphicon glyphicon-th-list" })
+
         </div>
     }
 </div>

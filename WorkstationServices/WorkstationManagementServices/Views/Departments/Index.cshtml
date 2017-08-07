@@ -4,15 +4,15 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2> Departments </h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(" ", "Create", new{}, new {@class = "glyphicon glyphicon-plus" })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            Department
         </th>
         <th></th>
     </tr>
@@ -23,9 +23,11 @@
             @Html.DisplayFor(modelItem => item.name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            @Html.ActionLink(" ", "Edit", new { id = item.id }, new { @class = "glyphicon glyphicon-cog" }) | 
+           
+            @Html.ActionLink(" ", "Details", new {id = item.id}, new { @class = "glyphicon glyphicon-zoom-in" }) |
+            @Html.ActionLink(" ", "Delete", new {id = item.id}, new { @class = "glyphicon glyphicon-trash" })
+
         </td>
     </tr>
 }

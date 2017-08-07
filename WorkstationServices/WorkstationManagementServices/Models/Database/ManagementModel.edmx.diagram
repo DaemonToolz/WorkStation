@@ -4,15 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3132f7558f0e4709ab2a89a11189d1c3" Name="Diagram1">
-        <EntityTypeShape EntityType="UserModel.Department" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="UserModel.Project" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="UserModel.Rank" Width="1.5" PointX="5.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="UserModel.Team" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="UserModel.Users" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="UserModel.fk_department_id" ManuallyRouted="false" />
-        <AssociationConnector Association="UserModel.TProject" ManuallyRouted="false" />
-        <AssociationConnector Association="UserModel.UTeam" ManuallyRouted="false" />
+      <Diagram DiagramId="3132f7558f0e4709ab2a89a11189d1c3" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="UserModel.Department" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="UserModel.Project" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="UserModel.Rank" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="UserModel.Team" Width="1.5" PointX="3" PointY="1.25" />
+        <EntityTypeShape EntityType="UserModel.Users" Width="1.5" PointX="5.25" PointY="1" />
+        <AssociationConnector Association="UserModel.FK__Team__department__49C3F6B7" />
+        <AssociationConnector Association="UserModel.FK__Users__team_id__48CFD27E" />
+        <AssociationConnector Association="UserModel.FK__Team__project_id__4AB81AF0" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

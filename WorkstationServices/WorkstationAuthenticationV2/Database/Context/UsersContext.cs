@@ -18,8 +18,6 @@ namespace WorkstationAuthenticationV2.Database.Context
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.DepartmentId).HasColumnName("department_id");
-
                 entity.Property(e => e.Encrypted)
                     .HasColumnName("encrypted")
                     .HasDefaultValueSql("1");

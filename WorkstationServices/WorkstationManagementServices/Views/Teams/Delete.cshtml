@@ -12,11 +12,27 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.name)
+           Team
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            Department
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.name)
+        </dd>
+
+        <dt>
+            Project
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.name)
         </dd>
 
     </dl>
@@ -26,7 +42,9 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink(" ", "Index", new { }, new { @class = "glyphicon glyphicon-th-list" })
+
+
         </div>
     }
 </div>

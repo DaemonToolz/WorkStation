@@ -17,14 +17,26 @@
         <dd>
             @Html.DisplayFor(model => model.name)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.name)
+        </dt>
+
         <dd>
-            @foreach (var item in Model.Project){
-                @Html.Display(item.name)
-            }
+            @Html.DisplayFor(model => model.Department.name)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.name)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(" ", "Edit", new { id = Model.id }, new { @class = "glyphicon glyphicon-cog" }) |
+    @Html.ActionLink(" ", "Index", new { }, new { @class = "glyphicon glyphicon-th-list" })
 </p>

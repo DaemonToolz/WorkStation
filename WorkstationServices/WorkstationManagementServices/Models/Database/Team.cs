@@ -17,16 +17,17 @@ namespace WorkstationManagementServices.Models.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Team()
         {
-            this.Project = new HashSet<Project>();
             this.Users = new HashSet<Users>();
         }
     
         public int id { get; set; }
         public string name { get; set; }
+        public Nullable<int> department_id { get; set; }
+        public Nullable<long> project_id { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Project> Project { get; set; }
+        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Users> Users { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

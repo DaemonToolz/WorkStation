@@ -14,20 +14,14 @@ namespace WorkstationManagementServices.Models.Database
     
     public partial class Users
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
-        {
-            this.Team = new HashSet<Team>();
-        }
-    
         public int id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
         public Nullable<bool> encrypted { get; set; }
-        public int department_id { get; set; }
+        public string email { get; set; }
+        public Nullable<System.DateTime> creationdate { get; set; }
+        public Nullable<int> team_id { get; set; }
     
-        public virtual Department Department { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Team> Team { get; set; }
+        public virtual Team Team { get; set; }
     }
 }

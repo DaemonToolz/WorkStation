@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using WorkstationManagementServices.Models.Database;
 
-namespace WorkstationManagementServices.Models
+namespace WorkstationManagementServices.Controllers
 {
     public class UsersController : Controller
     {
@@ -17,7 +17,7 @@ namespace WorkstationManagementServices.Models
         // GET: Users
         public ActionResult Index()
         {
-            var users = db.Users.Include(u => u.Department);
+            var users = db.Users.Include(u => u.Team);
             return View(users.ToList());
         }
 
@@ -39,7 +39,9 @@ namespace WorkstationManagementServices.Models
         // GET: Users/Create
         public ActionResult Create()
         {
-            ViewBag.department_id = new SelectList(db.Department, "id", "name");
+
+            ViewBag.team_id = new SelectList(db.Team, "id", "name");
+           
             return View();
         }
 
@@ -48,16 +50,14 @@ namespace WorkstationManagementServices.Models
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,username,password,encrypted,department_id")] Users users)
-        {
-            if (ModelState.IsValid)
-            {
+        public ActionResult Create([Bind(Include = "id,username,password,encrypted,email,creationdate,team_id")] Users users){
+            if (ModelState.IsValid){
                 db.Users.Add(users);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.department_id = new SelectList(db.Department, "id", "name", users.department_id);
+            ViewBag.team_id = new SelectList(db.Team, "id", "name", users.team_id);
             return View(users);
         }
 
@@ -73,7 +73,7 @@ namespace WorkstationManagementServices.Models
             {
                 return HttpNotFound();
             }
-            ViewBag.department_id = new SelectList(db.Department, "id", "name", users.department_id);
+            ViewBag.team_id = new SelectList(db.Team, "id", "name", users.team_id);
             return View(users);
         }
 
@@ -82,7 +82,7 @@ namespace WorkstationManagementServices.Models
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,username,password,encrypted,department_id")] Users users)
+        public ActionResult Edit([Bind(Include = "id,username,password,encrypted,email,creationdate,team_id")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace WorkstationManagementServices.Models
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.department_id = new SelectList(db.Department, "id", "name", users.department_id);
+            ViewBag.team_id = new SelectList(db.Team, "id", "name", users.team_id);
             return View(users);
         }
 

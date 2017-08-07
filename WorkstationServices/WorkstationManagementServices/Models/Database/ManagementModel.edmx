@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="UserModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="UserModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="id" />
@@ -33,14 +33,8 @@
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="64" />
-        </EntityType>
-        <EntityType Name="TProject">
-          <Key>
-            <PropertyRef Name="team_id" />
-            <PropertyRef Name="project_id" />
-          </Key>
-          <Property Name="team_id" Type="int" Nullable="false" />
-          <Property Name="project_id" Type="bigint" Nullable="false" />
+          <Property Name="department_id" Type="int" />
+          <Property Name="project_id" Type="bigint" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -50,73 +44,43 @@
           <Property Name="username" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="encrypted" Type="bit" />
-          <Property Name="department_id" Type="int" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="creationdate" Type="datetime2" Precision="7" />
+          <Property Name="team_id" Type="int" />
         </EntityType>
-        <EntityType Name="UTeam">
-          <Key>
-            <PropertyRef Name="team_id" />
-            <PropertyRef Name="user_id" />
-          </Key>
-          <Property Name="team_id" Type="int" Nullable="false" />
-          <Property Name="user_id" Type="int" Nullable="false" />
-        </EntityType>
-        <Association Name="fk_department_id">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+        <Association Name="FK__Team__department__49C3F6B7">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Users">
+            <Dependent Role="Team">
               <PropertyRef Name="department_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_pteam_id">
-          <End Role="Team" Type="Self.Team" Multiplicity="1" />
-          <End Role="TProject" Type="Self.TProject" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Team">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TProject">
-              <PropertyRef Name="team_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_team_id">
-          <End Role="Team" Type="Self.Team" Multiplicity="1" />
-          <End Role="UTeam" Type="Self.UTeam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Team">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="UTeam">
-              <PropertyRef Name="team_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_tproject_id">
-          <End Role="Project" Type="Self.Project" Multiplicity="1" />
-          <End Role="TProject" Type="Self.TProject" Multiplicity="*" />
+        <Association Name="FK__Team__project_id__4AB81AF0">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Project">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="TProject">
+            <Dependent Role="Team">
               <PropertyRef Name="project_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_user_id">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="UTeam" Type="Self.UTeam" Multiplicity="*" />
+        <Association Name="FK__Users__team_id__48CFD27E">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="Team">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="UTeam">
-              <PropertyRef Name="user_id" />
+            <Dependent Role="Users">
+              <PropertyRef Name="team_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -125,58 +89,66 @@
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rank" EntityType="Self.Rank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TProject" EntityType="Self.TProject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UTeam" EntityType="Self.UTeam" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="fk_department_id" Association="Self.fk_department_id">
+          <AssociationSet Name="FK__Team__department__49C3F6B7" Association="Self.FK__Team__department__49C3F6B7">
             <End Role="Department" EntitySet="Department" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="fk_pteam_id" Association="Self.fk_pteam_id">
             <End Role="Team" EntitySet="Team" />
-            <End Role="TProject" EntitySet="TProject" />
           </AssociationSet>
-          <AssociationSet Name="fk_team_id" Association="Self.fk_team_id">
-            <End Role="Team" EntitySet="Team" />
-            <End Role="UTeam" EntitySet="UTeam" />
-          </AssociationSet>
-          <AssociationSet Name="fk_tproject_id" Association="Self.fk_tproject_id">
+          <AssociationSet Name="FK__Team__project_id__4AB81AF0" Association="Self.FK__Team__project_id__4AB81AF0">
             <End Role="Project" EntitySet="Project" />
-            <End Role="TProject" EntitySet="TProject" />
+            <End Role="Team" EntitySet="Team" />
           </AssociationSet>
-          <AssociationSet Name="fk_user_id" Association="Self.fk_user_id">
+          <AssociationSet Name="FK__Users__team_id__48CFD27E" Association="Self.FK__Users__team_id__48CFD27E">
+            <End Role="Team" EntitySet="Team" />
             <End Role="Users" EntitySet="Users" />
-            <End Role="UTeam" EntitySet="UTeam" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="UserModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Department" EntityType="UserModel.Department" />
+          <EntitySet Name="Project" EntityType="UserModel.Project" />
+          <EntitySet Name="Rank" EntityType="UserModel.Rank" />
+          <EntitySet Name="Team" EntityType="UserModel.Team" />
+          <EntitySet Name="Users" EntityType="UserModel.Users" />
+          <AssociationSet Name="FK__Team__department__49C3F6B7" Association="UserModel.FK__Team__department__49C3F6B7">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__team_id__48CFD27E" Association="UserModel.FK__Users__team_id__48CFD27E">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Team__project_id__4AB81AF0" Association="UserModel.FK__Team__project_id__4AB81AF0">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.fk_department_id" FromRole="Department" ToRole="Users" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Team" Relationship="UserModel.FK__Team__department__49C3F6B7" FromRole="Department" ToRole="Team" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="root" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Team" Relationship="Self.TProject" FromRole="Project" ToRole="Team" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="root" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Team" Relationship="UserModel.FK__Team__project_id__4AB81AF0" FromRole="Project" ToRole="Team" />
         </EntityType>
         <EntityType Name="Rank">
           <Key>
             <PropertyRef Name="name" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="rights" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="false" />
+          <Property Name="rights" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
@@ -184,61 +156,62 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Project" Relationship="Self.TProject" FromRole="Team" ToRole="Project" />
-          <NavigationProperty Name="Users" Relationship="Self.UTeam" FromRole="Team" ToRole="Users" />
+          <Property Name="department_id" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="UserModel.FK__Team__department__49C3F6B7" FromRole="Team" ToRole="Department" />
+          <NavigationProperty Name="Users" Relationship="UserModel.FK__Users__team_id__48CFD27E" FromRole="Team" ToRole="Users" />
+          <Property Name="project_id" Type="Int64" />
+          <NavigationProperty Name="Project" Relationship="UserModel.FK__Team__project_id__4AB81AF0" FromRole="Team" ToRole="Project" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="username" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="encrypted" Type="Boolean" />
-          <Property Name="department_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="Self.fk_department_id" FromRole="Users" ToRole="Department" />
-          <NavigationProperty Name="Team" Relationship="Self.UTeam" FromRole="Users" ToRole="Team" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="creationdate" Type="DateTime" Precision="7" />
+          <Property Name="team_id" Type="Int32" />
+          <NavigationProperty Name="Team" Relationship="UserModel.FK__Users__team_id__48CFD27E" FromRole="Users" ToRole="Team" />
         </EntityType>
-        <Association Name="fk_department_id">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+        <Association Name="FK__Team__department__49C3F6B7">
+          <End Type="UserModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="UserModel.Team" Role="Team" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Users">
+            <Dependent Role="Team">
               <PropertyRef Name="department_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="TProject">
-          <End Role="Team" Type="Self.Team" Multiplicity="*" />
-          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+        <Association Name="FK__Users__team_id__48CFD27E">
+          <End Type="UserModel.Team" Role="Team" Multiplicity="0..1" />
+          <End Type="UserModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="team_id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-        <Association Name="UTeam">
-          <End Role="Team" Type="Self.Team" Multiplicity="*" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+        <Association Name="FK__Team__project_id__4AB81AF0">
+          <End Type="UserModel.Project" Role="Project" Multiplicity="0..1" />
+          <End Type="UserModel.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ManagementEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Department" EntityType="Self.Department" />
-          <EntitySet Name="Project" EntityType="Self.Project" />
-          <EntitySet Name="Rank" EntityType="Self.Rank" />
-          <EntitySet Name="Team" EntityType="Self.Team" />
-          <EntitySet Name="Users" EntityType="Self.Users" />
-          <AssociationSet Name="fk_department_id" Association="Self.fk_department_id">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="TProject" Association="Self.TProject">
-            <End Role="Team" EntitySet="Team" />
-            <End Role="Project" EntitySet="Project" />
-          </AssociationSet>
-          <AssociationSet Name="UTeam" Association="Self.UTeam">
-            <End Role="Team" EntitySet="Team" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -247,63 +220,51 @@
           <EntitySetMapping Name="Department">
             <EntityTypeMapping TypeName="UserModel.Department">
               <MappingFragment StoreEntitySet="Department">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Project">
             <EntityTypeMapping TypeName="UserModel.Project">
               <MappingFragment StoreEntitySet="Project">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="root" ColumnName="root" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Rank">
             <EntityTypeMapping TypeName="UserModel.Rank">
               <MappingFragment StoreEntitySet="Rank">
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="rights" ColumnName="rights" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Team">
             <EntityTypeMapping TypeName="UserModel.Team">
               <MappingFragment StoreEntitySet="Team">
-                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="project_id" ColumnName="project_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="UserModel.Users">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="team_id" ColumnName="team_id" />
+                <ScalarProperty Name="creationdate" ColumnName="creationdate" />
+                <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="encrypted" ColumnName="encrypted" />
-                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="TProject" TypeName="UserModel.TProject" StoreEntitySet="TProject">
-            <EndProperty Name="Team">
-              <ScalarProperty Name="id" ColumnName="team_id" />
-            </EndProperty>
-            <EndProperty Name="Project">
-              <ScalarProperty Name="id" ColumnName="project_id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="UTeam" TypeName="UserModel.UTeam" StoreEntitySet="UTeam">
-            <EndProperty Name="Team">
-              <ScalarProperty Name="id" ColumnName="team_id" />
-            </EndProperty>
-            <EndProperty Name="Users">
-              <ScalarProperty Name="id" ColumnName="user_id" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
