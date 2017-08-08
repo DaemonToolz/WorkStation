@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationAuthentication", "WorkstationAuthentication\WorkstationAuthentication.csproj", "{52D39487-698F-4CA0-BD3C-0B29E9DECB15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationCommonContracts", "WorkstationCommonContracts\WorkstationCommonContracts.csproj", "{3E75C3B8-BCFE-496A-B19B-53B8F044801B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceProtoMaker", "ServiceProtoMaker\ServiceProtoMaker.csproj", "{292D2D72-EE25-4C30-B9AA-C116E5CEE3B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationCommon", "WorkstationCommon\WorkstationCommon.csproj", "{F455B3BF-8517-4A0B-AA73-D9D07A30B967}"
@@ -19,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationServicesUnitTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationManagementServices", "WorkstationManagementServices\WorkstationManagementServices.csproj", "{AE919789-02C4-41EE-9192-E0BD7036B5D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorstationServices", "WorstationServices\WorstationServices.csproj", "{91FC68F7-85F1-40E4-A87C-B1FA1683B565}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationMessaging", "WorkstationMessaging\WorkstationMessaging.csproj", "{07E3B36A-2367-4231-AC5F-BFFA1B02F23F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +31,6 @@ Global
 		{52D39487-698F-4CA0-BD3C-0B29E9DECB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52D39487-698F-4CA0-BD3C-0B29E9DECB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52D39487-698F-4CA0-BD3C-0B29E9DECB15}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E75C3B8-BCFE-496A-B19B-53B8F044801B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E75C3B8-BCFE-496A-B19B-53B8F044801B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E75C3B8-BCFE-496A-B19B-53B8F044801B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E75C3B8-BCFE-496A-B19B-53B8F044801B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{292D2D72-EE25-4C30-B9AA-C116E5CEE3B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{292D2D72-EE25-4C30-B9AA-C116E5CEE3B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{292D2D72-EE25-4C30-B9AA-C116E5CEE3B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +55,14 @@ Global
 		{AE919789-02C4-41EE-9192-E0BD7036B5D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE919789-02C4-41EE-9192-E0BD7036B5D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE919789-02C4-41EE-9192-E0BD7036B5D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91FC68F7-85F1-40E4-A87C-B1FA1683B565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91FC68F7-85F1-40E4-A87C-B1FA1683B565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91FC68F7-85F1-40E4-A87C-B1FA1683B565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91FC68F7-85F1-40E4-A87C-B1FA1683B565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07E3B36A-2367-4231-AC5F-BFFA1B02F23F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07E3B36A-2367-4231-AC5F-BFFA1B02F23F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07E3B36A-2367-4231-AC5F-BFFA1B02F23F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07E3B36A-2367-4231-AC5F-BFFA1B02F23F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

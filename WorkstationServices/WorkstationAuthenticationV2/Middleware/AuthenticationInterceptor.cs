@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 namespace WorkstationAuthenticationV2.Middleware
 {
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+    [Obsolete]
     public class AuthenticationInterceptor
     {
         private readonly RequestDelegate _next;

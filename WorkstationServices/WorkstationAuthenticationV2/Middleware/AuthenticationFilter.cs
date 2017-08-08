@@ -26,23 +26,25 @@ namespace WorkstationAuthenticationV2.Middleware
         {
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             AuthenticationResult Result = null;
             if (context.HttpContext.Request.Headers.Keys.Contains("Username") &&
-                context.HttpContext.Request.Headers.Keys.Contains("Password"))
-            {
+                context.HttpContext.Request.Headers.Keys.Contains("Password")) {
 
                 String user = context.HttpContext.Request.Headers["Username"],
                     password = context.HttpContext.Request.Headers["Password"];
                 //if(_userEf is null)
-                using (var _userEf = new UserContext())
-                {
+                using (var _userEf = new UserContext()) {
                     if (!_userEf.Users.Any(
                         obj => obj.Username.Equals(user) &&
                                obj.Password.Equals(password)))
-                        Result = new AuthenticationResult()
-                        {
+                        Result = new AuthenticationResult(){
                             Status = StatusCodes.Status404NotFound,
                             FriendlyResult = new  { Message=$"Cannot find any user {user} with the password {password}" }
                         };

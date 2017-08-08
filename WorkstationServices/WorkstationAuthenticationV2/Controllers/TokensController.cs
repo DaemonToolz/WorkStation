@@ -1,14 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Security.Claims;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Workstation.Authentication.Security;
 using WorkstationAuthenticationV2.Database.Context;
@@ -23,32 +17,38 @@ namespace WorkstationAuthenticationV2.Controllers
     [AuthenticationFilter]
     public class TokensController : Controller
     {
+        #region 
         private readonly TokensContext _context;
-        
+        #endregion
+
+        #region Common fields
         private static readonly IdGenerator IdGenerationModel;
-        private static readonly Int32 _ID_GEN_SIZE = (int) TokenManagementUtil.MediumIdSize;
+        private static readonly Int32 _ID_GEN_SIZE = (int) TokenManagementUtil.MediumIdSize; // By default, the size of key is 16b
         private static readonly ClaimsIdentity Claims;
 
         private static readonly System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler TokenHandler =
             new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        #endregion
 
-        private readonly String MessageTemplate = "{\"Message\":{0}}";
         static TokensController()
         {
 
             // Problem using Interpolated Strings
             // Version used C# 7.0, detected C# 5.0
+            // Loading the information file
             CompanyInfoUtil.LoadCompanyInfos(String.Format(@"{0}\Infos\CompanyInfo.json", Startup.ApplicationBasePath));
 
-            // Claims commun à tous les tokens
+            // Common claims
             Claims = new ClaimsIdentity(
                 CompanyInfoUtil.CompanyClaims.Claims.Keys.ToList()
                     .Select(key => new Claim(key, CompanyInfoUtil.CompanyClaims.Claims[key])).ToList<Claim>()
                 , "Custom");
 
+            
             IdGenerationModel = new IdGenerator(1);
-            for (int i = 0; i < 2; ++i) IdGenerationModel.GenerateId(_ID_GEN_SIZE);
 
+            // Warmup to avoid false positives
+            for (int i = 0; i < 2; ++i) IdGenerationModel.GenerateId(_ID_GEN_SIZE);
 
         }
 
@@ -58,7 +58,6 @@ namespace WorkstationAuthenticationV2.Controllers
         }
 
         // GET: api/Tokens
-     
      
         private bool TokenExists(string id)
         {
@@ -71,19 +70,18 @@ namespace WorkstationAuthenticationV2.Controllers
         /// <summary>
         /// Vérifie que le token est valide
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="stoken"></param>
+        /// <param name="input"> Final token </param>
+        /// <param name="stoken"> Input token </param>
         /// <returns></returns>
         private bool IsValidToken(string input, SecurityToken stoken)
         {
-            Token token = _context.Token.Single(tken => tken.Token1.Equals(input));
+            //
+            Token token = _context.Token.Single(tken => tken.Token1.Equals(input)); 
 
             //
-            if (token.Exp != null)
-            {
-                if (DateTime.Now > token.Exp)
-                {
-                    // Si expiré
+            if (token.Exp != null) {
+                if (DateTime.Now > token.Exp) {
+                    // If expired, removal + invalid
                     _context.Token.Remove(token);
                     _context.SaveChanges();
                     return false;
@@ -91,7 +89,6 @@ namespace WorkstationAuthenticationV2.Controllers
                 else
                 {
 
-                    // Paramtères de validation
                     var tokenValidationParameters = new TokenValidationParameters()
                     {
                         ValidAudiences = CompanyInfoUtil.CompanyClaims.ValidAudiences,
@@ -101,6 +98,8 @@ namespace WorkstationAuthenticationV2.Controllers
 
                     string realToken = input.Substring(0, input.Length - 12);
                     SecurityToken Validated;
+
+                    // Generate a new token plus comparing both
                     TokenHandler.ValidateToken(realToken, tokenValidationParameters, out Validated);
 
                     return token.Boundmac.Equals(Validated.ToString());
@@ -114,8 +113,8 @@ namespace WorkstationAuthenticationV2.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="CustomAuthorizers"></param>
-        /// <param name="CheckExistence"></param>
+        /// <param name="CustomAuthorizers"> Security Token </param>
+        /// <param name="CheckExistence"> Force to check whether or not the validity of the token </param>
         /// <returns></returns>
         [HttpGet("Check")]
         public bool CheckToken([FromHeader] string CustomAuthorizers, [FromHeader] string CheckExistence = "false")
@@ -123,9 +122,10 @@ namespace WorkstationAuthenticationV2.Controllers
             //try
             //{
             bool checkExistence = Boolean.Parse(CheckExistence); 
-            string realToken = CustomAuthorizers.Substring(0, CustomAuthorizers.Length - 12); // On récupère le vrai token
-            string salt = CustomAuthorizers.Substring(CustomAuthorizers.Length - 12); // Les 12 derniers caractères
+            string realToken = CustomAuthorizers.Substring(0, CustomAuthorizers.Length - 12); // Retrieve the true token
+            string salt = CustomAuthorizers.Substring(CustomAuthorizers.Length - 12); // Retrieve the salt
             if (TokenHandler.CanReadToken(realToken)){
+                // Check if either JWT token or simple token
                 SecurityToken stoken;
                 try {
                     stoken = TokenHandler.ReadJwtToken(realToken);
@@ -148,7 +148,7 @@ namespace WorkstationAuthenticationV2.Controllers
         }
 
         /// <summary>
-        /// Génère le token de connection
+        /// 
         /// </summary>
         /// <returns></returns>
         [HttpGet("Generate")]
@@ -156,7 +156,6 @@ namespace WorkstationAuthenticationV2.Controllers
             try{
                 bool changes = false;
 
-                // Informations du token
                 String jni = IdGenerationModel.GenerateId(_ID_GEN_SIZE);
                 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jni));
                 signingKey.KeyId = IdGenerationModel.GenerateId(24);
@@ -165,8 +164,8 @@ namespace WorkstationAuthenticationV2.Controllers
                         SecurityAlgorithms
                             .HmacSha256); // SecurityAlgorithms.HmacSha256Signature, SecurityAlgorithms.Sha256Digest);
 
-                // Descripteur
-                DateTime CallDate = DateTime.Now, ExpirationDate = CallDate.AddMinutes(5.0d);
+                // Descriptor
+                DateTime CallDate = DateTime.Now, ExpirationDate = CallDate.AddMinutes(10.0d);
                 var securityTokenDescriptor = new Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor()
                 {
 
@@ -180,7 +179,7 @@ namespace WorkstationAuthenticationV2.Controllers
                 };
 
 
-                // Token encodé
+                // Encoded token
                 var plainToken = TokenHandler.CreateToken(securityTokenDescriptor);
                 var signedAndEncodedToken = TokenHandler.WriteToken(plainToken);
 
@@ -197,8 +196,6 @@ namespace WorkstationAuthenticationV2.Controllers
 
                 signedAndEncodedToken += IdGenerationModel.GenerateId(12);
  
-                   // .GetType().GetProperty("Foo")?.GetValue(o, null);
-                // Vérifie le token (existe ou non)
                 
                 if (!TokenExists(signedAndEncodedToken) && CheckToken(signedAndEncodedToken))
                 {
@@ -227,20 +224,6 @@ namespace WorkstationAuthenticationV2.Controllers
 
                 return new { Message = signedAndEncodedToken};
             }
-            /*
-            catch (DbEntityValidationException e) {
-                String final = "";
-                foreach (var eve in e.EntityValidationErrors){
-                    final += String.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        final += String.Format("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                return final;
-            } */
             catch (Exception e)
             {
                 return new { Message = $"An error ocurred during the validation process {e}" };

@@ -270,6 +270,7 @@
     <Content Include="Views\Ranks\Details.cshtml" />
     <Content Include="Views\Ranks\Edit.cshtml" />
     <Content Include="Views\Ranks\Index.cshtml" />
+    <Content Include="Views\Shared\_StdLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
