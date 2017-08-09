@@ -24,6 +24,16 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
+                <p class="nav navbar-text navbar-right">
+                    @Html.ActionLink(" ", "Index", "Home", new { } , new { @class= "glyphicon glyphicon-bell" })
+                    @if (Request.IsAuthenticated) {
+                        <strong>@Html.Encode(User.Identity.Name)</strong>
+                            @Html.ActionLink("Sign Out", "Logout", "Login")
+                    }
+                    else {
+                        @Html.ActionLink(" ", "Login", "Login", new { }, new { @class = "glyphicon glyphicon-user " })
+                    }              
+                </p>
             </div>
         </div>
     </div>

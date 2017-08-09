@@ -40,8 +40,12 @@ namespace WorkstationServices
         [OperationContract]
         IList<TeamModel> GetAllTeams();
 
+        [OperationContract]
+        TeamModel GetTeamPerUser(int userid);
+
+        [OperationContract]
+        TeamModel GetTeamPerId(int id);
+
+
     }
-
-
-
 }

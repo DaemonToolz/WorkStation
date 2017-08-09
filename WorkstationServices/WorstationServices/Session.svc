@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="WorkstationServices.Service1" CodeBehind="Session.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="WorkstationServices.Session" CodeBehind="Session.svc.cs" %>

@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{91FC68F7-85F1-40E4-A87C-B1FA1683B565}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WorkstationServices</RootNamespace>
     <AssemblyName>WorkstationServices</AssemblyName>
@@ -101,6 +101,10 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\Security\AttributeInspector.cs" />
+    <Compile Include="App_Code\Security\CustomValidationProcess.cs" />
+    <Compile Include="App_Code\Security\InputValidationFaultContract.cs" />
+    <Compile Include="App_Code\Security\UserAccessModel.cs" />
     <Compile Include="Data\Department.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>
@@ -131,10 +135,6 @@
     <Compile Include="Data\Users.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Security\AttributeInspector.cs" />
-    <Compile Include="Security\CustomValidationProcess.cs" />
-    <Compile Include="Security\InputValidationFaultContract.cs" />
-    <Compile Include="Security\UserAccessModel.cs" />
     <Compile Include="Session.svc.cs">
       <DependentUpon>Session.svc</DependentUpon>
     </Compile>
@@ -186,13 +186,13 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>10856</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:10856/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
+          <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
           </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>

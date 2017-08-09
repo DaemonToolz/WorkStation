@@ -14,6 +14,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationDatabaseMaintenanceService", "WorkstationDatabaseMaintenanceService\WorkstationDatabaseMaintenanceService.csproj", "{57EC53FA-CE8E-4AE9-954C-5A03BE97AFF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationServicesUnitTest", "WorkstationServicesUnitTest\WorkstationServicesUnitTest.csproj", "{1B50ED40-9A29-4ACE-8F60-A6FDE4596FC6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{91FC68F7-85F1-40E4-A87C-B1FA1683B565} = {91FC68F7-85F1-40E4-A87C-B1FA1683B565}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationManagementServices", "WorkstationManagementServices\WorkstationManagementServices.csproj", "{AE919789-02C4-41EE-9192-E0BD7036B5D7}"
 EndProject

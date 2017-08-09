@@ -54,20 +54,69 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\WorkstationSessionReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkstationServicesUnitTest.cs" />
     <Compile Include="TokenUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\CompanyInfo.json" />
+    <None Include="Connected Services\WorkstationSessionReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\WorkstationSessionReference\configuration.svcinfo" />
+    <None Include="Connected Services\WorkstationSessionReference\configuration91.svcinfo" />
+    <None Include="Connected Services\WorkstationSessionReference\Session.disco" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\WorkstationSessionReference\Session.wsdl" />
+    <None Include="Connected Services\WorkstationSessionReference\Session.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\WorkstationSessionReference\Session1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\WorkstationSessionReference\Session2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\WorkstationSessionReference\Session3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\WorkstationSessionReference\Session4.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Workstation.Model.ProjectModel.datasource" />
+    <None Include="Properties\DataSources\Workstation.Model.UsersModel.datasource" />
+    <None Include="Properties\DataSources\WorkstationMessaging.Model.DepartmentModel.datasource" />
+    <None Include="Properties\DataSources\WorkstationMessaging.Model.TeamModel.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WorkstationCommon\WorkstationCommon.csproj">
       <Project>{f455b3bf-8517-4a0b-aa73-d9d07a30b967}</Project>
       <Name>WorkstationCommon</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WorkstationMessaging\WorkstationMessaging.csproj">
+      <Project>{07e3b36a-2367-4231-ac5f-bffa1b02f23f}</Project>
+      <Name>WorkstationMessaging</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\WorkstationSessionReference\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

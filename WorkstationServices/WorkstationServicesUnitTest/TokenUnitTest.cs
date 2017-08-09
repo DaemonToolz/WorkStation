@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Workstation.Company.Infos;
 
-namespace WorkstationServicesUnitTest
+namespace WorkstationUnitTests
 {
    
     [TestClass]
