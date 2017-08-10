@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -19,21 +20,45 @@
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                @if (Request.IsAuthenticated) {
+                    <ul class="nav navbar-nav">
+
+                        <li> @Html.ActionLink("Users", "Index", "Users")</li>
+
+                    </ul>
+                }
+
+                <ul class="nav navbar-nav navbar-right">
+                   
+                        @if (Request.IsAuthenticated){
+                            <li>
+                               
+                                <a href="@Url.Action("Index", "Notifications")" >
+                                    <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+                                    @if (ViewData["UnreadNotifications"] != null && int.Parse(ViewData["UnreadNotifications"].ToString()) > 0){
+                                        <span class="badge"> @ViewData["UnreadNotifications"] </span>
+                                    }
+                                </a>
+                          
+                            </li>
+                            <li>
+                                @Html.ActionLink(" ", "Logout", "Login", null, new { @class = "glyphicon glyphicon-share" })
+                            </li>
+                            <li>
+                                <a href="@Url.Action("MyProfile", "Users")" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                    @Html.Encode(User.Identity.Name)
+                                </a>
+                          
+                            </li>
+                        }
+                        else{
+                            <li>
+                                @Html.ActionLink(" ", "Login", "Login", null, new {@class = "glyphicon glyphicon-user " })
+                             </li>
+                        }
+                   
                 </ul>
-                <p class="nav navbar-text navbar-right">
-                    @Html.ActionLink(" ", "Index", "Home", new { } , new { @class= "glyphicon glyphicon-bell" })
-                    @if (Request.IsAuthenticated) {
-                        <strong>@Html.Encode(User.Identity.Name)</strong>
-                            @Html.ActionLink("Sign Out", "Logout", "Login")
-                    }
-                    else {
-                        @Html.ActionLink(" ", "Login", "Login", new { }, new { @class = "glyphicon glyphicon-user " })
-                    }              
-                </p>
             </div>
         </div>
     </div>

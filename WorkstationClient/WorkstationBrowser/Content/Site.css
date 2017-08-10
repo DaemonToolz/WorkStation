@@ -22,3 +22,23 @@ select,
 textarea {
     max-width: 280px;
 }
+
+menu-hyperlink {
+    color: #333333
+}
+
+a.menu-hyperlink {
+    color: #333333
+}
+
+    a.menu-hyperlink:active {
+        color: #666666
+    }
+
+    a.menu-hyperlink:link {
+        color: #666666
+    }
+
+    a.menu-hyperlink:visited {
+        color: #333333
+    }

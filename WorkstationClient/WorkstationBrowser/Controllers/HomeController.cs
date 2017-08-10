@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WorkstationBrowser.Models;
 
 namespace WorkstationBrowser.Controllers
 {
@@ -10,6 +11,17 @@ namespace WorkstationBrowser.Controllers
     {
         public ActionResult Index()
         {
+            if (Session["WorkstationConnection"] == null && Request.IsAuthenticated)
+                return RedirectToAction("Logout", "Login");
+
+            if (Request.IsAuthenticated) {
+                if (Session["SystemNotifications"] != null)
+                {
+                    NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];
+
+                    ViewData["UnreadNotifications"] = notifications.Count(notif => !notif.Read);
+                }
+            }
             return View();
         }
 
