@@ -26,6 +26,10 @@ namespace WorkstationBrowser.SessionReference {
         
         private int idField;
         
+        private string rankField;
+        
+        private string rightsField;
+        
         private System.Nullable<int> team_idField;
         
         private string usernameField;
@@ -62,6 +66,32 @@ namespace WorkstationBrowser.SessionReference {
                 if ((this.idField.Equals(value) != true)) {
                     this.idField = value;
                     this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string rank {
+            get {
+                return this.rankField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.rankField, value) != true)) {
+                    this.rankField = value;
+                    this.RaisePropertyChanged("rank");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string rights {
+            get {
+                return this.rightsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.rightsField, value) != true)) {
+                    this.rightsField = value;
+                    this.RaisePropertyChanged("rights");
                 }
             }
         }

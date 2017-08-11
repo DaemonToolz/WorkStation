@@ -23,7 +23,9 @@
         <th>
             Team
         </th>
-        <th></th>
+        <th>
+            Rank
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -39,6 +41,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Team.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rank)
         </td>
         <td>
             @Html.ActionLink(" ", "Edit", new { id = item.id }, new { @class = "glyphicon glyphicon-cog" }) | 

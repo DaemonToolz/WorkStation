@@ -8,8 +8,9 @@
 
 <table class="table">
     <tr>
-        <th> @Html.DisplayNameFor(model => model.email) </th>
-        <th> @Html.DisplayNameFor(model => model.username) </th>
+        <th> Email </th>
+        <th> Username </th>
+        <th> Rank </th>
                 
     </tr>
 
@@ -17,6 +18,8 @@
         <tr>
             <td> @Html.DisplayFor(modelItem => item.email) </td>
             <td> @Html.DisplayFor(modelItem => item.username) </td>
+            <td> @Html.DisplayFor(modelItem => item.rank) </td>
+
         </tr>
     }
 </table>

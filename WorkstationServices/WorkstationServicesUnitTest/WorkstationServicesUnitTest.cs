@@ -33,6 +33,7 @@ namespace WorkstationUnitTests {
         public void TestServices(){
             TestLogin();
             TestGetAll();
+            TestEditUser();
             TestLogOut();
         }
 
@@ -97,6 +98,41 @@ namespace WorkstationUnitTests {
             Console.WriteLine("============================ END GET ONE ============================");
 
         }
+
+
+        public void TestEditUser()
+        {
+            Console.WriteLine("============================ EDITING USER ============================");
+            var Original = client.GetAllUsers().Single(user => user.username.Equals("Test user"));
+
+            var MyUser = client.GetAllUsers().Single(user => user.username.Equals("Test user"));
+
+            MyUser.email = "New_Email@email.email";
+            Assert.IsTrue(client.EditUser(MyUser));
+
+            MyUser = client.GetAllUsers().Single(user => user.username.Equals("Test user"));
+
+            Assert.IsTrue(!MyUser.email.Equals(Original.email));
+
+            Console.WriteLine("============================ END EDITING USER ============================");
+
+        }
+
+        public void TestDeleteUser()
+        {
+            
+        }
+
+        public void TestEditProject()
+        {
+
+        }
+
+        public void TestDeleteProject()
+        {
+
+        }
+
 
         [TestCleanup]
         public void CleanUp()

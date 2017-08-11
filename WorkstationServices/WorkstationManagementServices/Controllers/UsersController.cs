@@ -41,7 +41,8 @@ namespace WorkstationManagementServices.Controllers
         {
 
             ViewBag.team_id = new SelectList(db.Team, "id", "name");
-           
+
+            ViewBag.rank = new SelectList(db.Rank, "name", "name");
             return View();
         }
 
@@ -50,7 +51,7 @@ namespace WorkstationManagementServices.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,username,password,encrypted,email,creationdate,team_id")] Users users){
+        public ActionResult Create([Bind(Include = "id,username,password,encrypted,email,creationdate,team_id,rank")] Users users){
             if (ModelState.IsValid){
                 db.Users.Add(users);
                 db.SaveChanges();
@@ -58,6 +59,8 @@ namespace WorkstationManagementServices.Controllers
             }
 
             ViewBag.team_id = new SelectList(db.Team, "id", "name", users.team_id);
+            ViewBag.rank = new SelectList(db.Rank, "name", "name", users.rank);
+
             return View(users);
         }
 
@@ -74,6 +77,8 @@ namespace WorkstationManagementServices.Controllers
                 return HttpNotFound();
             }
             ViewBag.team_id = new SelectList(db.Team, "id", "name", users.team_id);
+
+            ViewBag.rank = new SelectList(db.Rank, "name", "name", users.rank);
             return View(users);
         }
 
@@ -82,7 +87,7 @@ namespace WorkstationManagementServices.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,username,password,encrypted,email,creationdate,team_id")] Users users)
+        public ActionResult Edit([Bind(Include = "id,username,password,encrypted,email,creationdate,team_id, rank")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -91,6 +96,7 @@ namespace WorkstationManagementServices.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.team_id = new SelectList(db.Team, "id", "name", users.team_id);
+            ViewBag.rank = new SelectList(db.Rank, "name", "name", users.rank);
             return View(users);
         }
 

@@ -36,6 +36,34 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="EditProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="newInfo" nillable="true" type="q4:ProjectModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditProjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="EditProjectResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="newInfo" nillable="true" type="q5:ProjectModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteProjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteProjectResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetAllUsers">
     <xs:complexType>
       <xs:sequence />
@@ -44,7 +72,35 @@
   <xs:element name="GetAllUsersResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="GetAllUsersResult" nillable="true" type="q4:ArrayOfUsersModel" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="GetAllUsersResult" nillable="true" type="q6:ArrayOfUsersModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="newInfo" nillable="true" type="q7:UsersModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="EditUserResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="user" nillable="true" type="q8:UsersModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteUserResult" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -56,7 +112,7 @@
   <xs:element name="GetAllDepartmentsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllDepartmentsResult" nillable="true" type="q5:ArrayOfDepartmentModel" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllDepartmentsResult" nillable="true" type="q9:ArrayOfDepartmentModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -68,7 +124,7 @@
   <xs:element name="GetAllTeamsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllTeamsResult" nillable="true" type="q6:ArrayOfTeamModel" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllTeamsResult" nillable="true" type="q10:ArrayOfTeamModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -82,7 +138,7 @@
   <xs:element name="GetTeamPerUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTeamPerUserResult" nillable="true" type="q7:TeamModel" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTeamPerUserResult" nillable="true" type="q11:TeamModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -96,7 +152,7 @@
   <xs:element name="GetTeamPerIdResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTeamPerIdResult" nillable="true" type="q8:TeamModel" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTeamPerIdResult" nillable="true" type="q12:TeamModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

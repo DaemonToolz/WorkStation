@@ -14,13 +14,19 @@ namespace WorkstationBrowser.Controllers
         public ActionResult Index()
         {
             SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-            
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+
             return View(wrapper.GetAllUsers());
         }
 
         public ActionResult MyProfile(){
+
             SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+
             return View(currentSession.CurrentUser);
         }
+
+
     }
 }

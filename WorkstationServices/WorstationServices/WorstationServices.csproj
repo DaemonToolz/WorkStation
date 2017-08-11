@@ -123,6 +123,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ManagementModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\Message.cs">
+      <DependentUpon>ManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Notification.cs">
+      <DependentUpon>ManagementModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Project.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>

@@ -32,7 +32,21 @@ namespace WorkstationServices
         IList<ProjectModel> GetAllProjects();
 
         [OperationContract]
+        bool EditProject(ProjectModel newInfo);
+
+        [OperationContract]
+        bool DeleteProject(ProjectModel newInfo);
+
+
+        [OperationContract]
         IList<UsersModel> GetAllUsers();
+
+        [OperationContract]
+        bool EditUser(UsersModel newInfo);
+
+        [OperationContract]
+        bool DeleteUser(UsersModel user);
+
 
         [OperationContract]
         IList<DepartmentModel> GetAllDepartments();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -31,7 +32,9 @@ namespace WorkstationServices
                 id = CurrentUser.id,
                 email = CurrentUser.email,
                 username = Username,
-                team_id = CurrentUser.team_id
+                team_id = CurrentUser.team_id,
+                 rank = CurrentUser.Rank1.name,
+                 rights = CurrentUser.Rank1.rights
             };
 
             OnlineUsers.Add(CurrentUserModel);
@@ -66,7 +69,10 @@ namespace WorkstationServices
                      id = user.id,
                      email = user.email,
                      username = user.username,
-                     team_id = user.team_id
+                     team_id = user.team_id,
+                     rank = user.Rank1.name,
+                     rights = user.Rank1.rights
+
                 });
 
             return users;
@@ -130,6 +136,73 @@ namespace WorkstationServices
                 };
             }
             catch { return null; }
+        }
+
+        public bool EditProject(ProjectModel newInfo)
+        {
+            try
+            {
+                Project project = entities.Project.Single(proj => newInfo.id == proj.id);
+                project.name = newInfo.name;
+                project.root = newInfo.root;
+                entities.SaveChanges();
+
+                return true;
+            }
+            catch{
+                return false;
+            }
+        }
+
+        public bool DeleteProject(ProjectModel newInfo)
+        {
+            try
+            {
+                Project project = entities.Project.Single(proj => newInfo.id == proj.id && newInfo.root.Equals(proj.root) && newInfo.name.Equals(proj.name));
+                entities.Project.Remove(project);
+                entities.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool EditUser(UsersModel newInfo) {
+            try {
+                Users user = entities.Users.Single(usr => newInfo.id == usr.id);
+                user.email = newInfo.email;
+                user.username = newInfo.username;
+                user.Rank1 = entities.Rank.Single(rank => rank.name == newInfo.rank);
+                user.rank = newInfo.rank;
+                
+                entities.SaveChanges();
+
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteUser(UsersModel currentUser)
+        {
+            try
+            {
+                Users user = entities.Users.Single(usr => currentUser.id == usr.id);
+                entities.Users.Remove(user);
+                entities.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 

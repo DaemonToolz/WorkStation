@@ -13,6 +13,8 @@
         <AssociationConnector Association="UserModel.FK__Team__department__49C3F6B7" />
         <AssociationConnector Association="UserModel.FK__Users__team_id__48CFD27E" />
         <AssociationConnector Association="UserModel.FK__Team__project_id__4AB81AF0" />
+        <AssociationConnector Association="UserModel.FK_Users_Ranks" />
+        <AssociationConnector Association="UserModel.FK_Users_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

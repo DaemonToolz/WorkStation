@@ -22,9 +22,27 @@
             <div class="navbar-collapse collapse">
                 @if (Request.IsAuthenticated) {
                     <ul class="nav navbar-nav">
+                        @{
+                            Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
+                        }
+                        
+                        @if (MyRights["CanReadUser"]) {
+                            <li> @Html.ActionLink("Users", "Index", "Users")</li>
+                        }
+                        
+                        @if (MyRights["CanReadTeam"])
+                        {
+                            <li> @Html.ActionLink("Teams", "Index", "Home")</li>
+                        }
 
-                        <li> @Html.ActionLink("Users", "Index", "Users")</li>
-
+                        @if (MyRights["CanReadProj"]) {
+                            <li> @Html.ActionLink("Projects", "Index", "Home")</li>
+                        }
+                        
+                        @if (MyRights["CanReadDept"])
+                        {
+                            <li> @Html.ActionLink("Departments", "Index", "Home")</li>
+                        }
                     </ul>
                 }
 

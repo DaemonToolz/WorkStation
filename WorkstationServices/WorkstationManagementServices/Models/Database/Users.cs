@@ -21,7 +21,11 @@ namespace WorkstationManagementServices.Models.Database
         public string email { get; set; }
         public Nullable<System.DateTime> creationdate { get; set; }
         public Nullable<int> team_id { get; set; }
+        public string rank { get; set; }
     
         public virtual Team Team { get; set; }
+        public virtual Rank Rank1 { get; set; }
+        public virtual Users Users1 { get; set; }
+        public virtual Users Users2 { get; set; }
     }
 }

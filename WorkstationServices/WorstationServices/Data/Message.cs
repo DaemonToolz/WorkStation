@@ -12,18 +12,13 @@ namespace WorkstationServices.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Rank
+    public partial class Message
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Rank()
-        {
-            this.Users = new HashSet<Users>();
-        }
-    
-        public string name { get; set; }
-        public string rights { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
+        public long id { get; set; }
+        public int from { get; set; }
+        public int to { get; set; }
+        public string title { get; set; }
+        public string content { get; set; }
+        public bool read { get; set; }
     }
 }

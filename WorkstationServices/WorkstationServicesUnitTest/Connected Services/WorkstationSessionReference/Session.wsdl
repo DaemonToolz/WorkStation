@@ -40,11 +40,35 @@
   <wsdl:message name="ISession_GetAllProjects_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllProjectsResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_EditProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditProject" />
+  </wsdl:message>
+  <wsdl:message name="ISession_EditProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProject" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProjectResponse" />
+  </wsdl:message>
   <wsdl:message name="ISession_GetAllUsers_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllUsers" />
   </wsdl:message>
   <wsdl:message name="ISession_GetAllUsers_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_EditUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditUser" />
+  </wsdl:message>
+  <wsdl:message name="ISession_EditUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUser" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserResponse" />
   </wsdl:message>
   <wsdl:message name="ISession_GetAllDepartments_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllDepartments" />
@@ -83,9 +107,25 @@
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllProjects" message="tns:ISession_GetAllProjects_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllProjectsResponse" message="tns:ISession_GetAllProjects_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="EditProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/EditProject" message="tns:ISession_EditProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/EditProjectResponse" message="tns:ISession_EditProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteProject" message="tns:ISession_DeleteProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteProjectResponse" message="tns:ISession_DeleteProject_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllUsers">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllUsers" message="tns:ISession_GetAllUsers_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllUsersResponse" message="tns:ISession_GetAllUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="EditUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/EditUser" message="tns:ISession_EditUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/EditUserResponse" message="tns:ISession_EditUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteUser" message="tns:ISession_DeleteUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteUserResponse" message="tns:ISession_DeleteUser_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllDepartments">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllDepartments" message="tns:ISession_GetAllDepartments_InputMessage" />
@@ -134,8 +174,44 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="EditProject">
+      <soap12:operation soapAction="http://tempuri.org/ISession/EditProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProject">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAllUsers">
       <soap12:operation soapAction="http://tempuri.org/ISession/GetAllUsers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditUser">
+      <soap12:operation soapAction="http://tempuri.org/ISession/EditUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUser">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteUser" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

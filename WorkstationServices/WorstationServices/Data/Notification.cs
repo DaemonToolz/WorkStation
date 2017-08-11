@@ -12,26 +12,19 @@ namespace WorkstationServices.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Users
+    public partial class Notification
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Users()
+        public Notification()
         {
-            this.Notification = new HashSet<Notification>();
+            this.Users = new HashSet<Users>();
         }
     
-        public int id { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public Nullable<bool> encrypted { get; set; }
-        public string email { get; set; }
-        public Nullable<System.DateTime> creationdate { get; set; }
-        public Nullable<int> team_id { get; set; }
-        public string rank { get; set; }
+        public long id { get; set; }
+        public string title { get; set; }
+        public string content { get; set; }
     
-        public virtual Team Team { get; set; }
-        public virtual Rank Rank1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notification> Notification { get; set; }
+        public virtual ICollection<Users> Users { get; set; }
     }
 }

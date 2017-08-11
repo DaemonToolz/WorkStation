@@ -28,6 +28,7 @@ namespace WorkstationManagementServices.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Rank rank = db.Rank.Find(id);
+            
             if (rank == null)
             {
                 return HttpNotFound();

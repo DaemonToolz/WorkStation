@@ -13,9 +13,12 @@ namespace WorkstationBrowser.Controllers
         // GET: Notifications
         public ActionResult Index()
         {
+
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
             NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];
             notifications.ToList().ForEach(notif => notif.Read = true);
             Session["SystemNotifications"] = notifications;
+
             return View(notifications);
         }
         

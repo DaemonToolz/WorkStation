@@ -81,11 +81,35 @@ namespace WorkstationServicesUnitTest.WorkstationSessionReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllProjects", ReplyAction="http://tempuri.org/ISession/GetAllProjectsResponse")]
         System.Threading.Tasks.Task<Workstation.Model.ProjectModel[]> GetAllProjectsAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditProject", ReplyAction="http://tempuri.org/ISession/EditProjectResponse")]
+        bool EditProject(Workstation.Model.ProjectModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditProject", ReplyAction="http://tempuri.org/ISession/EditProjectResponse")]
+        System.Threading.Tasks.Task<bool> EditProjectAsync(Workstation.Model.ProjectModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteProject", ReplyAction="http://tempuri.org/ISession/DeleteProjectResponse")]
+        bool DeleteProject(Workstation.Model.ProjectModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteProject", ReplyAction="http://tempuri.org/ISession/DeleteProjectResponse")]
+        System.Threading.Tasks.Task<bool> DeleteProjectAsync(Workstation.Model.ProjectModel newInfo);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllUsers", ReplyAction="http://tempuri.org/ISession/GetAllUsersResponse")]
         Workstation.Model.UsersModel[] GetAllUsers();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllUsers", ReplyAction="http://tempuri.org/ISession/GetAllUsersResponse")]
         System.Threading.Tasks.Task<Workstation.Model.UsersModel[]> GetAllUsersAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditUser", ReplyAction="http://tempuri.org/ISession/EditUserResponse")]
+        bool EditUser(Workstation.Model.UsersModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditUser", ReplyAction="http://tempuri.org/ISession/EditUserResponse")]
+        System.Threading.Tasks.Task<bool> EditUserAsync(Workstation.Model.UsersModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteUser", ReplyAction="http://tempuri.org/ISession/DeleteUserResponse")]
+        bool DeleteUser(Workstation.Model.UsersModel user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteUser", ReplyAction="http://tempuri.org/ISession/DeleteUserResponse")]
+        System.Threading.Tasks.Task<bool> DeleteUserAsync(Workstation.Model.UsersModel user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllDepartments", ReplyAction="http://tempuri.org/ISession/GetAllDepartmentsResponse")]
         WorkstationMessaging.Model.DepartmentModel[] GetAllDepartments();
@@ -163,12 +187,44 @@ namespace WorkstationServicesUnitTest.WorkstationSessionReference {
             return base.Channel.GetAllProjectsAsync();
         }
         
+        public bool EditProject(Workstation.Model.ProjectModel newInfo) {
+            return base.Channel.EditProject(newInfo);
+        }
+        
+        public System.Threading.Tasks.Task<bool> EditProjectAsync(Workstation.Model.ProjectModel newInfo) {
+            return base.Channel.EditProjectAsync(newInfo);
+        }
+        
+        public bool DeleteProject(Workstation.Model.ProjectModel newInfo) {
+            return base.Channel.DeleteProject(newInfo);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteProjectAsync(Workstation.Model.ProjectModel newInfo) {
+            return base.Channel.DeleteProjectAsync(newInfo);
+        }
+        
         public Workstation.Model.UsersModel[] GetAllUsers() {
             return base.Channel.GetAllUsers();
         }
         
         public System.Threading.Tasks.Task<Workstation.Model.UsersModel[]> GetAllUsersAsync() {
             return base.Channel.GetAllUsersAsync();
+        }
+        
+        public bool EditUser(Workstation.Model.UsersModel newInfo) {
+            return base.Channel.EditUser(newInfo);
+        }
+        
+        public System.Threading.Tasks.Task<bool> EditUserAsync(Workstation.Model.UsersModel newInfo) {
+            return base.Channel.EditUserAsync(newInfo);
+        }
+        
+        public bool DeleteUser(Workstation.Model.UsersModel user) {
+            return base.Channel.DeleteUser(user);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteUserAsync(Workstation.Model.UsersModel user) {
+            return base.Channel.DeleteUserAsync(user);
         }
         
         public WorkstationMessaging.Model.DepartmentModel[] GetAllDepartments() {

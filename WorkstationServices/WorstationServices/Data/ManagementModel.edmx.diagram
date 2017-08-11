@@ -13,6 +13,10 @@
         <AssociationConnector Association="ManagementModel.FK__Team__department__49C3F6B7" ManuallyRouted="false" />
         <AssociationConnector Association="ManagementModel.FK__Team__project_id__4AB81AF0" ManuallyRouted="false" />
         <AssociationConnector Association="ManagementModel.FK__Users__team_id__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="ManagementModel.FK_Users_Ranks" />
+        <EntityTypeShape EntityType="ManagementModel.Message" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ManagementModel.Notification" Width="1.5" PointX="5.375" PointY="5.875" />
+        <AssociationConnector Association="ManagementModel.NotificationUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

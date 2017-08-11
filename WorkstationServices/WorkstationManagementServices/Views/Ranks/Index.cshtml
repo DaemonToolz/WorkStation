@@ -12,7 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.rights)
+            Rank
         </th>
         <th></th>
     </tr>
@@ -20,7 +20,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.rights)
+            @Html.DisplayFor(modelItem => item.name)
         </td>
         <td>
             @Html.ActionLink(" ", "Edit", new { id = item.name }, new { @class = "glyphicon glyphicon-cog" }) |
