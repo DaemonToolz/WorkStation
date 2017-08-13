@@ -28,4 +28,32 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="TeamModel" nillable="true" type="tns:TeamModel" />
+  <xs:complexType name="ArrayOfRankModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RankModel" nillable="true" type="tns:RankModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRankModel" nillable="true" type="tns:ArrayOfRankModel" />
+  <xs:complexType name="RankModel">
+    <xs:sequence>
+      <xs:element name="name" nillable="true" type="xs:string" />
+      <xs:element name="rights" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RankModel" nillable="true" type="tns:RankModel" />
+  <xs:complexType name="ArrayOfNotificationModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NotificationModel" nillable="true" type="tns:NotificationModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfNotificationModel" nillable="true" type="tns:ArrayOfNotificationModel" />
+  <xs:complexType name="NotificationModel">
+    <xs:sequence>
+      <xs:element name="content" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:long" />
+      <xs:element name="read" type="xs:boolean" />
+      <xs:element name="title" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NotificationModel" nillable="true" type="tns:NotificationModel" />
 </xs:schema>

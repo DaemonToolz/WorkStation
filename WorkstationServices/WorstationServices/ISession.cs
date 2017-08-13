@@ -47,6 +47,9 @@ namespace WorkstationServices
         [OperationContract]
         bool DeleteUser(UsersModel user);
 
+        [OperationContract]
+        UsersModel GetUserId(int id);
+
 
         [OperationContract]
         IList<DepartmentModel> GetAllDepartments();
@@ -59,6 +62,21 @@ namespace WorkstationServices
 
         [OperationContract]
         TeamModel GetTeamPerId(int id);
+
+
+        [OperationContract]
+        IEnumerable<RankModel>  GetAllRanks();
+
+        [OperationContract]
+        RankModel GetRankByName(string name);
+
+
+
+        [OperationContract]
+        IEnumerable<NotificationModel> GetAllNotifications(int userid);
+
+        [OperationContract(IsOneWay = true)]
+        void CreateNotification(NotificationModel notification, int[] users, bool all = false);
 
 
     }

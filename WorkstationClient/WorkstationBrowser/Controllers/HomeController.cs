@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WorkstationBrowser.Models;
+using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
 {
@@ -19,7 +20,7 @@ namespace WorkstationBrowser.Controllers
                 {
                     NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];
 
-                    ViewData["UnreadNotifications"] = notifications.Count(notif => !notif.Read);
+                    ViewData["UnreadNotifications"] = notifications.Count(notif => !notif.read);
                     ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
                 }
             }

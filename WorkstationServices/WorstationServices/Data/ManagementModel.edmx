@@ -38,6 +38,7 @@
           </Key>
           <Property Name="id_notification" Type="bigint" Nullable="false" />
           <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="read" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Project">
           <Key>
@@ -237,7 +238,7 @@
           <NavigationProperty Name="Team" Relationship="Self.FK__Users__team_id__48CFD27E" FromRole="Users" ToRole="Team" />
           <Property Name="rank" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Rank1" Relationship="ManagementModel.FK_Users_Ranks" FromRole="Users" ToRole="Rank" />
-          <NavigationProperty Name="Notification" Relationship="ManagementModel.NotificationUser" FromRole="Users" ToRole="Notification" />
+          <NavigationProperty Name="NotificationUser" Relationship="ManagementModel.FK_NotificationUser_Users" FromRole="Users" ToRole="NotificationUser" />
           </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -299,9 +300,14 @@
           </AssociationSet>
           <EntitySet Name="Message" EntityType="ManagementModel.Message" />
           <EntitySet Name="Notification" EntityType="ManagementModel.Notification" />
-          <AssociationSet Name="NotificationUser" Association="ManagementModel.NotificationUser">
+          <EntitySet Name="NotificationUser" EntityType="ManagementModel.NotificationUser" />
+          <AssociationSet Name="FK_NotificationUser_Notification" Association="ManagementModel.FK_NotificationUser_Notification">
             <End Role="Notification" EntitySet="Notification" />
+            <End Role="NotificationUser" EntitySet="NotificationUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationUser_Users" Association="ManagementModel.FK_NotificationUser_Users">
             <End Role="Users" EntitySet="Users" />
+            <End Role="NotificationUser" EntitySet="NotificationUser" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Users_Ranks">
@@ -334,11 +340,42 @@
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="title" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="false" />
           <Property Name="content" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Users" Relationship="ManagementModel.NotificationUser" FromRole="Notification" ToRole="Users" />
+          <NavigationProperty Name="NotificationUser" Relationship="ManagementModel.FK_NotificationUser_Notification" FromRole="Notification" ToRole="NotificationUser" />
         </EntityType>
-        <Association Name="NotificationUser">
-          <End Type="ManagementModel.Notification" Role="Notification" Multiplicity="*" />
-          <End Type="ManagementModel.Users" Role="Users" Multiplicity="*" />
+        <EntityType Name="NotificationUser">
+          <Key>
+            <PropertyRef Name="id_notification" />
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_notification" Type="Int64" Nullable="false" />
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="read" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Notification" Relationship="ManagementModel.FK_NotificationUser_Notification" FromRole="NotificationUser" ToRole="Notification" />
+          <NavigationProperty Name="Users" Relationship="ManagementModel.FK_NotificationUser_Users" FromRole="NotificationUser" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_NotificationUser_Notification">
+          <End Type="ManagementModel.Notification" Role="Notification" Multiplicity="1" />
+          <End Type="ManagementModel.NotificationUser" Role="NotificationUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notification">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NotificationUser">
+              <PropertyRef Name="id_notification" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationUser_Users">
+          <End Type="ManagementModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ManagementModel.NotificationUser" Role="NotificationUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NotificationUser">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -416,15 +453,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="NotificationUser" TypeName="ManagementModel.NotificationUser" StoreEntitySet="NotificationUser">
-            <EndProperty Name="Users">
-              <ScalarProperty Name="id" ColumnName="id_user" />
-            </EndProperty>
-            <EndProperty Name="Notification">
-              <ScalarProperty Name="id" ColumnName="id_notification" />
-            </EndProperty>
-          </AssociationSetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="NotificationUser">
+            <EntityTypeMapping TypeName="ManagementModel.NotificationUser">
+              <MappingFragment StoreEntitySet="NotificationUser">
+                <ScalarProperty Name="read" ColumnName="read" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="id_notification" ColumnName="id_notification" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

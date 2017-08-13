@@ -32,5 +32,6 @@ namespace WorkstationServices.Data
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Message> Message { get; set; }
         public virtual DbSet<Notification> Notification { get; set; }
+        public virtual DbSet<NotificationUser> NotificationUser { get; set; }
     }
 }

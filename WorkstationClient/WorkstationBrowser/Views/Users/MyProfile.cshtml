@@ -8,11 +8,21 @@
     <h4>@Html.DisplayFor(model => model.username)</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt> @Html.DisplayNameFor(model => model.email) </dt>
+        <dt> My Email </dt>
         <dd> @Html.DisplayFor(model => model.email) </dd>
-        <dt> @Html.DisplayNameFor(model => model.team_id) </dt>
-        <dd> @Html.DisplayFor(model => model.team_id) </dd>
-        <dd> @Html.DisplayFor(model => model.rank) </dd>
+        <dt> My Team </dt>
+        <dd>
+            @if (ViewData["CurrentTeam"] != null) {
+                @Html.DisplayFor(model => model.team_id) 
+            }
+            else {
+                @Html.Display("Not affected")
+            }
+        </dd>
+        <dt> My Rank </dt>
+        <dd>
+            @Html.DisplayFor(model => model.rank)
+        </dd>
 
     </dl>
 </div>

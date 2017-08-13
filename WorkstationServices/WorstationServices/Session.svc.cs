@@ -177,7 +177,9 @@ namespace WorkstationServices
                 user.username = newInfo.username;
                 user.Rank1 = entities.Rank.Single(rank => rank.name == newInfo.rank);
                 user.rank = newInfo.rank;
-                
+                user.team_id = newInfo.team_id;
+                user.Team = entities.Team.First(team => team.id.Equals(user.team_id));
+
                 entities.SaveChanges();
 
 
@@ -204,6 +206,111 @@ namespace WorkstationServices
                 return false;
             }
         }
+
+
+        public UsersModel GetUserId(int id) {
+            try
+            {
+                var user = entities.Users.First(users => users.id == id);
+                return new UsersModel()
+                {
+                    id = user.id,
+                    email = user.email,
+                    team_id = user.team_id,
+                    username = user.username,
+                    rank = user.rank,
+                    rights = user.Rank1.rights
+                };
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<RankModel> GetAllRanks()
+        {
+            List<RankModel> rankModels = new List<RankModel>();
+            foreach (var rank in entities.Rank) {
+                rankModels.Add(new RankModel() {
+                    name = rank.name,
+                    rights = rank.rights
+                });
+            }
+
+            return rankModels;
+        }
+
+        public RankModel GetRankByName(string name) {
+            try
+            {
+                var rank = entities.Rank.First(ranks => ranks.name.Equals(name));
+                return new RankModel()
+                {
+                    name = rank.name,
+                    rights = rank.rights
+                };
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        public IEnumerable<NotificationModel> GetAllNotifications(int userid) {
+            try
+            {
+                List<NotificationModel> notificationModels = new List<NotificationModel>();
+
+                foreach (var notification in entities.NotificationUser.Where(
+                    notif => notif.Users.id.Equals(userid)))
+                {
+                    notificationModels.Add(new NotificationModel()
+                    {
+                        id = notification.id_notification,
+                        content = notification.Notification.content,
+                        title = notification.Notification.title,
+                        read = notification.read
+                    });
+
+                }
+
+                return notificationModels;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        public void CreateNotification(NotificationModel notification, int[] users, bool all = false) {
+            Notification finalNotification = new Notification(){
+                content = notification.content,
+                title = notification.title,            
+            };
+
+            entities.Notification.Add(finalNotification);
+            entities.SaveChanges();
+            finalNotification = entities.Notification 
+                .Single(notif => notif.content.Equals(finalNotification.content) &&
+                               notif.title.Equals(finalNotification.title));
+            
+            foreach (var user in (all  ? entities.Users.ToList() : entities.Users.Where(user => users.Any(uids => uids == user.id)).ToList())) {
+                NotificationUser notifUser = new NotificationUser() {
+                    id_notification = finalNotification.id,
+                    read = false,
+                    id_user = user.id
+                };
+
+                entities.NotificationUser.Add(notifUser);
+            }
+            entities.SaveChanges();
+
+        }
+
+
     }
 
 

@@ -20,6 +20,7 @@
       <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Workstation.Model" />
       <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" />
+      <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ISession_LogIn_InputMessage">
@@ -40,11 +41,41 @@
   <wsdl:message name="ISession_GetAllProjects_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllProjectsResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_EditProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditProject" />
+  </wsdl:message>
+  <wsdl:message name="ISession_EditProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditProjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProject" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteProjectResponse" />
+  </wsdl:message>
   <wsdl:message name="ISession_GetAllUsers_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllUsers" />
   </wsdl:message>
   <wsdl:message name="ISession_GetAllUsers_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllUsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_EditUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditUser" />
+  </wsdl:message>
+  <wsdl:message name="ISession_EditUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUser" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetUserId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserId" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetUserId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserIdResponse" />
   </wsdl:message>
   <wsdl:message name="ISession_GetAllDepartments_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllDepartments" />
@@ -70,6 +101,27 @@
   <wsdl:message name="ISession_GetTeamPerId_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetTeamPerIdResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_GetAllRanks_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllRanks" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetAllRanks_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllRanksResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetRankByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRankByName" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetRankByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRankByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetAllNotifications_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllNotifications" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetAllNotifications_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllNotificationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_CreateNotification_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateNotification" />
+  </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="ISession">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="LogIn">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/LogIn" message="tns:ISession_LogIn_InputMessage" />
@@ -83,9 +135,29 @@
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllProjects" message="tns:ISession_GetAllProjects_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllProjectsResponse" message="tns:ISession_GetAllProjects_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="EditProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/EditProject" message="tns:ISession_EditProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/EditProjectResponse" message="tns:ISession_EditProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteProject" message="tns:ISession_DeleteProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteProjectResponse" message="tns:ISession_DeleteProject_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllUsers">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllUsers" message="tns:ISession_GetAllUsers_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllUsersResponse" message="tns:ISession_GetAllUsers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="EditUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/EditUser" message="tns:ISession_EditUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/EditUserResponse" message="tns:ISession_EditUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteUser" message="tns:ISession_DeleteUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteUserResponse" message="tns:ISession_DeleteUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetUserId">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetUserId" message="tns:ISession_GetUserId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetUserIdResponse" message="tns:ISession_GetUserId_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllDepartments">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllDepartments" message="tns:ISession_GetAllDepartments_InputMessage" />
@@ -102,6 +174,21 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetTeamPerId">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetTeamPerId" message="tns:ISession_GetTeamPerId_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetTeamPerIdResponse" message="tns:ISession_GetTeamPerId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllRanks">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllRanks" message="tns:ISession_GetAllRanks_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllRanksResponse" message="tns:ISession_GetAllRanks_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetRankByName">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetRankByName" message="tns:ISession_GetRankByName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetRankByNameResponse" message="tns:ISession_GetRankByName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllNotifications">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllNotifications" message="tns:ISession_GetAllNotifications_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllNotificationsResponse" message="tns:ISession_GetAllNotifications_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CreateNotification">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/CreateNotification" message="tns:ISession_CreateNotification_InputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSDualHttpBinding_ISession" type="tns:ISession">
@@ -134,8 +221,53 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="EditProject">
+      <soap12:operation soapAction="http://tempuri.org/ISession/EditProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteProject">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAllUsers">
       <soap12:operation soapAction="http://tempuri.org/ISession/GetAllUsers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditUser">
+      <soap12:operation soapAction="http://tempuri.org/ISession/EditUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUser">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserId">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetUserId" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -178,6 +310,39 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllRanks">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetAllRanks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRankByName">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetRankByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllNotifications">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetAllNotifications" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNotification">
+      <soap12:operation soapAction="http://tempuri.org/ISession/CreateNotification" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="Session">

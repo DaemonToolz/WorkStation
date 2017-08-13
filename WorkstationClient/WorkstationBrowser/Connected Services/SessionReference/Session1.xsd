@@ -2,6 +2,7 @@
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Workstation.Model" />
   <xs:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" />
+  <xs:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:element name="LogIn">
     <xs:complexType>
       <xs:sequence>
@@ -36,6 +37,34 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="EditProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="newInfo" nillable="true" type="q4:ProjectModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditProjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="EditProjectResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="newInfo" nillable="true" type="q5:ProjectModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteProjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteProjectResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetAllUsers">
     <xs:complexType>
       <xs:sequence />
@@ -44,7 +73,49 @@
   <xs:element name="GetAllUsersResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="GetAllUsersResult" nillable="true" type="q4:ArrayOfUsersModel" />
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="GetAllUsersResult" nillable="true" type="q6:ArrayOfUsersModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="newInfo" nillable="true" type="q7:UsersModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="EditUserResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteUser">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="user" nillable="true" type="q8:UsersModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteUserResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteUserResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUserIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="GetUserIdResult" nillable="true" type="q9:UsersModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -56,7 +127,7 @@
   <xs:element name="GetAllDepartmentsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllDepartmentsResult" nillable="true" type="q5:ArrayOfDepartmentModel" />
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllDepartmentsResult" nillable="true" type="q10:ArrayOfDepartmentModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -68,7 +139,7 @@
   <xs:element name="GetAllTeamsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllTeamsResult" nillable="true" type="q6:ArrayOfTeamModel" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllTeamsResult" nillable="true" type="q11:ArrayOfTeamModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -82,7 +153,7 @@
   <xs:element name="GetTeamPerUserResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTeamPerUserResult" nillable="true" type="q7:TeamModel" />
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTeamPerUserResult" nillable="true" type="q12:TeamModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -96,7 +167,56 @@
   <xs:element name="GetTeamPerIdResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTeamPerIdResult" nillable="true" type="q8:TeamModel" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTeamPerIdResult" nillable="true" type="q13:TeamModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllRanks">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllRanksResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllRanksResult" nillable="true" type="q14:ArrayOfRankModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRankByName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRankByNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetRankByNameResult" nillable="true" type="q15:RankModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllNotifications">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userid" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllNotificationsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllNotificationsResult" nillable="true" type="q16:ArrayOfNotificationModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateNotification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notification" nillable="true" type="q17:NotificationModel" />
+        <xs:element xmlns:q18="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="users" nillable="true" type="q18:ArrayOfint" />
+        <xs:element minOccurs="0" name="all" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

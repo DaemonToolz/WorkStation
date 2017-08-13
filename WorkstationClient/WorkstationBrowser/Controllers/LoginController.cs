@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using WorkstationBrowser.BLL;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.Models;
+using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers {
     public class LoginController : Controller {
@@ -60,8 +61,8 @@ namespace WorkstationBrowser.Controllers {
                     var ctx = Request.GetOwinContext();
                     var authenticationManager = ctx.Authentication;
                     authenticationManager.SignIn(claimsIdentity);
-                    
-                    Session.Add("SystemNotifications", new NotificationModel[]{new NotificationModel{ Title = "Welcome on your space!", Content = "Welcome!", Read = false}});
+
+                    Session.Add("SystemNotifications", newSession.WorkstationSession.GetAllNotifications(newSession.CurrentUser.id));
                     Session.Add("CurrentUserRights", RightsReader.Decode(newSession.CurrentUser.rights));
                     return RedirectToAction("Index", "Home");
                 }

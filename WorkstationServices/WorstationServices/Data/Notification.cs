@@ -17,7 +17,7 @@ namespace WorkstationServices.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Notification()
         {
-            this.Users = new HashSet<Users>();
+            this.NotificationUser = new HashSet<NotificationUser>();
         }
     
         public long id { get; set; }
@@ -25,6 +25,6 @@ namespace WorkstationServices.Data
         public string content { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual ICollection<NotificationUser> NotificationUser { get; set; }
     }
 }

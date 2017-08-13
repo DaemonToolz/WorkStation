@@ -399,6 +399,155 @@ namespace WorkstationBrowser.SessionReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="RankModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
+    [System.SerializableAttribute()]
+    public partial class RankModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private string nameField;
+        
+        private string rightsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.nameField, value) != true)) {
+                    this.nameField = value;
+                    this.RaisePropertyChanged("name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string rights {
+            get {
+                return this.rightsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.rightsField, value) != true)) {
+                    this.rightsField = value;
+                    this.RaisePropertyChanged("rights");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="NotificationModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
+    [System.SerializableAttribute()]
+    public partial class NotificationModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private string contentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long idField;
+        
+        private bool readField;
+        
+        private string titleField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string content {
+            get {
+                return this.contentField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.contentField, value) != true)) {
+                    this.contentField = value;
+                    this.RaisePropertyChanged("content");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public bool read {
+            get {
+                return this.readField;
+            }
+            set {
+                if ((this.readField.Equals(value) != true)) {
+                    this.readField = value;
+                    this.RaisePropertyChanged("read");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string title {
+            get {
+                return this.titleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.titleField, value) != true)) {
+                    this.titleField = value;
+                    this.RaisePropertyChanged("title");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SessionReference.ISession", SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface ISession {
@@ -422,11 +571,41 @@ namespace WorkstationBrowser.SessionReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllProjects", ReplyAction="http://tempuri.org/ISession/GetAllProjectsResponse")]
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel[]> GetAllProjectsAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditProject", ReplyAction="http://tempuri.org/ISession/EditProjectResponse")]
+        bool EditProject(WorkstationBrowser.SessionReference.ProjectModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditProject", ReplyAction="http://tempuri.org/ISession/EditProjectResponse")]
+        System.Threading.Tasks.Task<bool> EditProjectAsync(WorkstationBrowser.SessionReference.ProjectModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteProject", ReplyAction="http://tempuri.org/ISession/DeleteProjectResponse")]
+        bool DeleteProject(WorkstationBrowser.SessionReference.ProjectModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteProject", ReplyAction="http://tempuri.org/ISession/DeleteProjectResponse")]
+        System.Threading.Tasks.Task<bool> DeleteProjectAsync(WorkstationBrowser.SessionReference.ProjectModel newInfo);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllUsers", ReplyAction="http://tempuri.org/ISession/GetAllUsersResponse")]
         WorkstationBrowser.SessionReference.UsersModel[] GetAllUsers();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllUsers", ReplyAction="http://tempuri.org/ISession/GetAllUsersResponse")]
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.UsersModel[]> GetAllUsersAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditUser", ReplyAction="http://tempuri.org/ISession/EditUserResponse")]
+        bool EditUser(WorkstationBrowser.SessionReference.UsersModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditUser", ReplyAction="http://tempuri.org/ISession/EditUserResponse")]
+        System.Threading.Tasks.Task<bool> EditUserAsync(WorkstationBrowser.SessionReference.UsersModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteUser", ReplyAction="http://tempuri.org/ISession/DeleteUserResponse")]
+        bool DeleteUser(WorkstationBrowser.SessionReference.UsersModel user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteUser", ReplyAction="http://tempuri.org/ISession/DeleteUserResponse")]
+        System.Threading.Tasks.Task<bool> DeleteUserAsync(WorkstationBrowser.SessionReference.UsersModel user);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetUserId", ReplyAction="http://tempuri.org/ISession/GetUserIdResponse")]
+        WorkstationBrowser.SessionReference.UsersModel GetUserId(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetUserId", ReplyAction="http://tempuri.org/ISession/GetUserIdResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.UsersModel> GetUserIdAsync(int id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllDepartments", ReplyAction="http://tempuri.org/ISession/GetAllDepartmentsResponse")]
         WorkstationBrowser.SessionReference.DepartmentModel[] GetAllDepartments();
@@ -451,6 +630,30 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetTeamPerId", ReplyAction="http://tempuri.org/ISession/GetTeamPerIdResponse")]
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TeamModel> GetTeamPerIdAsync(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllRanks", ReplyAction="http://tempuri.org/ISession/GetAllRanksResponse")]
+        WorkstationBrowser.SessionReference.RankModel[] GetAllRanks();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllRanks", ReplyAction="http://tempuri.org/ISession/GetAllRanksResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.RankModel[]> GetAllRanksAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetRankByName", ReplyAction="http://tempuri.org/ISession/GetRankByNameResponse")]
+        WorkstationBrowser.SessionReference.RankModel GetRankByName(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetRankByName", ReplyAction="http://tempuri.org/ISession/GetRankByNameResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.RankModel> GetRankByNameAsync(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllNotifications", ReplyAction="http://tempuri.org/ISession/GetAllNotificationsResponse")]
+        WorkstationBrowser.SessionReference.NotificationModel[] GetAllNotifications(int userid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllNotifications", ReplyAction="http://tempuri.org/ISession/GetAllNotificationsResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.NotificationModel[]> GetAllNotificationsAsync(int userid);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/CreateNotification")]
+        void CreateNotification(WorkstationBrowser.SessionReference.NotificationModel notification, int[] users, bool all);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/CreateNotification")]
+        System.Threading.Tasks.Task CreateNotificationAsync(WorkstationBrowser.SessionReference.NotificationModel notification, int[] users, bool all);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -504,12 +707,52 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.GetAllProjectsAsync();
         }
         
+        public bool EditProject(WorkstationBrowser.SessionReference.ProjectModel newInfo) {
+            return base.Channel.EditProject(newInfo);
+        }
+        
+        public System.Threading.Tasks.Task<bool> EditProjectAsync(WorkstationBrowser.SessionReference.ProjectModel newInfo) {
+            return base.Channel.EditProjectAsync(newInfo);
+        }
+        
+        public bool DeleteProject(WorkstationBrowser.SessionReference.ProjectModel newInfo) {
+            return base.Channel.DeleteProject(newInfo);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteProjectAsync(WorkstationBrowser.SessionReference.ProjectModel newInfo) {
+            return base.Channel.DeleteProjectAsync(newInfo);
+        }
+        
         public WorkstationBrowser.SessionReference.UsersModel[] GetAllUsers() {
             return base.Channel.GetAllUsers();
         }
         
         public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.UsersModel[]> GetAllUsersAsync() {
             return base.Channel.GetAllUsersAsync();
+        }
+        
+        public bool EditUser(WorkstationBrowser.SessionReference.UsersModel newInfo) {
+            return base.Channel.EditUser(newInfo);
+        }
+        
+        public System.Threading.Tasks.Task<bool> EditUserAsync(WorkstationBrowser.SessionReference.UsersModel newInfo) {
+            return base.Channel.EditUserAsync(newInfo);
+        }
+        
+        public bool DeleteUser(WorkstationBrowser.SessionReference.UsersModel user) {
+            return base.Channel.DeleteUser(user);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteUserAsync(WorkstationBrowser.SessionReference.UsersModel user) {
+            return base.Channel.DeleteUserAsync(user);
+        }
+        
+        public WorkstationBrowser.SessionReference.UsersModel GetUserId(int id) {
+            return base.Channel.GetUserId(id);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.UsersModel> GetUserIdAsync(int id) {
+            return base.Channel.GetUserIdAsync(id);
         }
         
         public WorkstationBrowser.SessionReference.DepartmentModel[] GetAllDepartments() {
@@ -542,6 +785,38 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TeamModel> GetTeamPerIdAsync(int id) {
             return base.Channel.GetTeamPerIdAsync(id);
+        }
+        
+        public WorkstationBrowser.SessionReference.RankModel[] GetAllRanks() {
+            return base.Channel.GetAllRanks();
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.RankModel[]> GetAllRanksAsync() {
+            return base.Channel.GetAllRanksAsync();
+        }
+        
+        public WorkstationBrowser.SessionReference.RankModel GetRankByName(string name) {
+            return base.Channel.GetRankByName(name);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.RankModel> GetRankByNameAsync(string name) {
+            return base.Channel.GetRankByNameAsync(name);
+        }
+        
+        public WorkstationBrowser.SessionReference.NotificationModel[] GetAllNotifications(int userid) {
+            return base.Channel.GetAllNotifications(userid);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.NotificationModel[]> GetAllNotificationsAsync(int userid) {
+            return base.Channel.GetAllNotificationsAsync(userid);
+        }
+        
+        public void CreateNotification(WorkstationBrowser.SessionReference.NotificationModel notification, int[] users, bool all) {
+            base.Channel.CreateNotification(notification, users, all);
+        }
+        
+        public System.Threading.Tasks.Task CreateNotificationAsync(WorkstationBrowser.SessionReference.NotificationModel notification, int[] users, bool all) {
+            return base.Channel.CreateNotificationAsync(notification, users, all);
         }
     }
 }

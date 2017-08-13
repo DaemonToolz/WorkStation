@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WorkstationBrowser.Models.NotificationModel>
+﻿@model IEnumerable<WorkstationBrowser.SessionReference.NotificationModel>
 
 @{
     ViewBag.Title = "Notifications";
@@ -9,13 +9,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            Title
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Content)
+            Content
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Read)
+            Actions
         </th>
         <th></th>
     </tr>
@@ -23,13 +23,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.DisplayFor(modelItem => item.title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Content)
+            @Html.DisplayFor(modelItem => item.content)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Read)
+            Read : @Html.DisplayFor(modelItem => item.read)
         </td>
     </tr>
 }

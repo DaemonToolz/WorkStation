@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.Models;
+using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
 {
@@ -16,7 +17,7 @@ namespace WorkstationBrowser.Controllers
 
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
             NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];
-            notifications.ToList().ForEach(notif => notif.Read = true);
+            notifications.ToList().ForEach(notif => notif.read = true);
             Session["SystemNotifications"] = notifications;
 
             return View(notifications);

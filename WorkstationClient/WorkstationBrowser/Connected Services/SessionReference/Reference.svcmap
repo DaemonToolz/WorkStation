@@ -24,11 +24,12 @@
   <Metadata>
     <MetadataFile FileName="Session.xsd" MetadataType="Schema" ID="41da7a8f-5fab-4b83-9234-69f33f3dafe0" SourceId="1" SourceUrl="http://localhost:10856/Session.svc?xsd=xsd4" />
     <MetadataFile FileName="Session1.xsd" MetadataType="Schema" ID="16557304-30fc-443b-8191-75a9e3f4be47" SourceId="1" SourceUrl="http://localhost:10856/Session.svc?xsd=xsd0" />
+    <MetadataFile FileName="Session4.xsd" MetadataType="Schema" ID="1eb643e3-1a03-49c1-a3d4-0fa0fb62dedb" SourceId="1" SourceUrl="http://localhost:10856/Session.svc?xsd=xsd3" />
     <MetadataFile FileName="Session.wsdl" MetadataType="Wsdl" ID="511601bb-1728-4556-8049-ef36496bb2f5" SourceId="1" SourceUrl="http://localhost:10856/Session.svc?wsdl" />
     <MetadataFile FileName="Session2.xsd" MetadataType="Schema" ID="f5bbf62c-0537-47e0-b2b3-2f4935350fa7" SourceId="1" SourceUrl="http://localhost:10856/Session.svc?xsd=xsd1" />
     <MetadataFile FileName="Session3.xsd" MetadataType="Schema" ID="c426424f-49e9-4990-bf85-d54dd26e9ca3" SourceId="1" SourceUrl="http://localhost:10856/Session.svc?xsd=xsd2" />
     <MetadataFile FileName="Session.disco" MetadataType="Disco" ID="f05bf5ad-f5f4-4afb-9287-acc03a1d2953" SourceId="1" SourceUrl="http://localhost:10856/Session.svc?disco" />
-    <MetadataFile FileName="Session4.xsd" MetadataType="Schema" ID="1eb643e3-1a03-49c1-a3d4-0fa0fb62dedb" SourceId="1" SourceUrl="http://localhost:10856/Session.svc?xsd=xsd3" />
+    <MetadataFile FileName="Session5.xsd" MetadataType="Schema" ID="5dd739cb-93ba-40a5-9915-d63b1e759323" SourceId="1" SourceUrl="http://localhost:10856/Session.svc?xsd=xsd5" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
