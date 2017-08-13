@@ -7,7 +7,10 @@
 <h2> Departments </h2>
 
 <p>
-    @Html.ActionLink(" ", "Create", new{}, new {@class = "glyphicon glyphicon-plus" })
+    <a href="@Url.Action("Create")" class="btn btn-default" >
+        <i class="fa fa-plus" aria-hidden="true"> </i>
+        Add new Department
+    </a>
 </p>
 <table class="table">
     <tr>
@@ -23,11 +26,17 @@
             @Html.DisplayFor(modelItem => item.name)
         </td>
         <td>
-            @Html.ActionLink(" ", "Edit", new { id = item.id }, new { @class = "glyphicon glyphicon-cog" }) | 
-           
-            @Html.ActionLink(" ", "Details", new {id = item.id}, new { @class = "glyphicon glyphicon-zoom-in" }) |
-            @Html.ActionLink(" ", "Delete", new {id = item.id}, new { @class = "glyphicon glyphicon-trash" })
-
+            <a href="@Url.Action("Edit", new {id = item.id})">
+                <i class="glyphicon glyphicon-cog" aria-hidden="true"></i>
+            </a>
+               
+            <a href="@Url.Action("Details", new {id = item.id})">
+                <i class="glyphicon glyphicon-zoom-in" aria-hidden="true"></i>
+            </a>
+       
+            <a class="del_ico" href="@Url.Action("Delete",  new {id = item.id})">
+                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+            </a>
         </td>
     </tr>
 }

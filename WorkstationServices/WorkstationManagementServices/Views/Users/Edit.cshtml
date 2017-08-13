@@ -84,9 +84,7 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink(" ", "Index", new { }, new { @class = "glyphicon glyphicon-th-list" })
-</div>
+@Html.Partial("~/Views/Home/Partial/_ActionButtons.cshtml")
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
