@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Timers;
 using Workstation.Model;
 using WorkstationMessaging.Model;
 using WorkstationServices.Data;
@@ -175,18 +178,16 @@ namespace WorkstationServices
                 Users user = entities.Users.Single(usr => newInfo.id == usr.id);
                 user.email = newInfo.email;
                 user.username = newInfo.username;
-                user.Rank1 = entities.Rank.Single(rank => rank.name == newInfo.rank);
                 user.rank = newInfo.rank;
                 user.team_id = newInfo.team_id;
-                user.Team = entities.Team.First(team => team.id.Equals(user.team_id));
 
                 entities.SaveChanges();
 
 
                 return true;
-            }
-            catch
+            } catch(Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
@@ -309,6 +310,44 @@ namespace WorkstationServices
             entities.SaveChanges();
 
         }
+
+
+        #region Callback
+
+        private IUpdateNotificationCallback Callback;
+        private System.Timers.Timer Timer;
+        private int connected_id;
+        private string hubcaller;
+
+        void OnTimerElapsed(object sender, ElapsedEventArgs e){
+            Callback.NotificationPull(GetAllNotifications(connected_id), hubcaller);
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="FileName"></param>
+        public void UpdateNotifications(int userid, string hubcaller)
+        {
+            this.connected_id = userid;
+            this.hubcaller = hubcaller;
+            Callback = OperationContext.Current.GetCallbackChannel<IUpdateNotificationCallback>();
+
+            Timer = new System.Timers.Timer(5000);
+            Timer.Elapsed += OnTimerElapsed;
+            Timer.Enabled = true;
+            Timer.Start();
+        }
+
+        public void Unregister()
+        {
+            Timer.Stop();
+            Timer = null;
+
+        }
+
+        #endregion
 
 
     }

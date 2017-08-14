@@ -17,7 +17,7 @@ using WorkstationServices.Security;
 namespace WorkstationServices
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
-    [ServiceContract(SessionMode = SessionMode.Required)]
+    [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(IUpdateNotificationCallback))]
     public interface ISession
     {
         [OperationContract(IsInitiating = true, IsOneWay = false, IsTerminating = false)]
@@ -78,6 +78,13 @@ namespace WorkstationServices
         [OperationContract(IsOneWay = true)]
         void CreateNotification(NotificationModel notification, int[] users, bool all = false);
 
+        [OperationContract(IsOneWay = true)]
+        void UpdateNotifications(int userid, string caller);
+    }
 
+    public interface IUpdateNotificationCallback
+    {
+        [OperationContract(IsOneWay = true)]
+        void NotificationPull(IEnumerable<NotificationModel> notifications, String caller);
     }
 }

@@ -19,6 +19,8 @@ namespace WorkstationBrowser{
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 AuthenticationMode = AuthenticationMode.Active
             });
+
+            app.MapSignalR();
         }
     }
 }

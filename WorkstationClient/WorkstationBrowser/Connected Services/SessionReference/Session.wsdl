@@ -122,6 +122,12 @@
   <wsdl:message name="ISession_CreateNotification_InputMessage">
     <wsdl:part name="parameters" element="tns:CreateNotification" />
   </wsdl:message>
+  <wsdl:message name="ISession_UpdateNotifications_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateNotifications" />
+  </wsdl:message>
+  <wsdl:message name="ISession_NotificationPull_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:NotificationPull" />
+  </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="ISession">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="LogIn">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/LogIn" message="tns:ISession_LogIn_InputMessage" />
@@ -189,6 +195,12 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CreateNotification">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/CreateNotification" message="tns:ISession_CreateNotification_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateNotifications">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/UpdateNotifications" message="tns:ISession_UpdateNotifications_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotificationPull">
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/NotificationPull" message="tns:ISession_NotificationPull_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSDualHttpBinding_ISession" type="tns:ISession">
@@ -343,6 +355,18 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateNotifications">
+      <soap12:operation soapAction="http://tempuri.org/ISession/UpdateNotifications" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="NotificationPull">
+      <soap12:operation soapAction="http://tempuri.org/ISession/NotificationPull" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="Session">

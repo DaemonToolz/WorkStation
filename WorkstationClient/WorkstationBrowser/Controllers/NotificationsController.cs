@@ -9,11 +9,9 @@ using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
 {
-    public class NotificationsController : Controller
-    {
+    public class NotificationsController : Controller {
         // GET: Notifications
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
 
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
             NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];

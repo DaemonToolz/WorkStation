@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using WorkstationBrowser.BLL;
 using WorkstationBrowser.Controllers.Remote;
+using WorkstationBrowser.Controllers.SignalR;
 using WorkstationBrowser.Models;
 using WorkstationBrowser.SessionReference;
 
@@ -64,6 +65,9 @@ namespace WorkstationBrowser.Controllers {
 
                     Session.Add("SystemNotifications", newSession.WorkstationSession.GetAllNotifications(newSession.CurrentUser.id));
                     Session.Add("CurrentUserRights", RightsReader.Decode(newSession.CurrentUser.rights));
+                    Session.Add("HubInitialized", false);
+                    NotificationHub.MyUsers.TryAdd(newSession.CurrentUser.username, newSession);
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -78,7 +82,13 @@ namespace WorkstationBrowser.Controllers {
         public ActionResult Logout() {
 
             try {
+            
                 SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
+
+                SessionWrapper old;
+                NotificationHub.MyUsers.TryRemove(currentSession.CurrentUser.username, out old);
+                old = null;
+
                 currentSession.LogOut();
             }
             catch { }

@@ -549,7 +549,7 @@ namespace WorkstationBrowser.SessionReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SessionReference.ISession", SessionMode=System.ServiceModel.SessionMode.Required)]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SessionReference.ISession", CallbackContract=typeof(WorkstationBrowser.SessionReference.ISessionCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface ISession {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/LogIn", ReplyAction="http://tempuri.org/ISession/LogInResponse")]
@@ -654,6 +654,19 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/CreateNotification")]
         System.Threading.Tasks.Task CreateNotificationAsync(WorkstationBrowser.SessionReference.NotificationModel notification, int[] users, bool all);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/UpdateNotifications")]
+        void UpdateNotifications(int userid, string caller);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/UpdateNotifications")]
+        System.Threading.Tasks.Task UpdateNotificationsAsync(int userid, string caller);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface ISessionCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/NotificationPull")]
+        void NotificationPull(WorkstationBrowser.SessionReference.NotificationModel[] notifications, string caller);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -662,25 +675,26 @@ namespace WorkstationBrowser.SessionReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class SessionClient : System.ServiceModel.ClientBase<WorkstationBrowser.SessionReference.ISession>, WorkstationBrowser.SessionReference.ISession {
+    public partial class SessionClient : System.ServiceModel.DuplexClientBase<WorkstationBrowser.SessionReference.ISession>, WorkstationBrowser.SessionReference.ISession {
         
-        public SessionClient() {
+        public SessionClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public SessionClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public SessionClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public SessionClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public SessionClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public SessionClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public SessionClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public SessionClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public SessionClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
         public WorkstationBrowser.SessionReference.UsersModel LogIn(string Username, string Token) {
@@ -817,6 +831,14 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task CreateNotificationAsync(WorkstationBrowser.SessionReference.NotificationModel notification, int[] users, bool all) {
             return base.Channel.CreateNotificationAsync(notification, users, all);
+        }
+        
+        public void UpdateNotifications(int userid, string caller) {
+            base.Channel.UpdateNotifications(userid, caller);
+        }
+        
+        public System.Threading.Tasks.Task UpdateNotificationsAsync(int userid, string caller) {
+            return base.Channel.UpdateNotificationsAsync(userid, caller);
         }
     }
 }

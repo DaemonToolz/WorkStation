@@ -185,8 +185,9 @@
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\Remote\SessionWrapper.cs" />
     <Compile Include="Controllers\Remote\TokenGeneration.cs" />
+    <Compile Include="Controllers\SignalR\ConnectionIdFactory.cs" />
     <Compile Include="Controllers\SignalR\MessageHub.cs" />
-    <Compile Include="Controllers\SignalR\NotifcationHub.cs" />
+    <Compile Include="Controllers\SignalR\NotificationHub.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -262,6 +263,9 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />

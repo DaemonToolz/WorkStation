@@ -3,6 +3,7 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WorkstationBrowser.Controllers.SignalR;
 
 namespace WorkstationBrowser
 {
@@ -15,7 +16,7 @@ namespace WorkstationBrowser
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
-            
-        }
+
+         }
     }
 }

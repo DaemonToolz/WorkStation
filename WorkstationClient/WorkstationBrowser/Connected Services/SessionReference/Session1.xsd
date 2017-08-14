@@ -220,4 +220,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="UpdateNotifications">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userid" type="xs:int" />
+        <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NotificationPull">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q19:ArrayOfNotificationModel" />
+        <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>
