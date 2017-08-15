@@ -1,0 +1,43 @@
+﻿@using WorkstationBrowser.Controllers.Remote
+@model WorkstationBrowser.SessionReference.ProjectModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2> @Html.DisplayFor(model => model.name) </h2>
+
+<div>
+    <h4> Project details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+ 
+        <dt>
+            @Html.DisplayNameFor(model => model.root)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.root)
+        </dd>
+        
+
+    </dl>
+    
+    <div class="row">
+        
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <h4> All Tasks </h4>
+            @{ Html.RenderAction("_Index", "Task", new
+               {
+                   related = Model,
+                   originalSession = (SessionWrapper) ViewData["CurrentSession"]
+               }
+                   ); }
+
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

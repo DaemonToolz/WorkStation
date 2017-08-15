@@ -7,6 +7,9 @@
 
 <h2>Edit</h2>
 
+@{
+    Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
+}
 
 @using (Html.BeginForm())
 {
@@ -29,10 +32,21 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.rank, "rank", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("rank", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.rank, "", new { @class = "text-danger" })
-            </div>
+            
+            @if (MyRights["CanEditDept"])
+            {
+                <div class="col-md-10">
+                    @Html.DropDownList("rank", null, htmlAttributes: new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.rank, "", new {@class = "text-danger"})
+                </div>
+            }
+            else
+            {
+                <div class="col-md-10">
+                    @Html.DropDownList("rank", null, htmlAttributes: new {@class = "form-control", disabled="disabled" })
+                    @Html.HiddenFor(Model => Model.rank)
+                </div>
+            }
         </div>
         
         <div class="form-group">
@@ -42,15 +56,24 @@
                 @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.team_id, "team_id", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("team_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.team_id, "", new { @class = "text-danger" })
+        
+       
+            <div class="form-group">
+                @Html.LabelFor(model => model.team_id, "team_id", htmlAttributes: new {@class = "control-label col-md-2"})
+                @if (MyRights["CanEditTeam"]){
+                    <div class="col-md-10">
+                        @Html.DropDownList("team_id", null, htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.team_id, "", new {@class = "text-danger"})
+                    </div>
+                }
+                else {
+                    <div class="col-md-10">
+                        @Html.DropDownList("team_id", null, htmlAttributes: new {@class = "form-control", disabled="disabled" })
+                        @Html.HiddenFor(Model => Model.team_id)
+                    </div>
+                }
             </div>
-        </div>
-      
+        
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

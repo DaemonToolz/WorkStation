@@ -55,6 +55,18 @@
           <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="rights" Type="char" MaxLength="9" Nullable="false" />
         </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="128" />
+          <Property Name="begin" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="end" Type="datetime2" Precision="7" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="project_id" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="Team">
           <Key>
             <PropertyRef Name="id" />
@@ -77,6 +89,30 @@
           <Property Name="team_id" Type="int" />
           <Property Name="rank" Type="varchar" MaxLength="64" />
         </EntityType>
+        <Association Name="FK__Task__project_id__693CA210">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Task__user_id__6754599E">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Team" Type="Self.Team" Multiplicity="*" />
@@ -156,8 +192,17 @@
           <EntitySet Name="NotificationUser" EntityType="Self.NotificationUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rank" EntityType="Self.Rank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Task__project_id__693CA210" Association="Self.FK__Task__project_id__693CA210">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Task__user_id__6754599E" Association="Self.FK__Task__user_id__6754599E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
           <AssociationSet Name="FK__Team__department__49C3F6B7" Association="Self.FK__Team__department__49C3F6B7">
             <End Role="Department" EntitySet="Department" />
             <End Role="Team" EntitySet="Team" />
@@ -203,6 +248,7 @@
           <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="root" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Team" Relationship="Self.FK__Team__project_id__4AB81AF0" FromRole="Project" ToRole="Team" />
+          <NavigationProperty Name="Task" Relationship="ManagementModel.FK__Task__project_id__693CA210" FromRole="Project" ToRole="Task" />
         </EntityType>
         <EntityType Name="Rank">
           <Key>
@@ -239,6 +285,7 @@
           <Property Name="rank" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Rank1" Relationship="ManagementModel.FK_Users_Ranks" FromRole="Users" ToRole="Rank" />
           <NavigationProperty Name="NotificationUser" Relationship="ManagementModel.FK_NotificationUser_Users" FromRole="Users" ToRole="NotificationUser" />
+          <NavigationProperty Name="Task" Relationship="ManagementModel.FK__Task__user_id__6754599E" FromRole="Users" ToRole="Task" />
           </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -309,6 +356,15 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="NotificationUser" EntitySet="NotificationUser" />
           </AssociationSet>
+          <EntitySet Name="Task" EntityType="ManagementModel.Task" />
+          <AssociationSet Name="FK__Task__project_id__693CA210" Association="ManagementModel.FK__Task__project_id__693CA210">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Task__user_id__6754599E" Association="ManagementModel.FK__Task__user_id__6754599E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Users_Ranks">
           <End Type="ManagementModel.Rank" Role="Rank" Multiplicity="0..1" />
@@ -374,6 +430,44 @@
             </Principal>
             <Dependent Role="NotificationUser">
               <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="begin" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="end" Type="DateTime" Precision="7" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="project_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Project" Relationship="ManagementModel.FK__Task__project_id__693CA210" FromRole="Task" ToRole="Project" />
+          <NavigationProperty Name="Users" Relationship="ManagementModel.FK__Task__user_id__6754599E" FromRole="Task" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK__Task__project_id__693CA210">
+          <End Type="ManagementModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="ManagementModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Task__user_id__6754599E">
+          <End Type="ManagementModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="ManagementModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -459,6 +553,19 @@
                 <ScalarProperty Name="read" ColumnName="read" />
                 <ScalarProperty Name="id_user" ColumnName="id_user" />
                 <ScalarProperty Name="id_notification" ColumnName="id_notification" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Task">
+            <EntityTypeMapping TypeName="ManagementModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="project_id" ColumnName="project_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="end" ColumnName="end" />
+                <ScalarProperty Name="begin" ColumnName="begin" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

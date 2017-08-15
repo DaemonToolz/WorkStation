@@ -15,11 +15,25 @@ namespace WorkstationBrowser.Controllers
 
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
             NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];
-            notifications.ToList().ForEach(notif => notif.read = true);
+           
             Session["SystemNotifications"] = notifications;
 
             return View(notifications);
         }
-        
+
+        [HttpPost]
+        public ActionResult Index([Bind(Include = "id,title,content,read")] NotificationModel notification, string NotificationUpdater) {
+
+            var currentSession = Session["WorkstationConnection"] as SessionWrapper;
+
+            if (NotificationUpdater.Equals("Read"))
+                currentSession.WorkstationSession.AcknowledgeNotification(notification, currentSession.CurrentUser.id);
+            else
+                currentSession.WorkstationSession.DeleteNotification(notification.id, currentSession.CurrentUser.id);
+            Session["SystemNotifications"] =
+                currentSession.WorkstationSession.GetAllNotifications(currentSession.CurrentUser.id);
+
+            return RedirectToAction("Index");
+        }
     }
 }

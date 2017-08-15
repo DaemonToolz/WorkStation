@@ -41,6 +41,12 @@
   <wsdl:message name="ISession_GetAllProjects_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetAllProjectsResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_GetProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProject" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProjectResponse" />
+  </wsdl:message>
   <wsdl:message name="ISession_EditProject_InputMessage">
     <wsdl:part name="parameters" element="tns:EditProject" />
   </wsdl:message>
@@ -113,6 +119,12 @@
   <wsdl:message name="ISession_GetRankByName_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetRankByNameResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_AcknowledgeNotification_InputMessage">
+    <wsdl:part name="parameters" element="tns:AcknowledgeNotification" />
+  </wsdl:message>
+  <wsdl:message name="ISession_AcknowledgeNotification_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AcknowledgeNotificationResponse" />
+  </wsdl:message>
   <wsdl:message name="ISession_GetAllNotifications_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllNotifications" />
   </wsdl:message>
@@ -124,6 +136,33 @@
   </wsdl:message>
   <wsdl:message name="ISession_UpdateNotifications_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateNotifications" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteNotification_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteNotification" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetAllTasks_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTasks" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetAllTasks_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllTasksResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_CreateTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTask" />
+  </wsdl:message>
+  <wsdl:message name="ISession_CreateTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTask" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTaskResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_EditTask_InputMessage">
+    <wsdl:part name="parameters" element="tns:EditTask" />
+  </wsdl:message>
+  <wsdl:message name="ISession_EditTask_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EditTaskResponse" />
   </wsdl:message>
   <wsdl:message name="ISession_NotificationPull_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotificationPull" />
@@ -140,6 +179,10 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllProjects">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllProjects" message="tns:ISession_GetAllProjects_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllProjectsResponse" message="tns:ISession_GetAllProjects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetProject" message="tns:ISession_GetProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetProjectResponse" message="tns:ISession_GetProject_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="EditProject">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/EditProject" message="tns:ISession_EditProject_InputMessage" />
@@ -189,6 +232,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetRankByName" message="tns:ISession_GetRankByName_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetRankByNameResponse" message="tns:ISession_GetRankByName_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AcknowledgeNotification">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/AcknowledgeNotification" message="tns:ISession_AcknowledgeNotification_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/AcknowledgeNotificationResponse" message="tns:ISession_AcknowledgeNotification_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllNotifications">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllNotifications" message="tns:ISession_GetAllNotifications_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllNotificationsResponse" message="tns:ISession_GetAllNotifications_OutputMessage" />
@@ -198,6 +245,25 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateNotifications">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/UpdateNotifications" message="tns:ISession_UpdateNotifications_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteNotification">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteNotification" message="tns:ISession_DeleteNotification_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllTasks">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllTasks" message="tns:ISession_GetAllTasks_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllTasksResponse" message="tns:ISession_GetAllTasks_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CreateTask">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/CreateTask" message="tns:ISession_CreateTask_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/CreateTaskResponse" message="tns:ISession_CreateTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteTask">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteTask" message="tns:ISession_DeleteTask_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteTaskResponse" message="tns:ISession_DeleteTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="EditTask">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/EditTask" message="tns:ISession_EditTask_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/EditTaskResponse" message="tns:ISession_EditTask_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotificationPull">
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/NotificationPull" message="tns:ISession_NotificationPull_OutputCallbackMessage" />
@@ -226,6 +292,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllProjects">
       <soap12:operation soapAction="http://tempuri.org/ISession/GetAllProjects" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProject">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetProject" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -341,6 +416,15 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="AcknowledgeNotification">
+      <soap12:operation soapAction="http://tempuri.org/ISession/AcknowledgeNotification" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAllNotifications">
       <soap12:operation soapAction="http://tempuri.org/ISession/GetAllNotifications" style="document" />
       <wsdl:input>
@@ -361,6 +445,48 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNotification">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteNotification" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTasks">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetAllTasks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateTask">
+      <soap12:operation soapAction="http://tempuri.org/ISession/CreateTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTask">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EditTask">
+      <soap12:operation soapAction="http://tempuri.org/ISession/EditTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="NotificationPull">
       <soap12:operation soapAction="http://tempuri.org/ISession/NotificationPull" style="document" />

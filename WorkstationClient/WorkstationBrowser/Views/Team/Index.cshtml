@@ -1,0 +1,55 @@
+﻿@using WorkstationBrowser.SessionReference
+@model IEnumerable<WorkstationBrowser.SessionReference.TeamModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Department
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Project
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.Raw(((DepartmentModel[]) ViewData["AllDepartments"]).Single(department => department.id == item.department_id).name)
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @if (item.project_id != null)
+            {
+                @Html.Raw(((ProjectModel[]) ViewData["AllProjects"]).Single(project => project.id == item.project_id).name) 
+            }
+        </td>
+        <td>
+        @{
+            if (!item.name.Equals("Not affected") && !item.name.Equals("Non affecté") && item.id == long.Parse(ViewData["TeamId"].ToString()))
+            {
+                @Html.ActionLink("Details", "Details", new {id = item.id}) 
+
+            }
+        }
+        
+        </td>
+    </tr>
+}
+
+</table>

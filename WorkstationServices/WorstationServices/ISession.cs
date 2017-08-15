@@ -32,6 +32,9 @@ namespace WorkstationServices
         IList<ProjectModel> GetAllProjects();
 
         [OperationContract]
+        ProjectModel GetProject(long id);
+
+        [OperationContract]
         bool EditProject(ProjectModel newInfo);
 
         [OperationContract]
@@ -70,7 +73,9 @@ namespace WorkstationServices
         [OperationContract]
         RankModel GetRankByName(string name);
 
-
+        [OperationContract]
+        bool AcknowledgeNotification(NotificationModel original, int userid);
+      
 
         [OperationContract]
         IEnumerable<NotificationModel> GetAllNotifications(int userid);
@@ -80,6 +85,24 @@ namespace WorkstationServices
 
         [OperationContract(IsOneWay = true)]
         void UpdateNotifications(int userid, string caller);
+
+
+        [OperationContract(IsOneWay = true)]
+        void DeleteNotification(long notificationid, int userid);
+
+        [OperationContract]
+        IEnumerable<TaskModel> GetAllTasks(long project_id, int? user_id);
+
+        [OperationContract]
+        void CreateTask (TaskModel newTask);
+
+        [OperationContract]
+        bool DeleteTask(TaskModel newTask);
+
+        [OperationContract]
+        bool EditTask(TaskModel newTask);
+
+
     }
 
     public interface IUpdateNotificationCallback

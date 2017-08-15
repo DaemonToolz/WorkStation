@@ -23,6 +23,7 @@ namespace WorkstationBrowser.Controllers.Remote{
         public UsersModel CurrentUser { get; private set; }
         public String ConnectionToken { get; private set; }
         public bool NotificationPooler { get; set; }
+        public NotificationModel[] MyNotifications { get; private set; }
 
         public SessionWrapper() {
             
@@ -106,8 +107,9 @@ namespace WorkstationBrowser.Controllers.Remote{
         public void NotificationPull(NotificationModel[] notifications, string caller)
         {
 
-           // GlobalHost.ConnectionManager.GetHubContext<NotificationHub>().Clients.User(CurrentUser.username)
+            // GlobalHost.ConnectionManager.GetHubContext<NotificationHub>().Clients.User(CurrentUser.username)
             //    .NotificationPull(notifications, CurrentUser.username);
+            
             GlobalHost.ConnectionManager.GetHubContext<NotificationHub>()
                 .Clients.User(CurrentUser.username)
                 .update(notifications.Count(notif => notif.read == false));

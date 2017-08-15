@@ -47,6 +47,7 @@
     <Compile Include="Model\MessageModel.cs" />
     <Compile Include="Model\NotificationModel.cs" />
     <Compile Include="Model\RankModel.cs" />
+    <Compile Include="Model\TaskModel.cs" />
     <Compile Include="Model\TeamModel.cs" />
     <Compile Include="Model\ProjectModel.cs" />
     <Compile Include="Model\UsersModel.cs" />

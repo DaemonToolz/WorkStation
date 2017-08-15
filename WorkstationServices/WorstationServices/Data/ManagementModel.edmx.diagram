@@ -19,6 +19,9 @@
         <EntityTypeShape EntityType="ManagementModel.NotificationUser" Width="1.5" PointX="7.5" PointY="4.625" />
         <AssociationConnector Association="ManagementModel.FK_NotificationUser_Notification" />
         <AssociationConnector Association="ManagementModel.FK_NotificationUser_Users" />
+        <EntityTypeShape EntityType="ManagementModel.Task" Width="1.5" PointX="10.5" PointY="2.75" />
+        <AssociationConnector Association="ManagementModel.FK__Task__project_id__693CA210" />
+        <AssociationConnector Association="ManagementModel.FK__Task__user_id__6754599E" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -42,3 +42,12 @@ a.menu-hyperlink {
     a.menu-hyperlink:visited {
         color: #333333
     }
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.navbar-nav > li > a.profile-image {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

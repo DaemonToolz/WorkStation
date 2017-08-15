@@ -548,6 +548,143 @@ namespace WorkstationBrowser.SessionReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TaskModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
+    [System.SerializableAttribute()]
+    public partial class TaskModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private System.DateTime beginField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string descriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> endField;
+        
+        private long idField;
+        
+        private long project_idField;
+        
+        private string titleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> user_idField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.DateTime begin {
+            get {
+                return this.beginField;
+            }
+            set {
+                if ((this.beginField.Equals(value) != true)) {
+                    this.beginField = value;
+                    this.RaisePropertyChanged("begin");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.descriptionField, value) != true)) {
+                    this.descriptionField = value;
+                    this.RaisePropertyChanged("description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> end {
+            get {
+                return this.endField;
+            }
+            set {
+                if ((this.endField.Equals(value) != true)) {
+                    this.endField = value;
+                    this.RaisePropertyChanged("end");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public long id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public long project_id {
+            get {
+                return this.project_idField;
+            }
+            set {
+                if ((this.project_idField.Equals(value) != true)) {
+                    this.project_idField = value;
+                    this.RaisePropertyChanged("project_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string title {
+            get {
+                return this.titleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.titleField, value) != true)) {
+                    this.titleField = value;
+                    this.RaisePropertyChanged("title");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> user_id {
+            get {
+                return this.user_idField;
+            }
+            set {
+                if ((this.user_idField.Equals(value) != true)) {
+                    this.user_idField = value;
+                    this.RaisePropertyChanged("user_id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SessionReference.ISession", CallbackContract=typeof(WorkstationBrowser.SessionReference.ISessionCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface ISession {
@@ -570,6 +707,12 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllProjects", ReplyAction="http://tempuri.org/ISession/GetAllProjectsResponse")]
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel[]> GetAllProjectsAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetProject", ReplyAction="http://tempuri.org/ISession/GetProjectResponse")]
+        WorkstationBrowser.SessionReference.ProjectModel GetProject(long id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetProject", ReplyAction="http://tempuri.org/ISession/GetProjectResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel> GetProjectAsync(long id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditProject", ReplyAction="http://tempuri.org/ISession/EditProjectResponse")]
         bool EditProject(WorkstationBrowser.SessionReference.ProjectModel newInfo);
@@ -643,6 +786,12 @@ namespace WorkstationBrowser.SessionReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetRankByName", ReplyAction="http://tempuri.org/ISession/GetRankByNameResponse")]
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.RankModel> GetRankByNameAsync(string name);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/AcknowledgeNotification", ReplyAction="http://tempuri.org/ISession/AcknowledgeNotificationResponse")]
+        bool AcknowledgeNotification(WorkstationBrowser.SessionReference.NotificationModel original, int userid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/AcknowledgeNotification", ReplyAction="http://tempuri.org/ISession/AcknowledgeNotificationResponse")]
+        System.Threading.Tasks.Task<bool> AcknowledgeNotificationAsync(WorkstationBrowser.SessionReference.NotificationModel original, int userid);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllNotifications", ReplyAction="http://tempuri.org/ISession/GetAllNotificationsResponse")]
         WorkstationBrowser.SessionReference.NotificationModel[] GetAllNotifications(int userid);
         
@@ -660,6 +809,36 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/UpdateNotifications")]
         System.Threading.Tasks.Task UpdateNotificationsAsync(int userid, string caller);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/DeleteNotification")]
+        void DeleteNotification(long notificationid, int userid);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/DeleteNotification")]
+        System.Threading.Tasks.Task DeleteNotificationAsync(long notificationid, int userid);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllTasks", ReplyAction="http://tempuri.org/ISession/GetAllTasksResponse")]
+        WorkstationBrowser.SessionReference.TaskModel[] GetAllTasks(long project_id, System.Nullable<int> user_id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllTasks", ReplyAction="http://tempuri.org/ISession/GetAllTasksResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel[]> GetAllTasksAsync(long project_id, System.Nullable<int> user_id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTask", ReplyAction="http://tempuri.org/ISession/CreateTaskResponse")]
+        void CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTask", ReplyAction="http://tempuri.org/ISession/CreateTaskResponse")]
+        System.Threading.Tasks.Task CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteTask", ReplyAction="http://tempuri.org/ISession/DeleteTaskResponse")]
+        bool DeleteTask(WorkstationBrowser.SessionReference.TaskModel newTask);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteTask", ReplyAction="http://tempuri.org/ISession/DeleteTaskResponse")]
+        System.Threading.Tasks.Task<bool> DeleteTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditTask", ReplyAction="http://tempuri.org/ISession/EditTaskResponse")]
+        bool EditTask(WorkstationBrowser.SessionReference.TaskModel newTask);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditTask", ReplyAction="http://tempuri.org/ISession/EditTaskResponse")]
+        System.Threading.Tasks.Task<bool> EditTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -719,6 +898,14 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel[]> GetAllProjectsAsync() {
             return base.Channel.GetAllProjectsAsync();
+        }
+        
+        public WorkstationBrowser.SessionReference.ProjectModel GetProject(long id) {
+            return base.Channel.GetProject(id);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel> GetProjectAsync(long id) {
+            return base.Channel.GetProjectAsync(id);
         }
         
         public bool EditProject(WorkstationBrowser.SessionReference.ProjectModel newInfo) {
@@ -817,6 +1004,14 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.GetRankByNameAsync(name);
         }
         
+        public bool AcknowledgeNotification(WorkstationBrowser.SessionReference.NotificationModel original, int userid) {
+            return base.Channel.AcknowledgeNotification(original, userid);
+        }
+        
+        public System.Threading.Tasks.Task<bool> AcknowledgeNotificationAsync(WorkstationBrowser.SessionReference.NotificationModel original, int userid) {
+            return base.Channel.AcknowledgeNotificationAsync(original, userid);
+        }
+        
         public WorkstationBrowser.SessionReference.NotificationModel[] GetAllNotifications(int userid) {
             return base.Channel.GetAllNotifications(userid);
         }
@@ -839,6 +1034,46 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task UpdateNotificationsAsync(int userid, string caller) {
             return base.Channel.UpdateNotificationsAsync(userid, caller);
+        }
+        
+        public void DeleteNotification(long notificationid, int userid) {
+            base.Channel.DeleteNotification(notificationid, userid);
+        }
+        
+        public System.Threading.Tasks.Task DeleteNotificationAsync(long notificationid, int userid) {
+            return base.Channel.DeleteNotificationAsync(notificationid, userid);
+        }
+        
+        public WorkstationBrowser.SessionReference.TaskModel[] GetAllTasks(long project_id, System.Nullable<int> user_id) {
+            return base.Channel.GetAllTasks(project_id, user_id);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel[]> GetAllTasksAsync(long project_id, System.Nullable<int> user_id) {
+            return base.Channel.GetAllTasksAsync(project_id, user_id);
+        }
+        
+        public void CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask) {
+            base.Channel.CreateTask(newTask);
+        }
+        
+        public System.Threading.Tasks.Task CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask) {
+            return base.Channel.CreateTaskAsync(newTask);
+        }
+        
+        public bool DeleteTask(WorkstationBrowser.SessionReference.TaskModel newTask) {
+            return base.Channel.DeleteTask(newTask);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask) {
+            return base.Channel.DeleteTaskAsync(newTask);
+        }
+        
+        public bool EditTask(WorkstationBrowser.SessionReference.TaskModel newTask) {
+            return base.Channel.EditTask(newTask);
+        }
+        
+        public System.Threading.Tasks.Task<bool> EditTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask) {
+            return base.Channel.EditTaskAsync(newTask);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model WorkstationBrowser.SessionReference.UsersModel
+﻿@using WorkstationBrowser.SessionReference
+@model WorkstationBrowser.SessionReference.UsersModel
 
 @{
     ViewBag.Title = "My Profile";
@@ -7,13 +8,18 @@
 <div>
     <h4>@Html.DisplayFor(model => model.username)</h4>
     <hr />
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12" align="center">
+            <img src="~/UserContent/Profile/Anonymous_user.jpg" width="125" height="125" class="text-center profile-image img-circle" />
+        </div>
+    </div>             
     <dl class="dl-horizontal">
         <dt> My Email </dt>
         <dd> @Html.DisplayFor(model => model.email) </dd>
         <dt> My Team </dt>
         <dd>
             @if (ViewData["CurrentTeam"] != null) {
-                @Html.DisplayFor(model => model.team_id) 
+                @Html.Raw(((TeamModel)ViewData["CurrentTeam"]).name)
             }
             else {
                 @Html.Display("Not affected")

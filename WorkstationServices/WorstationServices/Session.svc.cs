@@ -44,7 +44,9 @@ namespace WorkstationServices
             return CurrentUserModel;
         }
 
-        public void LogOut(UsersModel user){
+        public void LogOut(UsersModel user)
+        {
+            Unregister();
             OnlineUsers.Remove(user);
         }
         
@@ -171,6 +173,18 @@ namespace WorkstationServices
             {
                 return false;
             }
+        }
+
+
+        public ProjectModel GetProject(long id)
+        {
+            Project project = entities.Project.Single(record => record.id == id);
+            return new ProjectModel()
+            {
+                id = id,
+                name = project.name,
+                root = project.root
+            };
         }
 
         public bool EditUser(UsersModel newInfo) {
@@ -309,6 +323,109 @@ namespace WorkstationServices
             }
             entities.SaveChanges();
 
+        }
+
+
+        public bool AcknowledgeNotification(NotificationModel original, int userid)
+        {
+            var notification =
+                entities.NotificationUser.First(notif => original.id.Equals(notif.id_notification) &&
+                                                         userid.Equals(notif.id_user));
+
+            notification.read = original.read;
+            entities.SaveChanges();
+
+            return true;
+
+        }
+        public void DeleteNotification(long notificationid, int userid)
+        {
+            entities.NotificationUser.Remove(
+                entities.NotificationUser.First(notif => notif.id_user == userid &&
+                                                         notif.id_notification == notificationid));
+            entities.SaveChanges();
+
+            if (entities.NotificationUser.Count(notif => notificationid == notif.id_notification) == 0)
+            {
+                entities.Notification.Remove(entities.Notification.First(notif => notif.id == notificationid));
+                entities.SaveChanges();
+            }
+        }
+
+        public IEnumerable<TaskModel> GetAllTasks(long project_id, int? user_id)
+        {
+            var AllTasks =
+                user_id == null
+                    ? entities.Task.Where(task => project_id == task.project_id)
+                    : entities.Task.Where(task => project_id == task.project_id && user_id == task.user_id);
+
+            List<TaskModel> TaskModels = new List<TaskModel>();
+            foreach (var model in AllTasks)
+                TaskModels.Add(new TaskModel()
+                {
+                    id = model.id,
+                    begin = model.begin,
+                    end = model.end,
+                    description = model.description,
+                    project_id = model.project_id,
+                    user_id = model.user_id,
+                    title = model.title
+                });
+
+            return TaskModels;
+
+        }
+
+
+        public void CreateTask(TaskModel newTask)
+        {
+            Task task = new Task(){
+                title = newTask.title,
+                begin = newTask.begin,
+                description = newTask.description,
+                end = newTask.end,
+                project_id = newTask.project_id,
+                user_id = newTask.user_id
+            };
+
+            entities.Task.Add(task);
+            entities.SaveChanges();
+            
+        }
+
+
+        public bool DeleteTask(TaskModel oldTask){
+            try
+            {
+                entities.Task.Remove(entities.Task.Single(task => oldTask.id == task.id));
+                entities.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool EditTask(TaskModel newTask)
+        {
+            try
+            {
+                Task task = entities.Task.Single(record => record.id == newTask.id);
+                task.project_id = newTask.project_id;
+                task.title = newTask.title;
+                task.begin = newTask.begin;
+                task.description = newTask.description;
+                task.user_id = newTask.user_id;
+                task.end = newTask.end;
+
+                entities.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 

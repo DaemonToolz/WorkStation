@@ -4,6 +4,8 @@
     ViewBag.Title = "Notifications";
 }
 
+
+
 <h2>Notification</h2>
 
 <table class="table">
@@ -19,19 +21,33 @@
         </th>
         <th></th>
     </tr>
+   
+    @for (int i = 0; i < Model.Count(); i++){
+        using (Html.BeginForm("Index","Notifications", FormMethod.Post)) {
+        @Html.ValidationSummary(true)
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ElementAt(i).title)
+                    @Html.HiddenFor(m => Model.ElementAt(i).title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ElementAt(i).content)
+                    @Html.HiddenFor(m => Model.ElementAt(i).content)
+                </td>
+                <td>
+                    Read : @Html.EditorFor(modelItem => Model.ElementAt(i).read)
+                    @Html.HiddenFor(m => Model.ElementAt(i).id)
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-default" name="NotificationUpdater" value="Read">
+                        <i class="glyphicon glyphicon-envelope"></i>
+                    </button>
+                    <button type="submit" class="btn btn-default" name="NotificationUpdater" value="Delete">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.content)
-        </td>
-        <td>
-            Read : @Html.DisplayFor(modelItem => item.read)
-        </td>
-    </tr>
-}
-
+                </td>
+            </tr>
+        }
+    }
 </table>

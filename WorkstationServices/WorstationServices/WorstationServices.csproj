@@ -138,6 +138,9 @@
     <Compile Include="Data\Rank.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Task.cs">
+      <DependentUpon>ManagementModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Team.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>

@@ -41,12 +41,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RankModel" nillable="true" type="tns:RankModel" />
-  <xs:complexType name="ArrayOfNotificationModel">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="NotificationModel" nillable="true" type="tns:NotificationModel" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfNotificationModel" nillable="true" type="tns:ArrayOfNotificationModel" />
   <xs:complexType name="NotificationModel">
     <xs:sequence>
       <xs:element name="content" nillable="true" type="xs:string" />
@@ -56,4 +50,28 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="NotificationModel" nillable="true" type="tns:NotificationModel" />
+  <xs:complexType name="ArrayOfNotificationModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NotificationModel" nillable="true" type="tns:NotificationModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfNotificationModel" nillable="true" type="tns:ArrayOfNotificationModel" />
+  <xs:complexType name="ArrayOfTaskModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TaskModel" nillable="true" type="tns:TaskModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTaskModel" nillable="true" type="tns:ArrayOfTaskModel" />
+  <xs:complexType name="TaskModel">
+    <xs:sequence>
+      <xs:element name="begin" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="end" nillable="true" type="xs:dateTime" />
+      <xs:element name="id" type="xs:long" />
+      <xs:element name="project_id" type="xs:long" />
+      <xs:element name="title" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="user_id" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TaskModel" nillable="true" type="tns:TaskModel" />
 </xs:schema>

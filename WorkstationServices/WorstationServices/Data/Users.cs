@@ -18,6 +18,7 @@ namespace WorkstationServices.Data
         public Users()
         {
             this.NotificationUser = new HashSet<NotificationUser>();
+            this.Task = new HashSet<Task>();
         }
     
         public int id { get; set; }
@@ -33,5 +34,7 @@ namespace WorkstationServices.Data
         public virtual Rank Rank1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NotificationUser> NotificationUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task> Task { get; set; }
     }
 }
