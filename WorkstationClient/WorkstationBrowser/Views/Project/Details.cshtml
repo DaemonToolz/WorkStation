@@ -31,7 +31,8 @@
             @{ Html.RenderAction("_Index", "Task", new
                {
                    related = Model,
-                   originalSession = (SessionWrapper) ViewData["CurrentSession"]
+                   originalSession = (SessionWrapper) ViewData["CurrentSession"],
+                   AddSection = (short)1
                }
                    ); }
 

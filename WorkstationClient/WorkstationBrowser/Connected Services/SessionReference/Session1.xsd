@@ -268,7 +268,7 @@
   <xs:element name="GetAllTasks">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="project_id" type="xs:long" />
+        <xs:element minOccurs="0" name="project_id" nillable="true" type="xs:long" />
         <xs:element minOccurs="0" name="user_id" nillable="true" type="xs:int" />
       </xs:sequence>
     </xs:complexType>

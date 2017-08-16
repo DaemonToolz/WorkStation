@@ -352,12 +352,22 @@ namespace WorkstationServices
             }
         }
 
-        public IEnumerable<TaskModel> GetAllTasks(long project_id, int? user_id)
+        public IEnumerable<TaskModel> GetAllTasks(long? project_id, int? user_id)
         {
-            var AllTasks =
-                user_id == null
-                    ? entities.Task.Where(task => project_id == task.project_id)
-                    : entities.Task.Where(task => project_id == task.project_id && user_id == task.user_id);
+            if (project_id == null && user_id == null)
+                return new List<TaskModel>();
+
+            IQueryable<Task> AllTasks;
+            if (project_id == null || project_id <= 0)
+            {
+                AllTasks = entities.Task.Where(task => user_id == task.user_id);
+            }
+            else {
+                AllTasks =
+                    user_id == null || user_id <= 0
+                        ? entities.Task.Where(task => project_id == task.project_id)
+                        : entities.Task.Where(task => project_id == task.project_id && user_id == task.user_id);
+            }
 
             List<TaskModel> TaskModels = new List<TaskModel>();
             foreach (var model in AllTasks)

@@ -31,8 +31,9 @@ namespace WorkstationBrowser.Controllers
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
             SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
             ViewData["CurrentSession"] = wrapper;
-
-            return View(wrapper.WorkstationSession.GetProject((long)id));
+            var currentProject = wrapper.WorkstationSession.GetProject((long) id);
+            ViewData["CurrentProject"] = currentProject;
+            return View(currentProject);
         }
 
        

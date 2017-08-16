@@ -91,7 +91,7 @@ namespace WorkstationServices
         void DeleteNotification(long notificationid, int userid);
 
         [OperationContract]
-        IEnumerable<TaskModel> GetAllTasks(long project_id, int? user_id);
+        IEnumerable<TaskModel> GetAllTasks(long? project_id, int? user_id);
 
         [OperationContract]
         void CreateTask (TaskModel newTask);

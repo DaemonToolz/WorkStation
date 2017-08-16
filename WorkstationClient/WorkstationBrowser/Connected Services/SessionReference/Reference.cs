@@ -817,10 +817,10 @@ namespace WorkstationBrowser.SessionReference {
         System.Threading.Tasks.Task DeleteNotificationAsync(long notificationid, int userid);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllTasks", ReplyAction="http://tempuri.org/ISession/GetAllTasksResponse")]
-        WorkstationBrowser.SessionReference.TaskModel[] GetAllTasks(long project_id, System.Nullable<int> user_id);
+        WorkstationBrowser.SessionReference.TaskModel[] GetAllTasks(System.Nullable<long> project_id, System.Nullable<int> user_id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllTasks", ReplyAction="http://tempuri.org/ISession/GetAllTasksResponse")]
-        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel[]> GetAllTasksAsync(long project_id, System.Nullable<int> user_id);
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel[]> GetAllTasksAsync(System.Nullable<long> project_id, System.Nullable<int> user_id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTask", ReplyAction="http://tempuri.org/ISession/CreateTaskResponse")]
         void CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask);
@@ -1044,11 +1044,11 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.DeleteNotificationAsync(notificationid, userid);
         }
         
-        public WorkstationBrowser.SessionReference.TaskModel[] GetAllTasks(long project_id, System.Nullable<int> user_id) {
+        public WorkstationBrowser.SessionReference.TaskModel[] GetAllTasks(System.Nullable<long> project_id, System.Nullable<int> user_id) {
             return base.Channel.GetAllTasks(project_id, user_id);
         }
         
-        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel[]> GetAllTasksAsync(long project_id, System.Nullable<int> user_id) {
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel[]> GetAllTasksAsync(System.Nullable<long> project_id, System.Nullable<int> user_id) {
             return base.Channel.GetAllTasksAsync(project_id, user_id);
         }
         

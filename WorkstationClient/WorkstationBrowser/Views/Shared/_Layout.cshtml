@@ -43,7 +43,7 @@
                         
                         @if (MyRights["CanReadDept"])
                         {
-                            <li> @Html.ActionLink("Departments", "Index", "Home")</li>
+                            <li> @Html.ActionLink("Departments", "Index", "Department")</li>
                         }
                     </ul>
                 }
@@ -87,7 +87,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Workstation </p>
         </footer>
     </div>
 
@@ -107,15 +107,17 @@
 
                // Create a function that the hub can call to broadcast messages.
                notif.client.update = function (unread) {
-                    $("#UnreadCount").html(unread);
+                   $("#UnreadCount").html(unread);
                    //$("#UnreadCount").text = unread;
                };
                $.connection.hub.start().done(function () {
             
                });
+
+               $(".datepicker").datepicker({ dateFormat:"dd/mm/yy"});
            });
 
- 
+
        </script>
     }
 

@@ -20,7 +20,7 @@ namespace WorkstationBrowser.Controllers
                 if (Session["SystemNotifications"] != null)
                 {
                     NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];
-                   
+                    ViewData["CurrentSession"] = Session["WorkstationConnection"];
                     ViewData["UnreadNotifications"] = notifications.Count(notif => !notif.read);
                     ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
                 }
@@ -28,18 +28,6 @@ namespace WorkstationBrowser.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+     
     }
 }

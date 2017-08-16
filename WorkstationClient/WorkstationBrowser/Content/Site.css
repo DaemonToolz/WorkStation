@@ -51,3 +51,13 @@ a.menu-hyperlink {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+.section-scroll-1 {
+    height: 200px;
+    overflow-y: auto;
+}
+
+.section-scroll-2 {
+    height: 400px;
+    overflow-y: auto;
+}

@@ -17,32 +17,64 @@
         <th>
             End
         </th>
-        <th>
-            User
-        </th>
+    @{
+        if (ViewData["AddSection"] != null)
+        {
+            <th>
+                User
+            </th>
+        }
+    }
 
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.description)
-        </td>
-        <td>
-            @Html.ValueFor(modelItem => item.begin, "{0:dd/MM/yyyy}")
-        </td>
-        <td>
-            @Html.ValueFor(modelItem => item.end, "{0:dd/MM/yyyy}")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.user_id)
-        </td>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.ValueFor(modelItem => item.begin, "{0:dd/MM/yyyy}")
+            </td>
+            <td>
+                @Html.ValueFor(modelItem => item.end, "{0:dd/MM/yyyy}")
+            </td>
+        @{
+            if (ViewData["AddSection"] != null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.user_id)
+                </td>
+            }
+        }
+            </tr>
+    }
+    @{
+        if (ViewData["AddSection"] != null){
+            <tr>
+                <td>
+                    <button id="new_task" class="btn btn-default">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
 
-    </tr>
-}
+                    <div id="partial" style="display: none">
+                        @{ Html.RenderAction("_Create"); }
+                    </div>
 
+                    <script>
+                        document.getElementById("new_task").onclick = function() {
+                            $("#partial").show();
+                            $("#new_task").hide();
+                        }
+                    </script>
+                </td>
+            </tr>
+        }
+    }
 </table>
+
+
