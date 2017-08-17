@@ -114,5 +114,20 @@ namespace WorkstationBrowser.Controllers.Remote{
                 .Clients.User(CurrentUser.username)
                 .update(notifications.Count(notif => notif.read == false));
         }
+
+        public void MessagePull()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMessage(MessageModel model){
+            GlobalHost.ConnectionManager.GetHubContext<NotificationHub>()
+                .Clients.Users(new String[] {
+                    CurrentUser.username,
+                    WorkstationSession.GetAllUsers().Single(user => user.id == model.to).username
+                })
+                .message(model);
+        }
+
     }
 }

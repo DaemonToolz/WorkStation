@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<WorkstationBrowser.SessionReference.TaskModel>
 
-<p>
-  
-</p>
+
 <table class="table">
     <tr>
         <th>
@@ -61,20 +59,24 @@
                         <i class="glyphicon glyphicon-plus"></i>
                     </button>
 
-                    <div id="partial" style="display: none">
-                        @{ Html.RenderAction("_Create"); }
-                    </div>
-
-                    <script>
-                        document.getElementById("new_task").onclick = function() {
-                            $("#partial").show();
-                            $("#new_task").hide();
-                        }
-                    </script>
                 </td>
             </tr>
         }
     }
 </table>
 
+@{
+    if (ViewData["AddSection"] != null)
+    {
+        <div id="partial" style="display: none">
+            @{ Html.RenderAction("_Create"); }
+        </div>
 
+        <script>
+            document.getElementById("new_task").onclick = function() {
+                $("#partial").show();
+                $("#new_task").hide();
+            }
+        </script>
+    }
+}

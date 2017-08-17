@@ -89,6 +89,30 @@
           <Property Name="team_id" Type="int" />
           <Property Name="rank" Type="varchar" MaxLength="64" />
         </EntityType>
+        <Association Name="FK__Message__from__6A30C649">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="from" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Message__to__6B24EA82">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Message" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="to" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Task__project_id__693CA210">
           <End Role="Project" Type="Self.Project" Multiplicity="1" />
           <End Role="Task" Type="Self.Task" Multiplicity="*" />
@@ -195,6 +219,14 @@
           <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Message__from__6A30C649" Association="Self.FK__Message__from__6A30C649">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Message__to__6B24EA82" Association="Self.FK__Message__to__6B24EA82">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
           <AssociationSet Name="FK__Task__project_id__693CA210" Association="Self.FK__Task__project_id__693CA210">
             <End Role="Project" EntitySet="Project" />
             <End Role="Task" EntitySet="Task" />
@@ -286,6 +318,8 @@
           <NavigationProperty Name="Rank1" Relationship="ManagementModel.FK_Users_Ranks" FromRole="Users" ToRole="Rank" />
           <NavigationProperty Name="NotificationUser" Relationship="ManagementModel.FK_NotificationUser_Users" FromRole="Users" ToRole="NotificationUser" />
           <NavigationProperty Name="Task" Relationship="ManagementModel.FK__Task__user_id__6754599E" FromRole="Users" ToRole="Task" />
+          <NavigationProperty Name="Message" Relationship="ManagementModel.FK__Message__from__6A30C649" FromRole="Users" ToRole="Message" />
+          <NavigationProperty Name="Message1" Relationship="ManagementModel.FK__Message__to__6B24EA82" FromRole="Users" ToRole="Message" />
           </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -365,6 +399,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Task" EntitySet="Task" />
           </AssociationSet>
+          <AssociationSet Name="FK__Message__from__6A30C649" Association="ManagementModel.FK__Message__from__6A30C649">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Message__to__6B24EA82" Association="ManagementModel.FK__Message__to__6B24EA82">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Message" EntitySet="Message" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Users_Ranks">
           <End Type="ManagementModel.Rank" Role="Rank" Multiplicity="0..1" />
@@ -388,6 +430,8 @@
           <Property Name="title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <Property Name="content" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="false" />
           <Property Name="read" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="ManagementModel.FK__Message__from__6A30C649" FromRole="Message" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="ManagementModel.FK__Message__to__6B24EA82" FromRole="Message" ToRole="Users" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -468,6 +512,30 @@
             </Principal>
             <Dependent Role="Task">
               <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Message__from__6A30C649">
+          <End Type="ManagementModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ManagementModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="from" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Message__to__6B24EA82">
+          <End Type="ManagementModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ManagementModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

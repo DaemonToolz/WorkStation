@@ -164,6 +164,24 @@
   <wsdl:message name="ISession_EditTask_OutputMessage">
     <wsdl:part name="parameters" element="tns:EditTaskResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_GetAllMessages_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllMessages" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetAllMessages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllMessagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_SendMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="ISession_SendMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMessage" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteMessageResponse" />
+  </wsdl:message>
   <wsdl:message name="ISession_NotificationPull_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotificationPull" />
   </wsdl:message>
@@ -264,6 +282,18 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="EditTask">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/EditTask" message="tns:ISession_EditTask_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/EditTaskResponse" message="tns:ISession_EditTask_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllMessages">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllMessages" message="tns:ISession_GetAllMessages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetAllMessagesResponse" message="tns:ISession_GetAllMessages_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/SendMessage" message="tns:ISession_SendMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/SendMessageResponse" message="tns:ISession_SendMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteMessage" message="tns:ISession_DeleteMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteMessageResponse" message="tns:ISession_DeleteMessage_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotificationPull">
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/NotificationPull" message="tns:ISession_NotificationPull_OutputCallbackMessage" />
@@ -481,6 +511,33 @@
     </wsdl:operation>
     <wsdl:operation name="EditTask">
       <soap12:operation soapAction="http://tempuri.org/ISession/EditTask" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllMessages">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetAllMessages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <soap12:operation soapAction="http://tempuri.org/ISession/SendMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteMessage">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteMessage" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

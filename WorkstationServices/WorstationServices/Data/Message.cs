@@ -20,5 +20,8 @@ namespace WorkstationServices.Data
         public string title { get; set; }
         public string content { get; set; }
         public bool read { get; set; }
+    
+        public virtual Users Users { get; set; }
+        public virtual Users Users1 { get; set; }
     }
 }

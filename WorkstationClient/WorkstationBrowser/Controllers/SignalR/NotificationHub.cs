@@ -18,8 +18,6 @@ namespace WorkstationBrowser.Controllers.SignalR {
 
         public static ConcurrentDictionary<string, SessionWrapper> MyUsers = new ConcurrentDictionary<string, SessionWrapper>();
 
-
-
         public override Task OnConnected() {
             //MyUsers.TryAdd(Context.User.Identity.Name,  );
             string name = Context.User.Identity.Name;

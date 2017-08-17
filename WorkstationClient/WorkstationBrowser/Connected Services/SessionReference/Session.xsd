@@ -74,4 +74,21 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="TaskModel" nillable="true" type="tns:TaskModel" />
+  <xs:complexType name="ArrayOfMessageModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MessageModel" nillable="true" type="tns:MessageModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMessageModel" nillable="true" type="tns:ArrayOfMessageModel" />
+  <xs:complexType name="MessageModel">
+    <xs:sequence>
+      <xs:element name="content" nillable="true" type="xs:string" />
+      <xs:element name="from" type="xs:int" />
+      <xs:element minOccurs="0" name="id" type="xs:long" />
+      <xs:element minOccurs="0" name="read" type="xs:boolean" />
+      <xs:element minOccurs="0" name="title" nillable="true" type="xs:string" />
+      <xs:element name="to" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MessageModel" nillable="true" type="tns:MessageModel" />
 </xs:schema>

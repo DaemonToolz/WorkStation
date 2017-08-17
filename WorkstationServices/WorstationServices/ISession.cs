@@ -102,6 +102,16 @@ namespace WorkstationServices
         [OperationContract]
         bool EditTask(TaskModel newTask);
 
+        [OperationContract]
+        IEnumerable<MessageModel> GetAllMessages(UsersModel caller, bool sended , bool received);
+
+        [OperationContract]
+        bool SendMessage(MessageModel caller);
+
+
+        [OperationContract]
+        bool DeleteMessage(MessageModel caller);
+
 
     }
 
@@ -109,5 +119,9 @@ namespace WorkstationServices
     {
         [OperationContract(IsOneWay = true)]
         void NotificationPull(IEnumerable<NotificationModel> notifications, String caller);
+
+        //[OperationContract(IsOneWay = true)]
+        //void MessagePull(IEnumerable<MessageModel> notifications, String caller);
+
     }
 }

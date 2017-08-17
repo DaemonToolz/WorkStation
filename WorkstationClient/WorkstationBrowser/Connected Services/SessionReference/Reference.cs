@@ -685,6 +685,128 @@ namespace WorkstationBrowser.SessionReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MessageModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
+    [System.SerializableAttribute()]
+    public partial class MessageModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private string contentField;
+        
+        private int fromField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long idField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool readField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string titleField;
+        
+        private int toField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string content {
+            get {
+                return this.contentField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.contentField, value) != true)) {
+                    this.contentField = value;
+                    this.RaisePropertyChanged("content");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int from {
+            get {
+                return this.fromField;
+            }
+            set {
+                if ((this.fromField.Equals(value) != true)) {
+                    this.fromField = value;
+                    this.RaisePropertyChanged("from");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool read {
+            get {
+                return this.readField;
+            }
+            set {
+                if ((this.readField.Equals(value) != true)) {
+                    this.readField = value;
+                    this.RaisePropertyChanged("read");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string title {
+            get {
+                return this.titleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.titleField, value) != true)) {
+                    this.titleField = value;
+                    this.RaisePropertyChanged("title");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int to {
+            get {
+                return this.toField;
+            }
+            set {
+                if ((this.toField.Equals(value) != true)) {
+                    this.toField = value;
+                    this.RaisePropertyChanged("to");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SessionReference.ISession", CallbackContract=typeof(WorkstationBrowser.SessionReference.ISessionCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface ISession {
@@ -839,6 +961,24 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditTask", ReplyAction="http://tempuri.org/ISession/EditTaskResponse")]
         System.Threading.Tasks.Task<bool> EditTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllMessages", ReplyAction="http://tempuri.org/ISession/GetAllMessagesResponse")]
+        WorkstationBrowser.SessionReference.MessageModel[] GetAllMessages(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllMessages", ReplyAction="http://tempuri.org/ISession/GetAllMessagesResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.MessageModel[]> GetAllMessagesAsync(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/SendMessage", ReplyAction="http://tempuri.org/ISession/SendMessageResponse")]
+        bool SendMessage(WorkstationBrowser.SessionReference.MessageModel caller);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/SendMessage", ReplyAction="http://tempuri.org/ISession/SendMessageResponse")]
+        System.Threading.Tasks.Task<bool> SendMessageAsync(WorkstationBrowser.SessionReference.MessageModel caller);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteMessage", ReplyAction="http://tempuri.org/ISession/DeleteMessageResponse")]
+        bool DeleteMessage(WorkstationBrowser.SessionReference.MessageModel caller);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteMessage", ReplyAction="http://tempuri.org/ISession/DeleteMessageResponse")]
+        System.Threading.Tasks.Task<bool> DeleteMessageAsync(WorkstationBrowser.SessionReference.MessageModel caller);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1074,6 +1214,30 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task<bool> EditTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask) {
             return base.Channel.EditTaskAsync(newTask);
+        }
+        
+        public WorkstationBrowser.SessionReference.MessageModel[] GetAllMessages(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received) {
+            return base.Channel.GetAllMessages(caller, sended, received);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.MessageModel[]> GetAllMessagesAsync(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received) {
+            return base.Channel.GetAllMessagesAsync(caller, sended, received);
+        }
+        
+        public bool SendMessage(WorkstationBrowser.SessionReference.MessageModel caller) {
+            return base.Channel.SendMessage(caller);
+        }
+        
+        public System.Threading.Tasks.Task<bool> SendMessageAsync(WorkstationBrowser.SessionReference.MessageModel caller) {
+            return base.Channel.SendMessageAsync(caller);
+        }
+        
+        public bool DeleteMessage(WorkstationBrowser.SessionReference.MessageModel caller) {
+            return base.Channel.DeleteMessage(caller);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteMessageAsync(WorkstationBrowser.SessionReference.MessageModel caller) {
+            return base.Channel.DeleteMessageAsync(caller);
         }
     }
 }

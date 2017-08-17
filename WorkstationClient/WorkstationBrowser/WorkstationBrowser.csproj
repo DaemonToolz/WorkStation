@@ -183,6 +183,7 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\Remote\SessionWrapper.cs" />
@@ -371,6 +372,8 @@
     <Content Include="Views\Team\Edit.cshtml" />
     <Content Include="Views\Task\_Create.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Message\_Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

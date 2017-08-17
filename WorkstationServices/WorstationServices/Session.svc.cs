@@ -438,6 +438,58 @@ namespace WorkstationServices
             }
         }
 
+        public IEnumerable<MessageModel> GetAllMessages(UsersModel caller, bool sended = false, bool received = true){
+            List<MessageModel> allMessageModels = new List<MessageModel>();
+            foreach (var message in entities.Message.Where(record => (sended && record.from == caller.id) || (received && record.to == caller.id)))
+            {
+                allMessageModels.Add(new MessageModel()
+                {
+                    id = message.id,
+                    content = message.content,
+                    from = message.from,
+                    to = message.to,
+                    read = message.read,
+                    title = message.title
+                });
+            }
+
+            return allMessageModels;
+        }
+
+
+        public  bool SendMessage(MessageModel model)
+        {
+            try
+            {
+                entities.Message.Add(new Message()
+                {
+                    content = model.content,
+                    read = false,
+                    title = model.title,
+                    to = model.to,
+                    from = model.from
+                });
+                entities.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteMessage(MessageModel caller) {
+            try {
+                entities.Message.Remove(entities.Message.First(message => message.id == caller.id));
+                entities.SaveChanges();
+                return true;
+            }
+            catch {
+                return false;
+            }
+        }
+
 
         #region Callback
 
@@ -448,7 +500,7 @@ namespace WorkstationServices
 
         void OnTimerElapsed(object sender, ElapsedEventArgs e){
             Callback.NotificationPull(GetAllNotifications(connected_id), hubcaller);
-            
+            //Callback.MessagePull()
         }
 
         /// <summary>

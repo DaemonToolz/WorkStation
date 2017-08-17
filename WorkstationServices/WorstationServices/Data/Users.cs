@@ -19,6 +19,8 @@ namespace WorkstationServices.Data
         {
             this.NotificationUser = new HashSet<NotificationUser>();
             this.Task = new HashSet<Task>();
+            this.Message = new HashSet<Message>();
+            this.Message1 = new HashSet<Message>();
         }
     
         public int id { get; set; }
@@ -36,5 +38,9 @@ namespace WorkstationServices.Data
         public virtual ICollection<NotificationUser> NotificationUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task> Task { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> Message { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> Message1 { get; set; }
     }
 }

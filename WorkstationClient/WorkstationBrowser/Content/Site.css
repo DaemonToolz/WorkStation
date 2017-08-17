@@ -55,9 +55,17 @@ a.menu-hyperlink {
 .section-scroll-1 {
     height: 200px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .section-scroll-2 {
     height: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.textarea-large {
+    width:100%;
+    height:100px; 
+    border:none;
 }
