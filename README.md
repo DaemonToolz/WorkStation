@@ -17,3 +17,5 @@ The server project:
   
 ## How does it work?
 
+## Note
+Right now, the entire structure is based on a Monolithic architecture - everything's managed by 1 service - yet if the amount of actions increases, then Microservices will be considered.
