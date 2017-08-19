@@ -37,7 +37,8 @@ namespace WorkstationServices
                 username = Username,
                 team_id = CurrentUser.team_id,
                  rank = CurrentUser.Rank1.name,
-                 rights = CurrentUser.Rank1.rights
+                 rights = CurrentUser.Rank1.rights,
+                profilepic = CurrentUser.profilepic
             };
 
             OnlineUsers.Add(CurrentUserModel);
@@ -76,8 +77,8 @@ namespace WorkstationServices
                      username = user.username,
                      team_id = user.team_id,
                      rank = user.Rank1.name,
-                     rights = user.Rank1.rights
-
+                     rights = user.Rank1.rights,
+                     profilepic = user.profilepic
                 });
 
             return users;
@@ -194,6 +195,8 @@ namespace WorkstationServices
                 user.username = newInfo.username;
                 user.rank = newInfo.rank;
                 user.team_id = newInfo.team_id;
+                if(newInfo.profilepic != user.profilepic)
+                    user.profilepic = newInfo.profilepic;
 
                 entities.SaveChanges();
 
@@ -234,7 +237,8 @@ namespace WorkstationServices
                     team_id = user.team_id,
                     username = user.username,
                     rank = user.rank,
-                    rights = user.Rank1.rights
+                    rights = user.Rank1.rights,
+                    profilepic = user.profilepic
                 };
             }
             catch

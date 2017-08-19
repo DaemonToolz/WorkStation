@@ -21,5 +21,10 @@ namespace Workstation.Model{
 
         [DataMember(IsRequired = true)]
         public string rights{ get; set; }
+
+        [DataMember(IsRequired = true)]
+        public string profilepic { get; set; }
+
+
     }
 }

@@ -53,6 +53,7 @@ namespace WorkstationManagementServices.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,username,password,encrypted,email,creationdate,team_id,rank")] Users users){
             if (ModelState.IsValid){
+                
                 db.Users.Add(users);
                 db.SaveChanges();
                 return RedirectToAction("Index");

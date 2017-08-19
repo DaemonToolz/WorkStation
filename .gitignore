@@ -265,3 +265,5 @@ __pycache__/
 /WorkstationServices/WorkstationAuthentication/App_Data/PublishProfiles
 /WorkstationServices/WorkstationAuthentication/packages.config
 /WorkstationServices/WorkstationAuthentication/TokenGenerationService.svc
+/WorkstationClient/WorkstationBrowser/UserContent/Profile/PierreDurand_profile.png
+/WorkstationClient/WorkstationBrowser/UserContent/Profile/DefaultAuthorizedUser_profile.JPG

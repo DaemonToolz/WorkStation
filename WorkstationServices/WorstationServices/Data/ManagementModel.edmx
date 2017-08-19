@@ -53,7 +53,7 @@
             <PropertyRef Name="name" />
           </Key>
           <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="rights" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="rights" Type="char" MaxLength="15" Nullable="false" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
@@ -88,6 +88,7 @@
           <Property Name="creationdate" Type="datetime2" Precision="7" />
           <Property Name="team_id" Type="int" />
           <Property Name="rank" Type="varchar" MaxLength="64" />
+          <Property Name="profilepic" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <Association Name="FK__Message__from__6A30C649">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
@@ -287,7 +288,7 @@
             <PropertyRef Name="name" />
           </Key>
           <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="rights" Type="String" MaxLength="9" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="rights" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="ManagementModel.FK_Users_Ranks" FromRole="Rank" ToRole="Users" />
         </EntityType>
         <EntityType Name="Team">
@@ -320,6 +321,7 @@
           <NavigationProperty Name="Task" Relationship="ManagementModel.FK__Task__user_id__6754599E" FromRole="Users" ToRole="Task" />
           <NavigationProperty Name="Message" Relationship="ManagementModel.FK__Message__from__6A30C649" FromRole="Users" ToRole="Message" />
           <NavigationProperty Name="Message1" Relationship="ManagementModel.FK__Message__to__6B24EA82" FromRole="Users" ToRole="Message" />
+          <Property Name="profilepic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -583,6 +585,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ManagementModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="profilepic" ColumnName="profilepic" />
                 <ScalarProperty Name="rank" ColumnName="rank" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="username" ColumnName="username" />

@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<WorkstationBrowser.SessionReference.TaskModel>
 
+@{
+    Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
+}
 
 <table class="table">
     <tr>
@@ -52,7 +55,7 @@
             </tr>
     }
     @{
-        if (ViewData["AddSection"] != null){
+        if (ViewData["AddSection"] != null && MyRights["CanEditTask"] ){
             <tr>
                 <td>
                     <button id="new_task" class="btn btn-default">
@@ -66,7 +69,7 @@
 </table>
 
 @{
-    if (ViewData["AddSection"] != null)
+    if (ViewData["AddSection"] != null && MyRights["CanEditTask"])
     {
         <div id="partial" style="display: none">
             @{ Html.RenderAction("_Create"); }

@@ -25,7 +25,7 @@
             <PropertyRef Name="name" />
           </Key>
           <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
-          <Property Name="rights" Type="char" MaxLength="9" Nullable="false" />
+          <Property Name="rights" Type="char" MaxLength="15" Nullable="false" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
@@ -48,6 +48,7 @@
           <Property Name="creationdate" Type="datetime2" Precision="7" />
           <Property Name="team_id" Type="int" />
           <Property Name="rank" Type="varchar" MaxLength="64" />
+          <Property Name="profilepic" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -97,18 +98,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Users1" Type="Self.Users" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Users1">
-              <PropertyRef Name="id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="UserModelStoreContainer">
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
@@ -130,10 +119,6 @@
           <AssociationSet Name="FK_Users_Ranks" Association="Self.FK_Users_Ranks">
             <End Role="Rank" EntitySet="Rank" />
             <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_Users" Association="Self.FK_Users_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -189,7 +174,7 @@
             <PropertyRef Name="name" />
           </Key>
           <Property Name="name" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="rights" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="rights" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Users" Relationship="UserModel.FK_Users_Ranks" FromRole="Rank" ToRole="Users" />
         </EntityType>
         <EntityType Name="Team">
@@ -220,6 +205,7 @@
           <NavigationProperty Name="Rank1" Relationship="UserModel.FK_Users_Ranks" FromRole="Users" ToRole="Rank" />
           <NavigationProperty Name="Users1" Relationship="UserModel.FK_Users_Users" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="Users2" Relationship="UserModel.FK_Users_Users" FromRole="Users1" ToRole="Users" />
+          <Property Name="profilepic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Type="UserModel.Department" Role="Department" Multiplicity="0..1" />
@@ -325,6 +311,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="UserModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="profilepic" ColumnName="profilepic" />
                 <ScalarProperty Name="rank" ColumnName="rank" />
                 <ScalarProperty Name="team_id" ColumnName="team_id" />
                 <ScalarProperty Name="creationdate" ColumnName="creationdate" />

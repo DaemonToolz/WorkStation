@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -29,6 +30,22 @@ namespace WorkstationBrowser.Controllers
             ViewData["CurrentTeam"] = currentSession.WorkstationSession.GetTeamPerUser(currentSession.CurrentUser.id);
         
             return View(currentSession.CurrentUser);
+        }
+
+        public ActionResult FileUpload(HttpPostedFileBase file){
+           
+            if (file != null){
+                SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
+
+                string pic = currentSession.CurrentUser.username.Replace(" ", String.Empty) + "_profile" + Path.GetExtension(file.FileName);
+                string path = System.IO.Path.Combine(Server.MapPath("~/UserContent/Profile/"), pic);
+                // file is uploaded
+                file.SaveAs(path);
+                currentSession.CurrentUser.profilepic = pic;
+                currentSession.WorkstationSession.EditUser(currentSession.CurrentUser);
+            }
+            // after successfully uploading redirect the user
+            return RedirectToAction("MyProfile");
         }
 
         // GET: Users/Edit/5
@@ -62,14 +79,7 @@ namespace WorkstationBrowser.Controllers
             users.rights = wrapper.WorkstationSession.GetAllRanks().First(rank => rank.name.Equals(users.rank)).rights;
             
             if (wrapper.WorkstationSession.EditUser(users)) {
-                if (wrapper.CurrentUser.id.Equals(users.id))
-                {
-                    wrapper.WorkstationSession.CreateNotification(new NotificationModel(){
-                        content = $"Your profile has been updated at {DateTime.Now}",
-                        title = $"Profile updated by {users.username}",
-                        read = false
-                    }, new int[]{users.id}, false);
-                }
+
                 return RedirectToAction("Index");
             }
             else {

@@ -15,6 +15,8 @@ namespace WorkstationBrowser.Controllers
         public ActionResult _Index(ProjectModel related, SessionWrapper originalSession, int? userid, short? AddSection)
         {
             var allTasks = originalSession.WorkstationSession.GetAllTasks(related?.id, userid);
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+
             Session["ProjectId"] = related.id;
             ViewData["AddSection"] = AddSection;
 
@@ -29,7 +31,7 @@ namespace WorkstationBrowser.Controllers
 
             List<UsersModel> CurrentUsers = wrapper.WorkstationSession.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
             CurrentUsers.Add(new UsersModel(){ id = 0, username = "Not affected"});
-
+           
             ViewBag.user_id = new SelectList(
                 CurrentUsers, 
                 "id", "username");
@@ -41,6 +43,7 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         public ActionResult _Create([Bind(Include = "title,description, begin, end, user_id")] TaskModel model){
             SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+
             model.project_id = long.Parse(Session["ProjectId"].ToString());
             if (model.user_id == 0)
                 model.user_id = null;

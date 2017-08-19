@@ -31,6 +31,7 @@ namespace WorkstationBrowser
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/font-awesome.css",
+                      "~/Content/simple-sidebar.css",
                       "~/Content/themes/base/jquery-ui.css",
                       "~/Content/site.css"));
         }

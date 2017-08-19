@@ -31,6 +31,7 @@ namespace WorkstationServices.Data
         public Nullable<System.DateTime> creationdate { get; set; }
         public Nullable<int> team_id { get; set; }
         public string rank { get; set; }
+        public string profilepic { get; set; }
     
         public virtual Team Team { get; set; }
         public virtual Rank Rank1 { get; set; }

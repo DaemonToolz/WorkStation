@@ -26,6 +26,8 @@ namespace WorkstationBrowser.SessionReference {
         
         private int idField;
         
+        private string profilepicField;
+        
         private string rankField;
         
         private string rightsField;
@@ -66,6 +68,19 @@ namespace WorkstationBrowser.SessionReference {
                 if ((this.idField.Equals(value) != true)) {
                     this.idField = value;
                     this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string profilepic {
+            get {
+                return this.profilepicField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.profilepicField, value) != true)) {
+                    this.profilepicField = value;
+                    this.RaisePropertyChanged("profilepic");
                 }
             }
         }

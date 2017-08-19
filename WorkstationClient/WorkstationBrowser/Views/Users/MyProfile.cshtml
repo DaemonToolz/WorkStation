@@ -10,26 +10,45 @@
     <hr />
     <div class="row">
         <div class="col-md-12 col-lg-12 col-xs-12" align="center">
-            <img src="~/UserContent/Profile/Anonymous_user.jpg" width="125" height="125" class="text-center profile-image img-circle" />
+            <img src="~/UserContent/Profile/@(Model.profilepic)" width="125" height="125" class="text-center profile-image img-circle" />
         </div>
-    </div>             
-    <dl class="dl-horizontal">
-        <dt> My Email </dt>
-        <dd> @Html.DisplayFor(model => model.email) </dd>
-        <dt> My Team </dt>
-        <dd>
-            @if (ViewData["CurrentTeam"] != null) {
-                @Html.Raw(((TeamModel)ViewData["CurrentTeam"]).name)
-            }
-            else {
-                @Html.Display("Not affected")
-            }
-        </dd>
-        <dt> My Rank </dt>
-        <dd>
-            @Html.DisplayFor(model => model.rank)
-        </dd>
+  
 
-    </dl>
+    </div>    
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-xs-12" align="center">
+            @using (Html.BeginForm("FileUpload", "Users", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+                <div class="col-md-12 col-lg-12 col-xs-12" style="padding-top:20px">
+                    <label for="file">Edit profile picture </label>
+                    <input type="file" name="file" id="file" style="width: 100%;" />
+                </div>
+                <div class="col-md-12 col-lg-12 col-xs-12" style="padding-top:20px">
+                    <button type="submit" class="btn btn-default">
+                        <span class="fa fa-cloud-upload fa-2x"></span>
+                    </button>
+                </div>
+            }
+            </div>
+    </div>
+
+    <div class="row">
+        <dl class="dl-horizontal">
+            <dt> My Email </dt>
+            <dd> @Html.DisplayFor(model => model.email) </dd>
+            <dt> My Team </dt>
+            <dd>
+                @if (ViewData["CurrentTeam"] != null) {
+                    @Html.Raw(((TeamModel)ViewData["CurrentTeam"]).name)
+                }
+                else {
+                    @Html.Display("Not affected")
+                }
+            </dd>
+            <dt> My Rank </dt>
+            <dd>
+                @Html.DisplayFor(model => model.rank)
+            </dd>
+
+        </dl>
+    </div>
 </div>
-

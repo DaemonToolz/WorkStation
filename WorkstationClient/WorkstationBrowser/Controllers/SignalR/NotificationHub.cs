@@ -34,7 +34,7 @@ namespace WorkstationBrowser.Controllers.SignalR {
         {
             //SessionWrapper session;
             //MyUsers.TryRemove(Context.User.Identity.Name, out session);
-       
+           
             return base.OnDisconnected(stopCalled);
         }
     }

@@ -1,5 +1,6 @@
 ﻿@using System.Threading
 @using WorkstationBrowser.Controllers.Remote
+@using WorkstationBrowser.Controllers.SignalR
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,85 +12,109 @@
    
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                @if (Request.IsAuthenticated) {
-                    <ul class="nav navbar-nav">
-                        @{
-                            Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
-                        }
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            @if (Request.IsAuthenticated) {
+                <ul class="nav navbar-nav">
+                    @{
+                        Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
+                    }
                         
-                        @if (MyRights["CanReadUser"]) {
-                            <li> @Html.ActionLink("Users", "Index", "Users")</li>
-                        }
+                    @if (MyRights["CanReadUser"]) {
+                        <li> @Html.ActionLink("Users", "Index", "Users")</li>
+                    }
                         
-                        @if (MyRights["CanReadTeam"])
-                        {
-                            <li> @Html.ActionLink("Teams", "Index", "Team")</li>
-                        }
+                    @if (MyRights["CanReadTeam"])
+                    {
+                        <li> @Html.ActionLink("Teams", "Index", "Team")</li>
+                    }
 
-                        @if (MyRights["CanReadProj"]) {
-                            <li> @Html.ActionLink("Projects", "Index", "Project")</li>
-                        }
+                    @if (MyRights["CanReadProj"]) {
+                        <li> @Html.ActionLink("Projects", "Index", "Project")</li>
+                    }
                         
-                        @if (MyRights["CanReadDept"])
-                        {
-                            <li> @Html.ActionLink("Departments", "Index", "Department")</li>
-                        }
-                    </ul>
-                }
-
-                <ul class="nav navbar-nav navbar-right">
-                   
-                        @if (Request.IsAuthenticated){
-                            <li>
-                               
-                                <a href="@Url.Action("Index", "Notifications")" >
-                                    <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-                                    @if (ViewData["UnreadNotifications"] != null && int.Parse(ViewData["UnreadNotifications"].ToString()) > 0){
-                                        <span id="UnreadCount" class="badge"> @ViewData["UnreadNotifications"] </span>
-                                    }
-                                </a>
-                          
-                            </li>
-                            <li>
-                                @Html.ActionLink(" ", "Logout", "Login", null, new { @class = "glyphicon glyphicon-share" })
-                            </li>
-                            <li>
-                                <a href="@Url.Action("MyProfile", "Users")" class="btn btn-default">
-                                    <!--<span class="glyphicon glyphicon-user" aria-hidden="true"></span>-->
-                                    <img src="~/UserContent/Profile/Anonymous_user.jpg" width="25" height="25" class="profile-image img-circle"/>
-                                    @Html.Encode(User.Identity.Name)
-                                </a>
-                          
-                            </li>
-                        }
-                        else{
-                            <li>
-                                @Html.ActionLink(" ", "Login", "Login", null, new {@class = "glyphicon glyphicon-user " })
-                             </li>
-                        }
-                   
+                    @if (MyRights["CanReadDept"])
+                    {
+                        <li> @Html.ActionLink("Departments", "Index", "Department")</li>
+                    }
                 </ul>
-            </div>
+            }
+
+            <ul class="nav navbar-nav navbar-right">
+                   
+                @if (Request.IsAuthenticated){
+                    <li>
+                        @{
+                            String profilePicture = ((SessionWrapper) Session["WorkstationConnection"]).CurrentUser.profilepic;
+                        }
+                        <a href="@Url.Action("Index", "Notifications")" >
+                            <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+                            @if (ViewData["UnreadNotifications"] != null && int.Parse(ViewData["UnreadNotifications"].ToString()) > 0){
+                                <span id="UnreadCount" class="badge"> @ViewData["UnreadNotifications"] </span>
+                            }
+                        </a>
+                        
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-comment" aria-hidden="true" onclick="openNav()"></span> </a>
+                    </li>
+                    <li>
+                        @Html.ActionLink(" ", "Logout", "Login", null, new { @class = "glyphicon glyphicon-share" })
+                    </li>
+                    <li>
+                        <a href="@Url.Action("MyProfile", "Users")" class="btn btn-default">
+                            <!--<span class="glyphicon glyphicon-user" aria-hidden="true"></span>-->
+                            <img src="~/UserContent/Profile/@(profilePicture)" width="25" height="25" class="profile-image img-circle"/>
+                                
+                            @Html.Encode(User.Identity.Name)
+                        </a>
+                          
+                    </li>
+                }
+                else{
+                    <li>
+                        @Html.ActionLink(" ", "Login", "Login", null, new {@class = "glyphicon glyphicon-user " })
+                    </li>
+                }
+                   
+            </ul>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Workstation </p>
-        </footer>
+</div>
+    
+@if (Request.IsAuthenticated) {
+    <div id="mySidenav" class="sidenav">
+        @foreach (var user in NotificationHub.MyUsers){
+            <a>
+                <img style="vertical-align: middle;"src="~/UserContent/Profile/@(user.Value.CurrentUser.profilepic)"
+                     width="50" height="50" class="status-img img-circle"/> 
+                <img src="~/Content/images/online.png" width="15" height="15" class="status-img-chat img-circle" />
+                @(user.Key)
+            </a>
+        }
     </div>
+}
+<div class="container body-content">
+    
+    @RenderBody()
+   
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Workstation </p>
+    </footer>
+
+</div>
+
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -114,10 +139,24 @@
             
                });
 
-               $(".datepicker").datepicker({ dateFormat:"dd/mm/yy"});
+               $(".datepicker").datepicker({ dateFormat: "dd/mm/yy" });
+
            });
 
+           /* Set the width of the side navigation to 250px */
+           function openNav() {
+               if (document.getElementById("mySidenav").style.width != "0px")
+                   closeNav();
+                else 
+                    document.getElementById("mySidenav").style.width = "25%";
+           }
 
+            /* Set the width of the side navigation to 0 */
+           function closeNav() {
+               document.getElementById("mySidenav").style.width = "0";
+           } 
+
+         
        </script>
     }
 
