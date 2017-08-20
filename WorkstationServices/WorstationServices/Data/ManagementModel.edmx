@@ -47,6 +47,7 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="root" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="projpic" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="Rank">
           <Key>
@@ -75,6 +76,7 @@
           <Property Name="name" Type="varchar" MaxLength="64" />
           <Property Name="department_id" Type="int" />
           <Property Name="project_id" Type="bigint" />
+          <Property Name="teampic" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -282,6 +284,7 @@
           <Property Name="root" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Team" Relationship="Self.FK__Team__project_id__4AB81AF0" FromRole="Project" ToRole="Team" />
           <NavigationProperty Name="Task" Relationship="ManagementModel.FK__Task__project_id__693CA210" FromRole="Project" ToRole="Task" />
+          <Property Name="projpic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Rank">
           <Key>
@@ -302,6 +305,7 @@
           <NavigationProperty Name="Department" Relationship="Self.FK__Team__department__49C3F6B7" FromRole="Team" ToRole="Department" />
           <NavigationProperty Name="Project" Relationship="Self.FK__Team__project_id__4AB81AF0" FromRole="Team" ToRole="Project" />
           <NavigationProperty Name="Users" Relationship="Self.FK__Users__team_id__48CFD27E" FromRole="Team" ToRole="Users" />
+          <Property Name="teampic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -558,6 +562,7 @@
           <EntitySetMapping Name="Project">
             <EntityTypeMapping TypeName="ManagementModel.Project">
               <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="projpic" ColumnName="projpic" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="root" ColumnName="root" />
@@ -575,6 +580,7 @@
           <EntitySetMapping Name="Team">
             <EntityTypeMapping TypeName="ManagementModel.Team">
               <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="teampic" ColumnName="teampic" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="department_id" ColumnName="department_id" />

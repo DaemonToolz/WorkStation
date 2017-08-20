@@ -112,6 +112,9 @@ namespace WorkstationServices
         [OperationContract]
         bool DeleteMessage(MessageModel caller);
 
+        [OperationContract]
+        bool EditTeam(TeamModel newInfo);
+
 
     }
 

@@ -94,15 +94,17 @@
 @if (Request.IsAuthenticated) {
     <div id="mySidenav" class="sidenav">
         @foreach (var user in NotificationHub.MyUsers){
-            <a>
+            <a href="#" id="@user.Key)" class="chat">
                 <img style="vertical-align: middle;"src="~/UserContent/Profile/@(user.Value.CurrentUser.profilepic)"
-                     width="50" height="50" class="status-img img-circle"/> 
+                     width="50" height="50" class="status-img img-circle" /> 
                 <img src="~/Content/images/online.png" width="15" height="15" class="status-img-chat img-circle" />
                 @(user.Key)
+               
             </a>
         }
     </div>
 }
+
 <div class="container body-content">
     
     @RenderBody()
@@ -113,10 +115,32 @@
     </footer>
 
 </div>
+    
+<div class="popup-box chat-popup" id="qnimate">
+    <div class="popup-head">
+        <div class="popup-head-left pull-left">
+            Test
+        </div>
+        <div class="popup-head-right pull-right">			
+            <button data-widget="remove" id="removeClass" class="chat-header-button pull-right" type="button">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="popup-messages">
+        <div class="direct-chat-messages">
+        </div>
+    </div>
+    <div class="popup-messages-footer">
+        <textarea id="status_message" placeholder="Type a message..." rows="10" cols="40" name="message"></textarea>
+        <div class="btn-footer">
+         
+        </div>
+    </div>
+</div>
 
 
-
-    @Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     
@@ -147,15 +171,30 @@
            function openNav() {
                if (document.getElementById("mySidenav").style.width != "0px")
                    closeNav();
-                else 
-                    document.getElementById("mySidenav").style.width = "25%";
+               else {
+                   if (document.documentElement.clientWidth > 1500)
+                        document.getElementById("mySidenav").style.width = "25%";
+                   else if (document.documentElement.clientWidth > 1000)
+                       document.getElementById("mySidenav").style.width = "30%";
+                   else 
+                       document.getElementById("mySidenav").style.width = "40%";
+                }
            }
 
             /* Set the width of the side navigation to 0 */
            function closeNav() {
-               document.getElementById("mySidenav").style.width = "0";
+               document.getElementById("mySidenav").style.width = "0px";
            } 
 
+           
+           $(".chat").click(function () {
+                $('#qnimate').addClass('popup-box-on');
+           });
+          
+           $("#removeClass").click(function () {
+               $('#qnimate').removeClass('popup-box-on');
+            });
+           
          
        </script>
     }

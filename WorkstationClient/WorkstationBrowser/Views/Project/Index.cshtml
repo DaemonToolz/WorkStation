@@ -12,6 +12,7 @@
 </p>
 <table class="table">
     <tr>
+        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.name)
         </th>
@@ -23,16 +24,23 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td style="vertical-align: middle;">
+         
+            @if (File.Exists(Path.Combine(Server.MapPath("~/UserContent/Project/"), item.projpic))){
+                <img src="~/UserContent/Project/@(item.projpic)"width="50" height="50" class="profile-image img-circle"/>
+            }
+        </td>
+        <td style="vertical-align: middle;">
             @Html.DisplayFor(modelItem => item.name)
         </td>
-        <td>
+        <td style="vertical-align: middle;">
             @Html.DisplayFor(modelItem => item.root)
         </td>
 
-        <td>
-           
-            @if (((ProjectModel) ViewData["MyProject"]).id == item.id && !item.name.Equals("Aucun")){
+        <td style="vertical-align: middle;">
+
+            @if (((ProjectModel) ViewData["MyProject"]).id == item.id && !item.name.Equals("Aucun"))
+            {
                 @Html.ActionLink("Details", "Details", new {id = item.id})
             }
         </td>

@@ -47,8 +47,20 @@ namespace WorkstationBrowser.Controllers
             model.project_id = long.Parse(Session["ProjectId"].ToString());
             if (model.user_id == 0)
                 model.user_id = null;
+
             wrapper.WorkstationSession.CreateTask(model);
-            
+
+            var project = wrapper.WorkstationSession.GetProject(model.project_id);
+            var CurrentTeam = wrapper.WorkstationSession.GetAllTeams()
+                .Single(team => team.project_id == (long)Session["ProjectId"]);
+            List<UsersModel> CurrentUsers = wrapper.WorkstationSession.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+            CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
+
+            ViewBag.user_id = new SelectList(
+                CurrentUsers,
+                "id", "username");
+
+
             return PartialView();
         }
 

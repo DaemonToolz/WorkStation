@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,6 +37,24 @@ namespace WorkstationBrowser.Controllers
             return View(currentProject);
         }
 
-       
+
+        [HttpPost]
+        public ActionResult FileUpload(HttpPostedFileBase file, int id)
+        {
+
+            if (file != null)
+            {
+                SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
+                var CurrentProject = currentSession.WorkstationSession.GetProject(id);
+                string pic = CurrentProject.name.Replace(" ", String.Empty) + "_ico" + Path.GetExtension(file.FileName);
+                string path = System.IO.Path.Combine(Server.MapPath("~/UserContent/Project/"), pic);
+                // file is uploaded
+                file.SaveAs(path);
+                CurrentProject.projpic= pic;
+                currentSession.WorkstationSession.EditProject(CurrentProject);
+            }
+            // after successfully uploading redirect the user
+            return RedirectToAction("Details", new { id = id });
+        }
     }
 }

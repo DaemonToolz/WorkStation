@@ -24,6 +24,7 @@ namespace WorkstationServices.Data
         public long id { get; set; }
         public string name { get; set; }
         public string root { get; set; }
+        public string projpic { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Team> Team { get; set; }

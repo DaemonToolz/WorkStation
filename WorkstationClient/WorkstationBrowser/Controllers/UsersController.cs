@@ -76,6 +76,8 @@ namespace WorkstationBrowser.Controllers
         public ActionResult Edit([Bind(Include = "id,username,email,team_id, rank")] UsersModel users) {
             SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
 
+            users.profilepic = wrapper.WorkstationSession.GetUserId(users.id).profilepic;
+            
             users.rights = wrapper.WorkstationSession.GetAllRanks().First(rank => rank.name.Equals(users.rank)).rights;
             
             if (wrapper.WorkstationSession.EditUser(users)) {

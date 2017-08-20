@@ -60,7 +60,8 @@ namespace WorkstationServices
                 projects.Add(new ProjectModel(){
                     id = project.id,
                     name = project.name,
-                    root = project.root
+                    root = project.root,
+                    projpic = project.projpic
                 });
 
             return projects;
@@ -108,7 +109,8 @@ namespace WorkstationServices
                     id = team.id,
                     department_id = team.department_id,
                     project_id = team.project_id,
-                    name = team.name
+                    name = team.name,
+                    teampic = team.teampic
                 });
 
             return teams;
@@ -123,7 +125,8 @@ namespace WorkstationServices
                     id = team.id,
                     name = team.name,
                     department_id = team.department_id,
-                    project_id = team.project_id
+                    project_id = team.project_id,
+                    teampic = team.teampic
                 };
             } catch { return null; }
         }
@@ -138,11 +141,29 @@ namespace WorkstationServices
                     id = team.id,
                     name = team.name,
                     department_id = team.department_id,
-                    project_id = team.project_id
+                    project_id = team.project_id,
+                    teampic = team.teampic
                 };
             }
             catch { return null; }
         }
+
+        public bool EditTeam(TeamModel newInfo)
+        {
+            try
+            {
+                Team team = entities.Team.First(teamObj => teamObj.id == newInfo.id);
+                team.name = newInfo.name;
+                team.project_id = newInfo.project_id;
+                team.department_id = newInfo.department_id;
+                team.teampic = newInfo.teampic;
+
+                entities.SaveChanges();
+                return true;
+            }
+            catch { return false; }
+        }
+
 
         public bool EditProject(ProjectModel newInfo)
         {
@@ -151,6 +172,7 @@ namespace WorkstationServices
                 Project project = entities.Project.Single(proj => newInfo.id == proj.id);
                 project.name = newInfo.name;
                 project.root = newInfo.root;
+                project.projpic = newInfo.projpic;
                 entities.SaveChanges();
 
                 return true;
@@ -184,7 +206,8 @@ namespace WorkstationServices
             {
                 id = id,
                 name = project.name,
-                root = project.root
+                root = project.root,
+                projpic = project.projpic
             };
         }
 
@@ -195,6 +218,7 @@ namespace WorkstationServices
                 user.username = newInfo.username;
                 user.rank = newInfo.rank;
                 user.team_id = newInfo.team_id;
+
                 if(newInfo.profilepic != user.profilepic)
                     user.profilepic = newInfo.profilepic;
 

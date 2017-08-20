@@ -16,6 +16,7 @@ namespace WorkstationMessaging.Model{
         public Nullable<int> department_id { get; set; }
         [DataMember(IsRequired = true)]
         public Nullable<long> project_id { get; set; }
-
+        [DataMember(IsRequired = true)]
+        public string teampic { get; set; }
     }
 }

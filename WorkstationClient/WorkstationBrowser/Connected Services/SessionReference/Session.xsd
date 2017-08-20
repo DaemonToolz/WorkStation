@@ -25,6 +25,7 @@
       <xs:element name="id" type="xs:int" />
       <xs:element name="name" nillable="true" type="xs:string" />
       <xs:element name="project_id" nillable="true" type="xs:long" />
+      <xs:element name="teampic" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="TeamModel" nillable="true" type="tns:TeamModel" />

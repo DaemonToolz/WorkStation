@@ -344,6 +344,10 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="UserContent\Profile\Anonymous_user.jpg" />
+    <Content Include="UserContent\Project\Default_Project.png" />
+    <Content Include="UserContent\Project\Not_Affected.png" />
+    <Content Include="UserContent\Team\Not_Affected.png" />
+    <Content Include="UserContent\Team\Team_default.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -30,25 +30,40 @@
             }
             </div>
     </div>
-
+    <hr/>
     <div class="row">
-        <dl class="dl-horizontal">
-            <dt> My Email </dt>
-            <dd> @Html.DisplayFor(model => model.email) </dd>
-            <dt> My Team </dt>
-            <dd>
-                @if (ViewData["CurrentTeam"] != null) {
-                    @Html.Raw(((TeamModel)ViewData["CurrentTeam"]).name)
-                }
-                else {
-                    @Html.Display("Not affected")
-                }
-            </dd>
-            <dt> My Rank </dt>
-            <dd>
-                @Html.DisplayFor(model => model.rank)
-            </dd>
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <div class="col-lg-1 col-md-2 col-xs-2">
+                <strong> My Team </strong>
+            </div> 
+            <div class="col-lg-9 col-md-9 col-xs-9 " style="vertical-align:middle;">
+                 @Html.Raw(((TeamModel) ViewData["CurrentTeam"]).name)
+            </div> 
+        
+        </div>
+        
+        
+        <div class="col-lg-12 col-md-12 col-xs-12" >
+  
+            <div class="col-lg-1 col-md-1 col-xs-2">
+                <strong> My Email </strong>
+            </div> 
+            <div class="col-lg-9 col-md-9 col-xs-9" style="vertical-align:middle;">
+                @Html.DisplayFor(model => model.email)
+            </div> 
+         
 
-        </dl>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12">
+           
+            <div class="col-lg-1 col-md-1 col-xs-2">
+                <strong> My Rank </strong>
+            </div> 
+            <div class="col-lg-9 col-md-9 col-xs-9" style="vertical-align:middle;">
+                @Html.DisplayFor(model => model.rank)
+            </div> 
+
+        </div>
+
     </div>
 </div>

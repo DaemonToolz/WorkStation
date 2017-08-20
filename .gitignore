@@ -267,3 +267,6 @@ __pycache__/
 /WorkstationServices/WorkstationAuthentication/TokenGenerationService.svc
 /WorkstationClient/WorkstationBrowser/UserContent/Profile/PierreDurand_profile.png
 /WorkstationClient/WorkstationBrowser/UserContent/Profile/DefaultAuthorizedUser_profile.JPG
+/WorkstationClient/WorkstationBrowser/UserContent/Team/WorkstationTeam_ico.jpg
+/WorkstationClient/WorkstationBrowser/UserContent/Project/Workstation_ico.png
+/WorkstationClient/WorkstationBrowser/UserContent/Project/Workstation_ico.jpg

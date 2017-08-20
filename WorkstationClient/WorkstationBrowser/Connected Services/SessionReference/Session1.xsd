@@ -364,10 +364,24 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="EditTeam">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="newInfo" nillable="true" type="q29:TeamModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EditTeamResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="EditTeamResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="NotificationPull">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q29:ArrayOfNotificationModel" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q30:ArrayOfNotificationModel" />
         <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>

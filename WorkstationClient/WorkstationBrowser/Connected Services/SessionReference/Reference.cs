@@ -205,6 +205,8 @@ namespace WorkstationBrowser.SessionReference {
         
         private string nameField;
         
+        private string projpicField;
+        
         private string rootField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -239,6 +241,19 @@ namespace WorkstationBrowser.SessionReference {
                 if ((object.ReferenceEquals(this.nameField, value) != true)) {
                     this.nameField = value;
                     this.RaisePropertyChanged("name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string projpic {
+            get {
+                return this.projpicField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.projpicField, value) != true)) {
+                    this.projpicField = value;
+                    this.RaisePropertyChanged("projpic");
                 }
             }
         }
@@ -342,6 +357,8 @@ namespace WorkstationBrowser.SessionReference {
         
         private System.Nullable<long> project_idField;
         
+        private string teampicField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -400,6 +417,19 @@ namespace WorkstationBrowser.SessionReference {
                 if ((this.project_idField.Equals(value) != true)) {
                     this.project_idField = value;
                     this.RaisePropertyChanged("project_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string teampic {
+            get {
+                return this.teampicField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.teampicField, value) != true)) {
+                    this.teampicField = value;
+                    this.RaisePropertyChanged("teampic");
                 }
             }
         }
@@ -994,6 +1024,12 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteMessage", ReplyAction="http://tempuri.org/ISession/DeleteMessageResponse")]
         System.Threading.Tasks.Task<bool> DeleteMessageAsync(WorkstationBrowser.SessionReference.MessageModel caller);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditTeam", ReplyAction="http://tempuri.org/ISession/EditTeamResponse")]
+        bool EditTeam(WorkstationBrowser.SessionReference.TeamModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditTeam", ReplyAction="http://tempuri.org/ISession/EditTeamResponse")]
+        System.Threading.Tasks.Task<bool> EditTeamAsync(WorkstationBrowser.SessionReference.TeamModel newInfo);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1253,6 +1289,14 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task<bool> DeleteMessageAsync(WorkstationBrowser.SessionReference.MessageModel caller) {
             return base.Channel.DeleteMessageAsync(caller);
+        }
+        
+        public bool EditTeam(WorkstationBrowser.SessionReference.TeamModel newInfo) {
+            return base.Channel.EditTeam(newInfo);
+        }
+        
+        public System.Threading.Tasks.Task<bool> EditTeamAsync(WorkstationBrowser.SessionReference.TeamModel newInfo) {
+            return base.Channel.EditTeamAsync(newInfo);
         }
     }
 }

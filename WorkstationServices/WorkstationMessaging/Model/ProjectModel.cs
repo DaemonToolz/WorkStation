@@ -10,5 +10,7 @@ namespace Workstation.Model{
         public string name { get; set; }
         [DataMember(IsRequired = true)]
         public string root { get; set; }
+        [DataMember(IsRequired = true)]
+        public string projpic { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace WorkstationServices.Data
         public string name { get; set; }
         public Nullable<int> department_id { get; set; }
         public Nullable<long> project_id { get; set; }
+        public string teampic { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual Project Project { get; set; }

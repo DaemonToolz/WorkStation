@@ -13,7 +13,7 @@
 <table class="table">
     <tr>
         <th>
-            Department
+            
         </th>
         <th>
             Name
@@ -21,34 +21,46 @@
         <th>
             Project
         </th>
+        <th>
+            Department
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.Raw(((DepartmentModel[]) ViewData["AllDepartments"]).Single(department => department.id == item.department_id).name)
-
+        <td style="vertical-align: middle;">
+         
+            @if (File.Exists(Path.Combine(Server.MapPath("~/UserContent/Team/"), item.teampic))){
+                <img src="~/UserContent/Team/@(item.teampic)"width="50" height="50" class="profile-image img-circle"/>
+            }
         </td>
-        <td>
+        <td style="vertical-align: middle;">
             @Html.DisplayFor(modelItem => item.name)
         </td>
-        <td>
+        <td style="vertical-align: middle;">
             @if (item.project_id != null)
             {
                 @Html.Raw(((ProjectModel[]) ViewData["AllProjects"]).Single(project => project.id == item.project_id).name) 
             }
         </td>
-        <td>
-        @{
-            if (!item.name.Equals("Not affected") && !item.name.Equals("Non affecté") && item.id == long.Parse(ViewData["TeamId"].ToString()))
-            {
-                @Html.ActionLink("Details", "Details", new {id = item.id}) 
+        <td style="vertical-align: middle;">
+            @Html.Raw(((DepartmentModel[]) ViewData["AllDepartments"]).Single(department => department.id == item.department_id).name)
 
+        </td>
+
+        <td style="vertical-align: middle;">
+            @{
+                if (!item.name.Equals("Not affected") && !item.name.Equals("Non affecté") && item.id == long.Parse(ViewData["TeamId"].ToString()))
+                {
+                    @Html.ActionLink("Details", "Details", new {id = item.id}) 
+
+                }
             }
-        }
         
         </td>
+        
+     
     </tr>
 }
 

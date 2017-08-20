@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,9 +23,30 @@ namespace WorkstationBrowser.Controllers
         }
 
         // GET: Team/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int id){
+            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+            ViewBag.id = id;
+            return View(wrapper.WorkstationSession.GetAllTeams().First(team => team.id == id));
+        }
+
+        [HttpPost]
+        public ActionResult FileUpload(HttpPostedFileBase file, int id)
         {
-            return View();
+
+            if (file != null)
+            {
+                SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
+                var CurrentTeam = currentSession.WorkstationSession.GetTeamPerId(id);
+                string pic = CurrentTeam.name.Replace(" ", String.Empty) + "_ico" + Path.GetExtension(file.FileName);
+                string path = System.IO.Path.Combine(Server.MapPath("~/UserContent/Team/"), pic);
+                // file is uploaded
+                file.SaveAs(path);
+                CurrentTeam.teampic = pic;
+                currentSession.WorkstationSession.EditTeam(CurrentTeam);
+            }
+            // after successfully uploading redirect the user
+            return RedirectToAction("Details", new { id = id });
         }
 
         // GET: Team/Create
