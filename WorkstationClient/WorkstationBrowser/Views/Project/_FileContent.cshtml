@@ -1,0 +1,29 @@
+﻿
+    
+@{
+    Layout = "";
+    String path = ViewData["Path"].ToString();
+    String loweredPath = path;
+    //System.IO.File.ReadAllLines(path);
+}
+
+@if (!loweredPath.Contains(".exe")) {
+    if (loweredPath.Contains(".jpg") || loweredPath.Contains(".png") || loweredPath.Contains("gif"))
+     {
+         <img src="@path" width="250" height="250"/>
+    }
+    else {
+        String[] lines = System.IO.File.ReadAllLines(path);
+        foreach (var line in lines) {
+             <p>
+                 @Html.DisplayTextFor(Line => line)
+             </p>
+         }
+     }
+}
+else
+{
+    <p>
+        No Possible preview
+    </p>
+}

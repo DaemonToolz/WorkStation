@@ -197,6 +197,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\LogInModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -334,6 +335,8 @@
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -380,11 +383,13 @@
     <Content Include="Views\Department\Index.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Message\_Index.cshtml" />
+    <Content Include="Views\Project\_DocumentCreator.cshtml" />
+    <Content Include="Views\Project\ProjectDocuments.cshtml" />
+    <Content Include="Views\Project\_FileContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Departments\" />
-    <Folder Include="Views\Project\Task\" />
     <Folder Include="Views\Sections\" />
   </ItemGroup>
   <ItemGroup>

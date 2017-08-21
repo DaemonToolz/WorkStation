@@ -11,19 +11,28 @@ namespace WorkstationBrowser.Controllers
     public class TaskController : Controller
     {
         // GET: Task
-        [ChildActionOnly]
+     
         public ActionResult _Index(ProjectModel related, SessionWrapper originalSession, int? userid, short? AddSection)
         {
             var allTasks = originalSession.WorkstationSession.GetAllTasks(related?.id, userid);
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-
+            
             Session["ProjectId"] = related.id;
             ViewData["AddSection"] = AddSection;
+            if (userid == null && related != null)
+            {
+                SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+                var CurrentTeam = wrapper.WorkstationSession.GetAllTeams()
+                    .Single(team => team.project_id == related.id);
+
+                ViewData["TeamMembers"] = wrapper.WorkstationSession.GetAllUsers()
+                    .Where(user => user.team_id == CurrentTeam.id).ToArray();
+            }
 
             return PartialView(allTasks);
         }
 
-        [ChildActionOnly]
+
         public ActionResult _Create(){
             SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
             var CurrentTeam = wrapper.WorkstationSession.GetAllTeams()
@@ -39,8 +48,8 @@ namespace WorkstationBrowser.Controllers
             return PartialView();
         }
 
-        [ChildActionOnly]
         [HttpPost]
+        
         public ActionResult _Create([Bind(Include = "title,description, begin, end, user_id")] TaskModel model){
             SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
 
@@ -60,12 +69,10 @@ namespace WorkstationBrowser.Controllers
                 CurrentUsers,
                 "id", "username");
 
-
-            return PartialView();
+            return RedirectToAction("Details", "Project", new { id = model.project_id });
         }
 
-        /*
-        [ChildActionOnly]
+        
         [HttpPost]
         public ActionResult _Index([Bind(Include = "id,title,description,begin, end, user_id, project_id")] TaskModel model, string action){
 
@@ -74,9 +81,15 @@ namespace WorkstationBrowser.Controllers
             if (action.Equals("Delete"))
                 currentSession.WorkstationSession.DeleteTask(model);
 
-            var currentProject = Session["CurrentProject"] as ProjectModel;
-            return PartialView();
+
+            var allTasks = currentSession.WorkstationSession.GetAllTasks(model.project_id, null);
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+
+            Session["ProjectId"] = model.project_id;
+            ViewData["AddSection"] = true;
+
+            return RedirectToAction("Details", "Project", new {id = model.project_id});
         }
-        */
+        
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WorkstationBrowser.Controllers.Remote;
+using WorkstationBrowser.Models;
 
 namespace WorkstationBrowser.Controllers
 {
@@ -56,5 +57,48 @@ namespace WorkstationBrowser.Controllers
             // after successfully uploading redirect the user
             return RedirectToAction("Details", new { id = id });
         }
+
+
+        public ActionResult ProjectDocuments(String root)
+        {
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+            List<DocumentModel> files = new List<DocumentModel>();
+            foreach (string file in Directory.EnumerateFiles(root))
+            {
+                FileInfo fileinfo = new FileInfo(file);
+                files.Add(new DocumentModel()
+                {
+                    Name = fileinfo.Name,
+                    Path = fileinfo.FullName,
+                    Extension = fileinfo.Extension
+                });
+        
+            }
+            return View(files);
+        }
+
+        public ActionResult _DocumentCreator()
+        {
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+           
+            return View();
+        }
+
+        public ActionResult _CreateDocument(String title, String content)
+        {
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+           
+            return RedirectToAction("_DocumentCreator");
+        }
+
+        [HttpPost]
+        public ActionResult _FileContent(String path) {
+            //String[] filecontent = 
+            ViewData["Path"] = path;
+            return PartialView();
+
+        }
+
+
     }
 }

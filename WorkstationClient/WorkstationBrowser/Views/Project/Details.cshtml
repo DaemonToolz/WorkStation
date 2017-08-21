@@ -42,32 +42,31 @@
 <div>
     <h4> Project details</h4>
     <hr />
-    <dl class="dl-horizontal">
-
- 
-        <dt>
-            @Html.DisplayNameFor(model => model.root)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.root)
-        </dd>
-        
-
-    </dl>
     
     <div class="row">
         
         <div class="col-xs-12 col-md-12 col-lg-12">
             <h4> All Tasks </h4>
-            @{ Html.RenderAction("_Index", "Task", new
-               {
-                   related = Model,
-                   originalSession = (SessionWrapper) ViewData["CurrentSession"],
-                   AddSection = (short)1
-               }
-                   ); }
+            <div class="section-scroll-2 ">
+                @{Html.RenderAction("_Index", "Task", new
+                  {
+                      related = Model,
+                      originalSession = (SessionWrapper) ViewData["CurrentSession"],
+                      AddSection = (short)1
+                  }
+                      ); 
+                }
+            </div>
 
+        </div>
+        
+        
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            <h4> Documents </h4>
+            @Html.ActionLink(" ", "ProjectDocuments", new
+            {
+                root = Model.root
+            }, new{@class="glyphicon glyphicon-folder-open"})
         </div>
     </div>
 </div>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<WorkstationBrowser.Models.DocumentModel>
+
+@{
+    ViewBag.Title = "ProjectDocuments";
+    
+    AjaxOptions options = new AjaxOptions(){
+             HttpMethod = "POST",
+             UpdateTargetId = "text-rendering",
+             InsertionMode = InsertionMode.Replace
+
+     };
+}
+
+<h2>ProjectDocuments</h2>
+
+<div class="row section-scroll-2">
+    
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Extension)
+            </th>
+            <th>
+              
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Extension)
+            </td>
+            <td>
+               
+            </td>
+            <td>
+                @{
+                    String tmp = item.Path.Replace("\\", "/");
+                }
+
+                @Ajax.ActionLink(" ", "_FileContent","Project",new { path = tmp },options,new {@class="glyphicon glyphicon-eye-open"})
+
+            </td>
+        </tr>
+    }
+
+    </table>
+</div>
+
+
+<hr/>
+
+<div class="row section-scroll-2" id="text-rendering">
+
+</div>

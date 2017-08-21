@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WorkstationBrowser.SessionReference.TaskModel>
+﻿@using WorkstationBrowser.SessionReference
+@model IEnumerable<WorkstationBrowser.SessionReference.TaskModel>
 
 @{
     
@@ -30,43 +31,63 @@
 
         <th></th>
     </tr>
+    
 
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.ValueFor(modelItem => item.begin, "{0:dd/MM/yyyy}")
-            </td>
-            <td>
-                @Html.ValueFor(modelItem => item.end, "{0:dd/MM/yyyy}")
-            </td>
-        @{
-            if (ViewData["AddSection"] != null)
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.user_id)
-                </td>
-            }
-        }
-            </tr>
-    }
-    @{
-        if (ViewData["AddSection"] != null && MyRights["CanEditTask"] ){
+    @for (int i = 0; i < Model.Count(); ++i) {
+        using (Html.BeginForm("_Index", "Task", FormMethod.Post))
+        {
             <tr>
                 <td>
-                    <button id="new_task" class="btn btn-default">
-                        <i class="glyphicon glyphicon-plus"></i>
-                    </button>
-
+                    @Html.HiddenFor(modelItem => Model.ElementAt(i).id)
+                    @Html.DisplayFor(modelItem => Model.ElementAt(i).title)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ElementAt(i).description)
+                </td>
+                <td>
+                    @Html.ValueFor(modelItem => Model.ElementAt(i).begin, "{0:dd/MM/yyyy}")
+                </td>
+                <td>
+                    @Html.ValueFor(modelItem => Model.ElementAt(i).end, "{0:dd/MM/yyyy}")
+                </td> 
+                <td>
+                    @if (ViewData["AddSection"] != null && Model.ElementAt(i).user_id != null) {
+                        @Html.Raw(((UsersModel[]) ViewData["TeamMembers"]).Single(user => user.id == Model.ElementAt(i).user_id).username) 
+                    }
+                    @Html.HiddenFor(modelItem => Model.ElementAt(i).user_id)
+                    @Html.HiddenFor(modelItem => Model.ElementAt(i).project_id)
+                </td>
+                @{
+                    if (ViewData["AddSection"] != null && MyRights["CanEditTask"])
+                    {
+
+                    <td>
+                        <button type="submit" id="del_task" class="btn btn-default" name="action" value="Delete">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+                    </td>
+
+                    }
+                }
             </tr>
         }
     }
+    
+    @{
+        if (ViewData["AddSection"] != null && MyRights["CanEditTask"]) {
+            <tr>
+                <td>
+                    <a id="new_task" class="btn btn-default" >
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </a>
+                </td>
+
+            </tr>
+        }
+
+    }
+
+
 </table>
 
 @{

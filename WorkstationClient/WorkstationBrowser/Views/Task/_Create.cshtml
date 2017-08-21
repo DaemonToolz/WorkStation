@@ -3,7 +3,7 @@
     Layout = "";
 }
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("_Create","Task", FormMethod.Post)) 
 {
     @Html.AntiForgeryToken()
     
@@ -29,7 +29,7 @@
         <div class="col-md-12  col-lg-12 col-xs-12">
             <label class="col-md-12 col-lg-12 col-xs-12 text-center"> Description </label>
             <div class="col-md-12 col-lg-12 col-xs-12">
-                @Html.TextAreaFor(model => model.description, new {@class = "form-control", rows = "6", cols = "10", style = "max-width:100% !important;"})
+                @Html.TextAreaFor(model => model.description, new { maxlength = 128, @class = "form-control", rows = "6", cols = "10", style = "max-width:100% !important;"})
                 @Html.ValidationMessageFor(model => model.description, "", new {@class = "text-danger"})
             </div>
         </div>
@@ -90,7 +90,3 @@
 }
 
 
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
