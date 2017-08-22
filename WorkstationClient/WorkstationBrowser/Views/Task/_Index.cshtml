@@ -61,11 +61,15 @@
                     if (ViewData["AddSection"] != null && MyRights["CanEditTask"])
                     {
 
-                    <td>
-                        <button type="submit" id="del_task" class="btn btn-default" name="action" value="Delete">
-                            <i class="glyphicon glyphicon-trash"></i>
-                        </button>
-                    </td>
+                    
+                        <td>
+                            <button type="submit" id="del_task" class="btn btn-default" name="action" value="Edit">
+                                <i class="glyphicon glyphicon-cog"></i>
+                            </button>
+                            <button type="submit" id="del_task" class="btn btn-default" name="action" value="Delete">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </td>
 
                     }
                 }

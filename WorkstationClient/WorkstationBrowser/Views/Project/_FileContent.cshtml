@@ -10,7 +10,7 @@
 @if (!loweredPath.Contains(".exe")) {
     if (loweredPath.Contains(".jpg") || loweredPath.Contains(".png") || loweredPath.Contains("gif"))
      {
-         <img src="@path" width="250" height="250"/>
+         <img src="@path" class="text-center" width="250" height="250"/>
     }
     else {
         String[] lines = System.IO.File.ReadAllLines(path);

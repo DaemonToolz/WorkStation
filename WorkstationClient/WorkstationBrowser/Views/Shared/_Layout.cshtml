@@ -48,22 +48,41 @@
                     }
                 </ul>
             }
-
+            
+      
             <ul class="nav navbar-nav navbar-right">
                    
                 @if (Request.IsAuthenticated){
-                    <li>
-                        @{
-                            String profilePicture = ((SessionWrapper) Session["WorkstationConnection"]).CurrentUser.profilepic;
-                        }
-                        <a href="@Url.Action("Index", "Notifications")" >
-                            <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
-                            @if (ViewData["UnreadNotifications"] != null && int.Parse(ViewData["UnreadNotifications"].ToString()) > 0){
-                                <span id="UnreadCount" class="badge"> @ViewData["UnreadNotifications"] </span>
-                            }
-                        </a>
+                    
+                    Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
+                     
+                    String profilePicture = ((SessionWrapper) Session["WorkstationConnection"]).CurrentUser.profilepic;
+                     
+                    if (MyRights["CanReadMesg"])
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Message")" >
+                                <span class="fa fa-envelope" aria-hidden="true"></span>
+                          
+                            </a>
                         
-                    </li>
+                        </li>
+                    }
+
+                    if (MyRights["CanReadNoti"])
+                    {
+                        <li>
+                        
+                            <a href="@Url.Action("Index", "Notifications")" >
+                                <span class="fa fa-bell" aria-hidden="true"></span>
+                                @if (ViewData["UnreadNotifications"] != null && int.Parse(ViewData["UnreadNotifications"].ToString()) > 0){
+                                    <span id="UnreadCount" class="badge"> @ViewData["UnreadNotifications"] </span>
+                                }
+                            </a>
+                        
+                        </li>
+                    }
+                   
                     <li>
                         <a href="#"><span class="fa fa-comment" aria-hidden="true" onclick="openNav()"></span> </a>
                     </li>
@@ -94,7 +113,7 @@
 @if (Request.IsAuthenticated) {
     <div id="mySidenav" class="sidenav">
         @foreach (var user in NotificationHub.MyUsers){
-            <a href="#" id="@user.Key)" class="chat">
+            <a href="#" id="@user.Key)" onclick="chatUpdate('@user.Key')" class="chat">
                 <img style="vertical-align: middle;"src="~/UserContent/Profile/@(user.Value.CurrentUser.profilepic)"
                      width="50" height="50" class="status-img img-circle" /> 
                 <img src="~/Content/images/online.png" width="15" height="15" class="status-img-chat img-circle" />
@@ -118,8 +137,8 @@
     
 <div class="popup-box chat-popup" id="qnimate">
     <div class="popup-head">
-        <div class="popup-head-left pull-left">
-            Test
+        <div class="popup-head-left pull-left" id="chat_contact">
+            
         </div>
         <div class="popup-head-right pull-right">			
             <button data-widget="remove" id="removeClass" class="chat-header-button pull-right" type="button">
@@ -127,6 +146,7 @@
             </button>
         </div>
     </div>
+    <hr />
     <div class="popup-messages">
         <div class="direct-chat-messages">
         </div>
@@ -194,8 +214,12 @@
            $("#removeClass").click(function () {
                $('#qnimate').removeClass('popup-box-on');
             });
-           
-         
+
+
+           function chatUpdate(caller) {
+               
+               $("#chat_contact").html(caller);
+           }
        </script>
     }
 

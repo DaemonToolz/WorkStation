@@ -77,10 +77,15 @@ namespace WorkstationBrowser.Controllers
         public ActionResult _Index([Bind(Include = "id,title,description,begin, end, user_id, project_id")] TaskModel model, string action){
 
             var currentSession = Session["WorkstationConnection"] as SessionWrapper;
-            
-            if (action.Equals("Delete"))
-                currentSession.WorkstationSession.DeleteTask(model);
 
+            switch (action) {
+                case "Delete":
+                    currentSession.WorkstationSession.DeleteTask(model);
+                    break;
+                case "Edit":
+                    return RedirectToAction("Edit", "Task", new {id = model.id});
+                    break;
+            }
 
             var allTasks = currentSession.WorkstationSession.GetAllTasks(model.project_id, null);
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
@@ -90,6 +95,49 @@ namespace WorkstationBrowser.Controllers
 
             return RedirectToAction("Details", "Project", new {id = model.project_id});
         }
-        
+
+
+        public ActionResult Edit(long id)
+        {
+          
+            var currentSession = Session["WorkstationConnection"] as SessionWrapper;
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+            var CurrentTeam = currentSession.WorkstationSession.GetAllTeams()
+                .Single(team => team.project_id == (long)Session["ProjectId"]);
+            List<UsersModel> CurrentUsers = currentSession.WorkstationSession.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+            CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
+
+            ViewBag.user_id = new SelectList(
+                CurrentUsers,
+                "id", "username");
+            return View(currentSession.WorkstationSession.GetTaskId(id));
+        }
+
+        // POST: Users/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "id,title,description,begin,end,user_id,project_id")] TaskModel task, String action)
+        {
+            if(action.Equals("Cancel"))
+                return RedirectToAction("Details", "Project", new { id = task.project_id });
+
+            var currentSession = Session["WorkstationConnection"] as SessionWrapper;
+            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+            var CurrentTeam = currentSession.WorkstationSession.GetAllTeams()
+                .Single(team => team.project_id == (long)Session["ProjectId"]);
+            List<UsersModel> CurrentUsers = currentSession.WorkstationSession.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+            CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
+            if (task.user_id == 0)
+            {
+                task.user_id = null;
+            }
+            currentSession.WorkstationSession.EditTask(task);
+            ViewBag.user_id = new SelectList(
+                CurrentUsers,
+                "id", "username");
+            return RedirectToAction("Details","Project",new{id = task.project_id});
+        }
     }
 }

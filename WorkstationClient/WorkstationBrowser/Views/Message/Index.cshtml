@@ -1,50 +1,57 @@
-﻿@model IEnumerable<WorkstationBrowser.SessionReference.MessageModel>
+﻿@using WorkstationBrowser.SessionReference
+@model IEnumerable<WorkstationBrowser.SessionReference.MessageModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>_Index</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.content)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.from)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.read)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.to)
-        </th>
-        <th></th>
-    </tr>
+<div class="row" >
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class=" ">
+            @{Html.RenderAction("_Create"); }
+        </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.content)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.from)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.read)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.to)
-        </td>
- 
-    </tr>
-}
+    </div>
+</div>
 
-</table>
+<div class="row" style="padding-top: 50px">
+    @foreach (var item in Model) {
+
+        <div class="col-lg-6 col-md-6 col-xs-12" style="border: double; border-color: #efeeee; border-radius:20px;">
+            <p class="pull-right">
+
+                <a href="#">
+                    <span class="fa fa-envelope fa-2x " style="color:black"></span>
+                </a>
+                <a href="#">
+                    <span class="fa fa-comment fa-2x " style="color:black"></span>
+                </a>
+                <a href="#">
+                    <span class="fa fa-times fa-2x " style="color: red"></span>
+                </a>
+
+            </p>
+            @if (item.title == null || !item.title.Any()) {
+               <h3> <strong> Untitled </strong> </h3>
+            }
+            else {
+                <h3><strong>@Html.DisplayFor(modelItem => item.title)</strong></h3>
+            }
+            
+            <h6> From @(((UsersModel[])ViewData["AllUsers"]).Single(user => user.id == item.from).username) </h6> 
+            <h6> To @(((UsersModel[])ViewData["AllUsers"]).Single(user => user.id == item.to).username) </h6>
+         
+
+            <hr />
+            
+            <p>
+                @Html.DisplayFor(modelItem => item.content)
+            </p>
+                 @Html.HiddenFor(modelItem => item.from)
+                 @Html.HiddenFor(modelItem => item.to)
+        </div>
+
+   
+    }
+</div>

@@ -62,6 +62,7 @@ namespace WorkstationBrowser.Controllers
         public ActionResult ProjectDocuments(String root)
         {
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+            ViewData["ProjectRoot"] = root;
             List<DocumentModel> files = new List<DocumentModel>();
             foreach (string file in Directory.EnumerateFiles(root))
             {
@@ -98,7 +99,20 @@ namespace WorkstationBrowser.Controllers
             return PartialView();
 
         }
+      
+        public FileResult Download(String path) {
+            FileInfo file = new FileInfo(path);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+            string fileName = file.Name;
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
 
+
+
+        public ActionResult DeleteFile(String path, String root){
+            System.IO.File.Delete(path);
+            return RedirectToAction("ProjectDocuments", "Project", new {root = root});
+        }
 
     }
 }

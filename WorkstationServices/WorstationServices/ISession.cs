@@ -94,6 +94,10 @@ namespace WorkstationServices
         IEnumerable<TaskModel> GetAllTasks(long? project_id, int? user_id);
 
         [OperationContract]
+        TaskModel GetTaskId(long id);
+
+
+        [OperationContract]
         void CreateTask (TaskModel newTask);
 
         [OperationContract]

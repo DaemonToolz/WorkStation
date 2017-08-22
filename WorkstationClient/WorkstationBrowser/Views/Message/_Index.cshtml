@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WorkstationBrowser.SessionReference.MessageModel>
+﻿@using WorkstationBrowser.SessionReference
+@model IEnumerable<WorkstationBrowser.SessionReference.MessageModel>
 
 @{
     Layout = "";
@@ -31,10 +32,13 @@
             @Html.DisplayFor(modelItem => item.content)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.from)
+            @(((UsersModel[])ViewData["AllUsers"]).Single(user => user.id == item.from).username)
+            
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.to)
+
+            @(((UsersModel[])ViewData["AllUsers"]).Single(user => user.id == item.to).username)
+          
         </td>
 
     </tr>

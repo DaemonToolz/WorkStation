@@ -2,13 +2,23 @@
 
 @{
     ViewBag.Title = "ProjectDocuments";
-    
-    AjaxOptions options = new AjaxOptions(){
-             HttpMethod = "POST",
-             UpdateTargetId = "text-rendering",
-             InsertionMode = InsertionMode.Replace
 
-     };
+    AjaxOptions ViewOptions = new AjaxOptions(){
+        HttpMethod = "POST",
+        UpdateTargetId = "text-rendering",
+        InsertionMode = InsertionMode.Replace
+
+    };
+
+    AjaxOptions DownloadOptions = new AjaxOptions(){
+        HttpMethod = "POST",
+    };
+
+    AjaxOptions DeleteOptions = new AjaxOptions()
+    {
+        HttpMethod = "POST",
+    };
+
 }
 
 <h2>ProjectDocuments</h2>
@@ -45,11 +55,17 @@
                     String tmp = item.Path.Replace("\\", "/");
                 }
 
-                @Ajax.ActionLink(" ", "_FileContent","Project",new { path = tmp },options,new {@class="glyphicon glyphicon-eye-open"})
-
+                @Ajax.ActionLink(" ", "_FileContent","Project",new { path = tmp },ViewOptions,new {@class="glyphicon glyphicon-eye-open"})
+                
+                @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "glyphicon glyphicon-cloud-download" })
+                
+                @Html.ActionLink(" ", "DeleteFile", "Project", new { path = tmp, root = (String)ViewData["ProjectRoot"] }, new { @class = "glyphicon glyphicon-trash" })
+         
             </td>
+         
         </tr>
     }
+     
 
     </table>
 </div>

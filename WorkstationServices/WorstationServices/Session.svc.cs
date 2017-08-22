@@ -411,7 +411,22 @@ namespace WorkstationServices
                 });
 
             return TaskModels;
+            
+        }
 
+        public TaskModel GetTaskId(long id)
+        {
+            var task = entities.Task.Single(record => record.id == id);
+            return new TaskModel()
+            {
+                id = id,
+                begin = task.begin,
+                description = task.description,
+                end = task.end,
+                project_id = task.project_id,
+                title = task.title,
+                user_id = task.user_id
+            };
         }
 
 

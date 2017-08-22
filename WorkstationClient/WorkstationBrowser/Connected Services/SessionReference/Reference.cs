@@ -989,6 +989,12 @@ namespace WorkstationBrowser.SessionReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllTasks", ReplyAction="http://tempuri.org/ISession/GetAllTasksResponse")]
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel[]> GetAllTasksAsync(System.Nullable<long> project_id, System.Nullable<int> user_id);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetTaskId", ReplyAction="http://tempuri.org/ISession/GetTaskIdResponse")]
+        WorkstationBrowser.SessionReference.TaskModel GetTaskId(long id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetTaskId", ReplyAction="http://tempuri.org/ISession/GetTaskIdResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel> GetTaskIdAsync(long id);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTask", ReplyAction="http://tempuri.org/ISession/CreateTaskResponse")]
         void CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask);
         
@@ -1241,6 +1247,14 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel[]> GetAllTasksAsync(System.Nullable<long> project_id, System.Nullable<int> user_id) {
             return base.Channel.GetAllTasksAsync(project_id, user_id);
+        }
+        
+        public WorkstationBrowser.SessionReference.TaskModel GetTaskId(long id) {
+            return base.Channel.GetTaskId(id);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel> GetTaskIdAsync(long id) {
+            return base.Channel.GetTaskIdAsync(id);
         }
         
         public void CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask) {

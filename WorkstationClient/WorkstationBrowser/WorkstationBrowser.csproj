@@ -320,6 +320,9 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Connected Services\SessionReference\WorkstationBrowser.SessionReference.MessageModel.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -386,6 +389,8 @@
     <Content Include="Views\Project\_DocumentCreator.cshtml" />
     <Content Include="Views\Project\ProjectDocuments.cshtml" />
     <Content Include="Views\Project\_FileContent.cshtml" />
+    <Content Include="Views\Task\Edit.cshtml" />
+    <Content Include="Views\Message\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
