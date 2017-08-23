@@ -137,6 +137,9 @@
   <wsdl:message name="ISession_UpdateNotifications_InputMessage">
     <wsdl:part name="parameters" element="tns:UpdateNotifications" />
   </wsdl:message>
+  <wsdl:message name="ISession_UpdateDirectMessages_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateDirectMessages" />
+  </wsdl:message>
   <wsdl:message name="ISession_DeleteNotification_InputMessage">
     <wsdl:part name="parameters" element="tns:DeleteNotification" />
   </wsdl:message>
@@ -196,6 +199,9 @@
   </wsdl:message>
   <wsdl:message name="ISession_NotificationPull_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotificationPull" />
+  </wsdl:message>
+  <wsdl:message name="ISession_MessagePull_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:MessagePull" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="ISession">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="LogIn">
@@ -276,6 +282,9 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateNotifications">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/UpdateNotifications" message="tns:ISession_UpdateNotifications_InputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateDirectMessages">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/UpdateDirectMessages" message="tns:ISession_UpdateDirectMessages_InputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteNotification">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteNotification" message="tns:ISession_DeleteNotification_InputMessage" />
     </wsdl:operation>
@@ -317,6 +326,9 @@
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotificationPull">
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/NotificationPull" message="tns:ISession_NotificationPull_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="MessagePull">
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/MessagePull" message="tns:ISession_MessagePull_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSDualHttpBinding_ISession" type="tns:ISession">
@@ -496,6 +508,12 @@
         <soap12:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="UpdateDirectMessages">
+      <soap12:operation soapAction="http://tempuri.org/ISession/UpdateDirectMessages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
     <wsdl:operation name="DeleteNotification">
       <soap12:operation soapAction="http://tempuri.org/ISession/DeleteNotification" style="document" />
       <wsdl:input>
@@ -585,6 +603,12 @@
     </wsdl:operation>
     <wsdl:operation name="NotificationPull">
       <soap12:operation soapAction="http://tempuri.org/ISession/NotificationPull" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MessagePull">
+      <soap12:operation soapAction="http://tempuri.org/ISession/MessagePull" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>

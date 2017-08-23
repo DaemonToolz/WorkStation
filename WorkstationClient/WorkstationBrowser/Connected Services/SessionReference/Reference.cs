@@ -741,6 +741,9 @@ namespace WorkstationBrowser.SessionReference {
         
         private string contentField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool directField;
+        
         private int fromField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -773,6 +776,19 @@ namespace WorkstationBrowser.SessionReference {
                 if ((object.ReferenceEquals(this.contentField, value) != true)) {
                     this.contentField = value;
                     this.RaisePropertyChanged("content");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool direct {
+            get {
+                return this.directField;
+            }
+            set {
+                if ((this.directField.Equals(value) != true)) {
+                    this.directField = value;
+                    this.RaisePropertyChanged("direct");
                 }
             }
         }
@@ -977,6 +993,12 @@ namespace WorkstationBrowser.SessionReference {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/UpdateNotifications")]
         System.Threading.Tasks.Task UpdateNotificationsAsync(int userid, string caller);
         
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/UpdateDirectMessages")]
+        void UpdateDirectMessages(int userid, int targetid, string caller);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/UpdateDirectMessages")]
+        System.Threading.Tasks.Task UpdateDirectMessagesAsync(int userid, int targetid, string caller);
+        
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/DeleteNotification")]
         void DeleteNotification(long notificationid, int userid);
         
@@ -1014,10 +1036,10 @@ namespace WorkstationBrowser.SessionReference {
         System.Threading.Tasks.Task<bool> EditTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllMessages", ReplyAction="http://tempuri.org/ISession/GetAllMessagesResponse")]
-        WorkstationBrowser.SessionReference.MessageModel[] GetAllMessages(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received);
+        WorkstationBrowser.SessionReference.MessageModel[] GetAllMessages(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received, bool direct_only, bool indirect_only);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllMessages", ReplyAction="http://tempuri.org/ISession/GetAllMessagesResponse")]
-        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.MessageModel[]> GetAllMessagesAsync(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received);
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.MessageModel[]> GetAllMessagesAsync(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received, bool direct_only, bool indirect_only);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/SendMessage", ReplyAction="http://tempuri.org/ISession/SendMessageResponse")]
         bool SendMessage(WorkstationBrowser.SessionReference.MessageModel caller);
@@ -1043,6 +1065,9 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/NotificationPull")]
         void NotificationPull(WorkstationBrowser.SessionReference.NotificationModel[] notifications, string caller);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ISession/MessagePull")]
+        void MessagePull(WorkstationBrowser.SessionReference.MessageModel[] notifications, string caller);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1233,6 +1258,14 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.UpdateNotificationsAsync(userid, caller);
         }
         
+        public void UpdateDirectMessages(int userid, int targetid, string caller) {
+            base.Channel.UpdateDirectMessages(userid, targetid, caller);
+        }
+        
+        public System.Threading.Tasks.Task UpdateDirectMessagesAsync(int userid, int targetid, string caller) {
+            return base.Channel.UpdateDirectMessagesAsync(userid, targetid, caller);
+        }
+        
         public void DeleteNotification(long notificationid, int userid) {
             base.Channel.DeleteNotification(notificationid, userid);
         }
@@ -1281,12 +1314,12 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.EditTaskAsync(newTask);
         }
         
-        public WorkstationBrowser.SessionReference.MessageModel[] GetAllMessages(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received) {
-            return base.Channel.GetAllMessages(caller, sended, received);
+        public WorkstationBrowser.SessionReference.MessageModel[] GetAllMessages(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received, bool direct_only, bool indirect_only) {
+            return base.Channel.GetAllMessages(caller, sended, received, direct_only, indirect_only);
         }
         
-        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.MessageModel[]> GetAllMessagesAsync(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received) {
-            return base.Channel.GetAllMessagesAsync(caller, sended, received);
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.MessageModel[]> GetAllMessagesAsync(WorkstationBrowser.SessionReference.UsersModel caller, bool sended, bool received, bool direct_only, bool indirect_only) {
+            return base.Channel.GetAllMessagesAsync(caller, sended, received, direct_only, indirect_only);
         }
         
         public bool SendMessage(WorkstationBrowser.SessionReference.MessageModel caller) {

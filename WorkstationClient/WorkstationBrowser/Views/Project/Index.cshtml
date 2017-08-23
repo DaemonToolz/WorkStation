@@ -39,8 +39,7 @@
 
         <td style="vertical-align: middle;">
 
-            @if (((ProjectModel) ViewData["MyProject"]).id == item.id && !item.name.Equals("Aucun"))
-            {
+            @if (((ProjectModel) ViewData["MyProject"]).id == item.id && !item.name.Equals("Aucun")){
                 @Html.ActionLink("Details", "Details", new {id = item.id})
             }
         </td>

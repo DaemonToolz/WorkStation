@@ -18,7 +18,7 @@ namespace WorkstationBrowser.Controllers
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
             ViewData["AllUsers"] = wrapper.GetAllUsers().ToArray();
 
-            return View(wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true));
+            return View(wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true, false,true));
         }
 
      
@@ -29,7 +29,7 @@ namespace WorkstationBrowser.Controllers
 
             ViewData["AllUsers"] = wrapper.GetAllUsers().ToArray();
 
-            return View(wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true));
+            return View(wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true, false, true));
         }
 
 
@@ -47,13 +47,12 @@ namespace WorkstationBrowser.Controllers
         }
 
         [HttpPost]
-
         public ActionResult _Create([Bind(Include = "title, content, to")] MessageModel model)
         {
             SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
             model.read = false;
             model.from = wrapper.CurrentUser.id;
-            
+            model.direct = false;
             wrapper.WorkstationSession.SendMessage(model);
             List<UsersModel> CurrentUsers = wrapper.WorkstationSession.GetAllUsers().ToList();
       
@@ -65,6 +64,20 @@ namespace WorkstationBrowser.Controllers
             return PartialView();
         }
 
+   
+        public void _UpdateDirectMessages(int targetid)
+        {
+            try
+            {
+                //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+                //wrapper.UpdateMessages(targetid);
+
+            }
+            catch
+            {
+    
+            }
+        }
 
     }
 }

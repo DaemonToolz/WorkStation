@@ -481,9 +481,12 @@ namespace WorkstationServices
             }
         }
 
-        public IEnumerable<MessageModel> GetAllMessages(UsersModel caller, bool sended = false, bool received = true){
+        public IEnumerable<MessageModel> GetAllMessages(UsersModel caller, bool sended = false, bool received = true, bool direct_only = false, bool indirect_only = true){
             List<MessageModel> allMessageModels = new List<MessageModel>();
-            foreach (var message in entities.Message.Where(record => (sended && record.from == caller.id) || (received && record.to == caller.id)))
+            foreach (var message in entities.Message.Where(
+                record => 
+                    ((sended && record.from == caller.id) || (received && record.to == caller.id)) 
+                        && ((record.direct && direct_only) || (!record.direct && indirect_only))))
             {
                 allMessageModels.Add(new MessageModel()
                 {
@@ -492,7 +495,8 @@ namespace WorkstationServices
                     from = message.from,
                     to = message.to,
                     read = message.read,
-                    title = message.title
+                    title = message.title,
+                    direct = message.direct
                 });
             }
 
@@ -510,7 +514,8 @@ namespace WorkstationServices
                     read = false,
                     title = model.title,
                     to = model.to,
-                    from = model.from
+                    from = model.from,
+                    direct = model.direct
                 });
                 entities.SaveChanges();
 
@@ -536,14 +541,27 @@ namespace WorkstationServices
 
         #region Callback
 
-        private IUpdateNotificationCallback Callback;
-        private System.Timers.Timer Timer;
-        private int connected_id;
-        private string hubcaller;
+        private IUpdateNotificationCallback Callback = null;
+        private System.Timers.Timer NotificationTimer = null;
+        private System.Timers.Timer MessagenTimer = null;
 
-        void OnTimerElapsed(object sender, ElapsedEventArgs e){
+        private int connected_id = -1;
+        private string hubcaller = null;
+        private int targetid = -1;
+
+        void NotificationOnNotificationTimerElapsed(object sender, ElapsedEventArgs e){
             Callback.NotificationPull(GetAllNotifications(connected_id), hubcaller);
-            //Callback.MessagePull()
+           
+        }
+
+        void MessageOnNotificationTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+     
+            Callback.MessagePull(
+                GetAllMessages(
+                    new UsersModel(){ id = connected_id }, true, true, true, false)
+                    .Where(msg => msg.to == targetid || msg.from == targetid).ToArray(), hubcaller);
+           
         }
 
         /// <summary>
@@ -552,22 +570,54 @@ namespace WorkstationServices
         /// <param name="FileName"></param>
         public void UpdateNotifications(int userid, string hubcaller)
         {
-            this.connected_id = userid;
-            this.hubcaller = hubcaller;
-            Callback = OperationContext.Current.GetCallbackChannel<IUpdateNotificationCallback>();
+            if (this.connected_id == -1)
+                this.connected_id = userid;
 
-            Timer = new System.Timers.Timer(5000);
-            Timer.Elapsed += OnTimerElapsed;
-            Timer.Enabled = true;
-            Timer.Start();
+            if (this.hubcaller == null)
+                this.hubcaller = hubcaller;
+
+            if(Callback == null)
+                Callback = OperationContext.Current.GetCallbackChannel<IUpdateNotificationCallback>();
+
+            if (NotificationTimer == null)
+            {
+                NotificationTimer = new System.Timers.Timer(5000);
+                NotificationTimer.Elapsed += NotificationOnNotificationTimerElapsed;
+                NotificationTimer.Enabled = true;
+                NotificationTimer.Start();
+            }
+        }
+
+
+        public void UpdateDirectMessages(int userid, int targetid,string caller) {
+            if (this.connected_id == -1)
+                this.connected_id = userid;
+
+            if (this.hubcaller == null)
+                hubcaller = caller;
+
+            this.targetid = targetid;
+
+            if (Callback == null)
+                Callback = OperationContext.Current.GetCallbackChannel<IUpdateNotificationCallback>();
+
+            if (MessagenTimer == null)
+            {
+                MessagenTimer = new System.Timers.Timer(2000);
+                MessagenTimer.Elapsed += MessageOnNotificationTimerElapsed;
+                MessagenTimer.Enabled = true;
+                MessagenTimer.Start();
+            }
         }
 
         public void Unregister()
         {
-            Timer.Stop();
-            Timer = null;
-
+            NotificationTimer.Stop();
+            MessagenTimer.Stop();
+            NotificationTimer = null;
+            MessagenTimer = null;
         }
+
 
         #endregion
 

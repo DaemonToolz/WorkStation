@@ -1,4 +1,5 @@
 ﻿@using System.Threading
+@using WorkstationBrowser.BLL
 @using WorkstationBrowser.Controllers.Remote
 @using WorkstationBrowser.Controllers.SignalR
 <!DOCTYPE html>
@@ -12,6 +13,12 @@
    
 </head>
 <body>
+
+@{
+    AjaxOptions ChatOptions = new AjaxOptions(){
+        HttpMethod = "GET"
+    };
+}
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -20,208 +27,255 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Application name", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
         </div>
         <div class="navbar-collapse collapse">
-            @if (Request.IsAuthenticated) {
+            @if (Request.IsAuthenticated)
+            {
                 <ul class="nav navbar-nav">
                     @{
                         Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
                     }
-                        
-                    @if (MyRights["CanReadUser"]) {
+
+                    @if (MyRights["CanReadUser"])
+                    {
                         <li> @Html.ActionLink("Users", "Index", "Users")</li>
                     }
-                        
+
                     @if (MyRights["CanReadTeam"])
                     {
                         <li> @Html.ActionLink("Teams", "Index", "Team")</li>
                     }
 
-                    @if (MyRights["CanReadProj"]) {
+                    @if (MyRights["CanReadProj"])
+                    {
                         <li> @Html.ActionLink("Projects", "Index", "Project")</li>
                     }
-                        
+
                     @if (MyRights["CanReadDept"])
                     {
                         <li> @Html.ActionLink("Departments", "Index", "Department")</li>
                     }
                 </ul>
             }
-            
-      
+
+
             <ul class="nav navbar-nav navbar-right">
-                   
-                @if (Request.IsAuthenticated){
-                    
+
+                @if (Request.IsAuthenticated)
+                {
+
                     Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
-                     
+
                     String profilePicture = ((SessionWrapper) Session["WorkstationConnection"]).CurrentUser.profilepic;
-                     
+
                     if (MyRights["CanReadMesg"])
                     {
                         <li>
-                            <a href="@Url.Action("Index", "Message")" >
+                            <a href="@Url.Action("Index", "Message")">
                                 <span class="fa fa-envelope" aria-hidden="true"></span>
-                          
+
                             </a>
-                        
+
                         </li>
                     }
 
                     if (MyRights["CanReadNoti"])
                     {
                         <li>
-                        
-                            <a href="@Url.Action("Index", "Notifications")" >
+
+                            <a href="@Url.Action("Index", "Notifications")">
                                 <span class="fa fa-bell" aria-hidden="true"></span>
-                                @if (ViewData["UnreadNotifications"] != null && int.Parse(ViewData["UnreadNotifications"].ToString()) > 0){
+                                @if (ViewData["UnreadNotifications"] != null && int.Parse(ViewData["UnreadNotifications"].ToString()) > 0)
+                                {
                                     <span id="UnreadCount" class="badge"> @ViewData["UnreadNotifications"] </span>
                                 }
                             </a>
-                        
+
                         </li>
                     }
-                   
+
                     <li>
                         <a href="#"><span class="fa fa-comment" aria-hidden="true" onclick="openNav()"></span> </a>
                     </li>
                     <li>
-                        @Html.ActionLink(" ", "Logout", "Login", null, new { @class = "glyphicon glyphicon-share" })
+                        @Html.ActionLink(" ", "Logout", "Login", null, new {@class = "glyphicon glyphicon-share"})
                     </li>
                     <li>
                         <a href="@Url.Action("MyProfile", "Users")" class="btn btn-default">
                             <!--<span class="glyphicon glyphicon-user" aria-hidden="true"></span>-->
                             <img src="~/UserContent/Profile/@(profilePicture)" width="25" height="25" class="profile-image img-circle"/>
-                                
+
                             @Html.Encode(User.Identity.Name)
                         </a>
-                          
+
                     </li>
                 }
-                else{
+                else
+                {
                     <li>
-                        @Html.ActionLink(" ", "Login", "Login", null, new {@class = "glyphicon glyphicon-user " })
+                        @Html.ActionLink(" ", "Login", "Login", null, new {@class = "glyphicon glyphicon-user "})
                     </li>
                 }
-                   
+
             </ul>
         </div>
     </div>
 </div>
-    
-@if (Request.IsAuthenticated) {
+
+@if (Request.IsAuthenticated)
+{
     <div id="mySidenav" class="sidenav">
-        @foreach (var user in NotificationHub.MyUsers){
-            <a href="#" id="@user.Key)" onclick="chatUpdate('@user.Key')" class="chat">
-                <img style="vertical-align: middle;"src="~/UserContent/Profile/@(user.Value.CurrentUser.profilepic)"
-                     width="50" height="50" class="status-img img-circle" /> 
-                <img src="~/Content/images/online.png" width="15" height="15" class="status-img-chat img-circle" />
-                @(user.Key)
-               
-            </a>
-        }
+        @foreach (var user in NotificationHub.MyUsers)
+        {
+        
+            @Ajax.RawActionLink(
+                                "<img style=\"vertical-align: middle;\" src=\"/UserContent/Profile/"+user.Value.CurrentUser.profilepic + "\" width=\"50\" height=\"50\" class=\"status-img img-circle\" />"+
+                                "<img src=\"/Content/images/online.png\" width=\"15\" height=\"15\" class=\"status-img-chat img-circle\" />" +
+                                user.Key,
+                                "_UpdateDirectMessages",
+                                "Message",
+                                new { targetid = user.Value.CurrentUser.id },
+                                ChatOptions,
+                                new { @class= "chat", id = user.Key, onclick ="chatUpdate('"+user.Key+"')"});
+
+            }
     </div>
 }
 
 <div class="container body-content">
-    
+
     @RenderBody()
-   
+
     <hr/>
     <footer>
         <p>&copy; @DateTime.Now.Year - Workstation </p>
     </footer>
 
 </div>
-    
+
 <div class="popup-box chat-popup" id="qnimate">
     <div class="popup-head">
         <div class="popup-head-left pull-left" id="chat_contact">
-            
+
         </div>
-        <div class="popup-head-right pull-right">			
+        <div class="popup-head-right pull-right">
             <button data-widget="remove" id="removeClass" class="chat-header-button pull-right" type="button">
                 <i class="fa fa-times"></i>
             </button>
         </div>
     </div>
-    <hr />
+    <hr/>
     <div class="popup-messages">
         <div class="direct-chat-messages">
+
         </div>
     </div>
     <div class="popup-messages-footer">
         <textarea id="status_message" placeholder="Type a message..." rows="10" cols="40" name="message"></textarea>
         <div class="btn-footer">
-         
+
         </div>
     </div>
 </div>
 
 
 @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-    
-   @if (Request.IsAuthenticated)
-   {
-       <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
-       <script src="~/signalr/hubs"></script>
-       <script type="text/javascript">
-           $(function() {
-               // Declare a proxy to reference the hub. 
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 
-               var notif = $.connection.notificationHub;
+@if (Request.IsAuthenticated)
+{
+    <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
 
-               // Create a function that the hub can call to broadcast messages.
-               notif.client.update = function (unread) {
-                   $("#UnreadCount").html(unread);
-                   //$("#UnreadCount").text = unread;
-               };
-               $.connection.hub.start().done(function () {
-            
-               });
+        var myId = @(((SessionWrapper) Session["WorkstationConnection"]).CurrentUser.id);
 
-               $(".datepicker").datepicker({ dateFormat: "dd/mm/yy" });
+        $(function() {
+            // Declare a proxy to reference the hub. 
 
-           });
+            var notif = $.connection.notificationHub;
 
-           /* Set the width of the side navigation to 250px */
-           function openNav() {
-               if (document.getElementById("mySidenav").style.width != "0px")
-                   closeNav();
-               else {
-                   if (document.documentElement.clientWidth > 1500)
-                        document.getElementById("mySidenav").style.width = "25%";
-                   else if (document.documentElement.clientWidth > 1000)
-                       document.getElementById("mySidenav").style.width = "30%";
-                   else 
-                       document.getElementById("mySidenav").style.width = "40%";
+            // Create a function that the hub can call to broadcast messages.
+            notif.client.update = function(unread) {
+                $("#UnreadCount").html(unread);
+                //$("#UnreadCount").text = unread;
+            };
+
+            notif.client.directmsg = function(message) {
+                $(".direct-chat-messages").html("");
+                for (var i = 0; i < message.length; ++i) {
+                    if (message[i].from == myId) {
+                        $(".direct-chat-messages").append(
+                            "<div class=\"direct-chat-msg doted-border\">" +
+                            "<div class=\"direct-chat-info clearfix\">" +
+                            "<span class=\"direct-chat-name pull-right\"> You </span>" +
+                            "</div>" +
+                            "<div class=\"direct-chat-text\">" +
+                            message[i].content +
+                            "</div>" +
+                            "</div>"
+                        );
+                    } else {
+                        $(".direct-chat-messages").append(
+                            "<div class=\"direct-chat-msg doted-border\">" +
+                            "<div class=\"direct-chat-info clearfix\">" +
+                            "<span class=\"direct-chat-name pull-left\">" +
+                            $("#chat_contact").html() +
+                            "</span>" +
+                            "</div>" +
+                            "<div class=\"direct-chat-text\">" +
+                            message[i].content +
+                            "</div>" +
+                            "</div>"
+                        );
+                    }
                 }
-           }
+            };
 
-            /* Set the width of the side navigation to 0 */
-           function closeNav() {
-               document.getElementById("mySidenav").style.width = "0px";
-           } 
+            $.connection.hub.start().done(function() {
 
-           
-           $(".chat").click(function () {
-                $('#qnimate').addClass('popup-box-on');
-           });
-          
-           $("#removeClass").click(function () {
-               $('#qnimate').removeClass('popup-box-on');
             });
 
+            $(".datepicker").datepicker({ dateFormat: "dd/mm/yy" });
 
-           function chatUpdate(caller) {
-               
-               $("#chat_contact").html(caller);
-           }
-       </script>
-    }
+        });
+
+        /* Set the width of the side navigation to 250px */
+        function openNav() {
+            if (document.getElementById("mySidenav").style.width != "0px")
+                closeNav();
+            else {
+                if (document.documentElement.clientWidth > 1500)
+                    document.getElementById("mySidenav").style.width = "25%";
+                else if (document.documentElement.clientWidth > 1000)
+                    document.getElementById("mySidenav").style.width = "30%";
+                else
+                    document.getElementById("mySidenav").style.width = "40%";
+            }
+        }
+
+        /* Set the width of the side navigation to 0 */
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0px";
+        }
+
+
+        $(".chat").click(function() {
+            $('#qnimate').addClass('popup-box-on');
+        });
+
+        $("#removeClass").click(function() {
+            $('#qnimate').removeClass('popup-box-on');
+        });
+
+
+        function chatUpdate(caller, source) {
+            $("#chat_contact").html(caller);
+        }
+    </script>
+}
 
 </body>
 </html>

@@ -86,6 +86,9 @@ namespace WorkstationServices
         [OperationContract(IsOneWay = true)]
         void UpdateNotifications(int userid, string caller);
 
+        [OperationContract(IsOneWay = true)]
+        void UpdateDirectMessages(int userid, int targetid, string caller);
+
 
         [OperationContract(IsOneWay = true)]
         void DeleteNotification(long notificationid, int userid);
@@ -107,7 +110,7 @@ namespace WorkstationServices
         bool EditTask(TaskModel newTask);
 
         [OperationContract]
-        IEnumerable<MessageModel> GetAllMessages(UsersModel caller, bool sended , bool received);
+        IEnumerable<MessageModel> GetAllMessages(UsersModel caller, bool sended , bool received, bool direct_only , bool indirect_only);
 
         [OperationContract]
         bool SendMessage(MessageModel caller);
@@ -127,8 +130,8 @@ namespace WorkstationServices
         [OperationContract(IsOneWay = true)]
         void NotificationPull(IEnumerable<NotificationModel> notifications, String caller);
 
-        //[OperationContract(IsOneWay = true)]
-        //void MessagePull(IEnumerable<MessageModel> notifications, String caller);
+        [OperationContract(IsOneWay = true)]
+        void MessagePull(IEnumerable<MessageModel> notifications, String caller);
 
     }
 }

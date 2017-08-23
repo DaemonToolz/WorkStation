@@ -25,5 +25,9 @@ namespace WorkstationMessaging.Model {
 
         [DataMember(IsRequired = false)]
         public bool read { get; set; }
+
+        [DataMember(IsRequired = false)]
+        public bool direct { get; set; }
+
     }
 }

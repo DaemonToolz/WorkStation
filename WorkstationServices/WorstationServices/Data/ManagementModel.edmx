@@ -22,6 +22,7 @@
           <Property Name="title" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="content" Type="varchar" MaxLength="512" Nullable="false" />
           <Property Name="read" Type="bit" Nullable="false" />
+          <Property Name="direct" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -438,6 +439,7 @@
           <Property Name="read" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="ManagementModel.FK__Message__from__6A30C649" FromRole="Message" ToRole="Users" />
           <NavigationProperty Name="Users1" Relationship="ManagementModel.FK__Message__to__6B24EA82" FromRole="Message" ToRole="Users" />
+          <Property Name="direct" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -606,6 +608,7 @@
           <EntitySetMapping Name="Message">
             <EntityTypeMapping TypeName="ManagementModel.Message">
               <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="direct" ColumnName="direct" />
                 <ScalarProperty Name="read" ColumnName="read" />
                 <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="title" ColumnName="title" />

@@ -257,6 +257,15 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="UpdateDirectMessages">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="userid" type="xs:int" />
+        <xs:element minOccurs="0" name="targetid" type="xs:int" />
+        <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="DeleteNotification">
     <xs:complexType>
       <xs:sequence>
@@ -340,6 +349,8 @@
         <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="caller" nillable="true" type="q26:UsersModel" />
         <xs:element minOccurs="0" name="sended" type="xs:boolean" />
         <xs:element minOccurs="0" name="received" type="xs:boolean" />
+        <xs:element minOccurs="0" name="direct_only" type="xs:boolean" />
+        <xs:element minOccurs="0" name="indirect_only" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -396,6 +407,14 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q31:ArrayOfNotificationModel" />
+        <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MessagePull">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q32:ArrayOfMessageModel" />
         <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>

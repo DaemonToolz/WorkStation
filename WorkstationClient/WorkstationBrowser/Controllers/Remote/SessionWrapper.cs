@@ -104,6 +104,19 @@ namespace WorkstationBrowser.Controllers.Remote{
             }
         }
 
+        public void UpdateMessages(int targetid)
+        {
+            try
+            {
+                WorkstationSession.UpdateDirectMessages(CurrentUser.id, targetid, CurrentUser.username);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e);
+            }
+        }
+        #region Callback
         public void NotificationPull(NotificationModel[] notifications, string caller)
         {
 
@@ -115,10 +128,7 @@ namespace WorkstationBrowser.Controllers.Remote{
                 .update(notifications.Count(notif => notif.read == false));
         }
 
-        public void MessagePull()
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public void SendMessage(MessageModel model){
             GlobalHost.ConnectionManager.GetHubContext<NotificationHub>()
@@ -129,5 +139,16 @@ namespace WorkstationBrowser.Controllers.Remote{
                 .message(model);
         }
 
+        public void MessagePull(MessageModel[] messages, string caller){
+            
+            GlobalHost.ConnectionManager.GetHubContext<NotificationHub>()
+                .Clients.Users(
+                    WorkstationSession.GetAllUsers().Select(user => user.username).ToArray()
+                )
+                .directmsg(messages);
+            
+        }
+
+        #endregion Callback
     }
 }

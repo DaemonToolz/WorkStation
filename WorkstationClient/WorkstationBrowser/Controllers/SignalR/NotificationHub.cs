@@ -15,6 +15,10 @@ namespace WorkstationBrowser.Controllers.SignalR {
             Clients.User(userid).update(notifications.Count(notif => notif.read == false));
         }
 
+        public void MessagePull(MessageModel[] messages, string userid)
+        {
+            Clients.User(userid).directmsg(messages);
+        }
 
         public static ConcurrentDictionary<string, SessionWrapper> MyUsers = new ConcurrentDictionary<string, SessionWrapper>();
 

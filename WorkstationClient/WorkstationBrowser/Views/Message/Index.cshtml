@@ -15,43 +15,75 @@
     </div>
 </div>
 
-<div class="row" style="padding-top: 50px">
-    @foreach (var item in Model) {
+<hr/>
 
-        <div class="col-lg-6 col-md-6 col-xs-12" style="border: double; border-color: #efeeee; border-radius:20px;">
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <div class="col-md-3 col-lg-3 col-xs-3">
+            <a href="@Url.Action("Index")" class="btn btn-default">    
+                <span class="glyphicon glyphicon-refresh"></span> Refresh mailbox
+            </a>
+        </div>
+        
+        <div class="col-md-3 col-lg-3 col-xs-3">
+            <a href="#" class="btn btn-default">    
+                <span class="glyphicon glyphicon-check"></span> Mark all as read
+            </a>
+        </div>
+        
+        <div class="col-md-3 col-lg-3 col-xs-3">
+            <a href="#" class="btn btn-default">
+                <span class="glyphicon glyphicon-trash"></span> Delete all
+            </a>
+        </div>
+
+        
+    </div>
+</div>
+
+<hr />
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+        <div class="col-lg-5 col-md-5 col-xs-12 col-md-offset-1 col-lg-offset-1" >
             <p class="pull-right">
 
-                <a href="#">
-                    <span class="fa fa-envelope fa-2x " style="color:black"></span>
+                <a href="@Url.Action("Index")" class="btn btn-default">
+                    <span class="fa fa-envelope fa-2x " style="color: black"></span>
                 </a>
-                <a href="#">
-                    <span class="fa fa-comment fa-2x " style="color:black"></span>
+                <a href="@Url.Action("Index")" class="btn btn-default">
+                    <span class="fa fa-comment fa-2x " style="color: black"></span>
                 </a>
-                <a href="#">
+                <a href="@Url.Action("Index")" class="btn btn-default">
                     <span class="fa fa-times fa-2x " style="color: red"></span>
                 </a>
 
             </p>
-            @if (item.title == null || !item.title.Any()) {
-               <h3> <strong> Untitled </strong> </h3>
+            @if (item.title == null || !item.title.Any())
+            {
+                <h3> <strong> Untitled </strong>
+                </h3>
             }
-            else {
-                <h3><strong>@Html.DisplayFor(modelItem => item.title)</strong></h3>
+            else
+            {
+                <h3><strong>@Html.DisplayFor(modelItem => item.title)</strong>
+                </h3>
             }
-            
-            <h6> From @(((UsersModel[])ViewData["AllUsers"]).Single(user => user.id == item.from).username) </h6> 
-            <h6> To @(((UsersModel[])ViewData["AllUsers"]).Single(user => user.id == item.to).username) </h6>
-         
 
-            <hr />
-            
+            <h6> From @(((UsersModel[]) ViewData["AllUsers"]).Single(user => user.id == item.from).username) </h6>
+            <h6> To @(((UsersModel[]) ViewData["AllUsers"]).Single(user => user.id == item.to).username) </h6>
+
+
+            <hr/>
+
             <p>
                 @Html.DisplayFor(modelItem => item.content)
             </p>
-                 @Html.HiddenFor(modelItem => item.from)
-                 @Html.HiddenFor(modelItem => item.to)
+            @Html.HiddenFor(modelItem => item.from)
+            @Html.HiddenFor(modelItem => item.to)
         </div>
 
-   
+
     }
 </div>

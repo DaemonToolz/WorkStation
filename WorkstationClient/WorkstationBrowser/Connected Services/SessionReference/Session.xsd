@@ -84,6 +84,7 @@
   <xs:complexType name="MessageModel">
     <xs:sequence>
       <xs:element name="content" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="direct" type="xs:boolean" />
       <xs:element name="from" type="xs:int" />
       <xs:element minOccurs="0" name="id" type="xs:long" />
       <xs:element minOccurs="0" name="read" type="xs:boolean" />

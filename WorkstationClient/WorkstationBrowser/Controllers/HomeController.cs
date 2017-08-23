@@ -28,6 +28,5 @@ namespace WorkstationBrowser.Controllers
             return View();
         }
 
-     
     }
 }
