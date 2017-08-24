@@ -11,13 +11,14 @@ namespace WorkstationBrowser.Controllers
 {
     public class NotificationsController : Controller {
         // GET: Notifications
-        public ActionResult Index() {
+        public ActionResult Index(bool unreadfirst = false, bool hideread = false) {
 
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
             NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];
            
             Session["SystemNotifications"] = notifications;
-
+            if (unreadfirst)
+                notifications.OrderBy(notif => !notif.read);
             return View(notifications);
         }
 
@@ -26,8 +27,10 @@ namespace WorkstationBrowser.Controllers
 
             var currentSession = Session["WorkstationConnection"] as SessionWrapper;
 
-            if (NotificationUpdater.Equals("Read"))
+            if (NotificationUpdater.Equals("Read")){
+                notification.read = true;
                 currentSession.WorkstationSession.AcknowledgeNotification(notification, currentSession.CurrentUser.id);
+            }
             else
                 currentSession.WorkstationSession.DeleteNotification(notification.id, currentSession.CurrentUser.id);
             Session["SystemNotifications"] =

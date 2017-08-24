@@ -25,9 +25,16 @@ namespace WorkstationBrowser.Controllers
         // GET: Team/Details/5
         public ActionResult Details(int id){
             SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+            var currentTeam = wrapper.WorkstationSession.GetAllTeams().First(team => team.id == id);
             ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
             ViewBag.id = id;
-            return View(wrapper.WorkstationSession.GetAllTeams().First(team => team.id == id));
+            ViewData["Department"] = wrapper.WorkstationSession.GetAllDepartments()
+                .Single(dept => dept.id == currentTeam.department_id);
+            if(currentTeam.project_id != null)
+                ViewData["Project"] = wrapper.WorkstationSession.GetProject((long)currentTeam.project_id);
+
+            ViewData["ActiveMembers"] = wrapper.WorkstationSession.GetAllUsers().Where(user => user.team_id == id).ToArray();
+            return View(currentTeam);
         }
 
         [HttpPost]

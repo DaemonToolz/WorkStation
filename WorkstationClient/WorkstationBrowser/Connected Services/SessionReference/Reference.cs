@@ -1047,6 +1047,12 @@ namespace WorkstationBrowser.SessionReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/SendMessage", ReplyAction="http://tempuri.org/ISession/SendMessageResponse")]
         System.Threading.Tasks.Task<bool> SendMessageAsync(WorkstationBrowser.SessionReference.MessageModel caller);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/MarkAsRead", ReplyAction="http://tempuri.org/ISession/MarkAsReadResponse")]
+        bool MarkAsRead(WorkstationBrowser.SessionReference.MessageModel caller);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/MarkAsRead", ReplyAction="http://tempuri.org/ISession/MarkAsReadResponse")]
+        System.Threading.Tasks.Task<bool> MarkAsReadAsync(WorkstationBrowser.SessionReference.MessageModel caller);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteMessage", ReplyAction="http://tempuri.org/ISession/DeleteMessageResponse")]
         bool DeleteMessage(WorkstationBrowser.SessionReference.MessageModel caller);
         
@@ -1328,6 +1334,14 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task<bool> SendMessageAsync(WorkstationBrowser.SessionReference.MessageModel caller) {
             return base.Channel.SendMessageAsync(caller);
+        }
+        
+        public bool MarkAsRead(WorkstationBrowser.SessionReference.MessageModel caller) {
+            return base.Channel.MarkAsRead(caller);
+        }
+        
+        public System.Threading.Tasks.Task<bool> MarkAsReadAsync(WorkstationBrowser.SessionReference.MessageModel caller) {
+            return base.Channel.MarkAsReadAsync(caller);
         }
         
         public bool DeleteMessage(WorkstationBrowser.SessionReference.MessageModel caller) {

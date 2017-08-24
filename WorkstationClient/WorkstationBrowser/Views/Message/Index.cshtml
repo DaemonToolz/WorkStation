@@ -26,13 +26,13 @@
         </div>
         
         <div class="col-md-3 col-lg-3 col-xs-3">
-            <a href="#" class="btn btn-default">    
+            <a href="@Url.Action("MarkAllAsRead")" class="btn btn-default">    
                 <span class="glyphicon glyphicon-check"></span> Mark all as read
             </a>
         </div>
         
-        <div class="col-md-3 col-lg-3 col-xs-3">
-            <a href="#" class="btn btn-default">
+        <div class="col-md-3 col-lg-3 col-xs-3" >
+            <a href="@Url.Action("DeleteAll")" class="btn btn-default">
                 <span class="glyphicon glyphicon-trash"></span> Delete all
             </a>
         </div>
@@ -43,47 +43,84 @@
 
 <hr />
 <div class="row">
-    @foreach (var item in Model)
+    @for(int i = 0; i < Model.Count(); ++i)
     {
+        // Wrong way to do it
+        String title = Model.ElementAt(i).title;
+        if (title.Contains("'")){
+            title = title.Replace("'", @"\'");
+        }
 
-        <div class="col-lg-5 col-md-5 col-xs-12 col-md-offset-1 col-lg-offset-1" >
-            <p class="pull-right">
-
-                <a href="@Url.Action("Index")" class="btn btn-default">
-                    <span class="fa fa-envelope fa-2x " style="color: black"></span>
-                </a>
-                <a href="@Url.Action("Index")" class="btn btn-default">
-                    <span class="fa fa-comment fa-2x " style="color: black"></span>
-                </a>
-                <a href="@Url.Action("Index")" class="btn btn-default">
-                    <span class="fa fa-times fa-2x " style="color: red"></span>
-                </a>
-
-            </p>
-            @if (item.title == null || !item.title.Any())
-            {
-                <h3> <strong> Untitled </strong>
-                </h3>
-            }
-            else
-            {
-                <h3><strong>@Html.DisplayFor(modelItem => item.title)</strong>
-                </h3>
-            }
-
-            <h6> From @(((UsersModel[]) ViewData["AllUsers"]).Single(user => user.id == item.from).username) </h6>
-            <h6> To @(((UsersModel[]) ViewData["AllUsers"]).Single(user => user.id == item.to).username) </h6>
+        if (title.Contains("\"")){
+            title = title.Replace("\"","");
+        }
 
 
-            <hr/>
 
-            <p>
-                @Html.DisplayFor(modelItem => item.content)
-            </p>
-            @Html.HiddenFor(modelItem => item.from)
-            @Html.HiddenFor(modelItem => item.to)
-        </div>
+        using (Html.BeginForm("UpdateMessage", "Message", FormMethod.Post)){
+            <div class="col-lg-5 col-md-5 col-xs-12 col-md-offset-1 col-lg-offset-1">
+                
+                <p class="pull-right">
 
+                    <a href="#" onclick="reply('@(Model.ElementAt(i).from)', '@Html.Raw(title)')" class="btn btn-default">
+                        <span class="fa fa-envelope " style="color: black"></span>
+                    </a>
+                    <a href="@Url.Action("Index")" class="btn btn-default">
+                        <span class="fa fa-comment " style="color: black"></span>
+                    </a>
+                    
+                    @if (!Model.ElementAt(i).read) {
+                        <button type="submit" name="action" value="read" class="btn btn-default">
+                            <span class="fa fa-check  " style="color: black"></span>
+                        </button>
+                    }
+                    <button type="submit" name="action" value="delete"class="btn btn-default">
+                        <span class="fa fa-times " style="color: red"></span>
+                    </button>
+
+                </p>
+                @if (Model.ElementAt(i).title == null || !Model.ElementAt(i).title.Any())
+                {
+                    <h3> <strong> Untitled </strong>
+                    </h3>
+                }
+                else
+                {
+                    <h3><strong>@Html.DisplayFor(modelItem => Model.ElementAt(i).title)</strong>
+                    </h3>
+                }
+
+                <h6> From @(((UsersModel[]) ViewData["AllUsers"]).Single(user => user.id == Model.ElementAt(i).from).username) </h6>
+                <h6> To @(((UsersModel[]) ViewData["AllUsers"]).Single(user => user.id == Model.ElementAt(i).to).username) </h6>
+                @if (Model.ElementAt(i).read)
+                {
+                    <h6> Read </h6>
+                }
+                else
+                {
+                    <h6> Not Read </h6>
+                }
+
+                <hr/>
+
+                <p>
+                    @Html.DisplayFor(modelItem => Model.ElementAt(i).content)
+                </p>
+
+                @Html.HiddenFor(modelItem => Model.ElementAt(i).id)
+                @Html.HiddenFor(modelItem => Model.ElementAt(i).from)
+                @Html.HiddenFor(modelItem => Model.ElementAt(i).to)
+            </div>
+         }
 
     }
 </div>
+
+
+<script>
+    function reply(id, title) {
+        $("#to").val(id);
+        $("#title").text("Re:" + title);
+   
+    }
+</script>

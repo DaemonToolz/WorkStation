@@ -538,6 +538,14 @@ namespace WorkstationServices
             }
         }
 
+        public bool MarkAsRead(MessageModel caller)
+        {
+            var message = entities.Message.Single(record => record.id == caller.id);
+            message.read = caller.read;
+            entities.SaveChanges();
+            return message.read;
+        }
+
 
         #region Callback
 
@@ -612,8 +620,8 @@ namespace WorkstationServices
 
         public void Unregister()
         {
-            NotificationTimer.Stop();
-            MessagenTimer.Stop();
+            NotificationTimer?.Stop();
+            MessagenTimer?.Stop();
             NotificationTimer = null;
             MessagenTimer = null;
         }

@@ -42,7 +42,7 @@ namespace WorkstationBrowser.Controllers {
                     Token = deserialized["message"].ToString();
                     if (Token.Split('.').Length != 3)
                         throw new Exception();
-                    newSession = new SessionWrapper(LogModel.Username, LogModel.Password, Token, LogModel);
+                    newSession = new SessionWrapper(LogModel.Username, LogModel.Password, Token, LogModel, Session);
                 }
                 catch {
                     newSession = null;

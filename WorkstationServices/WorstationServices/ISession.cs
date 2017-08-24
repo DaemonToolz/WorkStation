@@ -115,6 +115,9 @@ namespace WorkstationServices
         [OperationContract]
         bool SendMessage(MessageModel caller);
 
+        [OperationContract]
+        bool MarkAsRead(MessageModel caller);
+
 
         [OperationContract]
         bool DeleteMessage(MessageModel caller);

@@ -21,7 +21,6 @@ namespace WorkstationBrowser.Controllers
                 {
                     NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];
                     ViewData["CurrentSession"] = Session["WorkstationConnection"];
-                    ViewData["UnreadNotifications"] = notifications.Count(notif => !notif.read);
                     ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
                 }
             }

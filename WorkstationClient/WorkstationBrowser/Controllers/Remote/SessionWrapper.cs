@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.SessionState;
 using System.Xml.Serialization;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.SignalR;
@@ -24,12 +26,13 @@ namespace WorkstationBrowser.Controllers.Remote{
         public String ConnectionToken { get; private set; }
         public bool NotificationPooler { get; set; }
         public NotificationModel[] MyNotifications { get; private set; }
+        private HttpSessionStateBase UserSession { get; set; }
 
         public SessionWrapper() {
             
         }
 
-        public SessionWrapper(String Username, String Password, String Token, LogInModel model, bool Autolog = false) {
+        public SessionWrapper(String Username, String Password, String Token, LogInModel model, HttpSessionStateBase session, bool Autolog = false) {
             WorkstationSession = new SessionClient(
                 new InstanceContext( this ));
 
@@ -39,7 +42,7 @@ namespace WorkstationBrowser.Controllers.Remote{
             ConnectionToken = Token;
             SavedUsername = Username;
             OriginalInput = model;
-
+            UserSession = session;
             //if (Autolog)
             //    CurrentUser = WorkstationSession.LogIn(SavedUsername, ConnectionToken);
         }
@@ -126,6 +129,10 @@ namespace WorkstationBrowser.Controllers.Remote{
             GlobalHost.ConnectionManager.GetHubContext<NotificationHub>()
                 .Clients.User(CurrentUser.username)
                 .update(notifications.Count(notif => notif.read == false));
+
+          
+            UserSession["SystemNotifications"] = notifications;
+            UserSession["UnreadNotifications"] = notifications.Count(notif => !notif.read);
         }
 
       

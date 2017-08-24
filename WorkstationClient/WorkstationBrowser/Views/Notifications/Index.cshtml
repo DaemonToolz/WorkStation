@@ -11,7 +11,7 @@
 <table class="table">
     <tr>
         <th>
-            Title
+            Title 
         </th>
         <th>
             Content
@@ -35,13 +35,25 @@
                     @Html.HiddenFor(m => Model.ElementAt(i).content)
                 </td>
                 <td>
-                    Read : @Html.EditorFor(modelItem => Model.ElementAt(i).read)
+                    @if (Model.ElementAt(i).read)
+                    {
+                        @:Read
+                    }
+                    else
+                    {
+                        @:Not Read
+                    }
+
                     @Html.HiddenFor(m => Model.ElementAt(i).id)
+                    @Html.HiddenFor(m => Model.ElementAt(i).read)
                 </td>
                 <td>
+                @if (!Model.ElementAt(i).read)
+                {
                     <button type="submit" class="btn btn-default" name="NotificationUpdater" value="Read">
-                        <i class="glyphicon glyphicon-envelope"></i>
+                        <i class="glyphicon glyphicon-check"></i>
                     </button>
+                }
                     <button type="submit" class="btn btn-default" name="NotificationUpdater" value="Delete">
                         <i class="glyphicon glyphicon-trash"></i>
                     </button>

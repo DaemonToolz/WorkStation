@@ -185,6 +185,12 @@
   <wsdl:message name="ISession_SendMessage_OutputMessage">
     <wsdl:part name="parameters" element="tns:SendMessageResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_MarkAsRead_InputMessage">
+    <wsdl:part name="parameters" element="tns:MarkAsRead" />
+  </wsdl:message>
+  <wsdl:message name="ISession_MarkAsRead_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MarkAsReadResponse" />
+  </wsdl:message>
   <wsdl:message name="ISession_DeleteMessage_InputMessage">
     <wsdl:part name="parameters" element="tns:DeleteMessage" />
   </wsdl:message>
@@ -315,6 +321,10 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendMessage">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/SendMessage" message="tns:ISession_SendMessage_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/SendMessageResponse" message="tns:ISession_SendMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="MarkAsRead">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/MarkAsRead" message="tns:ISession_MarkAsRead_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/MarkAsReadResponse" message="tns:ISession_MarkAsRead_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteMessage">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteMessage" message="tns:ISession_DeleteMessage_InputMessage" />
@@ -576,6 +586,15 @@
     </wsdl:operation>
     <wsdl:operation name="SendMessage">
       <soap12:operation soapAction="http://tempuri.org/ISession/SendMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkAsRead">
+      <soap12:operation soapAction="http://tempuri.org/ISession/MarkAsRead" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

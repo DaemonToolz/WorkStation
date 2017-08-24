@@ -1,11 +1,12 @@
-﻿@model WorkstationBrowser.SessionReference.TeamModel
+﻿@using WorkstationBrowser.SessionReference
+@model WorkstationBrowser.SessionReference.TeamModel
 
 @{
     ViewBag.Title = "Details";
     Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;        
 }
 
-<h2>Details</h2>
+<h2>@(Model.name)</h2>
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-xs-12 text-center">
@@ -35,38 +36,42 @@
     </div>
 }
 
-<div class="row">
-<div>
+<div class="row" style="padding-top:100px">
+    <div class="col-lg-7 col-md-4 col-xs-12"  >
+        <div class="col-md-12 col-lg-12 col-xs-12">
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <h4><strong>Department</strong></h4>
+            </div>
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                @(((DepartmentModel) ViewData["Department"]).name)
+            </div>
+           
+           
+        </div>
+        <div class="col-md-12 col-lg-12 col-xs-12">
+            <div class="col-md-4 col-xs-4 col-lg-4">
+                <h4><strong>Project</strong></h4>
+            </div>
+            <div class="col-md-8 col-xs-8 col-lg-8">
+                @(((ProjectModel) ViewData["Project"]).name)
+                
+            </div>
+        </div>
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.department_id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.department_id)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.project_id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.project_id)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-</div>
+        </div>
+        <div class="col-lg-5 col-md-8 col-xs-12 pull-right">
+            <h3> Active members</h3>
+            <hr/>
+            @foreach (var user in (UsersModel[]) ViewData["ActiveMembers"])
+            {
+                <div class="col-md-3 col-lg-2 col-xs-3">
+                    <img src="~/UserContent/Profile/@(user.profilepic)" class="profile-image img-circle" title="@(user.username)" width="100" height="100"/>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <p style="padding-top:10px;">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

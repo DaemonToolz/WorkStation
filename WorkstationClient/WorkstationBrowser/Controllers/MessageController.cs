@@ -53,7 +53,8 @@ namespace WorkstationBrowser.Controllers
             model.read = false;
             model.from = wrapper.CurrentUser.id;
             model.direct = false;
-            wrapper.WorkstationSession.SendMessage(model);
+            bool result = wrapper.WorkstationSession.SendMessage(model);
+            ModelState.Clear();
             List<UsersModel> CurrentUsers = wrapper.WorkstationSession.GetAllUsers().ToList();
       
 
@@ -61,10 +62,34 @@ namespace WorkstationBrowser.Controllers
                 CurrentUsers,
                 "id", "username");
 
+            String content;
+            content = result ? $"Your message have been sent successfully to {CurrentUsers.Single(user => user.id == model.to).username}" : "An error occured during the mailing, please retry later";
+
+            wrapper.WorkstationSession.CreateNotification(new NotificationModel() {
+                content = content,
+                title = $"Your message at {DateTime.Now}"
+            }, new int[] { model.from }, false);
+
             return PartialView();
         }
 
-   
+        [HttpPost]
+        public ActionResult UpdateMessage([Bind(Include = "id, from, to, read")] MessageModel model, string action)
+        {
+            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+            switch (action) {
+                case "read":
+                    model.read = true;
+                    wrapper.WorkstationSession.MarkAsRead(model);
+                    break;
+                case "delete":
+                    wrapper.WorkstationSession.DeleteMessage(model);
+                    break;
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public void _UpdateDirectMessages(int targetid)
         {
             try
@@ -79,5 +104,31 @@ namespace WorkstationBrowser.Controllers
             }
         }
 
+        public ActionResult MarkAllAsRead()
+        {
+            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+            foreach (var message in 
+                wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true, false,true))
+            {
+                message.read = true;
+                wrapper.WorkstationSession.MarkAsRead(message);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult DeleteAll()
+        {
+            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+            foreach (var message in
+                wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true, false, true))
+            {
+            
+                wrapper.WorkstationSession.DeleteMessage(message);
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
