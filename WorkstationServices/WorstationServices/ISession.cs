@@ -101,7 +101,7 @@ namespace WorkstationServices
 
 
         [OperationContract]
-        void CreateTask (TaskModel newTask);
+        bool CreateTask (TaskModel newTask);
 
         [OperationContract]
         bool DeleteTask(TaskModel newTask);

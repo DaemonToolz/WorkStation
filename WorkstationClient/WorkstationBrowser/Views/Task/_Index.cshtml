@@ -3,7 +3,7 @@
 
 @{
     
-    Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
+    Dictionary<String, bool> MyRights = Session["CurrentUserRights"] as Dictionary<String, bool>;
 }
 
 <table class="table">

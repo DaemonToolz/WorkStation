@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
 {
-    public class TaskController : Controller
+    public class TaskController : GenericController
     {
         // GET: Task
      
-        public ActionResult _Index(ProjectModel related, SessionWrapper originalSession, int? userid, short? AddSection)
+        public ActionResult _Index(ProjectModel related, int? userid, short? AddSection)
         {
-            var allTasks = originalSession.WorkstationSession.GetAllTasks(related?.id, userid);
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-            
+            var allTasks = _Session.WorkstationSession.GetAllTasks(related?.id, userid);
+        
             Session["ProjectId"] = related.id;
             ViewData["AddSection"] = AddSection;
             if (userid == null && related != null)
             {
-                SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-                var CurrentTeam = wrapper.WorkstationSession.GetAllTeams()
+          
+                var CurrentTeam = _Session.GetAllTeams()
                     .Single(team => team.project_id == related.id);
 
-                ViewData["TeamMembers"] = wrapper.WorkstationSession.GetAllUsers()
+                ViewData["TeamMembers"] = _Session.GetAllUsers()
                     .Where(user => user.team_id == CurrentTeam.id).ToArray();
             }
 
@@ -34,11 +34,11 @@ namespace WorkstationBrowser.Controllers
 
 
         public ActionResult _Create(){
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-            var CurrentTeam = wrapper.WorkstationSession.GetAllTeams()
+          
+            var CurrentTeam = _Session.GetAllTeams()
                 .Single(team => team.project_id == (long) Session["ProjectId"]);
 
-            List<UsersModel> CurrentUsers = wrapper.WorkstationSession.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
             CurrentUsers.Add(new UsersModel(){ id = 0, username = "Not affected"});
            
             ViewBag.user_id = new SelectList(
@@ -51,18 +51,18 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         
         public ActionResult _Create([Bind(Include = "title,description, begin, end, user_id")] TaskModel model){
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+            //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
 
             model.project_id = long.Parse(Session["ProjectId"].ToString());
             if (model.user_id == 0)
                 model.user_id = null;
 
-            wrapper.WorkstationSession.CreateTask(model);
+            _Session.WorkstationSession.CreateTask(model);
 
-            var project = wrapper.WorkstationSession.GetProject(model.project_id);
-            var CurrentTeam = wrapper.WorkstationSession.GetAllTeams()
+            var project = _Session.WorkstationSession.GetProject(model.project_id);
+            var CurrentTeam = _Session.GetAllTeams()
                 .Single(team => team.project_id == (long)Session["ProjectId"]);
-            List<UsersModel> CurrentUsers = wrapper.WorkstationSession.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
             CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
 
             ViewBag.user_id = new SelectList(
@@ -76,20 +76,18 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         public ActionResult _Index([Bind(Include = "id,title,description,begin, end, user_id, project_id")] TaskModel model, string action){
 
-            var currentSession = Session["WorkstationConnection"] as SessionWrapper;
+            //var currentSession = Session["WorkstationConnection"] as SessionWrapper;
 
             switch (action) {
                 case "Delete":
-                    currentSession.WorkstationSession.DeleteTask(model);
+                    _Session.WorkstationSession.DeleteTask(model);
                     break;
                 case "Edit":
                     return RedirectToAction("Edit", "Task", new {id = model.id});
-                    break;
             }
 
-            var allTasks = currentSession.WorkstationSession.GetAllTasks(model.project_id, null);
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-
+            var allTasks = _Session.WorkstationSession.GetAllTasks(model.project_id, null);
+            
             Session["ProjectId"] = model.project_id;
             ViewData["AddSection"] = true;
 
@@ -100,17 +98,15 @@ namespace WorkstationBrowser.Controllers
         public ActionResult Edit(long id)
         {
           
-            var currentSession = Session["WorkstationConnection"] as SessionWrapper;
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-            var CurrentTeam = currentSession.WorkstationSession.GetAllTeams()
+            var CurrentTeam = _Session.WorkstationSession.GetAllTeams()
                 .Single(team => team.project_id == (long)Session["ProjectId"]);
-            List<UsersModel> CurrentUsers = currentSession.WorkstationSession.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
             CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
 
             ViewBag.user_id = new SelectList(
                 CurrentUsers,
                 "id", "username");
-            return View(currentSession.WorkstationSession.GetTaskId(id));
+            return View(_Session.WorkstationSession.GetTaskId(id));
         }
 
         // POST: Users/Edit/5
@@ -122,18 +118,16 @@ namespace WorkstationBrowser.Controllers
         {
             if(action.Equals("Cancel"))
                 return RedirectToAction("Details", "Project", new { id = task.project_id });
-
-            var currentSession = Session["WorkstationConnection"] as SessionWrapper;
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-            var CurrentTeam = currentSession.WorkstationSession.GetAllTeams()
+            
+            var CurrentTeam = _Session.GetAllTeams()
                 .Single(team => team.project_id == (long)Session["ProjectId"]);
-            List<UsersModel> CurrentUsers = currentSession.WorkstationSession.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
             CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
             if (task.user_id == 0)
             {
                 task.user_id = null;
             }
-            currentSession.WorkstationSession.EditTask(task);
+            _Session.WorkstationSession.EditTask(task);
             ViewBag.user_id = new SelectList(
                 CurrentUsers,
                 "id", "username");

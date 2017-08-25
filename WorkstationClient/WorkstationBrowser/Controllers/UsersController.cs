@@ -6,43 +6,39 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
+using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : GenericController
     {
         // GET: Users
         public ActionResult Index()
         {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-            ViewData["MyId"] = wrapper.CurrentUser.id;
+            ViewData["MyId"] = _Session.CurrentUser.id;
 
-            return View(wrapper.GetAllUsers());
+            return View(_Session.GetAllUsers());
         }
 
         public ActionResult MyProfile(){
-
-            SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-            ViewData["CurrentTeam"] = currentSession.WorkstationSession.GetTeamPerUser(currentSession.CurrentUser.id);
+            ViewData["CurrentTeam"] = _Session.WorkstationSession.GetTeamPerUser(_Session.CurrentUser.id);
         
-            return View(currentSession.CurrentUser);
+            return View(_Session.CurrentUser);
         }
 
         public ActionResult FileUpload(HttpPostedFileBase file){
            
             if (file != null){
-                SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
+                //SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
 
-                string pic = currentSession.CurrentUser.username.Replace(" ", String.Empty) + "_profile" + Path.GetExtension(file.FileName);
+                string pic = _Session.CurrentUser.username.Replace(" ", String.Empty) + "_profile" + Path.GetExtension(file.FileName);
                 string path = System.IO.Path.Combine(Server.MapPath("~/UserContent/Profile/"), pic);
                 // file is uploaded
                 file.SaveAs(path);
-                currentSession.CurrentUser.profilepic = pic;
-                currentSession.WorkstationSession.EditUser(currentSession.CurrentUser);
+                _Session.CurrentUser.profilepic = pic;
+                _Session.WorkstationSession.EditUser(_Session.CurrentUser);
             }
             // after successfully uploading redirect the user
             return RedirectToAction("MyProfile");
@@ -51,20 +47,17 @@ namespace WorkstationBrowser.Controllers
         // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+            //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UsersModel user = wrapper.WorkstationSession.GetUserId((int)id);
+            UsersModel user = _Session.WorkstationSession.GetUserId((int)id);
             if (user == null) {
                 return HttpNotFound();
             }
-            ViewBag.team_id = new SelectList(wrapper.WorkstationSession.GetAllTeams(), "id", "name", user.team_id);
-            ViewBag.rank = new SelectList(wrapper.WorkstationSession.GetAllRanks(), "name", "name", user.rank);
+            ViewBag.team_id = new SelectList(_Session.WorkstationSession.GetAllTeams(), "id", "name", user.team_id);
+            ViewBag.rank = new SelectList(_Session.WorkstationSession.GetAllRanks(), "name", "name", user.rank);
 
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-
-            
             return View(user);
         }
 
@@ -74,22 +67,21 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,username,email,team_id, rank")] UsersModel users) {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+            //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
 
-            users.profilepic = wrapper.WorkstationSession.GetUserId(users.id).profilepic;
+            users.profilepic = _Session.WorkstationSession.GetUserId(users.id).profilepic;
             
-            users.rights = wrapper.WorkstationSession.GetAllRanks().First(rank => rank.name.Equals(users.rank)).rights;
+            users.rights = _Session.GetAllRanks().First(rank => rank.name.Equals(users.rank)).rights;
             
-            if (wrapper.WorkstationSession.EditUser(users)) {
+            if (_Session.WorkstationSession.EditUser(users)) {
 
                 return RedirectToAction("Index");
             }
             else {
-                ViewBag.team_id = new SelectList(wrapper.WorkstationSession.GetAllTeams(), "id", "name", users.team_id);
-                ViewBag.rank = new SelectList(wrapper.WorkstationSession.GetAllRanks(), "name", "name", users.rank);
+                ViewBag.team_id = new SelectList(_Session.GetAllTeams(), "id", "name", users.team_id);
+                ViewBag.rank = new SelectList(_Session.GetAllRanks(), "name", "name", users.rank);
 
-                ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-
+      
                 return View(users);
             }
         }

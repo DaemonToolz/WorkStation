@@ -4,36 +4,33 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.Models;
 
 namespace WorkstationBrowser.Controllers
 {
-    public class ProjectController : Controller
+    public class ProjectController : GenericController
     {
         // GET: Project
         public ActionResult Index()
         {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-            ViewData["MyId"] = wrapper.CurrentUser.id;
-            ViewData["MyTeam"] = wrapper.CurrentUser.team_id;
-            var AllProjects = wrapper.WorkstationSession.GetAllProjects();
+     
+            ViewData["MyId"] = _Session.CurrentUser.id;
+            ViewData["MyTeam"] = _Session.CurrentUser.team_id;
+            var AllProjects = _Session.GetAllProjects();
            
-            var MyTeam = wrapper.WorkstationSession.GetAllTeams().First(team => team.id == wrapper.CurrentUser.team_id);
+            var MyTeam = _Session.GetAllTeams().First(team => team.id == _Session.CurrentUser.team_id);
       
             ViewData["MyProject"] = AllProjects.First(project => project.id == MyTeam.project_id);
-          
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-
-            return View(wrapper.WorkstationSession.GetAllProjects());
+        
+            return View(_Session.GetAllProjects());
         }
 
         // GET: Project/Details/5
         public ActionResult Details(int id){
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-            ViewData["CurrentSession"] = wrapper;
-            var currentProject = wrapper.WorkstationSession.GetProject((long) id);
+            
+            var currentProject = _Session.WorkstationSession.GetProject((long) id);
             ViewData["CurrentProject"] = currentProject;
             return View(currentProject);
         }
@@ -61,7 +58,6 @@ namespace WorkstationBrowser.Controllers
 
         public ActionResult ProjectDocuments(String root)
         {
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
             ViewData["ProjectRoot"] = root;
             List<DocumentModel> files = new List<DocumentModel>();
             foreach (string file in Directory.EnumerateFiles(root))
@@ -80,15 +76,13 @@ namespace WorkstationBrowser.Controllers
 
         public ActionResult _DocumentCreator()
         {
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-           
+   
             return View();
         }
 
         public ActionResult _CreateDocument(String title, String content)
         {
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-           
+     
             return RedirectToAction("_DocumentCreator");
         }
 

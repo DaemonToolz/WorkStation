@@ -16,7 +16,7 @@ namespace WorkstationBrowser
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
-
+            
          }
     }
 }

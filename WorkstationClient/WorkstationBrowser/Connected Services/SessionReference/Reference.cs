@@ -1018,10 +1018,10 @@ namespace WorkstationBrowser.SessionReference {
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel> GetTaskIdAsync(long id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTask", ReplyAction="http://tempuri.org/ISession/CreateTaskResponse")]
-        void CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask);
+        bool CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTask", ReplyAction="http://tempuri.org/ISession/CreateTaskResponse")]
-        System.Threading.Tasks.Task CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask);
+        System.Threading.Tasks.Task<bool> CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteTask", ReplyAction="http://tempuri.org/ISession/DeleteTaskResponse")]
         bool DeleteTask(WorkstationBrowser.SessionReference.TaskModel newTask);
@@ -1296,11 +1296,11 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.GetTaskIdAsync(id);
         }
         
-        public void CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask) {
-            base.Channel.CreateTask(newTask);
+        public bool CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask) {
+            return base.Channel.CreateTask(newTask);
         }
         
-        public System.Threading.Tasks.Task CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask) {
+        public System.Threading.Tasks.Task<bool> CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask) {
             return base.Channel.CreateTaskAsync(newTask);
         }
         

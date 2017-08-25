@@ -4,36 +4,36 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 
 namespace WorkstationBrowser.Controllers
 {
-    public class TeamController : Controller
+    public class TeamController : GenericController
     {
         // GET: Team
         public ActionResult Index()
         {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-            ViewData["TeamId"] = wrapper.CurrentUser.team_id;
-            ViewData["AllDepartments"] = wrapper.GetAllDepartments();
-            ViewData["AllProjects"] = wrapper.GetAllProjects();
+    
+            ViewData["TeamId"] = _Session.CurrentUser.team_id;
+            ViewData["AllDepartments"] = _Session.GetAllDepartments().ToArray();
+            ViewData["AllProjects"] = _Session.GetAllProjects().ToArray();
 
-            return View(wrapper.WorkstationSession.GetAllTeams());
+            return View(_Session.GetAllTeams());
         }
 
         // GET: Team/Details/5
         public ActionResult Details(int id){
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-            var currentTeam = wrapper.WorkstationSession.GetAllTeams().First(team => team.id == id);
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
+            
+            var currentTeam = _Session.GetAllTeams().First(team => team.id == id);
+            
             ViewBag.id = id;
-            ViewData["Department"] = wrapper.WorkstationSession.GetAllDepartments()
+            ViewData["Department"] = _Session.GetAllDepartments()
                 .Single(dept => dept.id == currentTeam.department_id);
             if(currentTeam.project_id != null)
-                ViewData["Project"] = wrapper.WorkstationSession.GetProject((long)currentTeam.project_id);
+                ViewData["Project"] = _Session.WorkstationSession.GetProject((long)currentTeam.project_id);
 
-            ViewData["ActiveMembers"] = wrapper.WorkstationSession.GetAllUsers().Where(user => user.team_id == id).ToArray();
+            ViewData["ActiveMembers"] = _Session.GetAllUsers().Where(user => user.team_id == id).ToArray();
             return View(currentTeam);
         }
 
@@ -43,14 +43,14 @@ namespace WorkstationBrowser.Controllers
 
             if (file != null)
             {
-                SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
-                var CurrentTeam = currentSession.WorkstationSession.GetTeamPerId(id);
+               
+                var CurrentTeam = _Session.WorkstationSession.GetTeamPerId(id);
                 string pic = CurrentTeam.name.Replace(" ", String.Empty) + "_ico" + Path.GetExtension(file.FileName);
                 string path = System.IO.Path.Combine(Server.MapPath("~/UserContent/Team/"), pic);
                 // file is uploaded
                 file.SaveAs(path);
                 CurrentTeam.teampic = pic;
-                currentSession.WorkstationSession.EditTeam(CurrentTeam);
+                _Session.WorkstationSession.EditTeam(CurrentTeam);
             }
             // after successfully uploading redirect the user
             return RedirectToAction("Details", new { id = id });

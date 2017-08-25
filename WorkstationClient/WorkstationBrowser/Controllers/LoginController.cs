@@ -9,13 +9,15 @@ using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using WorkstationBrowser.BLL;
+using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.Controllers.SignalR;
 using WorkstationBrowser.Models;
 using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers {
-    public class LoginController : Controller {
+    public class LoginController : GenericController
+    {
 
         [HttpGet]
         public ActionResult Login()
@@ -48,8 +50,10 @@ namespace WorkstationBrowser.Controllers {
                     newSession = null;
                 }
 
-                if (newSession != null && newSession.LogIn()) {
-                    Session.Add("WorkstationConnection", newSession);
+                if (newSession != null && newSession.LogIn())
+                {
+                    _Session = newSession;
+                    //Session.Add("WorkstationConnection", newSession);
                     var loginClaim = new Claim(ClaimTypes.NameIdentifier, LogModel.Username);
                     var claimsIdentity = new ClaimsIdentity(
                         new[] {
@@ -63,8 +67,9 @@ namespace WorkstationBrowser.Controllers {
                     var authenticationManager = ctx.Authentication;
                     authenticationManager.SignIn(claimsIdentity);
 
-                    Session.Add("SystemNotifications", newSession.WorkstationSession.GetAllNotifications(newSession.CurrentUser.id));
-                    Session.Add("CurrentUserRights", RightsReader.Decode(newSession.CurrentUser.rights));
+                    _UserNotifications = newSession.WorkstationSession.GetAllNotifications(newSession.CurrentUser.id);
+                    _UserRights = RightsReader.Decode(newSession.CurrentUser.rights) as Dictionary<String,bool>;
+
                     Session.Add("HubInitialized", false);
                     NotificationHub.MyUsers.TryAdd(newSession.CurrentUser.username, newSession);
 
@@ -83,13 +88,8 @@ namespace WorkstationBrowser.Controllers {
 
             try {
             
-                SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
-
-                SessionWrapper old;
-                NotificationHub.MyUsers.TryRemove(currentSession.CurrentUser.username, out old);
-                old = null;
-
-                currentSession.LogOut();
+                NotificationHub.MyUsers.TryRemove(_Session.CurrentUser.username, out SessionWrapper old);
+                _Session.LogOut();
             }
             catch { }
             var ctx = Request.GetOwinContext();

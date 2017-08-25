@@ -8,6 +8,7 @@ using System.Web.SessionState;
 using System.Xml.Serialization;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.SignalR;
+using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Models;
 using WorkstationBrowser.SessionReference;
 using WorkstationBrowser.Controllers.SignalR;
@@ -18,7 +19,7 @@ namespace WorkstationBrowser.Controllers.Remote{
 
     [XmlInclude(typeof(UsersModel))]
     public class SessionWrapper : ISessionCallback {
-
+       
         public SessionClient WorkstationSession { get; private set; }
         public LogInModel OriginalInput { get; private set; }
         public String SavedUsername { get; private set; }
@@ -27,6 +28,7 @@ namespace WorkstationBrowser.Controllers.Remote{
         public bool NotificationPooler { get; set; }
         public NotificationModel[] MyNotifications { get; private set; }
         private HttpSessionStateBase UserSession { get; set; }
+        private CacheProvider Cache { get; set; }
 
         public SessionWrapper() {
             
@@ -43,6 +45,8 @@ namespace WorkstationBrowser.Controllers.Remote{
             SavedUsername = Username;
             OriginalInput = model;
             UserSession = session;
+
+            Cache = new CacheProvider();
             //if (Autolog)
             //    CurrentUser = WorkstationSession.LogIn(SavedUsername, ConnectionToken);
         }
@@ -73,26 +77,63 @@ namespace WorkstationBrowser.Controllers.Remote{
             }
         }
 
-        public IEnumerable<ProjectModel> GetAllProjects(){
-            return WorkstationSession.GetAllProjects();
+        #region Session Facade
+        
+
+        public IEnumerable<ProjectModel> GetAllProjects()
+        {
+            var cached = Cache.Get("AllProjects");
+            if (cached == null)
+                Cache.Set("AllProjects", WorkstationSession.GetAllProjects(), CachePriority.Default);
+
+            return ((ProjectModel[])Cache.Get("AllProjects")).ToList();
         }
 
         public IEnumerable<UsersModel> GetAllUsers()
         {
-            return WorkstationSession.GetAllUsers();
+            var cached = Cache.Get("AllUsers");
+            if (cached == null)
+                Cache.Set("AllUsers", WorkstationSession.GetAllUsers(), CachePriority.Default);
+
+            return ((UsersModel[])Cache.Get("AllUsers")).ToList();
         }
+
+       // public IEnumerable<UsersModel> GetAllUsers();
 
         public IEnumerable<TeamModel> GetAllTeams()
         {
-            return WorkstationSession.GetAllTeams();
+            var cached = Cache.Get("AllTeams");
+            if (cached == null)
+                Cache.Set("AllTeams", WorkstationSession.GetAllTeams(), CachePriority.Default);
+
+            return ((TeamModel[])Cache.Get("AllTeams")).ToList();
+
         }
 
-        public IEnumerable<DepartmentModel> GetAllDepartments()
-        {
-            return WorkstationSession.GetAllDepartments();
+        public IEnumerable<DepartmentModel> GetAllDepartments() {
+            var cached = Cache.Get("AllDepartments");
+            if (cached == null)
+                Cache.Set("AllDepartments", WorkstationSession.GetAllDepartments(), CachePriority.Default);
+            return ((DepartmentModel[])Cache.Get("AllDepartments")).ToList();
         }
 
+        public IEnumerable<RankModel> GetAllRanks(){
+            var cached = Cache.Get("AllRanks");
+            if (cached == null)
+                Cache.Set("AllRanks", WorkstationSession.GetAllDepartments(), CachePriority.Default);
+            return ((RankModel[])Cache.Get("AllRanks")).ToList();
+        }
 
+        public void EditProject(ProjectModel project){
+            if (WorkstationSession.EditProject(project)){
+                var MyProjects = GetAllProjects();
+                MyProjects.ToList().Remove(MyProjects.Single(proj => proj.id == project.id));
+                MyProjects.ToList().Add(project);
+                Cache.Set("AllProjects", MyProjects, CachePriority.Default);
+            }
+        }
+
+    
 
         public void UpdateNotification()
         {
@@ -119,23 +160,25 @@ namespace WorkstationBrowser.Controllers.Remote{
                 Console.WriteLine(e);
             }
         }
+
+        #endregion
+
         #region Callback
         public void NotificationPull(NotificationModel[] notifications, string caller)
         {
 
             // GlobalHost.ConnectionManager.GetHubContext<NotificationHub>().Clients.User(CurrentUser.username)
             //    .NotificationPull(notifications, CurrentUser.username);
-            
+
+            var unread = notifications.Count(notif => !notif.read);
             GlobalHost.ConnectionManager.GetHubContext<NotificationHub>()
                 .Clients.User(CurrentUser.username)
-                .update(notifications.Count(notif => notif.read == false));
+                .update(unread);
 
           
             UserSession["SystemNotifications"] = notifications;
-            UserSession["UnreadNotifications"] = notifications.Count(notif => !notif.read);
+            UserSession["UnreadNotifications"] = unread;
         }
-
-      
 
         public void SendMessage(MessageModel model){
             GlobalHost.ConnectionManager.GetHubContext<NotificationHub>()

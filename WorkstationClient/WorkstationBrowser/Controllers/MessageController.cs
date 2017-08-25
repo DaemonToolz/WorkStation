@@ -1,46 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
+using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
 {
-    public class MessageController : Controller
+    public class MessageController : GenericController
     {
         // GET: Message
         [ChildActionOnly]
         public ActionResult _Index() {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-            ViewData["AllUsers"] = wrapper.GetAllUsers().ToArray();
-
-            return View(wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true, false,true));
+            ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
+            return View(_Session.WorkstationSession.GetAllMessages(_Session.CurrentUser, false, true, false,true));
         }
 
      
         public ActionResult Index()
         {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-            ViewData["CurrentUserRights"] = Session["CurrentUserRights"] as Dictionary<String, bool>;
-
-            ViewData["AllUsers"] = wrapper.GetAllUsers().ToArray();
-
-            return View(wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true, false, true));
+            ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
+            return View(_Session.WorkstationSession.GetAllMessages(_Session.CurrentUser, false, true, false, true));
         }
 
 
-        public ActionResult _Create()
-        {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-       
-            List<UsersModel> CurrentUsers = wrapper.WorkstationSession.GetAllUsers().ToList();
-           
+        public ActionResult _Create(){
             ViewBag.to = new SelectList(
-                CurrentUsers,
+                _Session.GetAllUsers().ToList(),
                 "id", "username");
 
             return PartialView();
@@ -49,14 +39,14 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         public ActionResult _Create([Bind(Include = "title, content, to")] MessageModel model)
         {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+     
             model.read = false;
-            model.from = wrapper.CurrentUser.id;
+            model.from = _Session.CurrentUser.id;
             model.direct = false;
-            bool result = wrapper.WorkstationSession.SendMessage(model);
+            bool result = _Session.WorkstationSession.SendMessage(model);
             ModelState.Clear();
-            List<UsersModel> CurrentUsers = wrapper.WorkstationSession.GetAllUsers().ToList();
-      
+
+            List<UsersModel> CurrentUsers = _Session.GetAllUsers().ToList();
 
             ViewBag.to = new SelectList(
                 CurrentUsers,
@@ -65,7 +55,7 @@ namespace WorkstationBrowser.Controllers
             String content;
             content = result ? $"Your message have been sent successfully to {CurrentUsers.Single(user => user.id == model.to).username}" : "An error occured during the mailing, please retry later";
 
-            wrapper.WorkstationSession.CreateNotification(new NotificationModel() {
+            _Session.WorkstationSession.CreateNotification(new NotificationModel() {
                 content = content,
                 title = $"Your message at {DateTime.Now}"
             }, new int[] { model.from }, false);
@@ -76,14 +66,14 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         public ActionResult UpdateMessage([Bind(Include = "id, from, to, read")] MessageModel model, string action)
         {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+
             switch (action) {
                 case "read":
                     model.read = true;
-                    wrapper.WorkstationSession.MarkAsRead(model);
+                    _Session.WorkstationSession.MarkAsRead(model);
                     break;
                 case "delete":
-                    wrapper.WorkstationSession.DeleteMessage(model);
+                    _Session.WorkstationSession.DeleteMessage(model);
                     break;
             }
 
@@ -94,8 +84,6 @@ namespace WorkstationBrowser.Controllers
         {
             try
             {
-                //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-                //wrapper.UpdateMessages(targetid);
 
             }
             catch
@@ -106,12 +94,12 @@ namespace WorkstationBrowser.Controllers
 
         public ActionResult MarkAllAsRead()
         {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-            foreach (var message in 
-                wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true, false,true))
+
+            foreach (var message in
+                _Session.WorkstationSession.GetAllMessages(_Session.CurrentUser, false, true, false,true))
             {
                 message.read = true;
-                wrapper.WorkstationSession.MarkAsRead(message);
+                _Session.WorkstationSession.MarkAsRead(message);
             }
 
             return RedirectToAction("Index");
@@ -120,12 +108,12 @@ namespace WorkstationBrowser.Controllers
 
         public ActionResult DeleteAll()
         {
-            SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+
             foreach (var message in
-                wrapper.WorkstationSession.GetAllMessages(wrapper.CurrentUser, false, true, false, true))
+                _Session.WorkstationSession.GetAllMessages(_Session.CurrentUser, false, true, false, true))
             {
-            
-                wrapper.WorkstationSession.DeleteMessage(message);
+
+                _Session.WorkstationSession.DeleteMessage(message);
             }
 
             return RedirectToAction("Index");

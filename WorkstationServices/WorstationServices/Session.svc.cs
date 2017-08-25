@@ -430,20 +430,28 @@ namespace WorkstationServices
         }
 
 
-        public void CreateTask(TaskModel newTask)
+        public bool CreateTask(TaskModel newTask)
         {
-            Task task = new Task(){
-                title = newTask.title,
-                begin = newTask.begin,
-                description = newTask.description,
-                end = newTask.end,
-                project_id = newTask.project_id,
-                user_id = newTask.user_id
-            };
+            try
+            {
+                Task task = new Task()
+                {
+                    title = newTask.title,
+                    begin = newTask.begin,
+                    description = newTask.description,
+                    end = newTask.end,
+                    project_id = newTask.project_id,
+                    user_id = newTask.user_id
+                };
 
-            entities.Task.Add(task);
-            entities.SaveChanges();
-            
+                entities.Task.Add(task);
+                entities.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 

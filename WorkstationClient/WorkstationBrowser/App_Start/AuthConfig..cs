@@ -20,6 +20,7 @@ namespace WorkstationBrowser{
                 AuthenticationMode = AuthenticationMode.Active
             });
 
+           
             app.MapSignalR();
         }
     }

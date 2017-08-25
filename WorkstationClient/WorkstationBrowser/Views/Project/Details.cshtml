@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Details";
 
-    Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;
+    Dictionary<String, bool> MyRights = Session["CurrentUserRights"]  as Dictionary<String, bool>;
 }
 
 <h2> @Html.DisplayFor(model => model.name) </h2>
@@ -49,12 +49,11 @@
             <h4> All Tasks </h4>
             <div class="section-scroll-2 ">
                 @{Html.RenderAction("_Index", "Task", new
-                  {
-                      related = Model,
-                      originalSession = (SessionWrapper) ViewData["CurrentSession"],
-                      AddSection = (short)1
-                  }
-                      ); 
+                    {
+                        related = Model,
+                        AddSection = (short)1
+                    }
+                        );
                 }
             </div>
 

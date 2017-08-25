@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Details";
-    Dictionary<String, bool> MyRights = ViewData["CurrentUserRights"] as Dictionary<String, bool>;        
+    Dictionary<String, bool> MyRights = Session["CurrentUserRights"] as Dictionary<String, bool>;        
 }
 
 <h2>@(Model.name)</h2>
