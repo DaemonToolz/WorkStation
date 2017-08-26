@@ -15,12 +15,17 @@ namespace WorkstationBrowser.Controllers
      
         public ActionResult _Index(ProjectModel related, int? userid, short? AddSection)
         {
-            var allTasks = _Session.WorkstationSession.GetAllTasks(related?.id, userid);
-        
-            Session["ProjectId"] = related.id;
+   
+            IEnumerable<TaskModel> allTasks  = new List<TaskModel>();
+            if ((related == null || related.id <= 0) && (userid != null && userid > 0))
+                allTasks = _Session.GetTasksByUser((int) userid);
+            else if ((related != null && related.id > 0) && (userid == null || userid <= 0))
+                allTasks = _Session.GetTasks((int)related?.id);
+            else if ((related != null && related.id > 0) && (userid != null && userid > 0))
+                allTasks = _Session.GetTasksByUser((int)userid).Where(task => task.project_id == related.id);
+            Session["ProjectId"] = related?.id;
             ViewData["AddSection"] = AddSection;
-            if (userid == null && related != null)
-            {
+            if (userid == null && related != null) {
           
                 var CurrentTeam = _Session.GetAllTeams()
                     .Single(team => team.project_id == related.id);
@@ -57,9 +62,9 @@ namespace WorkstationBrowser.Controllers
             if (model.user_id == 0)
                 model.user_id = null;
 
-            _Session.WorkstationSession.CreateTask(model);
+            _Session.CreateTask(model);
 
-            var project = _Session.WorkstationSession.GetProject(model.project_id);
+            var project = _Session.GetProject(model.project_id);
             var CurrentTeam = _Session.GetAllTeams()
                 .Single(team => team.project_id == (long)Session["ProjectId"]);
             List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
@@ -80,13 +85,13 @@ namespace WorkstationBrowser.Controllers
 
             switch (action) {
                 case "Delete":
-                    _Session.WorkstationSession.DeleteTask(model);
+                    _Session.DeleteTask(model);
                     break;
                 case "Edit":
                     return RedirectToAction("Edit", "Task", new {id = model.id});
             }
 
-            var allTasks = _Session.WorkstationSession.GetAllTasks(model.project_id, null);
+            var allTasks = _Session.GetTasks((int)model.project_id);
             
             Session["ProjectId"] = model.project_id;
             ViewData["AddSection"] = true;
@@ -98,15 +103,17 @@ namespace WorkstationBrowser.Controllers
         public ActionResult Edit(long id)
         {
           
-            var CurrentTeam = _Session.WorkstationSession.GetAllTeams()
+            var CurrentTeam = _Session.GetAllTeams()
                 .Single(team => team.project_id == (long)Session["ProjectId"]);
-            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+
+            List<UsersModel> CurrentUsers = 
+                _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
             CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
 
             ViewBag.user_id = new SelectList(
                 CurrentUsers,
                 "id", "username");
-            return View(_Session.WorkstationSession.GetTaskId(id));
+            return View(_Session.GetTaskById(id, (long)Session["ProjectId"]));
         }
 
         // POST: Users/Edit/5
@@ -127,7 +134,7 @@ namespace WorkstationBrowser.Controllers
             {
                 task.user_id = null;
             }
-            _Session.WorkstationSession.EditTask(task);
+            _Session.EditTask(task);
             ViewBag.user_id = new SelectList(
                 CurrentUsers,
                 "id", "username");

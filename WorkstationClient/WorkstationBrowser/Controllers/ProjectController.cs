@@ -19,11 +19,10 @@ namespace WorkstationBrowser.Controllers
             ViewData["MyId"] = _Session.CurrentUser.id;
             ViewData["MyTeam"] = _Session.CurrentUser.team_id;
             var AllProjects = _Session.GetAllProjects();
-           
-            var MyTeam = _Session.GetAllTeams().First(team => team.id == _Session.CurrentUser.team_id);
-      
-            ViewData["MyProject"] = AllProjects.First(project => project.id == MyTeam.project_id);
-        
+            var MyTeam = _Session.GetTeamById(_Session.CurrentUser.team_id ?? 0);
+            ViewData["MyProject"] = _Session.GetProject(MyTeam.project_id ?? 0);
+
+
             return View(_Session.GetAllProjects());
         }
 
@@ -42,14 +41,14 @@ namespace WorkstationBrowser.Controllers
 
             if (file != null)
             {
-                SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
-                var CurrentProject = currentSession.WorkstationSession.GetProject(id);
+              
+                var CurrentProject = _Session.GetProject(id);
                 string pic = CurrentProject.name.Replace(" ", String.Empty) + "_ico" + Path.GetExtension(file.FileName);
                 string path = System.IO.Path.Combine(Server.MapPath("~/UserContent/Project/"), pic);
                 // file is uploaded
                 file.SaveAs(path);
                 CurrentProject.projpic= pic;
-                currentSession.WorkstationSession.EditProject(CurrentProject);
+                _Session.EditProject(CurrentProject);
             }
             // after successfully uploading redirect the user
             return RedirectToAction("Details", new { id = id });

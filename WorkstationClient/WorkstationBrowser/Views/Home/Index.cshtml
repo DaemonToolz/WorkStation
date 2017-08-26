@@ -12,12 +12,10 @@
             @{
                 if (Request.IsAuthenticated)
                 {
-                    Html.RenderAction("_Index", "Task", new
-                    {
-                        //originalSession = (SessionWrapper) ViewData["CurrentSession"],
-                        userid = ((SessionWrapper)Session["WorkstationConnection"]).CurrentUser.id,
-                    }
-                        );
+                    Html.RenderAction("_Index", "Task", new {
+                            userid = ((SessionWrapper)Session["WorkstationConnection"]).CurrentUser.id,
+                        }
+                    );
                 }
             }
             </div>

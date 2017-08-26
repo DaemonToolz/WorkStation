@@ -446,6 +446,7 @@ namespace WorkstationServices
 
                 entities.Task.Add(task);
                 entities.SaveChanges();
+
                 return true;
             }
             catch

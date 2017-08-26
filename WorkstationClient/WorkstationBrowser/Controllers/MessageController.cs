@@ -17,14 +17,14 @@ namespace WorkstationBrowser.Controllers
         [ChildActionOnly]
         public ActionResult _Index() {
             ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
-            return View(_Session.WorkstationSession.GetAllMessages(_Session.CurrentUser, false, true, false,true));
+            return View(_Session.MyMessages());
         }
 
      
         public ActionResult Index()
         {
             ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
-            return View(_Session.WorkstationSession.GetAllMessages(_Session.CurrentUser, false, true, false, true));
+            return View(_Session.MyMessages());
         }
 
 
@@ -43,7 +43,7 @@ namespace WorkstationBrowser.Controllers
             model.read = false;
             model.from = _Session.CurrentUser.id;
             model.direct = false;
-            bool result = _Session.WorkstationSession.SendMessage(model);
+            bool result = _Session.SendMessage(model);
             ModelState.Clear();
 
             List<UsersModel> CurrentUsers = _Session.GetAllUsers().ToList();
@@ -55,11 +55,8 @@ namespace WorkstationBrowser.Controllers
             String content;
             content = result ? $"Your message have been sent successfully to {CurrentUsers.Single(user => user.id == model.to).username}" : "An error occured during the mailing, please retry later";
 
-            _Session.WorkstationSession.CreateNotification(new NotificationModel() {
-                content = content,
-                title = $"Your message at {DateTime.Now}"
-            }, new int[] { model.from }, false);
-
+            _Session.CreateNotification($"Your message at {DateTime.Now}", content, false, model.from);
+   
             return PartialView();
         }
 
@@ -70,10 +67,10 @@ namespace WorkstationBrowser.Controllers
             switch (action) {
                 case "read":
                     model.read = true;
-                    _Session.WorkstationSession.MarkAsRead(model);
+                    _Session.MarkAsRead(model);
                     break;
                 case "delete":
-                    _Session.WorkstationSession.DeleteMessage(model);
+                    _Session.DeleteMessage(model);
                     break;
             }
 
@@ -94,28 +91,13 @@ namespace WorkstationBrowser.Controllers
 
         public ActionResult MarkAllAsRead()
         {
-
-            foreach (var message in
-                _Session.WorkstationSession.GetAllMessages(_Session.CurrentUser, false, true, false,true))
-            {
-                message.read = true;
-                _Session.WorkstationSession.MarkAsRead(message);
-            }
-
+            _Session.MarkAsRead(_Session.MyMessages().ToArray());
             return RedirectToAction("Index");
         }
 
 
-        public ActionResult DeleteAll()
-        {
-
-            foreach (var message in
-                _Session.WorkstationSession.GetAllMessages(_Session.CurrentUser, false, true, false, true))
-            {
-
-                _Session.WorkstationSession.DeleteMessage(message);
-            }
-
+        public ActionResult DeleteAll() {
+            _Session.DeleteMessage(_Session.MyMessages().ToArray());
             return RedirectToAction("Index");
         }
     }

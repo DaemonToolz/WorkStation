@@ -23,7 +23,7 @@ namespace WorkstationBrowser.Controllers
         }
 
         public ActionResult MyProfile(){
-            ViewData["CurrentTeam"] = _Session.WorkstationSession.GetTeamPerUser(_Session.CurrentUser.id);
+            ViewData["CurrentTeam"] = _Session.GetTeamByUser(_Session.CurrentUser);
         
             return View(_Session.CurrentUser);
         }
@@ -38,7 +38,7 @@ namespace WorkstationBrowser.Controllers
                 // file is uploaded
                 file.SaveAs(path);
                 _Session.CurrentUser.profilepic = pic;
-                _Session.WorkstationSession.EditUser(_Session.CurrentUser);
+                _Session.EditUser(_Session.CurrentUser);
             }
             // after successfully uploading redirect the user
             return RedirectToAction("MyProfile");
@@ -51,12 +51,13 @@ namespace WorkstationBrowser.Controllers
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UsersModel user = _Session.WorkstationSession.GetUserId((int)id);
+
+            UsersModel user = _Session.GetUserById((int)id);
             if (user == null) {
                 return HttpNotFound();
             }
-            ViewBag.team_id = new SelectList(_Session.WorkstationSession.GetAllTeams(), "id", "name", user.team_id);
-            ViewBag.rank = new SelectList(_Session.WorkstationSession.GetAllRanks(), "name", "name", user.rank);
+            ViewBag.team_id = new SelectList(_Session.GetAllTeams(), "id", "name", user.team_id);
+            ViewBag.rank = new SelectList(_Session.GetAllRanks(), "name", "name", user.rank);
 
             return View(user);
         }
@@ -69,11 +70,11 @@ namespace WorkstationBrowser.Controllers
         public ActionResult Edit([Bind(Include = "id,username,email,team_id, rank")] UsersModel users) {
             //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
 
-            users.profilepic = _Session.WorkstationSession.GetUserId(users.id).profilepic;
+            users.profilepic = _Session.GetUserById(users.id).profilepic;
             
-            users.rights = _Session.GetAllRanks().First(rank => rank.name.Equals(users.rank)).rights;
+            users.rights = _Session.GetRankByName(users.rank).rights;
             
-            if (_Session.WorkstationSession.EditUser(users)) {
+            if (_Session.EditUser(users)) {
 
                 return RedirectToAction("Index");
             }

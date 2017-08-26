@@ -31,7 +31,7 @@ namespace WorkstationBrowser.Controllers
             ViewData["Department"] = _Session.GetAllDepartments()
                 .Single(dept => dept.id == currentTeam.department_id);
             if(currentTeam.project_id != null)
-                ViewData["Project"] = _Session.WorkstationSession.GetProject((long)currentTeam.project_id);
+                ViewData["Project"] = _Session.GetProject((long)currentTeam.project_id);
 
             ViewData["ActiveMembers"] = _Session.GetAllUsers().Where(user => user.team_id == id).ToArray();
             return View(currentTeam);
@@ -44,13 +44,13 @@ namespace WorkstationBrowser.Controllers
             if (file != null)
             {
                
-                var CurrentTeam = _Session.WorkstationSession.GetTeamPerId(id);
+                var CurrentTeam = _Session.GetTeamById(id);
                 string pic = CurrentTeam.name.Replace(" ", String.Empty) + "_ico" + Path.GetExtension(file.FileName);
                 string path = System.IO.Path.Combine(Server.MapPath("~/UserContent/Team/"), pic);
                 // file is uploaded
                 file.SaveAs(path);
                 CurrentTeam.teampic = pic;
-                _Session.WorkstationSession.EditTeam(CurrentTeam);
+                _Session.EditTeam(CurrentTeam);
             }
             // after successfully uploading redirect the user
             return RedirectToAction("Details", new { id = id });

@@ -15,13 +15,9 @@ namespace WorkstationBrowser.Controllers
         // GET: Notifications
         public ActionResult Index(bool unreadfirst = false, bool hideread = false) {
 
-            
-            NotificationModel[] notifications = Session["SystemNotifications"] as NotificationModel[];
-           
-            Session["SystemNotifications"] = notifications;
             if (unreadfirst)
-                notifications.OrderBy(notif => !notif.read);
-            return View(notifications);
+                _UserNotifications.OrderBy(notif => !notif.read);
+            return View(_UserNotifications);
         }
 
         [HttpPost]
@@ -29,14 +25,12 @@ namespace WorkstationBrowser.Controllers
 
             //var currentSession = Session["WorkstationConnection"] as SessionWrapper;
 
-            if (NotificationUpdater.Equals("Read")){
-                notification.read = true;
-                _Session.WorkstationSession.AcknowledgeNotification(notification, _Session.CurrentUser.id);
-            }
+            if (NotificationUpdater.Equals("Read"))
+                _Session.AcknowledgeNotification(notification);
             else
-                _Session.WorkstationSession.DeleteNotification(notification.id, _Session.CurrentUser.id);
-            Session["SystemNotifications"] =
-                _Session.WorkstationSession.GetAllNotifications(_Session.CurrentUser.id);
+                _Session.DeleteNotification(notification);
+
+            _UserNotifications = _Session.GetNotifications().ToArray();
 
             return RedirectToAction("Index");
         }

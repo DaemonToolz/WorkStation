@@ -31,54 +31,54 @@ namespace WorkstationBrowser.Controllers {
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LogInModel LogModel, String returnUrl) {
-            if (ModelState.IsValid)
-            {
-                SessionWrapper newSession = null;
-                //HttpContext.Session
-       
-                try {
+            if (!ModelState.IsValid) return View(LogModel);
 
-                    var Token = await TokenGeneration.FetchToken(LogModel.Username, LogModel.Password);
+            SessionWrapper newSession = null;
 
-                    JObject deserialized = JObject.Parse(Token);
-                    Token = deserialized["message"].ToString();
-                    if (Token.Split('.').Length != 3)
-                        throw new Exception();
-                    newSession = new SessionWrapper(LogModel.Username, LogModel.Password, Token, LogModel, Session);
-                }
-                catch {
-                    newSession = null;
-                }
+            try {
 
-                if (newSession != null && newSession.LogIn())
-                {
-                    _Session = newSession;
-                    //Session.Add("WorkstationConnection", newSession);
-                    var loginClaim = new Claim(ClaimTypes.NameIdentifier, LogModel.Username);
-                    var claimsIdentity = new ClaimsIdentity(
-                        new[] {
-                            loginClaim,
-                            new Claim(ClaimTypes.Name, LogModel.Username)
-                        }, 
+                var Token = await TokenGeneration.FetchToken(LogModel.Username, LogModel.Password);
+
+                Token = (JObject.Parse(Token))["message"].ToString();
+
+
+                if (Token.Split('.').Length != 3)
+                    throw new Exception();
+
+                newSession = new SessionWrapper(LogModel.Username, LogModel.Password, Token, LogModel, Session);
+            }
+            catch {
+                newSession = null;
+            }
+
+            if (newSession != null && newSession.LogIn()) {
+                _Session = newSession;
+               
+                var loginClaim = new Claim(ClaimTypes.NameIdentifier, LogModel.Username);
+                var claimsIdentity = new ClaimsIdentity(
+                    new[] {
+                        loginClaim,
+                        new Claim(ClaimTypes.Name, LogModel.Username)
+                    }, 
                         
-                        DefaultAuthenticationTypes.ApplicationCookie
-                        );
-                    var ctx = Request.GetOwinContext();
-                    var authenticationManager = ctx.Authentication;
-                    authenticationManager.SignIn(claimsIdentity);
+                    DefaultAuthenticationTypes.ApplicationCookie
+                );
 
-                    _UserNotifications = newSession.WorkstationSession.GetAllNotifications(newSession.CurrentUser.id);
-                    _UserRights = RightsReader.Decode(newSession.CurrentUser.rights) as Dictionary<String,bool>;
+                var ctx = Request.GetOwinContext();
+                var authenticationManager = ctx.Authentication;
+                authenticationManager.SignIn(claimsIdentity);
 
-                    Session.Add("HubInitialized", false);
-                    NotificationHub.MyUsers.TryAdd(newSession.CurrentUser.username, newSession);
+                _UserNotifications = newSession.WorkstationSession.GetAllNotifications(newSession.CurrentUser.id);
+                _UserRights = RightsReader.Decode(newSession.CurrentUser.rights) as Dictionary<String,bool>;
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Login data is incorrect!");
-                }
+                Session.Add("HubInitialized", false);
+                NotificationHub.MyUsers.TryAdd(newSession.CurrentUser.username, newSession);
+
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Login data is incorrect!");
             }
             return View(LogModel);
         }
@@ -91,11 +91,16 @@ namespace WorkstationBrowser.Controllers {
                 NotificationHub.MyUsers.TryRemove(_Session.CurrentUser.username, out SessionWrapper old);
                 _Session.LogOut();
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
+
             var ctx = Request.GetOwinContext();
             var authenticationManager = ctx.Authentication;
             authenticationManager.SignOut();
 
+            _Session = null;
             // Rediriger vers la page d'accueil :
             return RedirectToAction("Index", "Home");
         }
