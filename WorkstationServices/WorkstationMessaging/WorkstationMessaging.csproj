@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\DepartmentModel.cs" />
+    <Compile Include="Model\GenericModel.cs" />
     <Compile Include="Model\MessageModel.cs" />
     <Compile Include="Model\NotificationModel.cs" />
     <Compile Include="Model\RankModel.cs" />

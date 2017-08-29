@@ -68,7 +68,7 @@ namespace WorkstationBrowser.Controllers {
                 var authenticationManager = ctx.Authentication;
                 authenticationManager.SignIn(claimsIdentity);
 
-                _UserNotifications = newSession.WorkstationSession.GetAllNotifications(newSession.CurrentUser.id);
+                _UserNotifications = newSession.WorkstationSession.GetAllNotifications((int)newSession.CurrentUser.id);
                 _UserRights = RightsReader.Decode(newSession.CurrentUser.rights) as Dictionary<String,bool>;
 
                 Session.Add("HubInitialized", false);

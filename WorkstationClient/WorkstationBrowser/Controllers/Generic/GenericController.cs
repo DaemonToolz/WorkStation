@@ -25,10 +25,8 @@ namespace WorkstationBrowser.Controllers.Generic {
    
         protected Dictionary<String, bool> _UserRights {
             get => Session["CurrentUserRights"] as Dictionary<String, bool>;
-            set {
-                if(Session["CurrentUserRights"] == null)
-                    Session["CurrentUserRights"] = value;
-            }
+            set => Session["CurrentUserRights"] = value;
+            
         }
 
         protected NotificationModel[] _UserNotifications

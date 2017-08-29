@@ -57,8 +57,15 @@
 
 
 
-        using (Html.BeginForm("UpdateMessage", "Message", FormMethod.Post)){
-            <div class="col-lg-5 col-md-5 col-xs-12 col-md-offset-1 col-lg-offset-1">
+        using (Html.BeginForm("UpdateMessage", "Message", FormMethod.Post))
+        {
+
+            String state = "message-read";
+            if (!Model.ElementAt(i).read)
+            {
+                state = "message-notread";
+            }
+            <div class="col-lg-5 col-md-5 col-xs-12 col-md-offset-1 col-lg-offset-1 @(state)">
                 
                 <p class="pull-right">
 
@@ -68,7 +75,9 @@
                     <a href="@Url.Action("Index")" class="btn btn-default">
                         <span class="fa fa-comment " style="color: black"></span>
                     </a>
-                    
+                    <a href="@Url.Action("Index")" class="btn btn-default">
+                        <span class="fa fa-anchor" style="color: black"></span>
+                    </a>
                     @if (!Model.ElementAt(i).read) {
                         <button type="submit" name="action" value="read" class="btn btn-default">
                             <span class="fa fa-check  " style="color: black"></span>

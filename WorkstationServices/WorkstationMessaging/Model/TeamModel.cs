@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace WorkstationMessaging.Model{
     [DataContract]
-    public class TeamModel {
-        [DataMember(IsRequired = true)]
-        public int id { get; set; }
+    public class TeamModel : GenericModel{
+      
         [DataMember(IsRequired = true)]
         public string name { get; set; }
         [DataMember(IsRequired = true)]

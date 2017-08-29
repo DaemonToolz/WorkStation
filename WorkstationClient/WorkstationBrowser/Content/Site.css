@@ -83,6 +83,25 @@ a.menu-hyperlink {
     left: -40px;
 }
 
+.notification-read {
+    background-color: rgba(191, 255, 154, 0.65);
+}
+.notification-notread {
+    background-color: rgba(255, 148, 148, 0.65);
+}
+
+
+.message-read {
+    border-left: 5px solid;
+    border-left-color: rgba(191, 255, 154, 0.65);
+}
+
+.message-notread {
+    border-left: 5px solid;
+    border-left-color: rgba(255, 148, 148, 0.65);
+}
+
+
 /* Navigation bar left side */
 .sidenav {
     height: 100%; /* 100% Full-height */

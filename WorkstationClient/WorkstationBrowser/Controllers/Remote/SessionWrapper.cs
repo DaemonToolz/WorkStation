@@ -89,11 +89,7 @@ namespace WorkstationBrowser.Controllers.Remote{
 
         public IEnumerable<ProjectModel> GetAllProjects()
         {
-            var cached = Cache.Get("AllProjects");
-            if (cached == null)
-                Cache.Set("AllProjects", WorkstationSession.GetAllProjects(), CachePriority.Default);
-
-            return ((ProjectModel[])Cache.Get("AllProjects")).ToList();
+            return Cache.GetAll("AllProjects", WorkstationSession.GetAllProjects);
         }
 
         public ProjectModel GetProject(long id)
@@ -103,25 +99,12 @@ namespace WorkstationBrowser.Controllers.Remote{
 
         public IEnumerable<UsersModel> GetAllUsers()
         {
-            var cached = Cache.Get("AllUsers");
-            if (cached == null)
-                Cache.Set("AllUsers", WorkstationSession.GetAllUsers(), CachePriority.Default);
-            
-            return ((UsersModel[])Cache.Get("AllUsers")).ToList();
+            return Cache.GetAll("AllUsers", WorkstationSession.GetAllUsers);
         }
 
         public bool EditUser(UsersModel user)
         {
-            if (!WorkstationSession.EditUser(user)) return false;
-
-            var AllUsers = GetAllUsers();
-
-            var UserModels = AllUsers as IList<UsersModel> ?? AllUsers.ToList();
-            UserModels.Remove(UserModels.Single(usr => usr.id == user.id));
-            UserModels.Add(user);
-
-            Cache.Set("AllUsers", UserModels.ToArray(), CachePriority.Default);
-            return true;
+            return Cache.Edit("AllUsers", GetAllUsers, (UsersModel model) => WorkstationSession.EditUser(model), user);
         }
 
         public IEnumerable<UsersModel> GetUsersByTeam(long teamid)
@@ -133,14 +116,8 @@ namespace WorkstationBrowser.Controllers.Remote{
             return GetAllUsers().Single(user => user.id == id);
         }
 
-        public IEnumerable<TeamModel> GetAllTeams()
-        {
-            var cached = Cache.Get("AllTeams");
-            if (cached == null)
-                Cache.Set("AllTeams", WorkstationSession.GetAllTeams(), CachePriority.Default);
-
-            return ((TeamModel[])Cache.Get("AllTeams")).ToList();
-
+        public IEnumerable<TeamModel> GetAllTeams(){
+            return Cache.GetAll("AllTeams", WorkstationSession.GetAllTeams);
         }
 
         public TeamModel GetTeamById(int id){
@@ -149,15 +126,7 @@ namespace WorkstationBrowser.Controllers.Remote{
 
         public void EditTeam(TeamModel team)
         {
-            if (!WorkstationSession.EditTeam(team)) return;
-
-            var AllTeams = GetAllTeams();
-
-            var TeamModels = AllTeams as IList<TeamModel> ?? AllTeams.ToList();
-            TeamModels.Remove(TeamModels.Single(model => model.id == team.id));
-            TeamModels.Add(team);
-
-            Cache.Set("AllTeams", TeamModels.ToArray(), CachePriority.Default);
+            Cache.Edit("AllTeams", GetAllTeams, (TeamModel model) => WorkstationSession.EditTeam(model), team);
         }
 
 
@@ -167,10 +136,7 @@ namespace WorkstationBrowser.Controllers.Remote{
         }
 
         public IEnumerable<DepartmentModel> GetAllDepartments() {
-            var cached = Cache.Get("AllDepartments");
-            if (cached == null)
-                Cache.Set("AllDepartments", WorkstationSession.GetAllDepartments(), CachePriority.Default);
-            return ((DepartmentModel[])Cache.Get("AllDepartments")).ToList();
+            return Cache.GetAll("AllDepartments", WorkstationSession.GetAllDepartments);
         }
 
         public DepartmentModel GetDepartments(String name)
@@ -178,39 +144,27 @@ namespace WorkstationBrowser.Controllers.Remote{
             return GetAllDepartments().Single(dept => dept.name.Equals(name));
         }
 
-        public IEnumerable<RankModel> GetAllRanks(){
-            var cached = Cache.Get("AllRanks");
-            if (cached == null)
-                Cache.Set("AllRanks", WorkstationSession.GetAllRanks(), CachePriority.Default);
-            return ((RankModel[])Cache.Get("AllRanks")).ToList();
+        public IEnumerable<RankModel> GetAllRanks()
+        {
+            return Cache.GetAll("AllRanks", WorkstationSession.GetAllRanks);
         }
 
         public RankModel GetRankByName(String name) {
-            var AllRanks = GetAllRanks();
-            return AllRanks.Single(rank => rank.name.Equals(name));
+            return GetAllRanks().Single(rank => rank.name.Equals(name));
         }
 
 
         public IEnumerable<TaskModel> GetTasks(int project_id)
         {
-            String CacheKey = (project_id) + "_tasks_0";
-            var cached = Cache.Get(CacheKey);
-            if (cached == null)
-                Cache.Set(CacheKey, WorkstationSession.GetAllTasks(project_id, null), CachePriority.Default);
-            return ((TaskModel[])Cache.Get(CacheKey)).ToList();
+            return Cache.GetAll((project_id) + "_tasks_0", () => WorkstationSession.GetAllTasks(project_id, null));
         }
 
         public TaskModel GetTaskById(long id, long projectid){
-            var AllTasks = GetTasks((int)projectid);
-            return AllTasks.Single(task => id == task.id);
+            return GetTasks((int)projectid).Single(task => id == task.id);
         }
 
         public IEnumerable<TaskModel> GetTasksByUser(int user_id){
-            String CacheKey =  "0_tasks_" + user_id;
-            var cached = Cache.Get(CacheKey);
-            if (cached == null)
-                Cache.Set(CacheKey, WorkstationSession.GetAllTasks(null, user_id), CachePriority.Default);
-            return ((TaskModel[])Cache.Get(CacheKey)).ToList();
+            return Cache.GetAll("0_tasks_" + user_id, () => WorkstationSession.GetAllTasks(null, user_id));
         }
 
 
@@ -263,7 +217,7 @@ namespace WorkstationBrowser.Controllers.Remote{
         }
 
         public bool DeleteTask(TaskModel model){
-           
+     
             if (!WorkstationSession.DeleteTask(model)) return false;
             var AllTasks = GetTasks((int)model.project_id);
 
@@ -271,27 +225,22 @@ namespace WorkstationBrowser.Controllers.Remote{
             TasksModel.Remove(TasksModel.Single(task => task.id == model.id));
      
             Cache.Set((model.project_id) + "_tasks_0", TasksModel.ToArray(), CachePriority.Default);
-
+            
             if (model.user_id != null)
             {
+       
                 AllTasks = GetTasksByUser((int)model.user_id);
                 TasksModel = AllTasks.ToList();
                 TasksModel.Remove(model);
                 Cache.Set("0_tasks_" + ((int)model.user_id), TasksModel.ToArray(), CachePriority.Default);
+                
             }
 
             return true;
         }
 
         public void EditProject(ProjectModel project){
-            if (!WorkstationSession.EditProject(project)) return;
-            var MyProjects = GetAllProjects();
-
-            var projectModels = MyProjects as IList<ProjectModel> ?? MyProjects.ToList();
-            projectModels.Remove(projectModels.Single(proj => proj.id == project.id));
-            projectModels.Add(project);
-
-            Cache.Set("AllProjects", projectModels.ToArray(), CachePriority.Default);
+            Cache.Edit("AllProjects", GetAllProjects, (ProjectModel model) => WorkstationSession.EditProject(model), project);
         }
 
 
@@ -337,23 +286,23 @@ namespace WorkstationBrowser.Controllers.Remote{
         public void AcknowledgeNotification(NotificationModel model)
         {
             model.read = true;
-            WorkstationSession.AcknowledgeNotification(model, CurrentUser.id);
+            WorkstationSession.AcknowledgeNotification(model, (int)CurrentUser.id);
         }
 
         public void DeleteNotification(NotificationModel model){
-            WorkstationSession.DeleteNotification(model.id, CurrentUser.id);
+            WorkstationSession.DeleteNotification(model.id, (int)CurrentUser.id);
         }
 
         public IEnumerable<NotificationModel> GetNotifications()
         {
-            return WorkstationSession.GetAllNotifications(CurrentUser.id);
+            return WorkstationSession.GetAllNotifications((int)CurrentUser.id);
         }
 
         public void UpdateNotification()
         {
             try
             {
-                WorkstationSession.UpdateNotifications(CurrentUser.id, CurrentUser.username);
+                WorkstationSession.UpdateNotifications((int)CurrentUser.id, CurrentUser.username);
             }
             catch (Exception e)
             {
@@ -372,7 +321,7 @@ namespace WorkstationBrowser.Controllers.Remote{
         {
             try
             {
-                WorkstationSession.UpdateDirectMessages(CurrentUser.id, targetid, CurrentUser.username);
+                WorkstationSession.UpdateDirectMessages((int)CurrentUser.id, targetid, CurrentUser.username);
             }
             catch (Exception e)
             {

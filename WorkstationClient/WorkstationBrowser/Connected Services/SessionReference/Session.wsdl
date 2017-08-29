@@ -16,10 +16,10 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/WorkstationServices.Security" />
+      <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/WorkstationServices.Security" />
       <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Workstation.Model" />
-      <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" />
+      <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" />
       <xsd:import schemaLocation="http://localhost:10856/Session.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>

@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 namespace WorkstationMessaging.Model
 {
     [DataContract]
-    public class TaskModel {
-        [DataMember(IsRequired = true)]
-        public long id { get; set; }
+    public class TaskModel : GenericModel {
         [DataMember(IsRequired = true)]
         public string title { get; set; }
         [DataMember(IsRequired = false)]

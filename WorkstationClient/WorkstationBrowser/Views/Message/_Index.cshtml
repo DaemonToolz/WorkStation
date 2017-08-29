@@ -8,6 +8,9 @@
 <table class="table">
     <tr>
         <th>
+            
+        </th>
+        <th>
             Title
         </th>
         <th>
@@ -16,15 +19,21 @@
         <th>
             From
         </th>
-        <th>
-            To
-        </th>
-
+     
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
+    String MessageClass = "notification-read";
+    if (item.read)
+    {
+        MessageClass = "notification-notread";
+    }
     <tr>
+        <td class="@(MessageClass)">
+            
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.title)
         </td>
@@ -32,15 +41,13 @@
             @Html.DisplayFor(modelItem => item.content)
         </td>
         <td>
-            @(((UsersModel[])ViewData["AllUsers"]).Single(user => user.id == item.from).username)
+            @(((UsersModel[]) ViewData["AllUsers"]).Single(user => user.id == item.from).username)
+
+        </td>
+     
+        <td>
             
         </td>
-        <td>
-
-            @(((UsersModel[])ViewData["AllUsers"]).Single(user => user.id == item.to).username)
-          
-        </td>
-
     </tr>
 }
 

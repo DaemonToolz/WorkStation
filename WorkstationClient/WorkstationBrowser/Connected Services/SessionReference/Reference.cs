@@ -15,26 +15,18 @@ namespace WorkstationBrowser.SessionReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="UsersModel", Namespace="http://schemas.datacontract.org/2004/07/Workstation.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GenericModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
     [System.SerializableAttribute()]
-    public partial class UsersModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(WorkstationBrowser.SessionReference.ProjectModel))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(WorkstationBrowser.SessionReference.TaskModel))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(WorkstationBrowser.SessionReference.TeamModel))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(WorkstationBrowser.SessionReference.UsersModel))]
+    public partial class GenericModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
-        private string emailField;
-        
-        private int idField;
-        
-        private string profilepicField;
-        
-        private string rankField;
-        
-        private string rightsField;
-        
-        private System.Nullable<int> team_idField;
-        
-        private string usernameField;
+        private long idField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -47,6 +39,266 @@ namespace WorkstationBrowser.SessionReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public long id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ProjectModel", Namespace="http://schemas.datacontract.org/2004/07/Workstation.Model")]
+    [System.SerializableAttribute()]
+    public partial class ProjectModel : WorkstationBrowser.SessionReference.GenericModel {
+        
+        private string nameField;
+        
+        private string projpicField;
+        
+        private string rootField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.nameField, value) != true)) {
+                    this.nameField = value;
+                    this.RaisePropertyChanged("name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string projpic {
+            get {
+                return this.projpicField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.projpicField, value) != true)) {
+                    this.projpicField = value;
+                    this.RaisePropertyChanged("projpic");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string root {
+            get {
+                return this.rootField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.rootField, value) != true)) {
+                    this.rootField = value;
+                    this.RaisePropertyChanged("root");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TaskModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
+    [System.SerializableAttribute()]
+    public partial class TaskModel : WorkstationBrowser.SessionReference.GenericModel {
+        
+        private System.DateTime beginField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string descriptionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> endField;
+        
+        private long project_idField;
+        
+        private string titleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> user_idField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.DateTime begin {
+            get {
+                return this.beginField;
+            }
+            set {
+                if ((this.beginField.Equals(value) != true)) {
+                    this.beginField = value;
+                    this.RaisePropertyChanged("begin");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.descriptionField, value) != true)) {
+                    this.descriptionField = value;
+                    this.RaisePropertyChanged("description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> end {
+            get {
+                return this.endField;
+            }
+            set {
+                if ((this.endField.Equals(value) != true)) {
+                    this.endField = value;
+                    this.RaisePropertyChanged("end");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public long project_id {
+            get {
+                return this.project_idField;
+            }
+            set {
+                if ((this.project_idField.Equals(value) != true)) {
+                    this.project_idField = value;
+                    this.RaisePropertyChanged("project_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string title {
+            get {
+                return this.titleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.titleField, value) != true)) {
+                    this.titleField = value;
+                    this.RaisePropertyChanged("title");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> user_id {
+            get {
+                return this.user_idField;
+            }
+            set {
+                if ((this.user_idField.Equals(value) != true)) {
+                    this.user_idField = value;
+                    this.RaisePropertyChanged("user_id");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="TeamModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
+    [System.SerializableAttribute()]
+    public partial class TeamModel : WorkstationBrowser.SessionReference.GenericModel {
+        
+        private System.Nullable<int> department_idField;
+        
+        private string nameField;
+        
+        private System.Nullable<long> project_idField;
+        
+        private string teampicField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.Nullable<int> department_id {
+            get {
+                return this.department_idField;
+            }
+            set {
+                if ((this.department_idField.Equals(value) != true)) {
+                    this.department_idField = value;
+                    this.RaisePropertyChanged("department_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.nameField, value) != true)) {
+                    this.nameField = value;
+                    this.RaisePropertyChanged("name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.Nullable<long> project_id {
+            get {
+                return this.project_idField;
+            }
+            set {
+                if ((this.project_idField.Equals(value) != true)) {
+                    this.project_idField = value;
+                    this.RaisePropertyChanged("project_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string teampic {
+            get {
+                return this.teampicField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.teampicField, value) != true)) {
+                    this.teampicField = value;
+                    this.RaisePropertyChanged("teampic");
+                }
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UsersModel", Namespace="http://schemas.datacontract.org/2004/07/Workstation.Model")]
+    [System.SerializableAttribute()]
+    public partial class UsersModel : WorkstationBrowser.SessionReference.GenericModel {
+        
+        private string emailField;
+        
+        private string profilepicField;
+        
+        private string rankField;
+        
+        private string rightsField;
+        
+        private System.Nullable<int> team_idField;
+        
+        private string usernameField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
         public string email {
             get {
                 return this.emailField;
@@ -55,19 +307,6 @@ namespace WorkstationBrowser.SessionReference {
                 if ((object.ReferenceEquals(this.emailField, value) != true)) {
                     this.emailField = value;
                     this.RaisePropertyChanged("email");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public int id {
-            get {
-                return this.idField;
-            }
-            set {
-                if ((this.idField.Equals(value) != true)) {
-                    this.idField = value;
-                    this.RaisePropertyChanged("id");
                 }
             }
         }
@@ -136,15 +375,6 @@ namespace WorkstationBrowser.SessionReference {
                 }
             }
         }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -178,95 +408,6 @@ namespace WorkstationBrowser.SessionReference {
                 if ((object.ReferenceEquals(this.ErrorField, value) != true)) {
                     this.ErrorField = value;
                     this.RaisePropertyChanged("Error");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ProjectModel", Namespace="http://schemas.datacontract.org/2004/07/Workstation.Model")]
-    [System.SerializableAttribute()]
-    public partial class ProjectModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        private long idField;
-        
-        private string nameField;
-        
-        private string projpicField;
-        
-        private string rootField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public long id {
-            get {
-                return this.idField;
-            }
-            set {
-                if ((this.idField.Equals(value) != true)) {
-                    this.idField = value;
-                    this.RaisePropertyChanged("id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public string name {
-            get {
-                return this.nameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.nameField, value) != true)) {
-                    this.nameField = value;
-                    this.RaisePropertyChanged("name");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public string projpic {
-            get {
-                return this.projpicField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.projpicField, value) != true)) {
-                    this.projpicField = value;
-                    this.RaisePropertyChanged("projpic");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public string root {
-            get {
-                return this.rootField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.rootField, value) != true)) {
-                    this.rootField = value;
-                    this.RaisePropertyChanged("root");
                 }
             }
         }
@@ -326,110 +467,6 @@ namespace WorkstationBrowser.SessionReference {
                 if ((object.ReferenceEquals(this.nameField, value) != true)) {
                     this.nameField = value;
                     this.RaisePropertyChanged("name");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="TeamModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
-    [System.SerializableAttribute()]
-    public partial class TeamModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        private System.Nullable<int> department_idField;
-        
-        private int idField;
-        
-        private string nameField;
-        
-        private System.Nullable<long> project_idField;
-        
-        private string teampicField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public System.Nullable<int> department_id {
-            get {
-                return this.department_idField;
-            }
-            set {
-                if ((this.department_idField.Equals(value) != true)) {
-                    this.department_idField = value;
-                    this.RaisePropertyChanged("department_id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public int id {
-            get {
-                return this.idField;
-            }
-            set {
-                if ((this.idField.Equals(value) != true)) {
-                    this.idField = value;
-                    this.RaisePropertyChanged("id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public string name {
-            get {
-                return this.nameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.nameField, value) != true)) {
-                    this.nameField = value;
-                    this.RaisePropertyChanged("name");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public System.Nullable<long> project_id {
-            get {
-                return this.project_idField;
-            }
-            set {
-                if ((this.project_idField.Equals(value) != true)) {
-                    this.project_idField = value;
-                    this.RaisePropertyChanged("project_id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public string teampic {
-            get {
-                return this.teampicField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.teampicField, value) != true)) {
-                    this.teampicField = value;
-                    this.RaisePropertyChanged("teampic");
                 }
             }
         }
@@ -579,143 +616,6 @@ namespace WorkstationBrowser.SessionReference {
                 if ((object.ReferenceEquals(this.titleField, value) != true)) {
                     this.titleField = value;
                     this.RaisePropertyChanged("title");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="TaskModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
-    [System.SerializableAttribute()]
-    public partial class TaskModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        private System.DateTime beginField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string descriptionField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<System.DateTime> endField;
-        
-        private long idField;
-        
-        private long project_idField;
-        
-        private string titleField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> user_idField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public System.DateTime begin {
-            get {
-                return this.beginField;
-            }
-            set {
-                if ((this.beginField.Equals(value) != true)) {
-                    this.beginField = value;
-                    this.RaisePropertyChanged("begin");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string description {
-            get {
-                return this.descriptionField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.descriptionField, value) != true)) {
-                    this.descriptionField = value;
-                    this.RaisePropertyChanged("description");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<System.DateTime> end {
-            get {
-                return this.endField;
-            }
-            set {
-                if ((this.endField.Equals(value) != true)) {
-                    this.endField = value;
-                    this.RaisePropertyChanged("end");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public long id {
-            get {
-                return this.idField;
-            }
-            set {
-                if ((this.idField.Equals(value) != true)) {
-                    this.idField = value;
-                    this.RaisePropertyChanged("id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public long project_id {
-            get {
-                return this.project_idField;
-            }
-            set {
-                if ((this.project_idField.Equals(value) != true)) {
-                    this.project_idField = value;
-                    this.RaisePropertyChanged("project_id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public string title {
-            get {
-                return this.titleField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.titleField, value) != true)) {
-                    this.titleField = value;
-                    this.RaisePropertyChanged("title");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> user_id {
-            get {
-                return this.user_idField;
-            }
-            set {
-                if ((this.user_idField.Equals(value) != true)) {
-                    this.user_idField = value;
-                    this.RaisePropertyChanged("user_id");
                 }
             }
         }

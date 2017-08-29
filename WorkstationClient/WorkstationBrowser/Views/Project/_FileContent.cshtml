@@ -12,7 +12,10 @@
      {
          <img src="@path" class="text-center" width="250" height="250"/>
     }
-    else {
+    else if(loweredPath.Contains(".pdf"))
+    {
+        <iframe src="@path"></iframe>
+    } else { 
         String[] lines = System.IO.File.ReadAllLines(path);
         foreach (var line in lines) {
              <p>

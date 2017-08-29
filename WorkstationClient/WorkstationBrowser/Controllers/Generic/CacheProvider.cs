@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Caching;
 using System.Threading;
+using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers.Generic {
     public enum CachePriority
@@ -49,6 +51,94 @@ namespace WorkstationBrowser.Controllers.Generic {
             }
             return retrieved;
         }
+
+        
+        public IEnumerable<T> GetAll<T>(String Key, Func<T[]> alternative, CachePriority priority = CachePriority.Default){
+            var cached = Get(Key);
+            if (cached == null)
+                Set(Key, alternative.Invoke(), priority);
+            return ((T[])Get(Key)).ToList();
+        }
+
+        public bool Edit<T>(String Key, Func<IEnumerable<T>> fetcher, Func<T, bool> editFunc, T instance) where T:GenericModel
+        {
+            if (!editFunc.Invoke(instance)) return false;
+            var all = fetcher.Invoke();
+            var allModels = all as IList<T> ?? all.ToList();
+            allModels.Remove(allModels.Single(model => model.id == instance.id));
+            allModels.Add(instance);
+            Set(Key, allModels.ToArray(), CachePriority.Default);
+            return true;
+        }
+      
+
+        public bool Delete<T>(String Key, Func<T, bool> updater, Func<IEnumerable<T>> fetcher, T instance,
+            bool otherStep = false, Action<T> nextStep = null) where T:GenericModel
+        {
+            if (!updater.Invoke(instance)) return false;
+            var allModels = fetcher.Invoke().ToList();
+            allModels.Remove(allModels.Single(model => model.id == instance.id));
+            Set(Key, allModels.ToArray(), CachePriority.Default);
+            
+            if (otherStep){
+                nextStep?.Invoke(instance);
+            }
+
+            return true;
+        }
+
+        public bool CrossDelete<T>(String Key, Func<T, bool> updater, 
+            Func<object, IEnumerable<T>> fetcher, 
+            Type paramCastType, String fieldName, T instance,
+            bool otherStep = false, Action<object> nextStep = null, 
+            Type stepParamCast = null, String stepFieldName = null) where T:GenericModel
+        {
+
+            if (!updater.Invoke(instance)) return false;
+
+            var parameter = typeof(T).GetField(fieldName).GetValue(instance);
+            var value = Convert.ChangeType(parameter, paramCastType);
+
+            var allModels = fetcher.Invoke(value).ToList();
+            allModels.Remove(allModels.Single(model => model.id == instance.id));
+            Set(Key, allModels.ToArray(), CachePriority.Default);
+            
+            if (otherStep && nextStep != null && stepParamCast != null && stepFieldName != null){
+
+                var sparameter = typeof(T).GetField(stepFieldName).GetValue(instance);
+                var svalue = Convert.ChangeType(sparameter, stepParamCast);
+
+                nextStep.Invoke(svalue);
+            }
+
+            return true;
+        }
+
+        public bool CrossDelete<T, TP1>(String Key, 
+            Func<TP1, IEnumerable<T>> fetcher,
+            String fieldName, T instance,
+            Func<T, bool> updater = null,
+            bool otherStep = false, Func<TP1, bool> nextStep = null,
+            String stepFieldName = null) where T : GenericModel
+        {
+
+            if(updater != null)
+                if (!updater.Invoke(instance)) return false;
+            var parameter = typeof(T).GetField(fieldName).GetValue(instance);
+
+            var allModels = fetcher.Invoke((TP1)parameter).ToList();
+            allModels.Remove(allModels.Single(model => model.id == instance.id));
+            Set(Key, allModels.ToArray(), CachePriority.Default);
+
+            if (otherStep && nextStep != null  && stepFieldName != null)
+            {
+                var sparameter = typeof(T).GetField(stepFieldName).GetValue(instance);
+                nextStep.Invoke((TP1)sparameter);
+            }
+
+            return true;
+        }
+
 
         public void Remove(String Key){
             _Lock.EnterWriteLock();

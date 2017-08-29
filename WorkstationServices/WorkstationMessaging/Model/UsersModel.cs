@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using WorkstationMessaging.Model;
 
 namespace Workstation.Model{
     [DataContract]
-    public class UsersModel {
-        [DataMember(IsRequired = true)]
-        public int id { get; set; }
+    public class UsersModel : GenericModel{
 
         [DataMember(IsRequired = true)]
         public string username { get; set; }

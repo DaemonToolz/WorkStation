@@ -41,7 +41,7 @@
                      || (!item.rank.Equals("Administrators") && MyRights["CanEditUser"])
                      || item.id == int.Parse(ViewData["MyId"].ToString()))
                 {
-                    @Html.ActionLink(" ", "Edit", new {id = item.id}, new {@class = "glyphicon glyphicon-cog"})
+                    @Html.ActionLink(" ", "Edit", new {id = item.id}, new {@class = "btn btn-default glyphicon glyphicon-cog"})
                 }
 
             </td>

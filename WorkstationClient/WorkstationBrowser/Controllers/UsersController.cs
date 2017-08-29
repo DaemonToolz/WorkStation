@@ -70,7 +70,7 @@ namespace WorkstationBrowser.Controllers
         public ActionResult Edit([Bind(Include = "id,username,email,team_id, rank")] UsersModel users) {
             //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
 
-            users.profilepic = _Session.GetUserById(users.id).profilepic;
+            users.profilepic = _Session.GetUserById((int)users.id).profilepic;
             
             users.rights = _Session.GetRankByName(users.rank).rights;
             

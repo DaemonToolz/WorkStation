@@ -81,7 +81,7 @@
                     {
                         <li>
 
-                            <a href="@Url.Action("Index", "Notifications")">
+                            <a href="@Url.Action("Index", "Notifications", new{ unreadfirst = true})">
                                 <span class="fa fa-bell" aria-hidden="true"></span>
                                 @if (Session["UnreadNotifications"] != null && int.Parse(Session["UnreadNotifications"].ToString()) > 0)
                                 {

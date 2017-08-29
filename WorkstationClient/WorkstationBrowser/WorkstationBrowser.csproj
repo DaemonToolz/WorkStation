@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -175,6 +176,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\AuthConfig..cs" />
+    <Compile Include="BLL\ExcelEngine.cs" />
+    <Compile Include="BLL\PdfEngine.cs" />
     <Compile Include="BLL\RawActionLink.cs" />
     <Compile Include="BLL\RightsReader.cs" />
     <Compile Include="Controllers\Generic\CacheProvider.cs" />

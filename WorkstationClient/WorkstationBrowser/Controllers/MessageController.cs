@@ -41,7 +41,7 @@ namespace WorkstationBrowser.Controllers
         {
      
             model.read = false;
-            model.from = _Session.CurrentUser.id;
+            model.from = (int)_Session.CurrentUser.id;
             model.direct = false;
             bool result = _Session.SendMessage(model);
             ModelState.Clear();
@@ -66,7 +66,6 @@ namespace WorkstationBrowser.Controllers
 
             switch (action) {
                 case "read":
-                    model.read = true;
                     _Session.MarkAsRead(model);
                     break;
                 case "delete":

@@ -13,11 +13,12 @@ namespace WorkstationBrowser.Controllers
     public class NotificationsController : GenericController
     {
         // GET: Notifications
-        public ActionResult Index(bool unreadfirst = false, bool hideread = false) {
-
+        public ActionResult Index(bool unreadfirst = false, bool hideread = false)
+        {
+            var UserNotifications = _UserNotifications;
             if (unreadfirst)
-                _UserNotifications.OrderBy(notif => !notif.read);
-            return View(_UserNotifications);
+                UserNotifications = _UserNotifications.OrderBy(notif => notif.read).ToArray();
+            return View(UserNotifications);
         }
 
         [HttpPost]
