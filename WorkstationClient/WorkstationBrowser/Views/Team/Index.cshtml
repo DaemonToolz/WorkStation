@@ -3,12 +3,12 @@
 
 @{
     ViewBag.Title = "Index";
+    Dictionary<String, bool> MyRights = Session["CurrentUserRights"] as Dictionary<String, bool>;
+       
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
+<p style="padding-top:50px">
+    @Html.ActionLink(" ", "Create", null, new{@class="btn btn-default glyphicon glyphicon-plus"})
 </p>
 <table class="table">
     <tr>
@@ -51,9 +51,15 @@
 
         <td style="vertical-align: middle;">
             @{
-                if (!item.name.Equals("Not affected") && !item.name.Equals("Non affecté") && item.id == long.Parse(ViewData["TeamId"].ToString()))
+                if (MyRights["IsAdmin"] || (!item.name.Equals("Not affected") && !item.name.Equals("Non affecté") && item.id == long.Parse(ViewData["TeamId"].ToString())))
                 {
-                    @Html.ActionLink("Details", "Details", new {id = item.id}) 
+                    @Html.ActionLink(" ", "Details", new {id = item.id}, new{@class="btn btn-default glyphicon glyphicon-zoom-in"}) 
+
+                }
+
+                if (MyRights["IsAdmin"] || MyRights["CanEditTeam"])
+                {
+                    @Html.ActionLink(" ", "Delete", new { id = item.id }, new { style="color:red",@class = "btn btn-default glyphicon glyphicon-remove" })
 
                 }
             }

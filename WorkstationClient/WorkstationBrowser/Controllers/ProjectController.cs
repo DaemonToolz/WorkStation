@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.Models;
+using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
 {
@@ -46,12 +47,37 @@ namespace WorkstationBrowser.Controllers
                 string pic = CurrentProject.name.Replace(" ", String.Empty) + "_ico" + Path.GetExtension(file.FileName);
                 string path = System.IO.Path.Combine(Server.MapPath("~/UserContent/Project/"), pic);
                 // file is uploaded
+
+                var files = Directory.GetFiles(Server.MapPath("~/UserContent/Project/"), CurrentProject.name.Replace(" ", String.Empty) + "_ico.*");
+                foreach (var tmpFile in files)
+                    System.IO.File.Delete(tmpFile);
+                
+
                 file.SaveAs(path);
-                CurrentProject.projpic= pic;
+                CurrentProject.projpic = pic;
                 _Session.EditProject(CurrentProject);
             }
             // after successfully uploading redirect the user
             return RedirectToAction("Details", new { id = id });
+        }
+
+        public ActionResult Create()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include="name")]ProjectModel model){
+            model.root = $@"C:\inetpub\ftproot\{model.name}\";
+            model.projpic = "Default_Project.png";
+            _Session.CreateProject(model);
+            
+            /* AJAX CALL
+            if (_Session.CreateProject(model))
+                return RedirectToAction("Index", "Project"); 
+            */
+            return PartialView(model);
         }
 
 

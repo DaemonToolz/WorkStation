@@ -236,6 +236,14 @@
             });
 
             $(".datepicker").datepicker({ dateFormat: "dd/mm/yy" });
+            $('[data-toggle="popover"]').popover({
+                html: true, 
+                container: 'body',
+                placement: 'auto',
+                content: function() {
+                    return $(this).data('content').html();
+                } 
+            });  
 
         });
 
@@ -271,6 +279,8 @@
         function chatUpdate(caller, source) {
             $("#chat_contact").html(caller);
         }
+
+       
     </script>
 }
 

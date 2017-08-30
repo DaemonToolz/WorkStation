@@ -124,11 +124,30 @@ namespace WorkstationBrowser.Controllers.Remote{
             return GetAllTeams().Single(team => team.id == id);
         }
 
-        public void EditTeam(TeamModel team)
+        public bool EditTeam(TeamModel team)
         {
-            Cache.Edit("AllTeams", GetAllTeams, (TeamModel model) => WorkstationSession.EditTeam(model), team);
+            return Cache.Edit("AllTeams", GetAllTeams, (TeamModel model) => WorkstationSession.EditTeam(model), team);
         }
 
+        public bool DeleteTeam(int id)
+        {
+            return Cache.Delete("AllTeams", WorkstationSession.DeleteTeam, GetAllTeams, GetTeamById(id));
+        }
+
+        public bool DeleteProject(long id)
+        {
+            return Cache.Delete("AllProjects", WorkstationSession.DeleteProject, GetAllProjects, GetProject(id));
+        }
+
+        public bool CreateTeam(TeamModel model)
+        {
+            return Cache.Add<TeamModel>("AllTeams", WorkstationSession.CreateTeam, GetAllTeams, model);
+        }
+
+        public bool CreateProject(ProjectModel model)
+        {
+            return Cache.Add<ProjectModel>("AllProjects", WorkstationSession.CreateProject, GetAllProjects, model);
+        }
 
         public TeamModel GetTeamByUser(UsersModel user)
         {
@@ -169,16 +188,27 @@ namespace WorkstationBrowser.Controllers.Remote{
 
 
 
-        public bool CreateTask(TaskModel model){
-            if (!WorkstationSession.CreateTask(model)) return false;
-            Cache.Remove((model.project_id) + "_tasks_0");
+        public bool CreateTask(TaskModel model)
+        {/*
+            var createResult = WorkstationSession.CreateTask(model);
+            if (createResult == null) return false;
+
+            var tasks = GetTasks((int)model.project_id);// Cache.Remove((model.project_id) + "_tasks_0");
+            var tasksList = tasks.ToList();
+            tasksList.Add(createResult);
+            
+
             GetTasks((int)model.project_id);
             if (model.user_id != null){
                 Cache.Remove("0_tasks_" + ((int)model.user_id));
                 GetTasksByUser((int)model.user_id);
             }
-
-            return true;
+            */
+            return Cache.CrossAdd<TaskModel>(
+                (model.project_id) + "_tasks_0", 
+                "0_tasks_" + ((int)model.user_id), 
+                WorkstationSession.CreateTask, GetTasks, GetTasksByUser, model,
+                (int)model.project_id, (int)model.user_id, (model.user_id != null));
         }
 
         public bool EditTask(TaskModel model){

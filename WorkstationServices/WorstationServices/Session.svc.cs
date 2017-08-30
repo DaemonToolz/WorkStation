@@ -67,6 +67,22 @@ namespace WorkstationServices
             return projects;
         }
 
+        public ProjectModel CreateProject(ProjectModel model)
+        {
+            try
+            {
+                Project project = new Project {name = model.name, root = model.root, projpic = model.projpic};
+                entities.Project.Add(project);
+                entities.SaveChanges();
+                model.id = project.id;
+                return model;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public IList<UsersModel> GetAllUsers(){
             List<UsersModel> users = new List<UsersModel>();
 
@@ -164,6 +180,46 @@ namespace WorkstationServices
             catch { return false; }
         }
 
+        public bool DeleteTeam(TeamModel model){
+            try
+            {
+  
+                Team team = entities.Team.Single(rec => model.id == rec.id);
+          
+
+                entities.Team.Remove(team);
+                entities.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public TeamModel CreateTeam(TeamModel model)
+        {
+            try
+            {
+                Team team = new Team
+                {
+                     department_id = model.department_id,
+                     name = model.name,
+                     project_id = model.project_id,
+                     teampic = model.teampic
+                };
+
+                entities.Team.Add(team);
+                entities.SaveChanges();
+                model.id = team.id;
+                model.teampic = team.teampic;
+                return model;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         public bool EditProject(ProjectModel newInfo)
         {
@@ -187,6 +243,7 @@ namespace WorkstationServices
             try
             {
                 Project project = entities.Project.Single(proj => newInfo.id == proj.id && newInfo.root.Equals(proj.root) && newInfo.name.Equals(proj.name));
+                
                 entities.Project.Remove(project);
                 entities.SaveChanges();
 
@@ -210,6 +267,9 @@ namespace WorkstationServices
                 projpic = project.projpic
             };
         }
+
+
+
 
         public bool EditUser(UsersModel newInfo) {
             try {
@@ -430,7 +490,7 @@ namespace WorkstationServices
         }
 
 
-        public bool CreateTask(TaskModel newTask)
+        public TaskModel CreateTask(TaskModel newTask)
         {
             try
             {
@@ -447,11 +507,13 @@ namespace WorkstationServices
                 entities.Task.Add(task);
                 entities.SaveChanges();
 
-                return true;
+                newTask.id = task.id;
+
+                return newTask;
             }
             catch
             {
-                return false;
+                return null;
             }
         }
 
@@ -635,6 +697,7 @@ namespace WorkstationServices
             MessagenTimer = null;
         }
 
+    
 
         #endregion
 

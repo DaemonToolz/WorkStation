@@ -398,6 +398,7 @@
     <Content Include="Views\Project\_FileContent.cshtml" />
     <Content Include="Views\Task\Edit.cshtml" />
     <Content Include="Views\Message\_Create.cshtml" />
+    <Content Include="Views\Project\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

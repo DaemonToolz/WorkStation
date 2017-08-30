@@ -857,6 +857,12 @@ namespace WorkstationBrowser.SessionReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetTeamPerId", ReplyAction="http://tempuri.org/ISession/GetTeamPerIdResponse")]
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TeamModel> GetTeamPerIdAsync(int id);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTeam", ReplyAction="http://tempuri.org/ISession/CreateTeamResponse")]
+        WorkstationBrowser.SessionReference.TeamModel CreateTeam(WorkstationBrowser.SessionReference.TeamModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTeam", ReplyAction="http://tempuri.org/ISession/CreateTeamResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TeamModel> CreateTeamAsync(WorkstationBrowser.SessionReference.TeamModel model);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllRanks", ReplyAction="http://tempuri.org/ISession/GetAllRanksResponse")]
         WorkstationBrowser.SessionReference.RankModel[] GetAllRanks();
         
@@ -918,10 +924,10 @@ namespace WorkstationBrowser.SessionReference {
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel> GetTaskIdAsync(long id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTask", ReplyAction="http://tempuri.org/ISession/CreateTaskResponse")]
-        bool CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask);
+        WorkstationBrowser.SessionReference.TaskModel CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateTask", ReplyAction="http://tempuri.org/ISession/CreateTaskResponse")]
-        System.Threading.Tasks.Task<bool> CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask);
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel> CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteTask", ReplyAction="http://tempuri.org/ISession/DeleteTaskResponse")]
         bool DeleteTask(WorkstationBrowser.SessionReference.TaskModel newTask);
@@ -964,6 +970,18 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/EditTeam", ReplyAction="http://tempuri.org/ISession/EditTeamResponse")]
         System.Threading.Tasks.Task<bool> EditTeamAsync(WorkstationBrowser.SessionReference.TeamModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteTeam", ReplyAction="http://tempuri.org/ISession/DeleteTeamResponse")]
+        bool DeleteTeam(WorkstationBrowser.SessionReference.TeamModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteTeam", ReplyAction="http://tempuri.org/ISession/DeleteTeamResponse")]
+        System.Threading.Tasks.Task<bool> DeleteTeamAsync(WorkstationBrowser.SessionReference.TeamModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateProject", ReplyAction="http://tempuri.org/ISession/CreateProjectResponse")]
+        WorkstationBrowser.SessionReference.ProjectModel CreateProject(WorkstationBrowser.SessionReference.ProjectModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateProject", ReplyAction="http://tempuri.org/ISession/CreateProjectResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel> CreateProjectAsync(WorkstationBrowser.SessionReference.ProjectModel model);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1116,6 +1134,14 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.GetTeamPerIdAsync(id);
         }
         
+        public WorkstationBrowser.SessionReference.TeamModel CreateTeam(WorkstationBrowser.SessionReference.TeamModel model) {
+            return base.Channel.CreateTeam(model);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TeamModel> CreateTeamAsync(WorkstationBrowser.SessionReference.TeamModel model) {
+            return base.Channel.CreateTeamAsync(model);
+        }
+        
         public WorkstationBrowser.SessionReference.RankModel[] GetAllRanks() {
             return base.Channel.GetAllRanks();
         }
@@ -1196,11 +1222,11 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.GetTaskIdAsync(id);
         }
         
-        public bool CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask) {
+        public WorkstationBrowser.SessionReference.TaskModel CreateTask(WorkstationBrowser.SessionReference.TaskModel newTask) {
             return base.Channel.CreateTask(newTask);
         }
         
-        public System.Threading.Tasks.Task<bool> CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask) {
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.TaskModel> CreateTaskAsync(WorkstationBrowser.SessionReference.TaskModel newTask) {
             return base.Channel.CreateTaskAsync(newTask);
         }
         
@@ -1258,6 +1284,22 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task<bool> EditTeamAsync(WorkstationBrowser.SessionReference.TeamModel newInfo) {
             return base.Channel.EditTeamAsync(newInfo);
+        }
+        
+        public bool DeleteTeam(WorkstationBrowser.SessionReference.TeamModel model) {
+            return base.Channel.DeleteTeam(model);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteTeamAsync(WorkstationBrowser.SessionReference.TeamModel model) {
+            return base.Channel.DeleteTeamAsync(model);
+        }
+        
+        public WorkstationBrowser.SessionReference.ProjectModel CreateProject(WorkstationBrowser.SessionReference.ProjectModel model) {
+            return base.Channel.CreateProject(model);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel> CreateProjectAsync(WorkstationBrowser.SessionReference.ProjectModel model) {
+            return base.Channel.CreateProjectAsync(model);
         }
     }
 }

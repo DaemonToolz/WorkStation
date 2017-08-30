@@ -107,6 +107,12 @@
   <wsdl:message name="ISession_GetTeamPerId_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetTeamPerIdResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_CreateTeam_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTeam" />
+  </wsdl:message>
+  <wsdl:message name="ISession_CreateTeam_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateTeamResponse" />
+  </wsdl:message>
   <wsdl:message name="ISession_GetAllRanks_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllRanks" />
   </wsdl:message>
@@ -203,6 +209,18 @@
   <wsdl:message name="ISession_EditTeam_OutputMessage">
     <wsdl:part name="parameters" element="tns:EditTeamResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_DeleteTeam_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTeam" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteTeam_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteTeamResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_CreateProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProject" />
+  </wsdl:message>
+  <wsdl:message name="ISession_CreateProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProjectResponse" />
+  </wsdl:message>
   <wsdl:message name="ISession_NotificationPull_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotificationPull" />
   </wsdl:message>
@@ -265,6 +283,10 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetTeamPerId">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetTeamPerId" message="tns:ISession_GetTeamPerId_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetTeamPerIdResponse" message="tns:ISession_GetTeamPerId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CreateTeam">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/CreateTeam" message="tns:ISession_CreateTeam_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/CreateTeamResponse" message="tns:ISession_CreateTeam_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllRanks">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllRanks" message="tns:ISession_GetAllRanks_InputMessage" />
@@ -333,6 +355,14 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="EditTeam">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/EditTeam" message="tns:ISession_EditTeam_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/EditTeamResponse" message="tns:ISession_EditTeam_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteTeam">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteTeam" message="tns:ISession_DeleteTeam_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteTeamResponse" message="tns:ISession_DeleteTeam_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CreateProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/CreateProject" message="tns:ISession_CreateProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/CreateProjectResponse" message="tns:ISession_CreateProject_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotificationPull">
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/NotificationPull" message="tns:ISession_NotificationPull_OutputCallbackMessage" />
@@ -463,6 +493,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetTeamPerId">
       <soap12:operation soapAction="http://tempuri.org/ISession/GetTeamPerId" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateTeam">
+      <soap12:operation soapAction="http://tempuri.org/ISession/CreateTeam" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -613,6 +652,24 @@
     </wsdl:operation>
     <wsdl:operation name="EditTeam">
       <soap12:operation soapAction="http://tempuri.org/ISession/EditTeam" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteTeam">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteTeam" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateProject">
+      <soap12:operation soapAction="http://tempuri.org/ISession/CreateProject" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

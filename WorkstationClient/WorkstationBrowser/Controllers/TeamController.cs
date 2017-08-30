@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
+using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
 {
@@ -48,6 +49,13 @@ namespace WorkstationBrowser.Controllers
                 string pic = CurrentTeam.name.Replace(" ", String.Empty) + "_ico" + Path.GetExtension(file.FileName);
                 string path = System.IO.Path.Combine(Server.MapPath("~/UserContent/Team/"), pic);
                 // file is uploaded
+
+                
+                var files = Directory.GetFiles(Server.MapPath("~/UserContent/Team/"), CurrentTeam.name.Replace(" ", String.Empty) + "_ico.*");
+                foreach (var tmpFile in files)
+                    System.IO.File.Delete(tmpFile);
+
+
                 file.SaveAs(path);
                 CurrentTeam.teampic = pic;
                 _Session.EditTeam(CurrentTeam);
@@ -59,67 +67,57 @@ namespace WorkstationBrowser.Controllers
         // GET: Team/Create
         public ActionResult Create()
         {
+
+            ViewBag.department_id = new SelectList(_Session.GetAllDepartments(), "id", "name");
+            ViewBag.project_id = new SelectList(_Session.GetAllProjects(), "id", "name");
+
             return View();
         }
 
         // POST: Team/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include="name, project_id, department_id")] TeamModel model)
         {
-            try
-            {
-                // TODO: Add insert logic here
-
+            model.teampic = "Team_default.png";
+            if (_Session.CreateTeam(model))
                 return RedirectToAction("Index");
-            }
-            catch
-            {
+            else {
+                ViewBag.department_id = new SelectList(_Session.GetAllDepartments(), "id", "name");
+                ViewBag.project_id = new SelectList(_Session.GetAllProjects(), "id", "name");
+
                 return View();
             }
         }
 
         // GET: Team/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
+        public ActionResult Edit(int id) {
+            ViewBag.department_id = new SelectList(_Session.GetAllDepartments(), "id", "name");
+            ViewBag.project_id = new SelectList(_Session.GetAllProjects(), "id", "name");
+
+            return View(_Session.GetTeamById(id));
         }
 
         // POST: Team/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
+        public ActionResult Edit(int id, [Bind(Include ="id,department_id,name,project_id, teampic")] TeamModel model) {
+            if (_Session.EditTeam(model))
                 return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+
+            ViewBag.department_id = new SelectList(_Session.GetAllDepartments(), "id", "name");
+            ViewBag.project_id = new SelectList(_Session.GetAllProjects(), "id", "name");
+            return View(model);
+
         }
 
-        // GET: Team/Delete/5
+  
+        // POST: Team/Delete/5
+        
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: Team/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            _Session.DeleteTeam(id);
+            return RedirectToAction("Index");
+          
         }
     }
 }

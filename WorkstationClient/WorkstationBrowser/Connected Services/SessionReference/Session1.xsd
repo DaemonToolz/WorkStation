@@ -185,6 +185,20 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="CreateTeam">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="model" nillable="true" type="q15:TeamModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateTeamResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="CreateTeamResult" nillable="true" type="q16:TeamModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="GetAllRanks">
     <xs:complexType>
       <xs:sequence />
@@ -193,7 +207,7 @@
   <xs:element name="GetAllRanksResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllRanksResult" nillable="true" type="q15:ArrayOfRankModel" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllRanksResult" nillable="true" type="q17:ArrayOfRankModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -207,14 +221,14 @@
   <xs:element name="GetRankByNameResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetRankByNameResult" nillable="true" type="q16:RankModel" />
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetRankByNameResult" nillable="true" type="q18:RankModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="AcknowledgeNotification">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="original" nillable="true" type="q17:NotificationModel" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="original" nillable="true" type="q19:NotificationModel" />
         <xs:element minOccurs="0" name="userid" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
@@ -236,15 +250,15 @@
   <xs:element name="GetAllNotificationsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllNotificationsResult" nillable="true" type="q18:ArrayOfNotificationModel" />
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllNotificationsResult" nillable="true" type="q20:ArrayOfNotificationModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateNotification">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notification" nillable="true" type="q19:NotificationModel" />
-        <xs:element xmlns:q20="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="users" nillable="true" type="q20:ArrayOfint" />
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notification" nillable="true" type="q21:NotificationModel" />
+        <xs:element xmlns:q22="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="users" nillable="true" type="q22:ArrayOfint" />
         <xs:element minOccurs="0" name="all" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
@@ -285,7 +299,7 @@
   <xs:element name="GetAllTasksResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllTasksResult" nillable="true" type="q21:ArrayOfTaskModel" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllTasksResult" nillable="true" type="q23:ArrayOfTaskModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -299,28 +313,28 @@
   <xs:element name="GetTaskIdResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTaskIdResult" nillable="true" type="q22:TaskModel" />
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetTaskIdResult" nillable="true" type="q24:TaskModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateTask">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="newTask" nillable="true" type="q23:TaskModel" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="newTask" nillable="true" type="q25:TaskModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateTaskResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="CreateTaskResult" type="xs:boolean" />
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="CreateTaskResult" nillable="true" type="q26:TaskModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteTask">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="newTask" nillable="true" type="q24:TaskModel" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="newTask" nillable="true" type="q27:TaskModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -334,7 +348,7 @@
   <xs:element name="EditTask">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="newTask" nillable="true" type="q25:TaskModel" />
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="newTask" nillable="true" type="q28:TaskModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -348,7 +362,7 @@
   <xs:element name="GetAllMessages">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="caller" nillable="true" type="q26:UsersModel" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="caller" nillable="true" type="q29:UsersModel" />
         <xs:element minOccurs="0" name="sended" type="xs:boolean" />
         <xs:element minOccurs="0" name="received" type="xs:boolean" />
         <xs:element minOccurs="0" name="direct_only" type="xs:boolean" />
@@ -359,14 +373,14 @@
   <xs:element name="GetAllMessagesResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllMessagesResult" nillable="true" type="q27:ArrayOfMessageModel" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetAllMessagesResult" nillable="true" type="q30:ArrayOfMessageModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SendMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="caller" nillable="true" type="q28:MessageModel" />
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="caller" nillable="true" type="q31:MessageModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -380,7 +394,7 @@
   <xs:element name="MarkAsRead">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="caller" nillable="true" type="q29:MessageModel" />
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="caller" nillable="true" type="q32:MessageModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -394,7 +408,7 @@
   <xs:element name="DeleteMessage">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="caller" nillable="true" type="q30:MessageModel" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="caller" nillable="true" type="q33:MessageModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -408,7 +422,7 @@
   <xs:element name="EditTeam">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="newInfo" nillable="true" type="q31:TeamModel" />
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="newInfo" nillable="true" type="q34:TeamModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -419,10 +433,38 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="DeleteTeam">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="model" nillable="true" type="q35:TeamModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteTeamResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="DeleteTeamResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateProject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="model" nillable="true" type="q36:ProjectModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateProjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/Workstation.Model" minOccurs="0" name="CreateProjectResult" nillable="true" type="q37:ProjectModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="NotificationPull">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q32:ArrayOfNotificationModel" />
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q38:ArrayOfNotificationModel" />
         <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
@@ -430,7 +472,7 @@
   <xs:element name="MessagePull">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q33:ArrayOfMessageModel" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q39:ArrayOfMessageModel" />
         <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>

@@ -3,13 +3,14 @@
 
 @{
     ViewBag.Title = "Index";
+    Dictionary<String, bool> MyRights = Session["CurrentUserRights"] as Dictionary<String, bool>;
+       
 }
 
-<h2>Index</h2>
-
-<p>
-
+<p style="padding-top: 50px">
+    <a id="new_task" class="btn btn-default glyphicon glyphicon-plus"></a>
 </p>
+
 <table class="table">
     <tr>
         <th></th>
@@ -20,6 +21,9 @@
             @Html.DisplayNameFor(model => model.root)
         </th>
         <th></th>
+    </tr>
+    <tr id="partial" style="display: none">
+        @{ Html.RenderAction("Create"); }
     </tr>
 
 @foreach (var item in Model) {
@@ -39,11 +43,19 @@
 
         <td style="vertical-align: middle;">
 
-            @if (((ProjectModel) ViewData["MyProject"]).id == item.id && !item.name.Equals("Aucun")){
-                @Html.ActionLink("Details", "Details", new {id = item.id})
+            @if (MyRights["IsAdmin"] || (((ProjectModel) ViewData["MyProject"]).id == item.id && !item.name.Equals("Aucun"))){
+                @Html.ActionLink(" ", "Details", new {id = item.id}, new{@class="btn btn-default glyphicon glyphicon-zoom-in"})
             }
         </td>
     </tr>
 }
-
+    
 </table>
+
+
+<script>
+    document.getElementById("new_task").onclick = function() {
+        $("#partial").show();
+        $("#new_task").hide();
+    }
+</script>

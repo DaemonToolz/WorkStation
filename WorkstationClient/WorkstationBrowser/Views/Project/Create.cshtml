@@ -1,0 +1,26 @@
+﻿@model WorkstationBrowser.SessionReference.ProjectModel
+@{Layout = null;}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <td></td>
+    <td>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+   </td> 
+
+    <td> 
+
+     </td>
+
+    <td>
+        <button type="submit"  class="btn btn-default">
+            <span class=" glyphicon glyphicon-check"></span>
+        </button>
+        @Html.ActionLink(" ", "Index", null, new{@class="btn btn-default glyphicon glyphicon-remove"})
+    </td>
+}
+

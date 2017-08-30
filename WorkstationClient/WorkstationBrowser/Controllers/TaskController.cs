@@ -26,28 +26,46 @@ namespace WorkstationBrowser.Controllers
             Session["ProjectId"] = related?.id;
             ViewData["AddSection"] = AddSection;
             if (userid == null && related != null) {
-          
-                var CurrentTeam = _Session.GetAllTeams()
-                    .Single(team => team.project_id == related.id);
 
-                ViewData["TeamMembers"] = _Session.GetAllUsers()
-                    .Where(user => user.team_id == CurrentTeam.id).ToArray();
+                try
+                {
+                    var CurrentTeam = _Session.GetAllTeams()
+                        .Single(team => team.project_id == related.id);
+
+                    ViewData["TeamMembers"] = _Session.GetAllUsers()
+                        .Where(user => user.team_id == CurrentTeam.id).ToArray();
+                }
+                catch
+                {
+                    ViewData["TeamMembers"] = new TeamModel[]{};
+                }
             }
 
             return PartialView(allTasks);
         }
 
 
-        public ActionResult _Create(){
-          
-            var CurrentTeam = _Session.GetAllTeams()
-                .Single(team => team.project_id == (long) Session["ProjectId"]);
+        public ActionResult _Create()
+        {
+            List<UsersModel> CurrentUsers;
+            try
+            {
+                var CurrentTeam = _Session.GetAllTeams()
+                    .Single(team => team.project_id == (long) Session["ProjectId"]);
 
-            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
-            CurrentUsers.Add(new UsersModel(){ id = 0, username = "Not affected"});
-           
+                CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id)
+                    .ToList();
+               
+            }
+            catch
+            {
+                CurrentUsers = new List<UsersModel>();
+            }
+
+            CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
+
             ViewBag.user_id = new SelectList(
-                CurrentUsers, 
+                CurrentUsers,
                 "id", "username");
 
             return PartialView();

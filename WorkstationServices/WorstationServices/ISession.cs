@@ -66,6 +66,8 @@ namespace WorkstationServices
         [OperationContract]
         TeamModel GetTeamPerId(int id);
 
+        [OperationContract]
+        TeamModel CreateTeam(TeamModel model);
 
         [OperationContract]
         IEnumerable<RankModel>  GetAllRanks();
@@ -101,7 +103,7 @@ namespace WorkstationServices
 
 
         [OperationContract]
-        bool CreateTask (TaskModel newTask);
+        TaskModel CreateTask (TaskModel newTask);
 
         [OperationContract]
         bool DeleteTask(TaskModel newTask);
@@ -125,7 +127,12 @@ namespace WorkstationServices
         [OperationContract]
         bool EditTeam(TeamModel newInfo);
 
+        [OperationContract]
+        bool DeleteTeam(TeamModel model);
 
+
+        [OperationContract]
+        ProjectModel CreateProject(ProjectModel model);
     }
 
     public interface IUpdateNotificationCallback

@@ -70,7 +70,41 @@ namespace WorkstationBrowser.Controllers.Generic {
             Set(Key, allModels.ToArray(), CachePriority.Default);
             return true;
         }
-      
+
+        public bool Add<T>(String Key, Func<T,T> baseUpdater, Func<IEnumerable<T>> fetcher, T instance) 
+        {
+            var result = baseUpdater.Invoke(instance);
+            if (result == null) return false;
+
+            var all = fetcher.Invoke();
+            var allModels = all as IList<T> ?? all.ToList();
+            allModels.Add(result);
+            Set(Key, allModels.ToArray(), CachePriority.Default);
+
+            return true;
+        }
+
+        public bool CrossAdd<T>(String Key1, String Key2, Func<T, T> baseUpdater, 
+            Func<int, IEnumerable<T>> fetcher1, Func<int, IEnumerable<T>> fetcher2, T instance, int param1, int param2, bool crossCondition) where T:GenericModel
+        {
+            var result = baseUpdater.Invoke(instance);
+            if (result == null) return false;
+
+            var all = fetcher1.Invoke(param1);
+            var allModels = all as IList<T> ?? all.ToList();
+            allModels.Add(result);
+            Set(Key1, allModels.ToArray(), CachePriority.Default);
+
+            if (crossCondition)
+            {
+                all = fetcher2.Invoke(param2);
+                allModels = all as IList<T> ?? all.ToList();
+                allModels.Add(result);
+                Set(Key2, allModels.ToArray(), CachePriority.Default);
+            }
+
+            return true;
+        }
 
         public bool Delete<T>(String Key, Func<T, bool> updater, Func<IEnumerable<T>> fetcher, T instance,
             bool otherStep = false, Action<T> nextStep = null) where T:GenericModel
@@ -87,6 +121,8 @@ namespace WorkstationBrowser.Controllers.Generic {
             return true;
         }
 
+
+        #region TODO
         public bool CrossDelete<T>(String Key, Func<T, bool> updater, 
             Func<object, IEnumerable<T>> fetcher, 
             Type paramCastType, String fieldName, T instance,
@@ -138,7 +174,7 @@ namespace WorkstationBrowser.Controllers.Generic {
 
             return true;
         }
-
+        #endregion
 
         public void Remove(String Key){
             _Lock.EnterWriteLock();
