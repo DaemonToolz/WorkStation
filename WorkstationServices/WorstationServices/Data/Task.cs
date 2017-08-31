@@ -21,6 +21,8 @@ namespace WorkstationServices.Data
         public Nullable<System.DateTime> end { get; set; }
         public Nullable<int> user_id { get; set; }
         public long project_id { get; set; }
+        public short precedence { get; set; }
+        public short progress { get; set; }
     
         public virtual Project Project { get; set; }
         public virtual Users Users { get; set; }

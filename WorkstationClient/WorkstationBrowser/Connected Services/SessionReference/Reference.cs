@@ -67,11 +67,28 @@ namespace WorkstationBrowser.SessionReference {
     [System.SerializableAttribute()]
     public partial class ProjectModel : WorkstationBrowser.SessionReference.GenericModel {
         
+        private System.Nullable<int> admin_idField;
+        
         private string nameField;
+        
+        private short precedenceField;
         
         private string projpicField;
         
         private string rootField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.Nullable<int> admin_id {
+            get {
+                return this.admin_idField;
+            }
+            set {
+                if ((this.admin_idField.Equals(value) != true)) {
+                    this.admin_idField = value;
+                    this.RaisePropertyChanged("admin_id");
+                }
+            }
+        }
         
         [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
         public string name {
@@ -82,6 +99,19 @@ namespace WorkstationBrowser.SessionReference {
                 if ((object.ReferenceEquals(this.nameField, value) != true)) {
                     this.nameField = value;
                     this.RaisePropertyChanged("name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public short precedence {
+            get {
+                return this.precedenceField;
+            }
+            set {
+                if ((this.precedenceField.Equals(value) != true)) {
+                    this.precedenceField = value;
+                    this.RaisePropertyChanged("precedence");
                 }
             }
         }
@@ -127,6 +157,10 @@ namespace WorkstationBrowser.SessionReference {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.Nullable<System.DateTime> endField;
         
+        private short precedenceField;
+        
+        private short progressField;
+        
         private long project_idField;
         
         private string titleField;
@@ -169,6 +203,32 @@ namespace WorkstationBrowser.SessionReference {
                 if ((this.endField.Equals(value) != true)) {
                     this.endField = value;
                     this.RaisePropertyChanged("end");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public short precedence {
+            get {
+                return this.precedenceField;
+            }
+            set {
+                if ((this.precedenceField.Equals(value) != true)) {
+                    this.precedenceField = value;
+                    this.RaisePropertyChanged("precedence");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public short progress {
+            get {
+                return this.progressField;
+            }
+            set {
+                if ((this.progressField.Equals(value) != true)) {
+                    this.progressField = value;
+                    this.RaisePropertyChanged("progress");
                 }
             }
         }
@@ -221,6 +281,8 @@ namespace WorkstationBrowser.SessionReference {
         
         private System.Nullable<int> department_idField;
         
+        private System.Nullable<int> manager_idField;
+        
         private string nameField;
         
         private System.Nullable<long> project_idField;
@@ -236,6 +298,19 @@ namespace WorkstationBrowser.SessionReference {
                 if ((this.department_idField.Equals(value) != true)) {
                     this.department_idField = value;
                     this.RaisePropertyChanged("department_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.Nullable<int> manager_id {
+            get {
+                return this.manager_idField;
+            }
+            set {
+                if ((this.manager_idField.Equals(value) != true)) {
+                    this.manager_idField = value;
+                    this.RaisePropertyChanged("manager_id");
                 }
             }
         }

@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Edit";
 }
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">  
 
 <h2>Edit</h2>
 
@@ -77,14 +76,11 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
+                @Html.ActionLink(" ", "Index", null, new { @class = "btn btn-default glyphicon glyphicon-remove" })
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -101,6 +101,39 @@ a.menu-hyperlink {
     border-left-color: rgba(255, 148, 148, 0.65);
 }
 
+.critical {
+    background-color: blueviolet;
+}
+
+.urgent {
+    background-color: red;
+}
+
+.normal {
+    background-color: green;
+}
+
+.noturgent{
+    background-color: lightblue;
+}
+
+.manager {
+    border:5px solid;
+    border-color: red;
+}
+
+.begin {
+    
+}
+
+.middle {
+    
+}
+
+.end {
+    
+}
+
 
 /* Navigation bar left side */
 .sidenav {

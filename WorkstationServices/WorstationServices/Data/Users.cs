@@ -21,6 +21,8 @@ namespace WorkstationServices.Data
             this.Task = new HashSet<Task>();
             this.Message = new HashSet<Message>();
             this.Message1 = new HashSet<Message>();
+            this.Project = new HashSet<Project>();
+            this.Team1 = new HashSet<Team>();
         }
     
         public int id { get; set; }
@@ -43,5 +45,9 @@ namespace WorkstationServices.Data
         public virtual ICollection<Message> Message { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Message> Message1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Project> Project { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Team> Team1 { get; set; }
     }
 }

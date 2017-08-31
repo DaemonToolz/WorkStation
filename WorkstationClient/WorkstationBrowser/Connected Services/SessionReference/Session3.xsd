@@ -20,7 +20,9 @@
     <xs:complexContent mixed="false">
       <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" base="q2:GenericModel">
         <xs:sequence>
+          <xs:element name="admin_id" nillable="true" type="xs:int" />
           <xs:element name="name" nillable="true" type="xs:string" />
+          <xs:element name="precedence" type="xs:short" />
           <xs:element name="projpic" nillable="true" type="xs:string" />
           <xs:element name="root" nillable="true" type="xs:string" />
         </xs:sequence>

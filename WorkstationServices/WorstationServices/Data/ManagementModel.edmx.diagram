@@ -24,6 +24,8 @@
         <AssociationConnector Association="ManagementModel.FK__Task__user_id__6754599E" />
         <AssociationConnector Association="ManagementModel.FK__Message__from__6A30C649" />
         <AssociationConnector Association="ManagementModel.FK__Message__to__6B24EA82" />
+        <AssociationConnector Association="ManagementModel.p_fk_uid" />
+        <AssociationConnector Association="ManagementModel.t_fk_mid" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

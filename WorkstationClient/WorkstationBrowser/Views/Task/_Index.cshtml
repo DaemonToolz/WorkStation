@@ -8,6 +8,13 @@
 
 <table class="table">
     <tr>
+        <th style="text-align:center;">
+            P
+        </th>
+ 
+        <th style="text-align:center;">
+            %
+        </th>
         <th>
             Title
         </th>
@@ -20,62 +27,91 @@
         <th>
             End
         </th>
-    @{
-        if (ViewData["AddSection"] != null)
-        {
-            <th>
-                User
-            </th>
+        @{
+            if (ViewData["AddSection"] != null)
+            {
+                <th>
+                    User
+                </th>
+            }
         }
-    }
 
         <th></th>
     </tr>
     
 
-    @for (int i = 0; i < Model.Count(); ++i) {
+    @for (int i = 0; i < Model.Count(); ++i)
+    {
+       
         using (Html.BeginForm("_Index", "Task", FormMethod.Post))
         {
+            
+            String tdclass = "critical";
+            var precedence = Model.ElementAt(i).precedence;
+            if (precedence >= 25 && precedence < 50)
+            {
+                tdclass = "urgent";
+            } else if (precedence >= 50 && precedence < 75)
+            {
+                tdclass = "normal";
+            } else if (precedence >= 75)
+            {
+                tdclass = "noturgent";
+            }
+
             <tr>
-                <td>
+                <td style="vertical-align:middle; text-align: center; color:white" class="@(tdclass)">
+                    <strong>@Html.DisplayFor(modelItem => Model.ElementAt(i).precedence)</strong>
+                </td>
+        
+                <td style="vertical-align:middle; text-align:center">
+                    <strong>@Html.DisplayFor(modelItem => Model.ElementAt(i).progress)%</strong>
+                </td>
+                <td style="vertical-align:middle;">
                     @Html.HiddenFor(modelItem => Model.ElementAt(i).id)
                     @Html.DisplayFor(modelItem => Model.ElementAt(i).title)
                 </td>
-                <td>
+                <td style="vertical-align:middle;">
                     @Html.DisplayFor(modelItem => Model.ElementAt(i).description)
                 </td>
-                <td>
+                <td style="vertical-align:middle;">
                     @Html.ValueFor(modelItem => Model.ElementAt(i).begin, "{0:dd/MM/yyyy}")
                 </td>
-                <td>
+                <td style="vertical-align:middle;">
                     @Html.ValueFor(modelItem => Model.ElementAt(i).end, "{0:dd/MM/yyyy}")
-                </td> 
-                <td>
-                    @if (ViewData["AddSection"] != null && Model.ElementAt(i).user_id != null) {
-                        @Html.Raw(((UsersModel[]) ViewData["TeamMembers"]).Single(user => user.id == Model.ElementAt(i).user_id).username) 
+                </td>
+                <td style="vertical-align:middle;">
+                    @if (ViewData["AddSection"] != null && Model.ElementAt(i).user_id != null)
+                    {
+                        @Html.Raw(((UsersModel[]) ViewData["TeamMembers"]).Single(user => user.id == Model.ElementAt(i).user_id).username)
                     }
                     @Html.HiddenFor(modelItem => Model.ElementAt(i).user_id)
                     @Html.HiddenFor(modelItem => Model.ElementAt(i).project_id)
+
                 </td>
                 @{
                     if (ViewData["AddSection"] != null && MyRights["CanEditTask"])
                     {
 
-                    
-                        <td>
+
+                        <td style="vertical-align:middle;">
+                            <a onclick="show()" class="btn btn-default">
+                                <span class="glyphicon glyphicon-zoom-in"></span>
+                            </a>
                             <button type="submit" id="del_task" class="btn btn-default" name="action" value="Edit">
                                 <i class="glyphicon glyphicon-cog"></i>
                             </button>
                             <button type="submit" id="del_task" class="btn btn-default" name="action" value="Delete">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </button>
+                            
                         </td>
 
                     }
                 }
             </tr>
         }
-    }
+     }
     
     @{
         if (ViewData["AddSection"] != null && MyRights["CanEditTask"]) {
@@ -83,12 +119,19 @@
                 <td></td>
                
                 <td>
+                  
+                </td>
+                <td>
                     <a id="new_task" class="btn btn-default">
                         <i class="glyphicon glyphicon-plus"></i>
                         New Task
                     </a>
+                    <a id="cancel_task" class="btn btn-default" style="display:none;">
+                        <i class="glyphicon glyphicon-remove"></i>
+                        Cancel
+                    </a>
+
                 </td>
-                <td></td>
 
                 <td></td>
                 <td></td>
@@ -102,6 +145,7 @@
 
 </table>
 
+
 @{
     if (ViewData["AddSection"] != null && MyRights["CanEditTask"])
     {
@@ -110,10 +154,31 @@
         </div>
 
         <script>
-            document.getElementById("new_task").onclick = function() {
-                $("#partial").show();
+            document.getElementById("new_task").onclick = function () {
+                $("#partial").fadeIn();
+                $("#cancel_task").show();
                 $("#new_task").hide();
             }
+
+            document.getElementById("cancel_task").onclick = function () {
+                $("#partial").fadeOut();
+                $("#cancel_task").hide();
+                $("#new_task").show();
+            }
+
+            function show() {
+                $('#details').slideToggle();
+            }
         </script>
+
+        <div id="details" class="row" style="display:none">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <!-- More content next time-->
+                MY VALUES
+                MY VALUESMY VALUESMY VALUESMY VALUESMY VALUESMY VALUES
+                MY VALUES
+            </div>
+        </div>
+
     }
 }

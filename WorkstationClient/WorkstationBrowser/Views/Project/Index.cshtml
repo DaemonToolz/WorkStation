@@ -4,7 +4,11 @@
 @{
     ViewBag.Title = "Index";
     Dictionary<String, bool> MyRights = Session["CurrentUserRights"] as Dictionary<String, bool>;
-       
+    AjaxOptions DeleteOptions = new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnSuccess = "RemoveRow"
+    };
 }
 
 <p style="padding-top: 50px">
@@ -14,11 +18,15 @@
 <table class="table">
     <tr>
         <th></th>
+        <th></th>
         <th>
-            @Html.DisplayNameFor(model => model.name)
+            Priority
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.root)
+            Name
+        </th>
+        <th>
+            Root
         </th>
         <th></th>
     </tr>
@@ -27,12 +35,33 @@
     </tr>
 
 @foreach (var item in Model) {
+    String tdclass = "critical";
+    var precedence = item.precedence;
+    if (precedence >= 25 && precedence < 50)
+    {
+        tdclass = "urgent";
+    } else if (precedence >= 50 && precedence < 75)
+    {
+        tdclass = "normal";
+    } else if (precedence >= 75)
+    {
+        tdclass = "noturgent";
+    }
+
     <tr>
+        <td class="@(tdclass)">
+            
+        </td>
         <td style="vertical-align: middle;">
-         
-            @if (File.Exists(Path.Combine(Server.MapPath("~/UserContent/Project/"), item.projpic))){
+
+            @if (File.Exists(Path.Combine(Server.MapPath("~/UserContent/Project/"), item.projpic)))
+            {
                 <img src="~/UserContent/Project/@(item.projpic)"width="50" height="50" class="profile-image img-circle"/>
             }
+        </td>
+
+        <td style="vertical-align: middle;">
+            @Html.DisplayFor(modelItem => item.precedence)
         </td>
         <td style="vertical-align: middle;">
             @Html.DisplayFor(modelItem => item.name)
@@ -42,9 +71,13 @@
         </td>
 
         <td style="vertical-align: middle;">
-
-            @if (MyRights["IsAdmin"] || (((ProjectModel) ViewData["MyProject"]).id == item.id && !item.name.Equals("Aucun"))){
-                @Html.ActionLink(" ", "Details", new {id = item.id}, new{@class="btn btn-default glyphicon glyphicon-zoom-in"})
+            @if (MyRights["IsAdmin"] || (((ProjectModel) ViewData["MyProject"]).id == item.id && !item.name.Equals("Aucun")))
+            {
+                @Html.ActionLink(" ", "Details", new {id = item.id}, new {@class = "btn btn-default glyphicon glyphicon-zoom-in"})
+            }
+            
+            @if (MyRights["IsAdmin"]){
+                @Ajax.ActionLink(" ", "Delete", new { id = item.id }, DeleteOptions, new { @class = "btn btn-default glyphicon glyphicon-remove", style="color:red;" })
             }
         </td>
     </tr>
@@ -57,5 +90,10 @@
     document.getElementById("new_task").onclick = function() {
         $("#partial").show();
         $("#new_task").hide();
+    }
+
+    function RemoveRow() {
+        var $tr = $(this).closest('tr');
+        $tr.remove();
     }
 </script>

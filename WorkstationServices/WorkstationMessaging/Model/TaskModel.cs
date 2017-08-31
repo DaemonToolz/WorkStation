@@ -21,5 +21,10 @@ namespace WorkstationMessaging.Model
         public Nullable<int> user_id { get; set; }
         [DataMember(IsRequired = true)]
         public long project_id { get; set; }
+        [DataMember(IsRequired = true)]
+
+        public short precedence { get; set; }
+        [DataMember(IsRequired = true)]
+        public short progress { get; set; }
     }
 }

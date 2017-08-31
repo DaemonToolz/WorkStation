@@ -32,6 +32,16 @@ namespace WorkstationBrowser.Controllers
             
             var currentProject = _Session.WorkstationSession.GetProject((long) id);
             ViewData["CurrentProject"] = currentProject;
+            if (currentProject.admin_id != null)
+            {
+                ViewData["Manager"] = _Session.GetUserById((int)_Session.GetProject(id).admin_id);
+            }
+
+            if (_Session.GetAllTeams().Any(team => team.project_id == currentProject.id))
+            {
+                ViewData["Team"] = _Session.GetAllTeams().Single(team => team.project_id == currentProject.id);
+            }
+            
             return View(currentProject);
         }
 
@@ -68,9 +78,10 @@ namespace WorkstationBrowser.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="name")]ProjectModel model){
+        public ActionResult Create([Bind(Include="name, precedence")]ProjectModel model){
             model.root = $@"C:\inetpub\ftproot\{model.name}\";
             model.projpic = "Default_Project.png";
+
             _Session.CreateProject(model);
             
             /* AJAX CALL
@@ -133,5 +144,35 @@ namespace WorkstationBrowser.Controllers
             return RedirectToAction("ProjectDocuments", "Project", new {root = root});
         }
 
+
+        public ActionResult Edit(long id)
+        {
+            var admins = _Session.GetAllUsers().ToList();
+            admins.Add(new UsersModel() {id = 0, username = "Not Affected"});
+            ViewBag.admin_id = new SelectList(admins, "id", "username");
+
+            return View(_Session.GetProject(id));
+        }
+
+        // POST: Users/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "id, precedence, admin_id")] ProjectModel project)
+        {
+            var totalProject = _Session.GetProject(project.id);
+            totalProject.precedence = project.precedence;
+            totalProject.admin_id = project.admin_id == 0 ? null : project.admin_id;
+            _Session.EditProject(totalProject);
+          
+            return RedirectToAction("Details", "Project", new { id = totalProject.id});
+        }
+
+        [HttpPost]
+        public ActionResult Delete(long id) {
+            _Session.DeleteProject(id);
+            return RedirectToAction("Index");
+        }
     }
 }

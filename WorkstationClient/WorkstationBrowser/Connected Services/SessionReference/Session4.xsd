@@ -13,6 +13,8 @@
           <xs:element name="begin" type="xs:dateTime" />
           <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="end" nillable="true" type="xs:dateTime" />
+          <xs:element name="precedence" type="xs:short" />
+          <xs:element name="progress" type="xs:short" />
           <xs:element name="project_id" type="xs:long" />
           <xs:element name="title" nillable="true" type="xs:string" />
           <xs:element minOccurs="0" name="user_id" nillable="true" type="xs:int" />
@@ -26,6 +28,7 @@
       <xs:extension base="tns:GenericModel">
         <xs:sequence>
           <xs:element name="department_id" nillable="true" type="xs:int" />
+          <xs:element name="manager_id" nillable="true" type="xs:int" />
           <xs:element name="name" nillable="true" type="xs:string" />
           <xs:element name="project_id" nillable="true" type="xs:long" />
           <xs:element name="teampic" nillable="true" type="xs:string" />

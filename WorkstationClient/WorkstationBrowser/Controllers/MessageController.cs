@@ -17,22 +17,26 @@ namespace WorkstationBrowser.Controllers
         [ChildActionOnly]
         public ActionResult _Index() {
             ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
+
             return View(_Session.MyMessages());
         }
 
      
-        public ActionResult Index()
-        {
+        public ActionResult Index(int to = 0){
             ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
+            ViewData["to"] = to;
             return View(_Session.MyMessages());
         }
 
 
-        public ActionResult _Create(){
+        public ActionResult _Create(int to = 0){
+           var selected = to != 0 ? _Session.GetAllUsers().ToList().Single(usr => usr.id == to) : _Session.GetAllUsers().ToList().First();
+
             ViewBag.to = new SelectList(
                 _Session.GetAllUsers().ToList(),
-                "id", "username");
+                "id", "username",selected );
 
+      
             return PartialView();
         }
 

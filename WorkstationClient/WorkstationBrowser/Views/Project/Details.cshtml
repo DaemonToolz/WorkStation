@@ -1,4 +1,5 @@
 ﻿@using WorkstationBrowser.Controllers.Remote
+@using WorkstationBrowser.SessionReference
 @model WorkstationBrowser.SessionReference.ProjectModel
 
 @{
@@ -41,7 +42,34 @@
 
 <div>
     <hr />
+    @if (ViewData["Manager"] != null || ViewData["Team"] != null)
+    {
+        
+        <div class="row">
+            @if(ViewData["Manager"] != null) { 
+                <div class="text-center col-md-12">
+                <h3> <strong> Managed by </strong>
+                </h3>
+                <a data-toggle="popover" data-trigger="click"
+                   data-content="<b> Email: </b> @(((UsersModel) ViewData["Manager"]).email)"
+                   data-title="@(((UsersModel) ViewData["Manager"]).username)">
+                    <img src="~/UserContent/Profile/@(((UsersModel) ViewData["Manager"]).profilepic)"
+                         class="profile-image img-circle"
+                         width="75" height="75"/>
+                </a>
 
+            </div>
+            }
+            @if (ViewData["Team"] != null)
+            {
+                <div class="col-md-12">
+                    <h4> <strong> Team : </strong> @(((TeamModel) ViewData["Team"]).name)</h4>
+
+                </div>
+            }
+        </div>
+        <hr/>
+    }
     <div class="row">
         <div class="col-xs-12 col-md-12 col-lg-12">
 
@@ -52,35 +80,46 @@
                     Back
                 </a>
             </div>
-            <div class="col-xs-6 col-lg-1 col-md-4">
+            @if (Model.root != null && !Model.root.Trim().Equals(""))
+            {
+                <div class="col-xs-6 col-lg-1 col-md-4">
 
-                <a href="@Url.Action("ProjectDocuments", new {root = Model.root})" class="btn btn-default">
-                    <span class="glyphicon glyphicon-folder-open"></span>
-                    See Files
-                </a>
+                    <a href="@Url.Action("ProjectDocuments", new {root = Model.root})" class="btn btn-default">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        See Files
+                    </a>
 
-            </div>
+                </div>
+
+                <div class="col-xs-6 col-lg-1 col-md-4 pull-right">
+
+                    <a href="@Url.Action("Edit", new {id = Model.id})" class="btn btn-default">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+
+                </div>
+            }
         </div>
     </div>
 
     <hr/>
+    
+    @if (Model.root != null && !Model.root.Trim().Equals(""))
+    {
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+                <h4> All Tasks </h4>
+                <div class="section-scroll-2 ">
+                    @{ Html.RenderAction("_Index", "Task", new
+                       {
+                           related = Model,
+                           AddSection = (short) 1
+                       }
+                           ); }
+                </div>
 
-    <div class="row">
-        <div class="col-xs-12 col-md-12 col-lg-12">
-            <h4> All Tasks </h4>
-            <div class="section-scroll-2 ">
-                @{Html.RenderAction("_Index", "Task", new
-                  {
-                      related = Model,
-                      AddSection = (short) 1
-                  }
-                      ); }
             </div>
-
         </div>
-
-
-
-    </div>
+    }
 </div>
 

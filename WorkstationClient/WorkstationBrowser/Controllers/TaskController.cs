@@ -73,9 +73,9 @@ namespace WorkstationBrowser.Controllers
 
         [HttpPost]
         
-        public ActionResult _Create([Bind(Include = "title,description, begin, end, user_id")] TaskModel model){
+        public ActionResult _Create([Bind(Include = "title,description, begin, end, user_id, precedence")] TaskModel model){
             //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
-
+            model.progress = 0;
             model.project_id = long.Parse(Session["ProjectId"].ToString());
             if (model.user_id == 0)
                 model.user_id = null;
@@ -97,7 +97,7 @@ namespace WorkstationBrowser.Controllers
 
         
         [HttpPost]
-        public ActionResult _Index([Bind(Include = "id,title,description,begin, end, user_id, project_id")] TaskModel model, string action){
+        public ActionResult _Index([Bind(Include = "id,title,description,begin, end, user_id, project_id, progress, precedence")] TaskModel model, string action){
 
             //var currentSession = Session["WorkstationConnection"] as SessionWrapper;
 
@@ -139,7 +139,7 @@ namespace WorkstationBrowser.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,title,description,begin,end,user_id,project_id")] TaskModel task, String action)
+        public ActionResult Edit([Bind(Include = "id,title,description,begin,end,user_id,project_id, progress, precedence")] TaskModel task, String action)
         {
             if(action.Equals("Cancel"))
                 return RedirectToAction("Details", "Project", new { id = task.project_id });

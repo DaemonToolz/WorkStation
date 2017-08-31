@@ -11,5 +11,10 @@ namespace Workstation.Model{
         public string root { get; set; }
         [DataMember(IsRequired = true)]
         public string projpic { get; set; }
+        [DataMember(IsRequired = true)]
+
+        public short precedence { get; set; }
+        [DataMember(IsRequired = true)]
+        public Nullable<int> admin_id { get; set; }
     }
 }

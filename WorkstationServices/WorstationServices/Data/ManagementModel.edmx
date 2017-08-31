@@ -49,6 +49,8 @@
           <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="root" Type="varchar" MaxLength="1024" Nullable="false" />
           <Property Name="projpic" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="precedence" Type="smallint" Nullable="false" />
+          <Property Name="admin_id" Type="int" />
         </EntityType>
         <EntityType Name="Rank">
           <Key>
@@ -68,6 +70,8 @@
           <Property Name="end" Type="datetime2" Precision="7" />
           <Property Name="user_id" Type="int" />
           <Property Name="project_id" Type="bigint" Nullable="false" />
+          <Property Name="precedence" Type="smallint" Nullable="false" />
+          <Property Name="progress" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
@@ -78,6 +82,7 @@
           <Property Name="department_id" Type="int" />
           <Property Name="project_id" Type="bigint" />
           <Property Name="teampic" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="manager_id" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -213,6 +218,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="p_fk_uid">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="t_fk_mid">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ManagementModelStoreContainer">
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
@@ -263,6 +292,14 @@
             <End Role="Rank" EntitySet="Rank" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="p_fk_uid" Association="Self.p_fk_uid">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="t_fk_mid" Association="Self.t_fk_mid">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -286,6 +323,9 @@
           <NavigationProperty Name="Team" Relationship="Self.FK__Team__project_id__4AB81AF0" FromRole="Project" ToRole="Team" />
           <NavigationProperty Name="Task" Relationship="ManagementModel.FK__Task__project_id__693CA210" FromRole="Project" ToRole="Task" />
           <Property Name="projpic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="precedence" Type="Int16" Nullable="false" />
+          <Property Name="admin_id" Type="Int32" />
+          <NavigationProperty Name="Users" Relationship="ManagementModel.p_fk_uid" FromRole="Project" ToRole="Users" />
         </EntityType>
         <EntityType Name="Rank">
           <Key>
@@ -307,6 +347,8 @@
           <NavigationProperty Name="Project" Relationship="Self.FK__Team__project_id__4AB81AF0" FromRole="Team" ToRole="Project" />
           <NavigationProperty Name="Users" Relationship="Self.FK__Users__team_id__48CFD27E" FromRole="Team" ToRole="Users" />
           <Property Name="teampic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="manager_id" Type="Int32" />
+          <NavigationProperty Name="Users1" Relationship="ManagementModel.t_fk_mid" FromRole="Team" ToRole="Users" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -327,6 +369,8 @@
           <NavigationProperty Name="Message" Relationship="ManagementModel.FK__Message__from__6A30C649" FromRole="Users" ToRole="Message" />
           <NavigationProperty Name="Message1" Relationship="ManagementModel.FK__Message__to__6B24EA82" FromRole="Users" ToRole="Message" />
           <Property Name="profilepic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Project" Relationship="ManagementModel.p_fk_uid" FromRole="Users" ToRole="Project" />
+          <NavigationProperty Name="Team1" Relationship="ManagementModel.t_fk_mid" FromRole="Users" ToRole="Team" />
           </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -414,6 +458,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Message" EntitySet="Message" />
           </AssociationSet>
+          <AssociationSet Name="p_fk_uid" Association="ManagementModel.p_fk_uid">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="t_fk_mid" Association="ManagementModel.t_fk_mid">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Users_Ranks">
           <End Type="ManagementModel.Rank" Role="Rank" Multiplicity="0..1" />
@@ -498,6 +550,8 @@
           <Property Name="project_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Project" Relationship="ManagementModel.FK__Task__project_id__693CA210" FromRole="Task" ToRole="Project" />
           <NavigationProperty Name="Users" Relationship="ManagementModel.FK__Task__user_id__6754599E" FromRole="Task" ToRole="Users" />
+          <Property Name="precedence" Type="Int16" Nullable="false" />
+          <Property Name="progress" Type="Int16" Nullable="false" />
         </EntityType>
         <Association Name="FK__Task__project_id__693CA210">
           <End Type="ManagementModel.Project" Role="Project" Multiplicity="1" />
@@ -547,6 +601,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="p_fk_uid">
+          <End Type="ManagementModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="ManagementModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="t_fk_mid">
+          <End Type="ManagementModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="ManagementModel.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -564,6 +642,8 @@
           <EntitySetMapping Name="Project">
             <EntityTypeMapping TypeName="ManagementModel.Project">
               <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="precedence" ColumnName="precedence" />
                 <ScalarProperty Name="projpic" ColumnName="projpic" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -582,6 +662,7 @@
           <EntitySetMapping Name="Team">
             <EntityTypeMapping TypeName="ManagementModel.Team">
               <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="manager_id" ColumnName="manager_id" />
                 <ScalarProperty Name="teampic" ColumnName="teampic" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -639,6 +720,8 @@
           <EntitySetMapping Name="Task">
             <EntityTypeMapping TypeName="ManagementModel.Task">
               <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="progress" ColumnName="progress" />
+                <ScalarProperty Name="precedence" ColumnName="precedence" />
                 <ScalarProperty Name="project_id" ColumnName="project_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="end" ColumnName="end" />

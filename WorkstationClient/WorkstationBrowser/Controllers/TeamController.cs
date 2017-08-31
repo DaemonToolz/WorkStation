@@ -34,7 +34,18 @@ namespace WorkstationBrowser.Controllers
             if(currentTeam.project_id != null)
                 ViewData["Project"] = _Session.GetProject((long)currentTeam.project_id);
 
-            ViewData["ActiveMembers"] = _Session.GetAllUsers().Where(user => user.team_id == id).ToArray();
+            var members = _Session.GetAllUsers().Where(user => user.team_id == id).ToArray();
+            try
+            {
+                ViewData["Manager"] = members.Single(user => currentTeam.manager_id == user.id);
+            }
+            catch
+            {
+                ViewData["Manager"] = null;
+
+            }
+
+            ViewData["ActiveMembers"] = members;
             return View(currentTeam);
         }
 
@@ -95,15 +106,23 @@ namespace WorkstationBrowser.Controllers
             ViewBag.department_id = new SelectList(_Session.GetAllDepartments(), "id", "name");
             ViewBag.project_id = new SelectList(_Session.GetAllProjects(), "id", "name");
 
+            var members = _Session.GetAllUsers().Where(usr => usr.team_id == id).ToList();
+            members.Add(new UsersModel() {id = 0, username = "Not Affected"});
+            ViewBag.manager_id = new SelectList(members , "id", "username");
+
             return View(_Session.GetTeamById(id));
         }
 
         // POST: Team/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, [Bind(Include ="id,department_id,name,project_id, teampic")] TeamModel model) {
+        public ActionResult Edit(int id, [Bind(Include ="id,department_id,name,project_id, teampic, manager_id")] TeamModel model)
+        {
+            if (model.manager_id == 0)
+                model.manager_id = null;
+
             if (_Session.EditTeam(model))
                 return RedirectToAction("Index");
-
+            
             ViewBag.department_id = new SelectList(_Session.GetAllDepartments(), "id", "name");
             ViewBag.project_id = new SelectList(_Session.GetAllProjects(), "id", "name");
             return View(model);

@@ -61,7 +61,9 @@ namespace WorkstationServices
                     id = project.id,
                     name = project.name,
                     root = project.root,
-                    projpic = project.projpic
+                    projpic = project.projpic,
+                    precedence = project.precedence,
+                    admin_id = project.admin_id
                 });
 
             return projects;
@@ -71,7 +73,14 @@ namespace WorkstationServices
         {
             try
             {
-                Project project = new Project {name = model.name, root = model.root, projpic = model.projpic};
+                Project project = new Project
+                {
+                    name = model.name,
+                    root = model.root,
+                    projpic = model.projpic,
+                    precedence = model.precedence,
+                    admin_id = model.admin_id
+                };
                 entities.Project.Add(project);
                 entities.SaveChanges();
                 model.id = project.id;
@@ -126,7 +135,8 @@ namespace WorkstationServices
                     department_id = team.department_id,
                     project_id = team.project_id,
                     name = team.name,
-                    teampic = team.teampic
+                    teampic = team.teampic,
+                    manager_id = team.manager_id
                 });
 
             return teams;
@@ -142,7 +152,8 @@ namespace WorkstationServices
                     name = team.name,
                     department_id = team.department_id,
                     project_id = team.project_id,
-                    teampic = team.teampic
+                    teampic = team.teampic,
+                    manager_id = team.manager_id
                 };
             } catch { return null; }
         }
@@ -158,7 +169,8 @@ namespace WorkstationServices
                     name = team.name,
                     department_id = team.department_id,
                     project_id = team.project_id,
-                    teampic = team.teampic
+                    teampic = team.teampic,
+                    manager_id = team.manager_id
                 };
             }
             catch { return null; }
@@ -174,6 +186,7 @@ namespace WorkstationServices
                 team.department_id = newInfo.department_id;
                 team.teampic = newInfo.teampic;
 
+                team.manager_id = newInfo.manager_id;
                 entities.SaveChanges();
                 return true;
             }
@@ -206,7 +219,8 @@ namespace WorkstationServices
                      department_id = model.department_id,
                      name = model.name,
                      project_id = model.project_id,
-                     teampic = model.teampic
+                     teampic = model.teampic,
+                     manager_id = model.manager_id
                 };
 
                 entities.Team.Add(team);
@@ -228,7 +242,9 @@ namespace WorkstationServices
                 Project project = entities.Project.Single(proj => newInfo.id == proj.id);
                 project.name = newInfo.name;
                 project.root = newInfo.root;
+                project.precedence = newInfo.precedence;
                 project.projpic = newInfo.projpic;
+                project.admin_id = newInfo.admin_id;
                 entities.SaveChanges();
 
                 return true;
@@ -264,7 +280,9 @@ namespace WorkstationServices
                 id = id,
                 name = project.name,
                 root = project.root,
-                projpic = project.projpic
+                projpic = project.projpic,
+                precedence = project.precedence,
+                admin_id = project.admin_id
             };
         }
 
@@ -467,7 +485,9 @@ namespace WorkstationServices
                     description = model.description,
                     project_id = model.project_id,
                     user_id = model.user_id,
-                    title = model.title
+                    title = model.title,
+                    precedence = model.precedence,
+                    progress = model.progress
                 });
 
             return TaskModels;
@@ -485,7 +505,9 @@ namespace WorkstationServices
                 end = task.end,
                 project_id = task.project_id,
                 title = task.title,
-                user_id = task.user_id
+                user_id = task.user_id,
+                precedence = task.precedence,
+                progress = task.progress
             };
         }
 
@@ -501,7 +523,9 @@ namespace WorkstationServices
                     description = newTask.description,
                     end = newTask.end,
                     project_id = newTask.project_id,
-                    user_id = newTask.user_id
+                    user_id = newTask.user_id,
+                    precedence = newTask.precedence,
+                    progress = newTask.progress
                 };
 
                 entities.Task.Add(task);
@@ -542,7 +566,8 @@ namespace WorkstationServices
                 task.description = newTask.description;
                 task.user_id = newTask.user_id;
                 task.end = newTask.end;
-
+                task.precedence = newTask.precedence;
+                task.progress = newTask.progress;
                 entities.SaveChanges();
                 return true;
             }

@@ -20,9 +20,11 @@
         </div>
         
         <div class="col-md-12 col-lg-12 col-xs-12">
-            <p>
-                <br/>
-            </p>
+            <label class="col-md-2 col-lg-2 col-xs-2"> Priority </label>
+            <div class="col-md-10 col-lg-10 col-xs-10">
+                @Html.TextBoxFor(model => model.precedence, new { @type = "range", value=50, min = 1, max = 100, @class = "form-control", style = "max-width:100% !important;" })
+                @Html.ValidationMessageFor(model => model.precedence, "", new {@class = "text-danger"})
+            </div>
         </div>
 
         <div class="col-md-12  col-lg-12 col-xs-12">
