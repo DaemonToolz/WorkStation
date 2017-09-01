@@ -15,11 +15,24 @@ namespace WorkstationBrowser.Controllers
     public class UsersController : GenericController
     {
         // GET: Users
-        public ActionResult Index()
+        public ActionResult Index(int limit = 25, int offset = 0)
         {
             ViewData["MyId"] = _Session.CurrentUser.id;
+            IEnumerable<UsersModel> users = _Session.GetAllUsers();
+   
+            if (limit > 0) {
+               
+                if (offset >= 0)
+                {
+                    ViewData["Offsets"] = users.Count() / limit;
+                    users = users.Skip(limit * offset);
+                    ViewData["CurrentOffset"] = offset;
+                }
+                users = users.Take(limit);
+                
+            }
 
-            return View(_Session.GetAllUsers());
+            return View(users);
         }
 
         public ActionResult MyProfile(){

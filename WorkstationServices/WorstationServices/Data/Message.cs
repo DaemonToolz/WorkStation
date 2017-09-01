@@ -21,6 +21,7 @@ namespace WorkstationServices.Data
         public string content { get; set; }
         public bool read { get; set; }
         public bool direct { get; set; }
+        public System.DateTime stamp { get; set; }
     
         public virtual Users Users { get; set; }
         public virtual Users Users1 { get; set; }

@@ -54,34 +54,17 @@
 <div class="row" style="padding-top:100px">
     <div class="col-lg-7 col-md-4 col-xs-12"  >
         <div class="col-md-12 col-lg-12 col-xs-12">
-            <div class="col-md-4 col-xs-4 col-lg-4">
-                <h4><strong>Department</strong></h4>
-            </div>
-            <div class="col-md-8 col-xs-8 col-lg-8">
-                @(((DepartmentModel) ViewData["Department"]).name)
-            </div>
-           
-           
+            <h4><strong>Department</strong> <span class="pull-right">@(((DepartmentModel)ViewData["Department"]).name)</span></h4>
         </div>
         <div class="col-md-12 col-lg-12 col-xs-12">
-            <div class="col-md-4 col-xs-4 col-lg-4">
-                <h4><strong>Project</strong></h4>
-            </div>
-            <div class="col-md-8 col-xs-8 col-lg-8">
-                @(((ProjectModel) ViewData["Project"]).name)
-                
-            </div>
+            <h4><strong>Project</strong> <span class="pull-right">@(((ProjectModel)ViewData["Project"]).name)</span></h4>
         </div>
+
         <div class="col-md-12 col-lg-12 col-xs-12">
-            <div class="col-md-4 col-xs-4 col-lg-4">
-                <h4><strong>Manager</strong></h4>
-            </div>
-            <div class="col-md-8 col-xs-8 col-lg-8">
-                @(manager)
-            </div>
+            <h4><strong>Manager</strong> <span class="pull-right">@(manager)</span> </h4>
         </div>
-        </div>
-        <div class="col-lg-5 col-md-8 col-xs-12 pull-right">
+    </div>
+    <div class="col-lg-5 col-md-8 col-xs-12 pull-right">
             <h3> Active members</h3>
             <hr/>
             @foreach (var user in (UsersModel[])ViewData["ActiveMembers"])
@@ -89,15 +72,16 @@
                 string cManager = "";
                 string header = user.username;
                 string contactLink =  (Html.ActionLink(" ", "Index", "Message", new {to = user.id}, new {@class = "btn btn-default glyphicon glyphicon-envelope"})).ToHtmlString();
+                string chatLink = "<a href='#' class='btn btn-default glyphicon glyphicon-comment'> </a>";
                 bool isManager = user.id == managerid;
                 if (isManager) {
                     cManager = "manager";
                     header = $"[TEAM MANAGER] {user.username}";
                 }
-                
+
                 <div class="col-md-3 col-lg-2 col-xs-3">
                     <a  data-toggle="popover" data-trigger="click" 
-                        data-content="<b> Rank: </b> @(user.rank) <br/> <b> Email: </b> @(user.email) @(contactLink)"  
+                        data-content="<b> Rank: </b> @(user.rank) <br/> <b> Email: </b> @(user.email) <hr/> @(contactLink) @(chatLink)"  
                         data-title="@(header)">
                         <img src="~/UserContent/Profile/@(user.profilepic)"
                              class=" profile-image img-circle @(cManager)"

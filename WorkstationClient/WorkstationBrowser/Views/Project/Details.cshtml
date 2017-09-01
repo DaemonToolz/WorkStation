@@ -44,16 +44,18 @@
     <hr />
     @if (ViewData["Manager"] != null || ViewData["Team"] != null)
     {
-        
+        var manager =  ((UsersModel) ViewData["Manager"]);
+        string contactLink = (Html.ActionLink(" ", "Index", "Message", new { to = manager.id }, new { @class = "btn btn-default glyphicon glyphicon-envelope" })).ToHtmlString();
+        string chatLink = "<a href='#' class='btn btn-default glyphicon glyphicon-comment'> </a>";
         <div class="row">
-            @if(ViewData["Manager"] != null) { 
+            @if (ViewData["Manager"] != null) {
                 <div class="text-center col-md-12">
                 <h3> <strong> Managed by </strong>
                 </h3>
                 <a data-toggle="popover" data-trigger="click"
-                   data-content="<b> Email: </b> @(((UsersModel) ViewData["Manager"]).email)"
-                   data-title="@(((UsersModel) ViewData["Manager"]).username)">
-                    <img src="~/UserContent/Profile/@(((UsersModel) ViewData["Manager"]).profilepic)"
+                   data-content="<b> Email: </b> @(manager.email)  <hr/>@(contactLink) @(chatLink)"
+                   data-title="@(manager.username)">
+                    <img src="~/UserContent/Profile/@(manager.profilepic)"
                          class="profile-image img-circle"
                          width="75" height="75"/>
                 </a>

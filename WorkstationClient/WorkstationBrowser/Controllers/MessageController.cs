@@ -65,7 +65,7 @@ namespace WorkstationBrowser.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateMessage([Bind(Include = "id, from, to, read")] MessageModel model, string action)
+        public ActionResult UpdateMessage([Bind(Include = "id, from, to, read, stamp")] MessageModel model, string action)
         {
 
             switch (action) {

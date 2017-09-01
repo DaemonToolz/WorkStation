@@ -36,8 +36,8 @@ namespace WorkstationServices
                 email = CurrentUser.email,
                 username = Username,
                 team_id = CurrentUser.team_id,
-                 rank = CurrentUser.Rank1.name,
-                 rights = CurrentUser.Rank1.rights,
+                rank = CurrentUser.Rank1.name,
+                rights = CurrentUser.Rank1.rights,
                 profilepic = CurrentUser.profilepic
             };
 
@@ -392,7 +392,8 @@ namespace WorkstationServices
                         id = notification.id_notification,
                         content = notification.Notification.content,
                         title = notification.Notification.title,
-                        read = notification.read
+                        read = notification.read,
+                        stamp = notification.Notification.stamp
                     });
 
                 }
@@ -409,7 +410,8 @@ namespace WorkstationServices
         public void CreateNotification(NotificationModel notification, int[] users, bool all = false) {
             Notification finalNotification = new Notification(){
                 content = notification.content,
-                title = notification.title,            
+                title = notification.title,      
+                stamp = DateTime.Now
             };
 
             entities.Notification.Add(finalNotification);
@@ -592,7 +594,8 @@ namespace WorkstationServices
                     to = message.to,
                     read = message.read,
                     title = message.title,
-                    direct = message.direct
+                    direct = message.direct,
+                    stamp = message.stamp
                 });
             }
 
@@ -611,7 +614,8 @@ namespace WorkstationServices
                     title = model.title,
                     to = model.to,
                     from = model.from,
-                    direct = model.direct
+                    direct = model.direct,
+                    stamp = DateTime.Now
                 });
                 entities.SaveChanges();
 

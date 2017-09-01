@@ -13,14 +13,26 @@ namespace WorkstationBrowser.Controllers
     public class TeamController : GenericController
     {
         // GET: Team
-        public ActionResult Index()
+        public ActionResult Index(int limit = 25, int offset = 0)
         {
-    
+
+            IEnumerable<TeamModel> teams = _Session.GetAllTeams();
+            if (limit > 0)
+            {
+                if (offset >= 0)
+                {
+                    ViewData["Offsets"] = teams.Count() / limit;
+                    teams = teams.Skip(limit * offset);
+                    ViewData["CurrentOffset"] = offset;
+                }
+                teams = teams.Take(limit);
+
+            }
             ViewData["TeamId"] = _Session.CurrentUser.team_id;
             ViewData["AllDepartments"] = _Session.GetAllDepartments().ToArray();
             ViewData["AllProjects"] = _Session.GetAllProjects().ToArray();
 
-            return View(_Session.GetAllTeams());
+            return View(teams);
         }
 
         // GET: Team/Details/5

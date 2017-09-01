@@ -38,7 +38,7 @@
 
                     @if (MyRights["CanReadUser"])
                     {
-                        <li> @Html.ActionLink("Users", "Index", "Users")</li>
+                        <li> @Html.ActionLink("Users", "Index", "Users", new{limit=25, offset=0}, null)</li>
                     }
 
                     @if (MyRights["CanReadTeam"])

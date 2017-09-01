@@ -14,9 +14,19 @@ namespace WorkstationBrowser.Controllers
     public class ProjectController : GenericController
     {
         // GET: Project
-        public ActionResult Index()
+        public ActionResult Index(int limit = 25, int offset = 0)
         {
-     
+            IEnumerable<ProjectModel> projects = _Session.GetAllProjects();
+            if (limit > 0) {
+                if (offset >= 0) {
+                    ViewData["Offsets"] = projects.Count() / limit;
+                    projects = projects.Skip(limit * offset);
+                    ViewData["CurrentOffset"] = offset;
+                }
+                projects = projects.Take(limit);
+
+            }
+
             ViewData["MyId"] = _Session.CurrentUser.id;
             ViewData["MyTeam"] = _Session.CurrentUser.team_id;
             var AllProjects = _Session.GetAllProjects();
@@ -24,7 +34,7 @@ namespace WorkstationBrowser.Controllers
             ViewData["MyProject"] = _Session.GetProject(MyTeam.project_id ?? 0);
 
 
-            return View(_Session.GetAllProjects());
+            return View(projects);
         }
 
         // GET: Project/Details/5

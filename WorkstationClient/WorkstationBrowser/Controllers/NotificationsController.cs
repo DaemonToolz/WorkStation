@@ -22,7 +22,7 @@ namespace WorkstationBrowser.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index([Bind(Include = "id,title,content,read")] NotificationModel notification, string NotificationUpdater) {
+        public ActionResult Index([Bind(Include = "id,title,content,read, stamp")] NotificationModel notification, string NotificationUpdater) {
 
             //var currentSession = Session["WorkstationConnection"] as SessionWrapper;
 

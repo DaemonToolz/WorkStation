@@ -28,6 +28,7 @@ namespace WorkstationMessaging.Model {
 
         [DataMember(IsRequired = false)]
         public bool direct { get; set; }
-
+        [DataMember(IsRequired = true)]
+        public DateTime stamp { get; set; }
     }
 }

@@ -4,18 +4,76 @@
 @{
     ViewBag.Title = "Index";
     Dictionary<String, bool> MyRights = Session["CurrentUserRights"] as Dictionary<String, bool>;
-                        
+    
 }
 
-<h2>All Users</h2>
+
+@if (ViewData["Offsets"] != null)
+{
+    <div class="row" style="margin-top:20px">
+        <div class="col-lg-1 col-xs-1 col-md-1">
+  
+            @if(((int)ViewData["CurrentOffset"]) > 0){
+                @Html.ActionLink( " ", "Index", "Users", new{limit = 25, offset = ((int)ViewData["CurrentOffset"]) - 1 }, new{ @class = "pull-left btn btn-default glyphicon glyphicon-arrow-left" })
+            }
+           
+        </div> 
+        <div class="section-scroll-3 col-md-10 col-xs-10 col-lg-10">
+            @for (int i = 0; i < (int) ViewData["Offsets"]; ++i)
+            {
+                string activeClass = "";
+                if ((int) ViewData["CurrentOffset"] == i)
+                {
+                    activeClass = "active-tab";
+                }
+                @Html.ActionLink(i+"", "Index", "Users", new{limit = 25, offset=i}, new{ @class = $"btn btn-default {activeClass}" })
+            }
+        </div>
+        <div class="col-lg-1 col-xs-1 col-md-1">
+            @if(((int)ViewData["CurrentOffset"]) < (int)ViewData["Offsets"])
+            {
+                @Html.ActionLink( " ", "Index", "Users", new{limit = 25, offset = ((int)ViewData["CurrentOffset"]) + 1 }, new{ @class = "pull-right btn btn-default glyphicon glyphicon-arrow-right" })
+            }
+    
+        </div>
+    </div>
+    <hr />
+
+}
+
+<div class="row" style="margin-bottom:20px">
+    @using (Html.BeginForm()){
+
+
+        @Html.TextBox("filter", "Search...", new{@class="pull-right form-control"})
+        <button type="submit" class="pull-right  btn btn-default">
+            <span class="glyphicon glyphicon-zoom-in"></span>
+        </button>
+    }
+</div>
 
 <table class="table">
     <tr>
-        <th> </th>
-        <th> Username </th>
-        <th> Email </th>
-        <th> Rank </th>
+        <th>
+            @Ajax.ActionLink(" ", "Index", null, null, new { @class = "glyphicon glyphicon-sort-by-alphabet btn btn-default" })
 
+        </th>
+        <th>
+            @Ajax.ActionLink(" ", "Index", null, null, new{@class= "glyphicon glyphicon-sort-by-alphabet btn btn-default" })
+            Username
+        </th>
+        <th>
+            @Ajax.ActionLink(" ", "Index", null, null, new{@class= "glyphicon glyphicon-sort-by-alphabet btn btn-default" })
+            Email
+        </th>
+        <th>
+            @Ajax.ActionLink(" ", "Index", null, null, new{@class= "glyphicon glyphicon-sort-by-alphabet btn btn-default" })
+            Rank
+        </th>
+        <th>
+            @Ajax.ActionLink(" ", "Index", null, null, new { @class = "glyphicon glyphicon-sort-by-alphabet btn btn-default" })
+
+        </th>
     </tr>
 
     @foreach (var item in Model) {

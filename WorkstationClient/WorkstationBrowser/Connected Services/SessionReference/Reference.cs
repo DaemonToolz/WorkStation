@@ -631,6 +631,8 @@ namespace WorkstationBrowser.SessionReference {
         
         private bool readField;
         
+        private System.DateTime stampField;
+        
         private string titleField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -683,6 +685,19 @@ namespace WorkstationBrowser.SessionReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.DateTime stamp {
+            get {
+                return this.stampField;
+            }
+            set {
+                if ((this.stampField.Equals(value) != true)) {
+                    this.stampField = value;
+                    this.RaisePropertyChanged("stamp");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
         public string title {
             get {
                 return this.titleField;
@@ -726,6 +741,8 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool readField;
+        
+        private System.DateTime stampField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string titleField;
@@ -803,6 +820,19 @@ namespace WorkstationBrowser.SessionReference {
                 if ((this.readField.Equals(value) != true)) {
                     this.readField = value;
                     this.RaisePropertyChanged("read");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.DateTime stamp {
+            get {
+                return this.stampField;
+            }
+            set {
+                if ((this.stampField.Equals(value) != true)) {
+                    this.stampField = value;
+                    this.RaisePropertyChanged("stamp");
                 }
             }
         }

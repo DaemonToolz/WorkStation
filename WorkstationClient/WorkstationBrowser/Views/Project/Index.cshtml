@@ -11,24 +11,70 @@
     };
 }
 
-<p style="padding-top: 50px">
-    <a id="new_task" class="btn btn-default glyphicon glyphicon-plus"></a>
-</p>
+
+
+@if (ViewData["Offsets"] != null)
+{
+    <div class="row" style="margin-top:20px">
+        <div class="col-lg-1 col-xs-1 col-md-1">
+            @if(((int)ViewData["CurrentOffset"]) > 0){
+                @Html.ActionLink( " ", "Index", "Project", new{limit = 25, offset = ((int)ViewData["CurrentOffset"]) - 1 }, new{ @class = "pull-left btn btn-default glyphicon glyphicon-arrow-left" })
+            }
+        </div>
+        <div class="section-scroll-3 col-md-10 col-xs-10 col-lg-10">
+            @for (int i = 0; i < (int)ViewData["Offsets"]; ++i) {
+                string activeClass = "";
+                if ((int) ViewData["CurrentOffset"] == i)
+                {
+                    activeClass = "active-tab";
+                }
+                @Html.ActionLink(i + "", "Index", "Project", new { limit = 25, i }, new { @class = $"btn btn-default {activeClass}" })
+            }
+        </div>
+        <div class="col-lg-1 col-xs-1 col-md-1">
+        @if (((int) ViewData["CurrentOffset"]) < (int) ViewData["Offsets"])
+        {
+            @Html.ActionLink(" ", "Index", "Project", new {limit = 25, offset = ((int) ViewData["CurrentOffset"]) + 1}, new {@class = "pull-right btn btn-default glyphicon glyphicon-arrow-right"})
+        }
+        </div>
+    </div>
+    <hr />
+
+}
+
+<div class="row" style="margin-bottom: 20px">
+    <a id="new_task" class="pull-left btn btn-default glyphicon glyphicon-plus"></a>
+
+    @using (Html.BeginForm())
+    {
+        @Html.TextBox("filter", "Search...", new {@class = "pull-right form-control"})
+        <button type="submit" class="pull-right  btn btn-default">
+            <span class="glyphicon glyphicon-zoom-in"></span>
+        </button>
+    }
+</div>
 
 <table class="table">
     <tr>
-        <th></th>
+        <th>
+        </th>
         <th></th>
         <th>
+            @Ajax.ActionLink(" ", "Index", null, null, new{@class= "glyphicon glyphicon-sort-by-alphabet btn btn-default" })
             Priority
         </th>
         <th>
+            @Ajax.ActionLink(" ", "Index", null, null, new{@class= "glyphicon glyphicon-sort-by-alphabet btn btn-default" })
             Name
         </th>
         <th>
+            @Ajax.ActionLink(" ", "Index", null, null, new{@class= "glyphicon glyphicon-sort-by-alphabet btn btn-default" })
             Root
         </th>
-        <th></th>
+        <th>
+            @Ajax.ActionLink(" ", "Index", null, null, new { @class = "glyphicon glyphicon-sort-by-alphabet btn btn-default" })
+
+        </th>
     </tr>
     <tr id="partial" style="display: none">
         @{ Html.RenderAction("Create"); }

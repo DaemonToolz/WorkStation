@@ -18,5 +18,8 @@ namespace WorkstationMessaging.Model
 
         [DataMember(IsRequired = true)]
         public bool read{ get; set; }
+
+        [DataMember(IsRequired = true)]
+        public DateTime stamp { get; set; }
     }
 }

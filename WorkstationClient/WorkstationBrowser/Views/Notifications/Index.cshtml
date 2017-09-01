@@ -14,6 +14,9 @@
             
         </th>
         <th>
+            
+        </th>
+        <th>
             Title
         </th>
         <th>
@@ -36,6 +39,9 @@
             <tr >
                 <td class="@(notificationClass)">
                     
+                </td>
+                <td style="vertical-align: middle;">
+                    @Html.DisplayFor(modelItem => Model.ElementAt(i).stamp)
                 </td>
                 <td style="vertical-align: middle;">
                     @Html.DisplayFor(modelItem => Model.ElementAt(i).title)

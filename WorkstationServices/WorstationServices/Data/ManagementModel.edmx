@@ -23,6 +23,7 @@
           <Property Name="content" Type="varchar" MaxLength="512" Nullable="false" />
           <Property Name="read" Type="bit" Nullable="false" />
           <Property Name="direct" Type="bit" Nullable="false" />
+          <Property Name="stamp" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -31,6 +32,7 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="title" Type="varchar" MaxLength="75" Nullable="false" />
           <Property Name="content" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="stamp" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="NotificationUser">
           <Key>
@@ -492,6 +494,7 @@
           <NavigationProperty Name="Users" Relationship="ManagementModel.FK__Message__from__6A30C649" FromRole="Message" ToRole="Users" />
           <NavigationProperty Name="Users1" Relationship="ManagementModel.FK__Message__to__6B24EA82" FromRole="Message" ToRole="Users" />
           <Property Name="direct" Type="Boolean" Nullable="false" />
+          <Property Name="stamp" Type="DateTime" Precision="3" Nullable="false" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -501,6 +504,7 @@
           <Property Name="title" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="false" />
           <Property Name="content" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="NotificationUser" Relationship="ManagementModel.FK_NotificationUser_Notification" FromRole="Notification" ToRole="NotificationUser" />
+          <Property Name="stamp" Type="DateTime" Precision="3" Nullable="false" />
         </EntityType>
         <EntityType Name="NotificationUser">
           <Key>
@@ -689,6 +693,7 @@
           <EntitySetMapping Name="Message">
             <EntityTypeMapping TypeName="ManagementModel.Message">
               <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="stamp" ColumnName="stamp" />
                 <ScalarProperty Name="direct" ColumnName="direct" />
                 <ScalarProperty Name="read" ColumnName="read" />
                 <ScalarProperty Name="content" ColumnName="content" />
@@ -702,6 +707,7 @@
           <EntitySetMapping Name="Notification">
             <EntityTypeMapping TypeName="ManagementModel.Notification">
               <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="stamp" ColumnName="stamp" />
                 <ScalarProperty Name="content" ColumnName="content" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="id" ColumnName="id" />
