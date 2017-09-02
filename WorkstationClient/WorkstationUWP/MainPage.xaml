@@ -1,0 +1,121 @@
+﻿<Page
+    x:Class="WorkstationUWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WorkstationUWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <Hub  >
+            <Hub.Header>
+
+                <Grid HorizontalAlignment="Left" Height="80" VerticalAlignment="Top" Width="1920" Background="Black">
+                    <TextBlock x:Name="AppName" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Workstation" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="36" Width="215"/>
+                </Grid>
+            </Hub.Header>
+            <HubSection Header="My Profile" Width="250">
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Ellipse Height="100" Width="100">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="Assets/Anonymous_user.jpg"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </HubSection>
+            <HubSection Header="Menu" Width="500">
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+ 
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Grid.Column="0" Width="200px" Height="200px" Background="#FFF3F3F3">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Users" />
+                        </Grid>
+
+                        <Grid Grid.Row="0" Grid.Column="1" Width="200px" Height="200px" Margin="20 0 0 0" Background="#FFF3F3F3">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Teams" />
+                        </Grid>
+
+                        <Grid Grid.Row="1" Grid.Column="0" Width="200px" Height="200px" Margin="0 20 0 0" Background="#FFF3F3F3">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Departments" />
+                        </Grid>
+
+
+                        <Grid Grid.Row="1" Grid.Column="1" Width="200px" Height="200px" Margin="20 20 0 0" Background="#FFF3F3F3">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Projects" />
+                        </Grid>
+
+                    </Grid>
+                </DataTemplate>
+            </HubSection>
+            <HubSection Header="My Messages " Width="400">
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 1" />
+
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 2" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 3" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 4" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 5" />
+                    </StackPanel>
+                </DataTemplate>
+            </HubSection>
+            <HubSection Header="My Notifications " Width="400">
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 1" />
+
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 2" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 3" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 4" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Message 5" />
+                    </StackPanel>
+                </DataTemplate>
+            </HubSection>
+
+            <HubSection Header="My Tasks " Width="400">
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Task 1" />
+
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Task 2" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Task 3" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Task 4" />
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Task 5" />
+                    </StackPanel>
+                </DataTemplate>
+            </HubSection>
+         
+        </Hub>
+
+    </Grid>
+</Page>
