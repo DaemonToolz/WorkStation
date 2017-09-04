@@ -16,6 +16,9 @@ namespace WorkstationBrowser.Controllers
         // GET: Message
         [ChildActionOnly]
         public ActionResult _Index() {
+            if (!Request.IsAuthenticated)
+                return View(new MessageModel[]{});
+
             ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
 
             return View(_Session.MyMessages());
@@ -23,6 +26,9 @@ namespace WorkstationBrowser.Controllers
 
      
         public ActionResult Index(int to = 0){
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
             ViewData["to"] = to;
             return View(_Session.MyMessages());
@@ -30,7 +36,10 @@ namespace WorkstationBrowser.Controllers
 
 
         public ActionResult _Create(int to = 0){
-           var selected = to != 0 ? _Session.GetAllUsers().ToList().Single(usr => usr.id == to) : _Session.GetAllUsers().ToList().First();
+            if (!Request.IsAuthenticated)
+                return PartialView();
+
+            var selected = to != 0 ? _Session.GetAllUsers().ToList().Single(usr => usr.id == to) : _Session.GetAllUsers().ToList().First();
 
             ViewBag.to = new SelectList(
                 _Session.GetAllUsers().ToList(),
@@ -43,7 +52,9 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         public ActionResult _Create([Bind(Include = "title, content, to")] MessageModel model)
         {
-     
+            if (!Request.IsAuthenticated)
+                return PartialView();
+
             model.read = false;
             model.from = (int)_Session.CurrentUser.id;
             model.direct = false;
@@ -67,6 +78,8 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         public ActionResult UpdateMessage([Bind(Include = "id, from, to, read, stamp")] MessageModel model, string action)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
             switch (action) {
                 case "read":
@@ -94,12 +107,16 @@ namespace WorkstationBrowser.Controllers
 
         public ActionResult MarkAllAsRead()
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
             _Session.MarkAsRead(_Session.MyMessages().ToArray());
             return RedirectToAction("Index");
         }
 
 
         public ActionResult DeleteAll() {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
             _Session.DeleteMessage(_Session.MyMessages().ToArray());
             return RedirectToAction("Index");
         }

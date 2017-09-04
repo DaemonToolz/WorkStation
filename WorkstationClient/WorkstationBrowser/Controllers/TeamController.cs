@@ -15,6 +15,8 @@ namespace WorkstationBrowser.Controllers
         // GET: Team
         public ActionResult Index(int limit = 25, int offset = 0)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
             IEnumerable<TeamModel> teams = _Session.GetAllTeams();
             if (limit > 0)
@@ -37,7 +39,9 @@ namespace WorkstationBrowser.Controllers
 
         // GET: Team/Details/5
         public ActionResult Details(int id){
-            
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             var currentTeam = _Session.GetAllTeams().First(team => team.id == id);
             
             ViewBag.id = id;
@@ -64,6 +68,8 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         public ActionResult FileUpload(HttpPostedFileBase file, int id)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
             if (file != null)
             {
@@ -90,6 +96,8 @@ namespace WorkstationBrowser.Controllers
         // GET: Team/Create
         public ActionResult Create()
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
             ViewBag.department_id = new SelectList(_Session.GetAllDepartments(), "id", "name");
             ViewBag.project_id = new SelectList(_Session.GetAllProjects(), "id", "name");
@@ -102,6 +110,10 @@ namespace WorkstationBrowser.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include="name, project_id, department_id")] TeamModel model)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+
             model.teampic = "Team_default.png";
             if (_Session.CreateTeam(model))
                 return RedirectToAction("Index");
@@ -115,6 +127,10 @@ namespace WorkstationBrowser.Controllers
 
         // GET: Team/Edit/5
         public ActionResult Edit(int id) {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+
             ViewBag.department_id = new SelectList(_Session.GetAllDepartments(), "id", "name");
             ViewBag.project_id = new SelectList(_Session.GetAllProjects(), "id", "name");
 
@@ -129,6 +145,10 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         public ActionResult Edit(int id, [Bind(Include ="id,department_id,name,project_id, teampic, manager_id")] TeamModel model)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+
             if (model.manager_id == 0)
                 model.manager_id = null;
 
@@ -146,6 +166,9 @@ namespace WorkstationBrowser.Controllers
         
         public ActionResult Delete(int id)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             _Session.DeleteTeam(id);
             return RedirectToAction("Index");
           

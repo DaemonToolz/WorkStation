@@ -11,10 +11,11 @@ using WorkstationBrowser.Controllers.Remote;
 namespace WorkstationBrowser.Controllers
 {
     public class DepartmentController : GenericController
-    {
+    {       
         public ActionResult Index()
         {
-         
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
             return View(_Session.GetAllDepartments());
         }
 

@@ -15,7 +15,10 @@ namespace WorkstationBrowser.Controllers
      
         public ActionResult _Index(ProjectModel related, int? userid, short? AddSection)
         {
-   
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+
             IEnumerable<TaskModel> allTasks  = new List<TaskModel>();
             if ((related == null || related.id <= 0) && (userid != null && userid > 0))
                 allTasks = _Session.GetTasksByUser((int) userid);
@@ -47,6 +50,10 @@ namespace WorkstationBrowser.Controllers
 
         public ActionResult _Create()
         {
+            if (!Request.IsAuthenticated)
+                return PartialView();
+
+
             List<UsersModel> CurrentUsers;
             try
             {
@@ -74,6 +81,9 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         
         public ActionResult _Create([Bind(Include = "title,description, begin, end, user_id, precedence")] TaskModel model){
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
             model.progress = 0;
             model.project_id = long.Parse(Session["ProjectId"].ToString());
@@ -98,6 +108,8 @@ namespace WorkstationBrowser.Controllers
         
         [HttpPost]
         public ActionResult _Index([Bind(Include = "id,title,description,begin, end, user_id, project_id, progress, precedence")] TaskModel model, string action){
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
             //var currentSession = Session["WorkstationConnection"] as SessionWrapper;
 
@@ -120,7 +132,9 @@ namespace WorkstationBrowser.Controllers
 
         public ActionResult Edit(long id)
         {
-          
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             var CurrentTeam = _Session.GetAllTeams()
                 .Single(team => team.project_id == (long)Session["ProjectId"]);
 
@@ -141,7 +155,11 @@ namespace WorkstationBrowser.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,title,description,begin,end,user_id,project_id, progress, precedence")] TaskModel task, String action)
         {
-            if(action.Equals("Cancel"))
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+
+            if (action.Equals("Cancel"))
                 return RedirectToAction("Details", "Project", new { id = task.project_id });
             
             var CurrentTeam = _Session.GetAllTeams()

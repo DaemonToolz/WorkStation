@@ -21,7 +21,16 @@
 
 }
 
-<h2>ProjectDocuments</h2>
+
+<hr />
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        @Html.ActionLink(" ", "ProjectDocuments", "Project", null, new { @class="btn btn-default glyphicon glyphicon-plus"})
+        @Html.ActionLink(" ", "ProjectDocuments", "Project", null, new { @class = "btn btn-default glyphicon glyphicon-upload" })
+        @Html.ActionLink(" ", "DownloadAsZip", "Project", new{project = (String)ViewData["ProjectName"] }, new { @class = "btn btn-default glyphicon glyphicon-download" })
+    </div>
+</div>
+<hr />
 
 <div class="row section-scroll-2">
     
@@ -59,7 +68,7 @@
             
                 @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "btn btn-default glyphicon glyphicon-cloud-download" })
                 
-                @Html.ActionLink(" ", "DeleteFile", "Project", new { path = tmp, root = (String)ViewData["ProjectRoot"] }, new { @class = " btn btn-default glyphicon glyphicon-trash" })
+                @Html.ActionLink(" ", "DeleteFile", "Project", new { path = tmp, project = (String)ViewData["ProjectName"] }, new { @class = " btn btn-default glyphicon glyphicon-trash" })
   
             </td>
          

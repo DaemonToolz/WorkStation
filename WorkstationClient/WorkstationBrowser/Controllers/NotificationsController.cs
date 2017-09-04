@@ -15,6 +15,9 @@ namespace WorkstationBrowser.Controllers
         // GET: Notifications
         public ActionResult Index(bool unreadfirst = false, bool hideread = false)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             var UserNotifications = _UserNotifications;
             if (unreadfirst)
                 UserNotifications = _UserNotifications.OrderBy(notif => notif.read).ToArray();
@@ -23,6 +26,8 @@ namespace WorkstationBrowser.Controllers
 
         [HttpPost]
         public ActionResult Index([Bind(Include = "id,title,content,read, stamp")] NotificationModel notification, string NotificationUpdater) {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
             //var currentSession = Session["WorkstationConnection"] as SessionWrapper;
 

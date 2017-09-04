@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ionic.Zip;
 using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.Models;
@@ -16,6 +17,9 @@ namespace WorkstationBrowser.Controllers
         // GET: Project
         public ActionResult Index(int limit = 25, int offset = 0)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             IEnumerable<ProjectModel> projects = _Session.GetAllProjects();
             if (limit > 0) {
                 if (offset >= 0) {
@@ -39,7 +43,9 @@ namespace WorkstationBrowser.Controllers
 
         // GET: Project/Details/5
         public ActionResult Details(int id){
-            
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             var currentProject = _Session.WorkstationSession.GetProject((long) id);
             ViewData["CurrentProject"] = currentProject;
             if (currentProject.admin_id != null)
@@ -59,6 +65,8 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         public ActionResult FileUpload(HttpPostedFileBase file, int id)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
             if (file != null)
             {
@@ -102,8 +110,13 @@ namespace WorkstationBrowser.Controllers
         }
 
 
-        public ActionResult ProjectDocuments(String root)
+        public ActionResult ProjectDocuments(String project)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+
+            string root =  $@"C:\inetpub\ftproot\{project}\";
             ViewData["ProjectRoot"] = root;
             List<DocumentModel> files = new List<DocumentModel>();
             foreach (string file in Directory.EnumerateFiles(root))
@@ -117,6 +130,7 @@ namespace WorkstationBrowser.Controllers
                 });
         
             }
+            ViewData["ProjectName"] = project;
             return View(files);
         }
 
@@ -141,17 +155,40 @@ namespace WorkstationBrowser.Controllers
         }
       
         public FileResult Download(String path) {
+            if (!Request.IsAuthenticated)
+                return null;
+
             FileInfo file = new FileInfo(path);
             byte[] fileBytes = System.IO.File.ReadAllBytes(path);
             string fileName = file.Name;
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
 
+        public FileResult DownloadAsZip(String project){
+            if (!Request.IsAuthenticated || project == null || project.Trim() == "")
+                return null;
 
+            string root = $@"C:\inetpub\ftproot\{project}\";
 
-        public ActionResult DeleteFile(String path, String root){
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AddDirectory(root);
+            
+                MemoryStream output = new MemoryStream {
+                    Position = 0
+                };
+
+                zip.Save(output);
+                return File(output, "application/zip", $"{project}.zip");
+            }
+        }
+
+        public ActionResult DeleteFile(String path, String project){
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             System.IO.File.Delete(path);
-            return RedirectToAction("ProjectDocuments", "Project", new {root = root});
+            return RedirectToAction("ProjectDocuments", "Project", new {project = project});
         }
 
 
@@ -171,6 +208,8 @@ namespace WorkstationBrowser.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id, precedence, admin_id")] ProjectModel project)
         {
+
+
             var totalProject = _Session.GetProject(project.id);
             totalProject.precedence = project.precedence;
             totalProject.admin_id = project.admin_id == 0 ? null : project.admin_id;

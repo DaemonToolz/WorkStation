@@ -29,7 +29,7 @@
 @foreach (var item in Model)
 {
     String MessageClass = "notification-read";
-    if (item.read)
+    if (!item.read)
     {
         MessageClass = "notification-notread";
     }

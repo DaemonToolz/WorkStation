@@ -16,6 +16,7 @@ namespace WorkstationBrowser{
                 LogoutPath = new PathString("/Login/Logout"),
                 CookieName = ".WorkstationCookie",
                 SlidingExpiration = true,
+                ExpireTimeSpan = new System.TimeSpan(0,10,0),
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 AuthenticationMode = AuthenticationMode.Active
             });

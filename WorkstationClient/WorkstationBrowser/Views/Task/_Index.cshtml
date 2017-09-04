@@ -64,7 +64,7 @@
                     <strong>@Html.DisplayFor(modelItem => Model.ElementAt(i).precedence)</strong>
                 </td>
         
-                <td style="vertical-align:middle; text-align:center">
+                <td style="vertical-align:middle; text-align: center; color:white; background-color:rgb(@(255-((255*Model.ElementAt(i).progress)/100)),@(((255*Model.ElementAt(i).progress)/100)),0)" >
                     <strong>@Html.DisplayFor(modelItem => Model.ElementAt(i).progress)%</strong>
                 </td>
                 <td style="vertical-align:middle;">

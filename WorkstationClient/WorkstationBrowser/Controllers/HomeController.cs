@@ -11,8 +11,10 @@ using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
 {
+    [Authorize]
     public class HomeController : GenericController
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
             if (_Session == null && Request.IsAuthenticated)

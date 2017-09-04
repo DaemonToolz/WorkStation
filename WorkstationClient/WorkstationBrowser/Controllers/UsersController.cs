@@ -17,6 +17,10 @@ namespace WorkstationBrowser.Controllers
         // GET: Users
         public ActionResult Index(int limit = 25, int offset = 0)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+
             ViewData["MyId"] = _Session.CurrentUser.id;
             IEnumerable<UsersModel> users = _Session.GetAllUsers();
    
@@ -36,13 +40,20 @@ namespace WorkstationBrowser.Controllers
         }
 
         public ActionResult MyProfile(){
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+
             ViewData["CurrentTeam"] = _Session.GetTeamByUser(_Session.CurrentUser);
         
             return View(_Session.CurrentUser);
         }
 
         public ActionResult FileUpload(HttpPostedFileBase file){
-           
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+
             if (file != null){
                 //SessionWrapper currentSession = Session["WorkstationConnection"] as SessionWrapper;
 
@@ -60,6 +71,9 @@ namespace WorkstationBrowser.Controllers
         // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -82,6 +96,9 @@ namespace WorkstationBrowser.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id,username,email,team_id, rank")] UsersModel users) {
             //SessionWrapper wrapper = Session["WorkstationConnection"] as SessionWrapper;
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
 
             users.profilepic = _Session.GetUserById((int)users.id).profilepic;
             
