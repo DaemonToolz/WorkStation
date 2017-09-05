@@ -11,7 +11,8 @@ namespace WorkstationBrowser
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js", 
                         "~/Scripts/jquery-ui-{version}.js",
-                        "~/Scripts/jquery.unobtrusive-ajax.js"));
+                        "~/Scripts/jquery.unobtrusive-ajax.js",
+                        "~/Scripts/tinymce/tinymce.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
                 "~/Scripts/jquery.signalR-{version}.js"));

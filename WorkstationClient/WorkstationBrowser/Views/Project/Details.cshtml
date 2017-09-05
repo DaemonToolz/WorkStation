@@ -42,7 +42,7 @@
 
 <div>
     <hr />
-    @if (ViewData["Manager"] != null || ViewData["Team"] != null)
+    @if (ViewData["Manager"] != null && ViewData["Team"] != null && Model.root != null && !Model.root.Trim().Equals(""))
     {
         var manager =  ((UsersModel) ViewData["Manager"]);
         string contactLink = (Html.ActionLink(" ", "Index", "Message", new { to = manager.id }, new { @class = "btn btn-default glyphicon glyphicon-envelope" })).ToHtmlString();
@@ -86,7 +86,7 @@
             {
                 <div class="col-xs-6 col-lg-1 col-md-4">
 
-                    <a href="@Url.Action("ProjectDocuments", new {project = Model.name})" class="btn btn-default">
+                    <a href="@Url.Action("ProjectDocuments", new {project = Model.name, projectid = Model.id})" class="btn btn-default">
                         <span class="glyphicon glyphicon-folder-open"></span>
                         See Files
                     </a>

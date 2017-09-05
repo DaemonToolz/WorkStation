@@ -25,9 +25,12 @@
 <hr />
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
-        @Html.ActionLink(" ", "ProjectDocuments", "Project", null, new { @class="btn btn-default glyphicon glyphicon-plus"})
-        @Html.ActionLink(" ", "ProjectDocuments", "Project", null, new { @class = "btn btn-default glyphicon glyphicon-upload" })
-        @Html.ActionLink(" ", "DownloadAsZip", "Project", new{project = (String)ViewData["ProjectName"] }, new { @class = "btn btn-default glyphicon glyphicon-download" })
+     
+        @Html.ActionLink(" ", "Details", "Project", new{id = (int)ViewData["Projectid"]}, new {@class = "btn btn-default glyphicon glyphicon-arrow-left" })
+       
+        @Html.ActionLink(" ", "_DocumentCreator", "Project", new{project = (String) ViewData["ProjectName"], projectid = (int)ViewData["Projectid"] }, new {@class = "pull-right btn btn-default glyphicon glyphicon-plus"})
+        @Html.ActionLink(" ", "ProjectDocuments", "Project", null, new {@class = "btn btn-default glyphicon glyphicon-upload pull-right " })
+        @Html.ActionLink(" ", "DownloadAsZip", "Project", new {project = (String) ViewData["ProjectName"]}, new {@class = "btn btn-default glyphicon glyphicon-download pull-right " })
     </div>
 </div>
 <hr />
@@ -63,12 +66,25 @@
                 @{
                     String tmp = item.Path.Replace("\\", "/");
                 }
+                
+                @if (item.Extension.Contains("txt") || item.Extension.Contains("html"))
+                {
+                    @Html.ActionLink(" ", "_DocumentCreator", "Project",
+                        new
+                        {
+                            project = (String) ViewData["ProjectName"],
+                            projectid = (int) ViewData["Projectid"],
+                            filename = item.Name,
+                            extension = item.Extension,
+                            filepath = tmp
+                        }, new {@class = "btn btn-default glyphicon glyphicon-cog"})
+                }
 
                 @Ajax.ActionLink(" ", "_FileContent","Project",new { path = tmp },ViewOptions,new {@class="btn btn-default glyphicon glyphicon-eye-open"})
             
                 @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "btn btn-default glyphicon glyphicon-cloud-download" })
                 
-                @Html.ActionLink(" ", "DeleteFile", "Project", new { path = tmp, project = (String)ViewData["ProjectName"] }, new { @class = " btn btn-default glyphicon glyphicon-trash" })
+                @Html.ActionLink(" ", "DeleteFile", "Project", new { path = tmp, project = (String)ViewData["ProjectName"], id = (int)ViewData["Projectid"] }, new { @class = " btn btn-default glyphicon glyphicon-trash" })
   
             </td>
          

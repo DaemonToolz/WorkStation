@@ -1,32 +1,68 @@
 ﻿
 @{
-    Layout = "";
+    String filename = "";
+    String extension = "";
+    if (TempData["filename"] != null)
+    {
+        filename = ((String) TempData["filename"]).Substring(0, ((String)TempData["filename"]).IndexOf("."));
+    }
+
+    if (TempData["extension"] != null)
+    {
+        extension = (String)TempData["extension"];
+    }
+
 }
+
+
+<div class="col-xs-12 col-md-12 col-lg-12" style="margin-top:50px">
+    @Html.ActionLink(" ", "ProjectDocuments", "Project", new{project = (String)TempData["Project"], projectid = (int)TempData["Projectid"]}, new {@class = "btn btn-default glyphicon glyphicon-arrow-left" })
+    <hr/>       
+</div>
 
 @using (Html.BeginForm("_DocumentCreator", "Project", FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
     <div class="row">
-        <div class="col-md-12 col-xs-12 col-lg-12">
-            <div class="col-md-4 col-xs-4 col-lg-4">
-                Title
+        <input type="hidden" name="project" value="@((String)TempData["Project"])"/>
+        <input type="hidden" name="projectid" value="@( (int)TempData["Projectid"])" />
+
+        <div class="col-md-12 col-xs-12 col-lg-12 form-group">
+
+            <div class="col-md-10 col-xs-10 col-lg-10">
+                <input type="text" class="form-control" style="max-width: 100% !important;" name="title" value="@(filename)"/>
             </div>
-            <div class="col-md-8 col-xs-8 col-lg-8">
-                <input type="text" name="title"/>
+
+            <div class="col-md-2 col-xs-2 col-lg-2">
+                <select name="extension" id="ExtensionSelector" class="form-control">
+                    <option @(extension.Contains("txt")  ? "selected='selected'" : "")  value="txt" >.txt</option>
+                    <option @(extension.Contains("docx") ? "selected='selected'" : "") value="docx">.docx</option>
+                    <option @(extension.Contains("html") ? "selected='selected'" : "") value="html">.html</option>
+                </select>
             </div>
         </div>
-        
-        <div class="col-md-12 col-xs-12 col-lg-12">
-            <div class="col-md-4 col-xs-4 col-lg-4">
-                Content
-            </div>
-            <div class="col-md-8 col-xs-8 col-lg-8">
-                <textarea type="text" name="content" rows="4" cols="50">
 
-                </textarea>
+        <div class="col-md-12 col-xs-12 col-lg-12 form-group">
+
+            <div class="col-md-12 col-xs-12 col-lg-12 ">
+                @{
+                    String output = "";
+                    String filepath = (String) TempData["filepath"];
+                    if (TempData["filepath"] != null && filepath.Contains($"{filename}{extension}")){
+                        var lines = System.IO.File.ReadAllLines((String)TempData["filepath"]);
+                        output = lines.Aggregate(output, (current, line) => current + (line + "\n"));
+                    }
+                }
+
+                <textarea type="text" name="content" id="DocumentEditor" class="form-control" style="max-width: 100% !important;" rows="20" cols="50"> @(output) </textarea>
             </div>
         </div>
-            
-            
 
+        <div class="col-md-offset-2 col-md-1">
+            <button type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-check"></span>
+            </button>
+        </div>
     </div>
 }
+

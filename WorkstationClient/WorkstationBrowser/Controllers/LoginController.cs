@@ -9,6 +9,7 @@ using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using WorkstationBrowser.BLL;
+using WorkstationBrowser.BLL.Security;
 using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.Controllers.SignalR;
@@ -30,6 +31,7 @@ namespace WorkstationBrowser.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [AntiThrottleSystem(Name = "LogIn", Message = "You have performed this action more than {x} times in the last {n} seconds.", Requests = 3, Seconds = 60)]
         public async Task<ActionResult> Login(LogInModel LogModel, String returnUrl) {
             if (!ModelState.IsValid) return View(LogModel);
 
@@ -78,7 +80,7 @@ namespace WorkstationBrowser.Controllers {
             }
             else
             {
-                ModelState.AddModelError("", "Login data is incorrect!");
+                ModelState.AddModelError("", "Either the username or the password is incorrect!");
             }
             return View(LogModel);
         }

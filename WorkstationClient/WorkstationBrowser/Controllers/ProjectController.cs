@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Ionic.Zip;
@@ -14,6 +15,8 @@ namespace WorkstationBrowser.Controllers
 {
     public class ProjectController : GenericController
     {
+        private static Regex TitleVerifier = new Regex("[^a-zA-Z0-9]");
+
         // GET: Project
         public ActionResult Index(int limit = 25, int offset = 0)
         {
@@ -97,7 +100,7 @@ namespace WorkstationBrowser.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include="name, precedence")]ProjectModel model){
-            model.root = $@"C:\inetpub\ftproot\{model.name}\";
+            model.root = $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{model.name}\";
             model.projpic = "Default_Project.png";
 
             _Session.CreateProject(model);
@@ -110,14 +113,16 @@ namespace WorkstationBrowser.Controllers
         }
 
 
-        public ActionResult ProjectDocuments(String project)
+        public ActionResult ProjectDocuments(String project, int projectid)
         {
             if (!Request.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
 
-            string root =  $@"C:\inetpub\ftproot\{project}\";
+            string root =  $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{project}\";
             ViewData["ProjectRoot"] = root;
+            ViewData["Projectid"] = projectid;
+
             List<DocumentModel> files = new List<DocumentModel>();
             foreach (string file in Directory.EnumerateFiles(root))
             {
@@ -134,16 +139,32 @@ namespace WorkstationBrowser.Controllers
             return View(files);
         }
 
-        public ActionResult _DocumentCreator()
-        {
-   
+        public ActionResult _DocumentCreator(String project, int projectid, String filename, String extension, String filepath) {
+            TempData["Project"] = project;
+            TempData["Projectid"] = projectid;
+
+            TempData["extension"] = extension;
+            TempData["filename"] = filename;
+            TempData["filepath"] = filepath;
             return View();
         }
 
-        public ActionResult _CreateDocument(String title, String content)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)] // Ugly way, should be replaced by a built-in engine sending XML and or JSON
+        public ActionResult _DocumentCreator(String title, String extension, String content, String project, int projectid)
         {
-     
-            return RedirectToAction("_DocumentCreator");
+            /*
+            if (!TitleVerifier.IsMatch(title)){
+                TempData["Project"] = project;
+                TempData["Projectid"] = projectid;
+
+                return View();
+            }*/
+            //String projectPath = $@"C:\inetpub\ftproot\{(String) TempData["Project"]}\";
+            System.IO.File.WriteAllText($@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{project}\{title}.{extension}", content);
+        
+            return RedirectToAction("ProjectDocuments", new{project = project, projectid = projectid });
         }
 
         [HttpPost]
@@ -168,7 +189,7 @@ namespace WorkstationBrowser.Controllers
             if (!Request.IsAuthenticated || project == null || project.Trim() == "")
                 return null;
 
-            string root = $@"C:\inetpub\ftproot\{project}\";
+            string root = $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{project}\";
 
             using (ZipFile zip = new ZipFile())
             {
@@ -183,12 +204,12 @@ namespace WorkstationBrowser.Controllers
             }
         }
 
-        public ActionResult DeleteFile(String path, String project){
+        public ActionResult DeleteFile(String path, String project, int id){
             if (!Request.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
             System.IO.File.Delete(path);
-            return RedirectToAction("ProjectDocuments", "Project", new {project = project});
+            return RedirectToAction("ProjectDocuments", "Project", new {project = project, projectid = id});
         }
 
 

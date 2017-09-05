@@ -20,9 +20,10 @@ namespace WorkstationBrowser
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Name;
 
         }
-
+        /*
         protected void Application_Error(object sender, EventArgs e)
         {
+            
             Exception exception = Server.GetLastError();
             Response.Clear();
 
@@ -59,6 +60,6 @@ namespace WorkstationBrowser
                 Response.Redirect($"~/Error/HttpGenericError?message={errMsg}");
             }
         }
-       
+       */
     }
 }

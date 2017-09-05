@@ -113,7 +113,10 @@
             @Html.DisplayFor(modelItem => item.name)
         </td>
         <td style="vertical-align: middle;">
-            @Html.DisplayFor(modelItem => item.root)
+            @if (item.root != null && item.root.Trim() != "")
+            {
+                @Html.Raw($"UserContent/ProjectFiles/{item.name}/")
+            }
         </td>
 
         <td style="vertical-align: middle;">
