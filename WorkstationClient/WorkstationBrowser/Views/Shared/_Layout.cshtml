@@ -184,6 +184,7 @@
 {
     <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
     <script src="~/signalr/hubs"></script>
+    <!-- Will be cleaned in the next step of REFACTORING -->
     <script type="text/javascript">
 
         var myId = @(((SessionWrapper) Session["WorkstationConnection"]).CurrentUser.id);
@@ -279,7 +280,86 @@
             $("#chat_contact").html(caller);
         }
 
+        /*
+        (function () {
+            var bar = $('.progress-bar');
+            var percent = $('.progress-bar');
+            var status = $('#status');
 
+            $('form').ajaxForm({
+                beforeSend: function () {
+                    status.empty();
+                    var percentVal = '0%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                success: function () {
+                    var percentVal = '100%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                complete: function (xhr) {
+                    status.html(xhr.responseText);
+                }
+            });
+
+        })();
+
+        */
+
+        (function () {
+        
+            $('#fileUploadForm').ajaxForm({
+                success: function () {
+                    $("#occontent").html("<p> Your files have been uploaded successfully! </p>");
+                    $(".ocontainer").fadeIn(450);
+                    $("#selectedFiles").html("");
+                }
+            });
+
+        })();
+        $("#UploadFilesLink").click(function () {
+            $("#FileUploaderDiv").fadeToggle(500);
+        });
+
+
+        $("#dismisser").click(function () {
+            
+            $(this).parent('div').fadeOut(500);
+        });
+
+        var selDiv = "";
+
+        // Causes some bugs, especially with the other forms.
+        //document.addEventListener("DOMContentLoaded", init, false);
+    
+        function init() {
+            
+            document.querySelector('#files').addEventListener('change', handleFileSelect, false);
+          
+            selDiv = document.querySelector("#selectedFiles");
+        }
+        
+        function handleFileSelect(e) {
+        
+            if(!e.target.files) return;
+        
+            selDiv.innerHTML = "";
+        
+            var files = e.target.files;
+            for(var i=0; i<files.length; i++) {
+                var f = files[i];
+            
+                selDiv.innerHTML += f.name + "<br/>";
+
+            }
+        
+        }
         function loadTinyMce() {
             
             

@@ -25,16 +25,17 @@
             @using (Html.BeginForm("FileUpload", "Project", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.HiddenFor(model => model.id)
-                ;
+                
                 <div class="col-md-12 col-lg-12 col-xs-12" style="padding-top: 20px">
-                    <label for="file">Edit Project picture </label>
-                    <input type="file" name="file" id="file" style="width: 100%;" />
-                </div>
-                <div class="col-md-12 col-lg-12 col-xs-12" style="padding-top: 20px">
+                    <div class="fileUpload btn btn-default">
+                        Edit project picture
+                        <input type="file"class="upload" name="file" id="file" style="width: 100%;"/>
+                    </div>
                     <button type="submit" class="btn btn-default">
-                        <span class="fa fa-cloud-upload fa-2x"></span>
+                        <span class="glyphicon glyphicon-cloud-upload"></span>
                     </button>
                 </div>
+
             }
         </div>
     </div>

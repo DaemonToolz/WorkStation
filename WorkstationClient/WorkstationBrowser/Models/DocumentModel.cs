@@ -14,5 +14,11 @@ namespace WorkstationBrowser.Models {
 
         [Required]
         public String Path { get; set; }
+
+        [Required]
+        public bool Directory { get; set; }
+
+        [Required]
+        public String Parent { get; set; }
     }
 }

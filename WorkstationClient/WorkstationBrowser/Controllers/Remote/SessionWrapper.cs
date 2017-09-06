@@ -21,10 +21,10 @@ namespace WorkstationBrowser.Controllers.Remote{
     public class SessionWrapper : ISessionCallback {
        
         public SessionClient WorkstationSession { get; private set; }
-        public LogInModel OriginalInput { get; private set; }
-        public String SavedUsername { get; private set; }
+        private LogInModel OriginalInput { get; set; }
+        private String SavedUsername { get; set; }
         public UsersModel CurrentUser { get; private set; }
-        public String ConnectionToken { get; private set; }
+        private String ConnectionToken { get; set; }
         public bool NotificationPooler { get; set; }
         public NotificationModel[] MyNotifications { get; private set; }
         private HttpSessionStateBase UserSession { get; set; }

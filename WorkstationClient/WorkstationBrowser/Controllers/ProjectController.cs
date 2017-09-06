@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -103,12 +104,13 @@ namespace WorkstationBrowser.Controllers
             model.root = $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{model.name}\";
             model.projpic = "Default_Project.png";
 
-            _Session.CreateProject(model);
-            
-            /* AJAX CALL
             if (_Session.CreateProject(model))
-                return RedirectToAction("Index", "Project"); 
-            */
+            {
+                if (!Directory.Exists(model.root))
+                    Directory.CreateDirectory(model.root);
+          
+            }
+
             return PartialView(model);
         }
 
@@ -121,9 +123,29 @@ namespace WorkstationBrowser.Controllers
 
             string root =  $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{project}\";
             ViewData["ProjectRoot"] = root;
-            ViewData["Projectid"] = projectid;
+            if (project.Contains("/"))
+            {
+                ViewData["RootName"] = project.Substring(0, project.LastIndexOf("/"));
+                ViewData["RealRoot"] = project.Substring(0, project.IndexOf("/"));
+            }
 
+            ViewData["Projectid"] = projectid;
+            TempData["FileUploadRoot"] = root;
             List<DocumentModel> files = new List<DocumentModel>();
+
+            foreach (var dir in Directory.GetDirectories(root))
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(dir);
+                files.Add(new DocumentModel()
+                {
+                    Name = dirInfo.Name,
+                    Path = dirInfo.FullName,
+                    Extension = dirInfo.Extension,
+                    Parent = dirInfo.Parent.FullName,
+                    Directory = true
+                });
+            }
+
             foreach (string file in Directory.EnumerateFiles(root))
             {
                 FileInfo fileinfo = new FileInfo(file);
@@ -131,10 +153,12 @@ namespace WorkstationBrowser.Controllers
                 {
                     Name = fileinfo.Name,
                     Path = fileinfo.FullName,
-                    Extension = fileinfo.Extension
-                });
-        
+                    Extension = fileinfo.Extension,
+                    Parent = "",
+                    Directory = false
+                });        
             }
+
             ViewData["ProjectName"] = project;
             return View(files);
         }
@@ -190,25 +214,44 @@ namespace WorkstationBrowser.Controllers
                 return null;
 
             string root = $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{project}\";
+            var memoryStream = new MemoryStream();
 
-            using (ZipFile zip = new ZipFile())
-            {
-                zip.AddDirectory(root);
-            
-                MemoryStream output = new MemoryStream {
-                    Position = 0
-                };
+            using (ZipFile zip = new ZipFile()){
+                zip.AddFiles(Directory.GetFiles(root), project);
+                zip.Save(memoryStream);
+            }
+            memoryStream.Seek(0, 0);
 
-                zip.Save(output);
-                return File(output, "application/zip", $"{project}.zip");
+            return File(memoryStream, "application/zip", $"{project}.zip");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public void UploadFiles(IEnumerable<HttpPostedFileBase> files, String directoryPath){
+            if (files != null){
+                foreach (var file in files)
+                {
+                    // Verify that the user selected a file
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        // extract only the fielname
+                        var fileName = Path.GetFileName(file.FileName);
+                        // TODO: need to define destination
+                        var path = Path.Combine(directoryPath, fileName);
+                        file.SaveAs(path);
+                    }
+                }
             }
         }
 
-        public ActionResult DeleteFile(String path, String project, int id){
+        public ActionResult DeleteFile(String path, String project, int id, bool isDir){
             if (!Request.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
-            System.IO.File.Delete(path);
+            if (isDir)
+                Directory.Delete(path);
+            else 
+                System.IO.File.Delete(path);
             return RedirectToAction("ProjectDocuments", "Project", new {project = project, projectid = id});
         }
 

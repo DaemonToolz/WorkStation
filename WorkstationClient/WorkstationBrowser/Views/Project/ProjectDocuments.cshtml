@@ -25,79 +25,145 @@
 <hr />
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
-     
-        @Html.ActionLink(" ", "Details", "Project", new{id = (int)ViewData["Projectid"]}, new {@class = "btn btn-default glyphicon glyphicon-arrow-left" })
-       
-        @Html.ActionLink(" ", "_DocumentCreator", "Project", new{project = (String) ViewData["ProjectName"], projectid = (int)ViewData["Projectid"] }, new {@class = "pull-right btn btn-default glyphicon glyphicon-plus"})
-        @Html.ActionLink(" ", "ProjectDocuments", "Project", null, new {@class = "btn btn-default glyphicon glyphicon-upload pull-right " })
-        @Html.ActionLink(" ", "DownloadAsZip", "Project", new {project = (String) ViewData["ProjectName"]}, new {@class = "btn btn-default glyphicon glyphicon-download pull-right " })
+
+        <a href="@Url.Action("Details", "Project", new{id = (int)ViewData["Projectid"]})" class="btn btn-default">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            Project details
+        </a>
+
+      
+        <a href="@Url.Action("_DocumentCreator", "Project", new{project = (String) ViewData["ProjectName"], projectid = (int)ViewData["Projectid"] })" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span>
+            Create File
+        </a>
+
+        <a href="#" id="UploadFilesLink" class="btn btn-default">
+            <span class="glyphicon glyphicon-upload"></span>
+            Upload to the current directory
+        </a>
+        
+        <a href="@Url.Action("DownloadAsZip", "Project", new {project = (String) ViewData["ProjectName"]})" class="btn btn-default">
+            <span class="glyphicon glyphicon-download"></span>
+            Download as Zip
+        </a>
+
+   
     </div>
+</div>
+
+
+<hr />
+<div class="row" id="FileUploaderDiv">
+    @{ Html.RenderPartial("_FileUploader"); }
 </div>
 <hr />
 
-<div class="row section-scroll-2">
-    
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Extension)
-            </th>
-            <th>
-              
-            </th>
-            <th></th>
-        </tr>
+    <div class="row section-scroll-2">
 
-    @foreach (var item in Model) {
-        <tr>
-            <td style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Extension)
-            </td>
-            <td>
-               
-            </td>
-            <td style="vertical-align:middle;">
-                @{
-                    String tmp = item.Path.Replace("\\", "/");
-                }
-                
-                @if (item.Extension.Contains("txt") || item.Extension.Contains("html"))
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Extension)
+                </th>
+                <th>
+
+                </th>
+                <th></th>
+            </tr>
+
+
+            @if (ViewData["RealRoot"] != null && ViewData["RootName"] != null && !ViewData["RootName"].Equals(ViewData["RealRoot"]))
+            {
+                <tr>
+                    <td>@((String)ViewData["RealRoot"])/ </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        @Html.ActionLink(" ", "ProjectDocuments", "Project", new { project = (String)ViewData["RealRoot"], projectid = (int)ViewData["Projectid"] }, new { @class = "btn btn-default glyphicon glyphicon-folder-open" })
+
+                    </td>
+
+                </tr>
+
+            }
+
+            @if (ViewData["RootName"] != null)
+            {
+                <tr>
+                    <td>@((String)ViewData["RootName"])/ </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        @Html.ActionLink(" ", "ProjectDocuments", "Project", new { project = (String)ViewData["RootName"], projectid = (int)ViewData["Projectid"] }, new { @class = "btn btn-default glyphicon glyphicon-chevron-up" })
+
+                    </td>
+
+
+                </tr>
+
+            }
+
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="vertical-align:middle;">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td style="vertical-align:middle;">
+                        @Html.DisplayFor(modelItem => item.Extension)
+                    </td>
+                    <td></td>
+                    <td style="vertical-align:middle;">
+                        @{
+                            String tmp = item.Path.Replace("\\", "/");
+                        }
+
+                        @if (!item.Directory)
                 {
-                    @Html.ActionLink(" ", "_DocumentCreator", "Project",
-                        new
+                    if (item.Extension.Contains("txt") || item.Extension.Contains("html"))
+                    {
+                                @Html.ActionLink(" ", "_DocumentCreator", "Project",
+                            new
+                            {
+                                project = (String)ViewData["ProjectName"],
+                                projectid = (int)ViewData["Projectid"],
+                                filename = item.Name,
+                                extension = item.Extension,
+                                filepath = tmp
+                            }, new { @class = "btn btn-default glyphicon glyphicon-cog" })
+                            }
+
+                            if (!item.Path.Contains("docx"))
+                            {
+                                @Ajax.ActionLink(" ", "_FileContent", "Project", new { path = tmp }, ViewOptions, new { @class = "btn btn-default glyphicon glyphicon-eye-open" })
+                            }
+                            @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "btn btn-default glyphicon glyphicon-cloud-download" })
+
+
+                        }
+                        else
                         {
-                            project = (String) ViewData["ProjectName"],
-                            projectid = (int) ViewData["Projectid"],
-                            filename = item.Name,
-                            extension = item.Extension,
-                            filepath = tmp
-                        }, new {@class = "btn btn-default glyphicon glyphicon-cog"})
-                }
+                            @Html.ActionLink(" ", "ProjectDocuments", "Project", new { project = (String)ViewData["ProjectName"] + $"/{item.Name}", projectid = (int)ViewData["Projectid"] }, new { @class = "btn btn-default glyphicon glyphicon-chevron-right" })
 
-                @Ajax.ActionLink(" ", "_FileContent","Project",new { path = tmp },ViewOptions,new {@class="btn btn-default glyphicon glyphicon-eye-open"})
-            
-                @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "btn btn-default glyphicon glyphicon-cloud-download" })
-                
-                @Html.ActionLink(" ", "DeleteFile", "Project", new { path = tmp, project = (String)ViewData["ProjectName"], id = (int)ViewData["Projectid"] }, new { @class = " btn btn-default glyphicon glyphicon-trash" })
-  
-            </td>
-         
-        </tr>
-    }
-     
+                        }
+                        @Html.ActionLink(" ", "DeleteFile", "Project", new { path = tmp, project = (String)ViewData["ProjectName"], id = (int)ViewData["Projectid"], isDir = item.Directory }, new { @class = " btn btn-danger glyphicon glyphicon-trash pull-right" })
+                    </td>
 
-    </table>
-</div>
+                </tr>
+                            }
 
 
-<hr/>
+        </table>
+    </div>
 
-<div class="row section-scroll-2" id="text-rendering">
 
-</div>
+    <hr />
+
+    <div class="row section-scroll-2" id="text-rendering">
+
+    </div>

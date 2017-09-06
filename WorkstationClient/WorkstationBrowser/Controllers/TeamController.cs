@@ -87,7 +87,9 @@ namespace WorkstationBrowser.Controllers
 
                 file.SaveAs(path);
                 CurrentTeam.teampic = pic;
-                _Session.EditTeam(CurrentTeam);
+                bool result = _Session.EditTeam(CurrentTeam);
+
+
             }
             // after successfully uploading redirect the user
             return RedirectToAction("Details", new { id = id });
