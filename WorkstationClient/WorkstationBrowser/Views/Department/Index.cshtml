@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WorkstationBrowser.SessionReference.DepartmentModel>
+﻿@model IEnumerable<WorkstationBrowser.Models.DepartmentHeavyModel>
 
 @{
     ViewBag.Title = "Index";
@@ -9,15 +9,25 @@
 {
     <div class="col-md-4 col-xs-6 col-lg-3 col-sm-offset-1 col-xs-offset-1 col-md-offset-1 col-lg-offset-1" style="border: solid 1px #d7d7d7; border-radius:5px; margin-bottom:10px;">
         <div style="margin-top: 5px; vertical-align: middle;" class="panel-title">
-            @Html.DisplayFor(modelItem => item.name)
+            @Html.DisplayFor(modelItem => item.OriginalModel.name)
             <a href="#" style="color:red" class="pull-right btn btn-default glyphicon glyphicon-remove"></a>
 
         </div>
         <hr />
         <a href="#" class="btn btn-default glyphicon glyphicon-cog"></a> 
-        <a href="#" class="btn btn-default glyphicon glyphicon-envelope"></a> 
-        <a href="#" class="btn btn-default glyphicon glyphicon-comment"></a>
+        <!-- Replace that part by a custom HTML Helper -->
+        @Html.ActionLink(" ", "Str_Index", "Message", 
+            new {to= Json.Encode(item.Users.Select(usr => usr.id).ToArray()) }
+        , new { @class = "btn btn-default glyphicon glyphicon-envelope" })
 
+
+        <a href="#" class="btn btn-default glyphicon glyphicon-comment"></a>
+        
+        @Html.ActionLink(" ", "Details", "Department", new
+        {
+            name = item.OriginalModel.name
+        }, new{@class="btn btn-default glyphicon glyphicon-zoom-in"})
+       
         <hr />
        
         <div style="margin-bottom:10px;">

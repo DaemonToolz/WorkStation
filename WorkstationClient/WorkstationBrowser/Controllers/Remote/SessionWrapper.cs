@@ -172,6 +172,17 @@ namespace WorkstationBrowser.Controllers.Remote{
             return GetAllRanks().Single(rank => rank.name.Equals(name));
         }
 
+        public IEnumerable<UsersModel> GetUsersByProject(long projectId)
+        {
+            var allTeams = GetAllTeams().Where(team => team.id == projectId);
+
+            // REFACTORING HERE
+            List<UsersModel> allUsers = new List<UsersModel>();
+            foreach(var team in allTeams)
+                allUsers.AddRange(GetUsersByTeam(team.id));
+
+            return allUsers;
+        }
 
         public IEnumerable<TaskModel> GetTasks(int project_id)
         {
@@ -269,15 +280,15 @@ namespace WorkstationBrowser.Controllers.Remote{
             return true;
         }
 
-        public void EditProject(ProjectModel project){
-            Cache.Edit("AllProjects", GetAllProjects, (ProjectModel model) => WorkstationSession.EditProject(model), project);
+        public bool EditProject(ProjectModel project){
+            return Cache.Edit("AllProjects", GetAllProjects, (ProjectModel model) => WorkstationSession.EditProject(model), project);
         }
 
 
 
         public IEnumerable<MessageModel> MyMessages(bool sended = false, bool received = true, bool direct = false, bool mailbox = true) {
             
-            return WorkstationSession.GetAllMessages(CurrentUser, sended, received, direct, mailbox);
+            return WorkstationSession.GetAllMessages(CurrentUser, sended, received, direct, mailbox).OrderByDescending(notif => notif.stamp).ToArray();
         }
 
         private void MarkAsRead(MessageModel message) {

@@ -1,4 +1,4 @@
-﻿@model WorkstationBrowser.SessionReference.MessageModel
+﻿@model WorkstationBrowser.Models.MessageHeavyModel
 
 
 @using (Html.BeginForm()) 
@@ -14,8 +14,8 @@
             <label class=" col-md-4  col-lg-2 col-xs-2"> To </label>
 
             <div class="col-md-8  col-lg-10 col-xs-10">
-                @Html.DropDownList("to", null, htmlAttributes: new {@class = "form-control", style = "max-width:100% !important;" })
-                @Html.ValidationMessageFor(model => model.to, "", new {@class = "text-danger"})
+                @Html.ListBox("to", null, htmlAttributes: new {@class = "form-control chzn-select", style = "max-width:100% !important;", data_placeholder = "Choose at least 1 contact..." })
+               
             </div>
         </div>
 
@@ -49,3 +49,12 @@
     </div>
 }
 
+
+@section Scripts{
+    <script>
+        // Message multi-select
+        $(document).ready(function () {
+            $(".chzn-select").chosen();
+        });
+    </script>
+}

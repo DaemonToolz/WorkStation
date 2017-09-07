@@ -13,14 +13,31 @@ namespace WorkstationBrowser.Controllers
     public class NotificationsController : GenericController
     {
         // GET: Notifications
-        public ActionResult Index(bool unreadfirst = false, bool hideread = false)
+        public ActionResult Index(bool unreadfirst = false, bool hideread = false, bool hideunread = false)
         {
             if (!Request.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
-            var UserNotifications = _UserNotifications;
+            var UserNotifications = _UserNotifications.OrderByDescending(notif => notif.stamp).ToArray();
             if (unreadfirst)
-                UserNotifications = _UserNotifications.OrderBy(notif => notif.read).ToArray();
+                UserNotifications = UserNotifications.OrderBy(notif => notif.read).ToArray();
+
+            if (hideread) {
+                var notifs = UserNotifications.ToList();
+                notifs.RemoveAll(notif => notif.read);
+                UserNotifications = notifs.ToArray();
+            }
+
+            if (hideunread){
+                var notifs = UserNotifications.ToList();
+                notifs.RemoveAll(notif => !notif.read);
+                UserNotifications = notifs.ToArray();
+            }
+
+            TempData["hideread"] = hideread;
+            TempData["hideunread"] = hideunread;
+            TempData["unreadfirst"] = unreadfirst;
+
             return View(UserNotifications);
         }
 
@@ -38,7 +55,7 @@ namespace WorkstationBrowser.Controllers
 
             _UserNotifications = _Session.GetNotifications().ToArray();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new{unreadfirst = (bool)TempData["unreadfirst"] , hideread = (bool)TempData["hideread"], hideunread = (bool)TempData["hideunread"] });
         }
     }
 }

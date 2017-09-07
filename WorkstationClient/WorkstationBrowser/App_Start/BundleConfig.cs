@@ -13,7 +13,8 @@ namespace WorkstationBrowser
                         "~/Scripts/jquery-ui-{version}.js",
                         "~/Scripts/jquery.unobtrusive-ajax.js",
                         "~/Scripts/jquery.form.js",
-                        "~/Scripts/tinymce/tinymce.js"));
+                        "~/Scripts/tinymce/tinymce.js," +
+                        "~/Scripts/chosen.jquery.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalr").Include(
                 "~/Scripts/jquery.signalR-{version}.js"));
@@ -36,7 +37,9 @@ namespace WorkstationBrowser
                       "~/Content/font-awesome.css",
                       "~/Content/simple-sidebar.css",
                       "~/Content/themes/base/jquery-ui.css",
-                      "~/Content/site.css"));
+                      "~/Content/chosen.css",
+                      "~/Content/Site.css"
+                      ));
         }
     }
 }

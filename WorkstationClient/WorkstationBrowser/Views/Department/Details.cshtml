@@ -1,0 +1,51 @@
+﻿@model WorkstationBrowser.Models.DepartmentHeavyModel
+
+@{
+    var selectedDept = Model.OriginalModel;
+    var employees = Model.Users;
+    var teams = Model.Teams;
+}
+
+<div style="margin:25px;" class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        <h3><strong>@selectedDept.name</strong></h3>
+    </div>
+
+</div>
+
+<div class="row ">
+    
+    <div class="col-xs-6 col-lg-1 col-md-4">
+
+        <a href="@Url.Action("Index")" class="btn btn-default">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            Back
+        </a>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    
+    
+    @foreach (var employee in employees) {
+        var currentTeam = teams.Single(team => team.id == employee.team_id);
+        <div class="col-xs-12 col-md-6 col-lg-4" style="margin-top:10px; margin-right:10px;">
+            <div class="col-xs-4 col-md-5 col-lg-5" style="vertical-align:middle">
+                <img src="~/UserContent/Profile/@(employee.profilepic)" width="80" height="80" class="profile-image img-circle"/>
+                <img src="~/UserContent/Team/@(currentTeam.teampic)"width="35" height="35" class="status-img  profile-image img-circle"/>
+            </div>
+
+            <div class="col-xs-8 col-md-7 col-lg-7" >
+                <span style="vertical-align:middle">@employee.username</span>
+                <br />
+                <span style="vertical-align:middle">@employee.email</span>
+                <br />
+                <span style="vertical-align:middle">@employee.rank</span>
+                <br />
+                <span style="vertical-align:middle">Team @currentTeam.name</span>
+            
+            </div>
+        </div>
+    }
+</div>

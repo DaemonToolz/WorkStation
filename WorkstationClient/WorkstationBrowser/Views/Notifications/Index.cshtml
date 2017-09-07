@@ -5,8 +5,18 @@
 }
 
 
+<hr/>
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        @Html.ActionLink(" ", "Index","Notifications", new { unreadfirst = false, hideread = true, hideunread = false}, new{@class= "btn btn-default glyphicon glyphicon-envelope" })
+        @Html.ActionLink(" ", "Index","Notifications", new { unreadfirst = false, hideread = false, hideunread = true}, new { @class = "btn btn-default glyphicon glyphicon-check" })
+        @Html.ActionLink(" ", "Index", "Notifications", new { unreadfirst = false, hideread = false, hideunread = false }, new { @class = "btn btn-default glyphicon glyphicon-list" })
 
-<h2>Notifications </h2>
+
+    </div>
+</div>
+<hr/>
+
 
 <table class="table">
     <tr>
@@ -71,7 +81,7 @@
                             <i class="glyphicon glyphicon-check"></i>
                         </button>
                     }
-                    <button type="submit" class="btn btn-danger" name="NotificationUpdater" value="Delete">
+                    <button type="submit" class="btn btn-danger pull-right" name="NotificationUpdater" value="Delete">
                         <i class="glyphicon glyphicon-trash"></i>
                     </button>
 

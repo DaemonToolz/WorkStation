@@ -186,6 +186,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\AuthConfig..cs" />
     <Compile Include="BLL\ExcelEngine.cs" />
+    <Compile Include="BLL\FileTracker\Exception\UnsupportedTagException.cs" />
+    <Compile Include="BLL\FileTracker\XmlChangesProvider.cs" />
+    <Compile Include="BLL\FileTracker\XmlCommentProvider.cs" />
+    <Compile Include="BLL\FileTracker\XmlProvider.cs" />
     <Compile Include="BLL\PdfEngine.cs" />
     <Compile Include="BLL\RawActionLink.cs" />
     <Compile Include="BLL\RightsReader.cs" />
@@ -215,8 +219,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DepartmentHeavyModel.cs" />
     <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\LogInModel.cs" />
+    <Compile Include="Models\MessageHeavyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +237,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\chosen.css" />
+    <Content Include="Content\chosen.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\offline.png" />
@@ -345,6 +355,10 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen.proto.js" />
+    <Content Include="Scripts\chosen.proto.min.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
@@ -366,6 +380,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\prototype.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -562,12 +577,13 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Project\_FileUploader.cshtml" />
+    <Content Include="Views\Department\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Error\" />
+    <Folder Include="UserContent\FileTracker\" />
     <Folder Include="UserContent\ProjectFiles\" />
-    <Folder Include="Views\Departments\" />
     <Folder Include="Views\Generic\" />
     <Folder Include="Views\Layout\" />
     <Folder Include="Views\Sections\" />

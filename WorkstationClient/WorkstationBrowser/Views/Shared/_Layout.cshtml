@@ -81,7 +81,7 @@
                     {
                         <li>
 
-                            <a href="@Url.Action("Index", "Notifications", new{ unreadfirst = true})">
+                            <a href="@Url.Action("Index", "Notifications", new{ unreadfirst = false })">
                                 <span class="fa fa-bell" aria-hidden="true"></span>
                                 @if (Session["UnreadNotifications"] != null && int.Parse(Session["UnreadNotifications"].ToString()) > 0)
                                 {
@@ -186,10 +186,11 @@
     <script src="~/signalr/hubs"></script>
     <!-- Will be cleaned in the next step of REFACTORING -->
     <script type="text/javascript">
-
+        // Notification and Chat - SignalR
         var myId = @(((SessionWrapper) Session["WorkstationConnection"]).CurrentUser.id);
 
-        $(function() {
+        $(function () {
+            
             // Declare a proxy to reference the hub. 
 
             var notif = $.connection.notificationHub;
@@ -235,6 +236,9 @@
 
             });
 
+            // End of SignalR
+
+            // Misc - Datepickers and popovers
             $(".datepicker").datepicker({ dateFormat: "dd/mm/yy" });
             $('[data-toggle="popover"]').popover({
                 html: true, 
@@ -244,10 +248,11 @@
                     return $(this).data('content').html();
                 } 
             });  
-
+            // End Misc
         });
 
         /* Set the width of the side navigation to 250px */
+        // Chat system - side nav and bottom div
         function openNav() {
             if (document.getElementById("mySidenav").style.width != "0px")
                 closeNav();
@@ -280,6 +285,9 @@
             $("#chat_contact").html(caller);
         }
 
+        // End bottom chat and sidenav
+
+        // File upload AJAX Version 1.0
         /*
         (function () {
             var bar = $('.progress-bar');
@@ -312,6 +320,7 @@
 
         */
 
+        // File upload Ajax V 2.0
         (function () {
         
             $('#fileUploadForm').ajaxForm({
@@ -360,6 +369,8 @@
             }
         
         }
+
+        // HTML editor
         function loadTinyMce() {
             
             
@@ -394,7 +405,6 @@
             if ($(this).val() === 'html') {
                 $("#DocumentEditor").addClass('htmlEditor').removeClass("wordEditor").removeClass("textEditor");
                 loadTinyMce();
-
             }
             else if ($(this).val() === 'docx') {
                 tinyMCE.remove();
@@ -406,6 +416,7 @@
             }
         });
 
+  
     </script>
    
 

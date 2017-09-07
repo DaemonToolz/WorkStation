@@ -59,7 +59,7 @@ namespace WorkstationBrowser.Controllers
 
             if (_Session.GetAllTeams().Any(team => team.project_id == currentProject.id))
             {
-                ViewData["Team"] = _Session.GetAllTeams().Single(team => team.project_id == currentProject.id);
+                ViewData["Team"] = _Session.GetAllTeams().Where(team => team.project_id == currentProject.id).ToArray();
             }
             
             return View(currentProject);
@@ -103,12 +103,18 @@ namespace WorkstationBrowser.Controllers
         public ActionResult Create([Bind(Include="name, precedence")]ProjectModel model){
             model.root = $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{model.name}\";
             model.projpic = "Default_Project.png";
+            String fileTracker = $@"{Server.MapPath("~/")}\UserContent\FileTracker\{model.name}\";
 
             if (_Session.CreateProject(model))
             {
                 if (!Directory.Exists(model.root))
                     Directory.CreateDirectory(model.root);
-          
+
+                if (!Directory.Exists((fileTracker) + @"\Comments\"))
+                    Directory.CreateDirectory(fileTracker + @"\Comments\");
+
+                if (!Directory.Exists((fileTracker) + @"\Changes\"))
+                    Directory.CreateDirectory(fileTracker + @"\Changes\");
             }
 
             return PartialView(model);
@@ -277,8 +283,29 @@ namespace WorkstationBrowser.Controllers
             var totalProject = _Session.GetProject(project.id);
             totalProject.precedence = project.precedence;
             totalProject.admin_id = project.admin_id == 0 ? null : project.admin_id;
-            _Session.EditProject(totalProject);
-          
+            var oldManagerId = totalProject.admin_id;
+            if (_Session.EditProject(totalProject)){
+
+                if (oldManagerId != null)
+                {
+                    var oldUser = _Session.GetUserById((int)oldManagerId);
+                    _Session.CreateNotification($"{totalProject.name} / Project Management",
+                        $"{oldUser.username} is no longer manager of the project {totalProject.name}",
+                        false, _Session.GetUsersByProject(project.id).Select(usr => (int)usr.id).ToArray());
+                }
+
+                if (project.admin_id != null)
+                {
+                    var newUser = _Session.GetUserById((int)project.admin_id);
+
+                    _Session.CreateNotification($"{totalProject.name} / Project Management",
+                        $"{newUser.username} is now in charge of the project {totalProject.name}",
+                        false, _Session.GetUsersByProject(project.id).Select(usr => (int)usr.id).ToArray());
+                }
+
+
+            }
+
             return RedirectToAction("Details", "Project", new { id = totalProject.id});
         }
 

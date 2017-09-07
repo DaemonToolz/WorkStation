@@ -32,15 +32,15 @@ namespace WorkstationBrowser.Controllers
 
                 try
                 {
-                    var CurrentTeam = _Session.GetAllTeams()
-                        .Single(team => team.project_id == related.id);
+                    var CurrentTeams = _Session.GetAllTeams()
+                        .Where(team => team.project_id == related.id);
 
                     ViewData["TeamMembers"] = _Session.GetAllUsers()
-                        .Where(user => user.team_id == CurrentTeam.id).ToArray();
+                        .Where(user => CurrentTeams.Any(team => user.team_id == team.id)).ToArray();
                 }
                 catch
                 {
-                    ViewData["TeamMembers"] = new TeamModel[]{};
+                    ViewData["TeamMembers"] = new UsersModel[]{};
                 }
             }
 
@@ -57,10 +57,10 @@ namespace WorkstationBrowser.Controllers
             List<UsersModel> CurrentUsers;
             try
             {
-                var CurrentTeam = _Session.GetAllTeams()
-                    .Single(team => team.project_id == (long) Session["ProjectId"]);
+                var CurrentTeams = _Session.GetAllTeams()
+                    .Where(team => team.project_id == (long) Session["ProjectId"]);
 
-                CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id)
+                CurrentUsers = _Session.GetAllUsers().Where(user => CurrentTeams.Any(team=>user.team_id == team.id))
                     .ToList();
                
             }
@@ -93,9 +93,9 @@ namespace WorkstationBrowser.Controllers
             _Session.CreateTask(model);
 
             var project = _Session.GetProject(model.project_id);
-            var CurrentTeam = _Session.GetAllTeams()
-                .Single(team => team.project_id == (long)Session["ProjectId"]);
-            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+            var CurrentTeams = _Session.GetAllTeams()
+                .Where(team => team.project_id == (long)Session["ProjectId"]);
+            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => CurrentTeams.Any(team=>user.team_id == team.id)).ToList();
             CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
 
             ViewBag.user_id = new SelectList(
@@ -135,11 +135,11 @@ namespace WorkstationBrowser.Controllers
             if (!Request.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
-            var CurrentTeam = _Session.GetAllTeams()
-                .Single(team => team.project_id == (long)Session["ProjectId"]);
+            var CurrentTeams = _Session.GetAllTeams()
+                .Where(team => team.project_id == (long)Session["ProjectId"]);
 
             List<UsersModel> CurrentUsers = 
-                _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+                _Session.GetAllUsers().Where(user => CurrentTeams.Any(team => user.team_id == team.id)).ToList();
             CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
 
             ViewBag.user_id = new SelectList(
@@ -162,9 +162,9 @@ namespace WorkstationBrowser.Controllers
             if (action.Equals("Cancel"))
                 return RedirectToAction("Details", "Project", new { id = task.project_id });
             
-            var CurrentTeam = _Session.GetAllTeams()
-                .Single(team => team.project_id == (long)Session["ProjectId"]);
-            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => user.team_id == CurrentTeam.id).ToList();
+            var CurrentTeams = _Session.GetAllTeams()
+                .Where(team => team.project_id == (long)Session["ProjectId"]);
+            List<UsersModel> CurrentUsers = _Session.GetAllUsers().Where(user => CurrentTeams.Any(team => user.team_id == team.id)).ToList();
             CurrentUsers.Add(new UsersModel() { id = 0, username = "Not affected" });
             if (task.user_id == 0)
             {

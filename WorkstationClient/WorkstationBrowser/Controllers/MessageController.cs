@@ -7,6 +7,7 @@ using System.Web.Caching;
 using System.Web.Mvc;
 using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
+using WorkstationBrowser.Models;
 using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.Controllers
@@ -25,53 +26,88 @@ namespace WorkstationBrowser.Controllers
         }
 
      
-        public ActionResult Index(int to = 0){
+        public ActionResult Index(params int[] to){
             if (!Request.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
             ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
+
+            if (to == null || !to.Any())
+                to = new int[] {0};
             ViewData["to"] = to;
             return View(_Session.MyMessages());
         }
 
+        public ActionResult Str_Index(string to)
+        {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
 
-        public ActionResult _Create(int to = 0){
+           
+            ViewData["AllUsers"] = _Session.GetAllUsers().ToArray();
+            int[] result;
+            if (to == null || !to.Any())
+                result = new int[] { 0 };
+             else
+                result = System.Web.Helpers.Json.Decode<int[]>(to);
+            ViewData["to"] = result;
+            return View("Index",_Session.MyMessages());
+        }
+
+        public ActionResult _Create(params int[] to){
             if (!Request.IsAuthenticated)
                 return PartialView();
 
-            var selected = to != 0 ? _Session.GetAllUsers().ToList().Single(usr => usr.id == to) : _Session.GetAllUsers().ToList().First();
+    
+            var selected = (to != null && to.Any()) ? 
+                _Session.GetAllUsers().ToList().Where(usr => to.Contains((int)(usr.id))) :
+                new List<UsersModel>(){_Session.GetAllUsers().ToList().First()};
 
-            ViewBag.to = new SelectList(
+            ViewBag.to = new MultiSelectList(
                 _Session.GetAllUsers().ToList(),
-                "id", "username",selected );
+                "id", "username",selected);
 
       
             return PartialView();
         }
 
         [HttpPost]
-        public ActionResult _Create([Bind(Include = "title, content, to")] MessageModel model)
+        public ActionResult _Create([Bind(Include = "title, content, to")] MessageHeavyModel heavyModel)
         {
             if (!Request.IsAuthenticated)
                 return PartialView();
 
-            model.read = false;
-            model.from = (int)_Session.CurrentUser.id;
-            model.direct = false;
-            bool result = _Session.SendMessage(model);
-            ModelState.Clear();
-
             List<UsersModel> CurrentUsers = _Session.GetAllUsers().ToList();
 
-            ViewBag.to = new SelectList(
+
+            foreach (var to_id in heavyModel.to)
+            {
+                MessageModel model = new MessageModel
+                {
+                    read = false,
+                    @from = (int) _Session.CurrentUser.id,
+                    direct = false,
+                    title = heavyModel.title,
+                    content = heavyModel.content,
+                    to = to_id
+                };
+                bool result = _Session.SendMessage(model);
+                ModelState.Clear();
+
+               
+                //
+                String content;
+                content = result
+                    ? $"Your message have been sent successfully to {CurrentUsers.Single(user => user.id == model.to).username}"
+                    : "An error occured during the mailing, please retry later";
+
+                _Session.CreateNotification($"Your message at {DateTime.Now}", content, false, model.from);
+            }
+
+            ViewBag.to = new MultiSelectList(
                 CurrentUsers,
                 "id", "username");
 
-            String content;
-            content = result ? $"Your message have been sent successfully to {CurrentUsers.Single(user => user.id == model.to).username}" : "An error occured during the mailing, please retry later";
-
-            _Session.CreateNotification($"Your message at {DateTime.Now}", content, false, model.from);
-   
             return PartialView();
         }
 

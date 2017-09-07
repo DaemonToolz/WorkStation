@@ -65,8 +65,14 @@
             }
             @if (ViewData["Team"] != null)
             {
+
+                var teams = ((TeamModel[]) ViewData["Team"]);
+
                 <div class="col-md-12">
-                    <h4> <strong> Team : </strong> @(((TeamModel) ViewData["Team"]).name)</h4>
+                    @foreach (var item in teams)
+                    {
+                        <h4> <strong>Team</strong> @item.name </h4>
+                    }
 
                 </div>
             }
@@ -125,4 +131,6 @@
         </div>
     }
 </div>
+
+
 
