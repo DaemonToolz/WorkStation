@@ -20,8 +20,6 @@ namespace WorkstationBrowser.Controllers.Generic {
         private static readonly ReaderWriterLockSlim _Lock = new ReaderWriterLockSlim();
         private static readonly ObjectCache _Cache = MemoryCache.Default;
 
-      
-
         #region Generic Caching Model
         public void Set(String Key, Object Item, CachePriority cacheItemPriority) {
                 // 

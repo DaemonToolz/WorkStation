@@ -124,9 +124,9 @@
                         }
 
                         @if (!item.Directory)
-                {
-                    if (item.Extension.Contains("txt") || item.Extension.Contains("html"))
-                    {
+                        {
+                            if (item.Extension.Contains("txt") || item.Extension.Contains("html"))
+                            {
                                 @Html.ActionLink(" ", "_DocumentCreator", "Project",
                             new
                             {
@@ -142,8 +142,9 @@
                             {
                                 @Ajax.ActionLink(" ", "_FileContent", "Project", new { path = tmp }, ViewOptions, new { @class = "btn btn-default glyphicon glyphicon-eye-open" })
                             }
-                            @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "btn btn-default glyphicon glyphicon-cloud-download" })
 
+                            @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "btn btn-default glyphicon glyphicon-cloud-download" })
+                            @Html.ActionLink(" ", "_AddComment", "Project", new{ Project = (String)ViewData["ProjectName"], FileName = item.Name }, new{@class="btn btn-default glyphicon glyphicon-comment "})
 
                         }
                         else
@@ -151,6 +152,7 @@
                             @Html.ActionLink(" ", "ProjectDocuments", "Project", new { project = (String)ViewData["ProjectName"] + $"/{item.Name}", projectid = (int)ViewData["Projectid"] }, new { @class = "btn btn-default glyphicon glyphicon-chevron-right" })
 
                         }
+
                         @Html.ActionLink(" ", "DeleteFile", "Project", new { path = tmp, project = (String)ViewData["ProjectName"], id = (int)ViewData["Projectid"], isDir = item.Directory }, new { @class = " btn btn-danger glyphicon glyphicon-trash pull-right" })
                     </td>
 

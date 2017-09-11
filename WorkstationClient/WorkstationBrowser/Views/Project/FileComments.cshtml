@@ -1,0 +1,67 @@
+﻿@using WorkstationBrowser.Models
+@model  WorkstationBrowser.Models.FileTrackerModel
+
+@{
+    ViewBag.Title = "Comments";
+
+}
+
+<h3> <strong> @Model.TrackedFile </strong></h3>
+<hr />
+
+<div class="row">
+    <h4 style="text-align:center"> <strong>Active users</strong></h4>
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        @foreach (var user in Model.Users)
+        {
+            <img src="~/UserContent/Profile/@(user.profilepic)" width="75" height="75" class="img-circle profile-image"/>
+        }
+    </div>
+</div>
+
+<hr />
+
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        @using (Html.BeginForm("_AddComment", "Project", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            CommentModel model = new CommentModel();
+
+            @Html.TextAreaFor(mdel => model.Content, new { @class = "form-control", rows = "6", cols = "10", style = "max-width:100% !important;"})
+            <button type="submit" class="btn btn-default glyphicon glyphicon-send">
+            </button>
+        }
+    </div>
+</div>
+
+<hr/>
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-lg-12">
+        @foreach (var comment in Model.Comments)
+        {
+            <div class="row" style="margin-bottom:25px">
+                <div class="col-xs-12 col-md-12 col-lg-12">
+                    <a href="#" class="pull-right btn btn-danger ">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                    <a href="#" class="pull-right btn btn-default ">
+                        <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+
+                    <img src="~/UserContent/Profile/@(comment.Author.profilepic)" width="50" height="50" class="img-circle profile-image"/>
+                    @comment.Author.username
+                    <h6> @comment.Date </h6>
+                    
+                </div>
+               
+                <div class="col-xs-12 col-md-12 col-lg-12">
+                    @comment.Content
+                </div>
+            </div>
+        }
+    </div>
+</div>

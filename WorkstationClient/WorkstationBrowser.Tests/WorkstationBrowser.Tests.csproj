@@ -82,7 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="XmlElementProvider.cs" />
+    <Compile Include="XmlModifierUnitTest.cs" />
+    <Compile Include="XmlProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -91,10 +93,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WorkstationBrowser\WorkstationBrowser.csproj">
-      <Project>{251D0603-5C4F-44DF-B6AA-78DD380D6DC5}</Project>
-      <Name>WorkstationBrowser</Name>
-    </ProjectReference>
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -189,7 +189,10 @@
     <Compile Include="BLL\FileTracker\Exception\UnsupportedTagException.cs" />
     <Compile Include="BLL\FileTracker\XmlChangesProvider.cs" />
     <Compile Include="BLL\FileTracker\XmlCommentProvider.cs" />
+    <Compile Include="BLL\FileTracker\XmlElementProvider.cs" />
     <Compile Include="BLL\FileTracker\XmlProvider.cs" />
+    <Compile Include="BLL\FileTracker\XmlSlimLock.cs" />
+    <Compile Include="BLL\FileTracker\XmlConcurrentList.cs" />
     <Compile Include="BLL\PdfEngine.cs" />
     <Compile Include="BLL\RawActionLink.cs" />
     <Compile Include="BLL\RightsReader.cs" />
@@ -219,6 +222,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommentModel.cs" />
+    <Compile Include="Models\FileTrackerModel.cs" />
     <Compile Include="Models\DepartmentHeavyModel.cs" />
     <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\LogInModel.cs" />
@@ -578,6 +583,7 @@
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Views\Project\_FileUploader.cshtml" />
     <Content Include="Views\Department\Details.cshtml" />
+    <Content Include="Views\Project\FileComments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

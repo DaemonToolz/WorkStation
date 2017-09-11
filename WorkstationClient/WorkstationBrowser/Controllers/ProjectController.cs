@@ -314,5 +314,40 @@ namespace WorkstationBrowser.Controllers
             _Session.DeleteProject(id);
             return RedirectToAction("Index");
         }
+
+        // TODO
+        public ActionResult _AddComment(String Project, String Filename){
+            string root = $@"{Server.MapPath("~/")}\UserContent\FileTracker\{Project}\Comments\";
+
+            if (!Directory.Exists(root))
+                Directory.CreateDirectory(root);
+
+            _Session.OpenFile(root, Filename, true);
+            var comments = _Session.ReadComments().ToArray();
+            for (var cmtIndex = 0; cmtIndex < comments.Count(); ++cmtIndex)
+                comments[cmtIndex].Author = _Session.GetUserByName(comments[cmtIndex].AuthorName);
+
+            var Tracked = new FileTrackerModel()
+            {
+                TrackedFile = Filename,
+                Comments = comments,
+                Users = _Session.CommentActiveUsers().ToArray()
+            };
+
+            return View("FileComments", Tracked);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public void _AddComment([Bind(Include= "content") ] CommentModel Comment)
+        {
+            Comment.Author = _Session.CurrentUser;
+            Comment.Date = DateTime.Now;
+            
+            _Session.AddComent(Comment);
+            //_Session.CloseFile();
+          
+        }
+
     }
 }

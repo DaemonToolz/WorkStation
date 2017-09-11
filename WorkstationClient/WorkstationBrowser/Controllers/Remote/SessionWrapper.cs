@@ -8,6 +8,7 @@ using System.Web.SessionState;
 using System.Xml.Serialization;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.SignalR;
+using WorkstationBrowser.BLL.FileTracker;
 using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Models;
 using WorkstationBrowser.SessionReference;
@@ -21,14 +22,23 @@ namespace WorkstationBrowser.Controllers.Remote{
     public class SessionWrapper : ISessionCallback {
        
         public SessionClient WorkstationSession { get; private set; }
+
         private LogInModel OriginalInput { get; set; }
+
         private String SavedUsername { get; set; }
         public UsersModel CurrentUser { get; private set; }
+
+
         private String ConnectionToken { get; set; }
+
         public bool NotificationPooler { get; set; }
         public NotificationModel[] MyNotifications { get; private set; }
+
         private HttpSessionStateBase UserSession { get; set; }
         private CacheProvider Cache { get; set; }
+
+        private XmlCommentProvider CommentManager { get; set; }
+
 
         private String CacheQualifier { get; set; }
         private String CacheMsgQualifier { get; set; }
@@ -75,6 +85,8 @@ namespace WorkstationBrowser.Controllers.Remote{
         public bool LogOut(){
             try
             {
+
+                CloseFile(); // Force Close file if it has not be done already
                 WorkstationSession.LogOut(CurrentUser);
                 return true;
             }
@@ -84,8 +96,39 @@ namespace WorkstationBrowser.Controllers.Remote{
             }
         }
 
+
+        #region FileTracker
+
+        public void OpenFile(String path, String tracked, bool KeepOpen = false){
+            CommentManager = new XmlCommentProvider(path, tracked, CurrentUser);
+            if(KeepOpen)
+                CommentManager.OpenFile();
+        }
+
+        public void AddComent(CommentModel comment)
+        {
+            CommentManager.AddNode(comment);
+        }
+
+        public IEnumerable<UsersModel> CommentActiveUsers()
+        {
+            return CommentManager.ActiveUsers();
+        }
+
+        public IEnumerable<CommentModel> ReadComments()
+        {
+            return CommentManager.ReadComments();
+        }
+
+        public void CloseFile()
+        {
+            CommentManager.CloseFile();
+        }
+        #endregion
+
+
         #region Session Facade
-        
+
 
         public IEnumerable<ProjectModel> GetAllProjects()
         {
@@ -115,6 +158,12 @@ namespace WorkstationBrowser.Controllers.Remote{
         public UsersModel GetUserById(int id){
             return GetAllUsers().Single(user => user.id == id);
         }
+
+        public UsersModel GetUserByName(String name)
+        {
+            return GetAllUsers().Single(user => user.username.Equals(name));
+        }
+
 
         public IEnumerable<TeamModel> GetAllTeams(){
             return Cache.GetAll("AllTeams", WorkstationSession.GetAllTeams);
@@ -283,8 +332,6 @@ namespace WorkstationBrowser.Controllers.Remote{
         public bool EditProject(ProjectModel project){
             return Cache.Edit("AllProjects", GetAllProjects, (ProjectModel model) => WorkstationSession.EditProject(model), project);
         }
-
-
 
         public IEnumerable<MessageModel> MyMessages(bool sended = false, bool received = true, bool direct = false, bool mailbox = true) {
             
