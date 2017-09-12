@@ -14,6 +14,13 @@ namespace WorkstationManagementServices.Models.Database
     
     public partial class Users
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Users()
+        {
+            this.Project = new HashSet<Project>();
+            this.Team1 = new HashSet<Team>();
+        }
+    
         public int id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
@@ -28,5 +35,9 @@ namespace WorkstationManagementServices.Models.Database
         public virtual Rank Rank1 { get; set; }
         public virtual Users Users1 { get; set; }
         public virtual Users Users2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Project> Project { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Team> Team1 { get; set; }
     }
 }

@@ -12,6 +12,17 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
         </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="tracker_id" />
+          </Key>
+          <Property Name="tracker_id" Type="varchar" MaxLength="75" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="owner_id" Type="int" Nullable="false" />
+          <Property Name="last_updater" Type="int" Nullable="false" />
+          <Property Name="creation_date" Type="datetime" Nullable="false" />
+          <Property Name="last_update" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Message">
           <Key>
             <PropertyRef Name="id" />
@@ -246,6 +257,7 @@
         </Association>
         <EntityContainer Name="ManagementModelStoreContainer">
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NotificationUser" EntityType="Self.NotificationUser" Schema="dbo" store:Type="Tables" />
@@ -468,6 +480,7 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Team" EntitySet="Team" />
           </AssociationSet>
+          <EntitySet Name="File" EntityType="ManagementModel.File" />
         </EntityContainer>
         <Association Name="FK_Users_Ranks">
           <End Type="ManagementModel.Rank" Role="Rank" Multiplicity="0..1" />
@@ -629,6 +642,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="tracker_id" />
+          </Key>
+          <Property Name="tracker_id" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="owner_id" Type="Int32" Nullable="false" />
+          <Property Name="last_updater" Type="Int32" Nullable="false" />
+          <Property Name="creation_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -735,6 +759,18 @@
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="File">
+            <EntityTypeMapping TypeName="ManagementModel.File">
+              <MappingFragment StoreEntitySet="File">
+                <ScalarProperty Name="last_update" ColumnName="last_update" />
+                <ScalarProperty Name="creation_date" ColumnName="creation_date" />
+                <ScalarProperty Name="last_updater" ColumnName="last_updater" />
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="tracker_id" ColumnName="tracker_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

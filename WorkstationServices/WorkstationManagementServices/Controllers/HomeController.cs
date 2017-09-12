@@ -56,5 +56,10 @@ namespace WorkstationManagementServices.Controllers
                 };
 
         }
+
+
+        public ActionResult Dashboard(){
+            return View(db.Project.ToArray());
+        }
     }
 }

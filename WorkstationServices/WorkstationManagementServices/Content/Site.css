@@ -27,3 +27,23 @@ textarea {
 .del_ico {
     color:red;
 }
+
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+}
+.row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-project {
+    border: 0.25px solid rgba(183, 183, 183, 0.25); 
+}
+
+.dash-project:hover {
+    border: 1px solid rgba(183, 183, 183, 0.5); 
+    background-color:rgba(202, 255, 191, 0.15);
+}

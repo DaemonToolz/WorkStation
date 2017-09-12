@@ -26,6 +26,7 @@
         <AssociationConnector Association="ManagementModel.FK__Message__to__6B24EA82" />
         <AssociationConnector Association="ManagementModel.p_fk_uid" />
         <AssociationConnector Association="ManagementModel.t_fk_mid" />
+        <EntityTypeShape EntityType="ManagementModel.File" Width="1.5" PointX="7.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

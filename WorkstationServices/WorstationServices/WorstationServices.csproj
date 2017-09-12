@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -106,6 +107,9 @@
     <Compile Include="App_Code\Security\InputValidationFaultContract.cs" />
     <Compile Include="App_Code\Security\UserAccessModel.cs" />
     <Compile Include="Data\Department.cs">
+      <DependentUpon>ManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\File.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\ManagementModel.Context.cs">

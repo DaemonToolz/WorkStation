@@ -1,0 +1,39 @@
+﻿@model WorkstationManagementServices.Models.Database.Project[]
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2> Dashboard </h2>
+
+<div class="row">
+    @foreach (var project in Model){
+        <div class="col-lg-3 col-xs-12 col-md-5 col-md-offset-1 dash-project " >
+            <div class="col-md-12" style="text-align:center">
+                <h3>@project.name</h3>
+            </div>
+            <hr />
+            <div class="col-md-12">
+                <h5><strong>Priority:</strong> @project.precedence</h5>
+                @if (project.admin_id != null)
+                {
+                    <h5><strong>Manager:</strong> @project.Users.username</h5>
+                }
+                else
+                {
+                    <h5><strong>Manager:</strong> No Manager</h5>
+                }
+                <hr />
+                <strong>Teams</strong>
+                @if (project.Team != null && project.Team.Any())
+                {
+                    foreach (var team in project.Team) {
+                        <h5>@team.name (@team.Users.Count employee(s))</h5>
+                     }
+                }
+
+            </div>
+        </div>
+    }
+
+</div>

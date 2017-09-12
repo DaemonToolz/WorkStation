@@ -45,18 +45,47 @@ namespace WorkstationManagementServices.Controllers
         // POST: Ranks/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
+            // This model should evolve by using a IEnumerable<> instead of bools (yet it is fixed right now)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "name,rights")] Rank rank)
+        public ActionResult Create([Bind(Include = "name")] Rank rank, 
+            bool IsAdmin = false, bool CanReadDept = true, bool CanEditDept = false, 
+            bool CanReadProj = true, bool CanEditProj = false, bool CanReadTeam = true,
+            bool CanEditTeam = false, bool CanReadUser = true, bool CanEditUser = false,
+            bool CanReadTask = true, bool CanEditTask = true, bool CanReadMesg = true,
+            bool CanEditMesg = true, bool CanReadNoti = true, bool CanEditNoti = true)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Rank.Add(rank);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            return View(rank);
+       
+                //
+                rank.rights = (IsAdmin ? "1" : "0") +
+                              (CanReadDept ? "1" : "0") +
+                              (CanEditDept ? "1" : "0") +
+                              (CanReadProj ? "1" : "0") +
+                              (CanEditProj ? "1" : "0") +
+                              (CanReadTeam ? "1" : "0") +
+                              (CanEditTeam ? "1" : "0") +
+                              (CanReadUser ? "1" : "0") +
+                              (CanEditUser ? "1" : "0") +
+                              (CanReadTask ? "1" : "0") +
+                              (CanEditTask ? "1" : "0") +
+                              (CanReadMesg ? "1" : "0") +
+                              (CanEditMesg ? "1" : "0") +
+                              (CanReadNoti ? "1" : "0") +
+                              (CanEditNoti ? "1" : "0");
+
+                    db.Rank.Add(rank);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                
+            }
+            catch{
+                return View(rank);
+            }
+            
         }
 
         // GET: Ranks/Edit/5

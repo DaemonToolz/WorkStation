@@ -19,6 +19,9 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="64" Nullable="false" />
           <Property Name="root" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="projpic" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="precedence" Type="smallint" Nullable="false" />
+          <Property Name="admin_id" Type="int" />
         </EntityType>
         <EntityType Name="Rank">
           <Key>
@@ -35,6 +38,8 @@
           <Property Name="name" Type="varchar" MaxLength="64" />
           <Property Name="department_id" Type="int" />
           <Property Name="project_id" Type="bigint" />
+          <Property Name="teampic" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="manager_id" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -98,6 +103,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="p_fk_uid">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Project" Type="Self.Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="t_fk_mid">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="UserModelStoreContainer">
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
@@ -119,6 +148,14 @@
           <AssociationSet Name="FK_Users_Ranks" Association="Self.FK_Users_Ranks">
             <End Role="Rank" EntitySet="Rank" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="p_fk_uid" Association="Self.p_fk_uid">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="t_fk_mid" Association="Self.t_fk_mid">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Team" EntitySet="Team" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -151,6 +188,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Users1" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="p_fk_uid" Association="UserModel.p_fk_uid">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Project" EntitySet="Project" />
+          </AssociationSet>
+          <AssociationSet Name="t_fk_mid" Association="UserModel.t_fk_mid">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Department">
           <Key>
@@ -168,6 +213,10 @@
           <Property Name="name" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
           <Property Name="root" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Team" Relationship="UserModel.FK__Team__project_id__4AB81AF0" FromRole="Project" ToRole="Team" />
+          <Property Name="projpic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="precedence" Type="Int16" Nullable="false" />
+          <Property Name="admin_id" Type="Int32" />
+          <NavigationProperty Name="Users" Relationship="UserModel.p_fk_uid" FromRole="Project" ToRole="Users" />
         </EntityType>
         <EntityType Name="Rank">
           <Key>
@@ -188,6 +237,9 @@
           <NavigationProperty Name="Users" Relationship="UserModel.FK__Users__team_id__48CFD27E" FromRole="Team" ToRole="Users" />
           <Property Name="project_id" Type="Int64" />
           <NavigationProperty Name="Project" Relationship="UserModel.FK__Team__project_id__4AB81AF0" FromRole="Team" ToRole="Project" />
+          <Property Name="teampic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="manager_id" Type="Int32" />
+          <NavigationProperty Name="Users1" Relationship="UserModel.t_fk_mid" FromRole="Team" ToRole="Users" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -206,6 +258,8 @@
           <NavigationProperty Name="Users1" Relationship="UserModel.FK_Users_Users" FromRole="Users" ToRole="Users1" />
           <NavigationProperty Name="Users2" Relationship="UserModel.FK_Users_Users" FromRole="Users1" ToRole="Users" />
           <Property Name="profilepic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Project" Relationship="UserModel.p_fk_uid" FromRole="Users" ToRole="Project" />
+          <NavigationProperty Name="Team1" Relationship="UserModel.t_fk_mid" FromRole="Users" ToRole="Team" />
         </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Type="UserModel.Department" Role="Department" Multiplicity="0..1" />
@@ -267,6 +321,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="p_fk_uid">
+          <End Type="UserModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="UserModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="t_fk_mid">
+          <End Type="UserModel.Users" Role="Users" Multiplicity="0..1" />
+          <End Type="UserModel.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -284,6 +362,9 @@
           <EntitySetMapping Name="Project">
             <EntityTypeMapping TypeName="UserModel.Project">
               <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="precedence" ColumnName="precedence" />
+                <ScalarProperty Name="projpic" ColumnName="projpic" />
                 <ScalarProperty Name="root" ColumnName="root" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
@@ -301,6 +382,8 @@
           <EntitySetMapping Name="Team">
             <EntityTypeMapping TypeName="UserModel.Team">
               <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="manager_id" ColumnName="manager_id" />
+                <ScalarProperty Name="teampic" ColumnName="teampic" />
                 <ScalarProperty Name="project_id" ColumnName="project_id" />
                 <ScalarProperty Name="department_id" ColumnName="department_id" />
                 <ScalarProperty Name="name" ColumnName="name" />

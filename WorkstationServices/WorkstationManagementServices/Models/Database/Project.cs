@@ -23,8 +23,12 @@ namespace WorkstationManagementServices.Models.Database
         public long id { get; set; }
         public string name { get; set; }
         public string root { get; set; }
+        public string projpic { get; set; }
+        public short precedence { get; set; }
+        public Nullable<int> admin_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Team> Team { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

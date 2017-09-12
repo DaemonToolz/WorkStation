@@ -6,7 +6,19 @@
 
 <h2>Edit</h2>
 
+@{
+    Dictionary<String,String> Rights = new Dictionary<String,String>()
+    {
+        {"Departments","Dept"},
+        {"Projects","Proj"},
+        {"Teams","Team"},
+        {"Users","User"},
+        {"Tasks","Task"},
+        {"Messages","Mesg"},
+        {"Notifications","Noti"},
+    };
 
+}
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -24,6 +36,63 @@
                 @Html.ValidationMessageFor(model => model.rights, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+        <div class="form-group">
+            <h3 style="text-align:center" > <strong>Rights </strong></h3>
+            <div class="col-md-12">
+                <table class="table">
+                    <tr>
+                        <th>        
+                            
+                        </th>
+                        <th>
+                            Can Read
+                        </th>
+                        <th>
+                            Can Edit
+                        </th>
+                        <th>
+                            Special Authorization
+                        </th>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            Administration
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            <input type="checkbox" name="IsAdmin" value="false"/>
+                        </td>
+                    </tr>
+                    
+                    @foreach (var name in Rights)
+                    {
+                        <tr>
+                            <td>
+                                @name.Key
+                            </td>
+                            <td>
+                                <input type="checkbox"  name="CanRead@(name.Value)"/>
+                            </td>
+                            <td>
+                                <input type="checkbox"  name="CanEdit@(name.Value)" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                    }
+               
+                </table>
+            </div>
+        </div>
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -32,6 +101,9 @@
         </div>
     </div>
 }
+
+
+
 @Html.Partial("~/Views/Home/Partial/_ActionButtons.cshtml")
 
 

@@ -52,7 +52,9 @@ namespace WorkstationManagementServices.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,username,password,encrypted,email,creationdate,team_id,rank")] Users users){
-            if (ModelState.IsValid){
+            if (ModelState.IsValid)
+            {
+                users.profilepic = "Anonymous_user.jpg";
                 
                 db.Users.Add(users);
                 db.SaveChanges();
