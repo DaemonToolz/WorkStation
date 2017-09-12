@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using System.Xml.Serialization;
@@ -36,14 +37,30 @@ namespace WorkstationBrowser.Controllers.Remote{
 
         private HttpSessionStateBase UserSession { get; set; }
         private CacheProvider Cache { get; set; }
+        
+        private XmlCommentProvider CommentManager {
+            get => (XmlCommentProvider)Cache.Get(CacheCommentManagerQualifier);
+            set {
+                
+                Cache.Set(CacheCommentManagerQualifier, value, CachePriority.Default, (arg) =>{
+                    ((XmlCommentProvider) arg.CacheItem.Value).Dispose();
+                }, 30.00);
+            }
+        }
+        
+        //private XmlCommentProvider CommentManager { get;set; }
 
-        private XmlCommentProvider CommentManager { get; set; }
-
+        private bool DisposeOld(XmlCommentProvider @new){
+            if (Cache.HasKey(CacheCommentManagerQualifier) && CommentManager != null)
+                return !CommentManager.Equals(@new);
+            return false;
+        }
 
         private String CacheQualifier { get; set; }
         private String CacheMsgQualifier { get; set; }
         private String CacheNotifQualifier { get; set; }
 
+        private String CacheCommentManagerQualifier { get { return $"{CurrentUser.id}_cmtmger"; } }
         public SessionWrapper() {
             
         }
@@ -86,7 +103,7 @@ namespace WorkstationBrowser.Controllers.Remote{
             try
             {
 
-                CloseFile(); // Force Close file if it has not be done already
+                DisposeCommentManager(); // Force Close file if it has not be done already
                 WorkstationSession.LogOut(CurrentUser);
                 return true;
             }
@@ -100,14 +117,32 @@ namespace WorkstationBrowser.Controllers.Remote{
         #region FileTracker
 
         public void OpenFile(String path, String tracked, bool KeepOpen = false){
-            CommentManager = new XmlCommentProvider(path, tracked, CurrentUser);
-            if(KeepOpen)
-                CommentManager.OpenFile();
+            var temp = new XmlCommentProvider(path, tracked, CurrentUser);
+            if(KeepOpen) temp.OpenFile();
+            CommentManager = temp;
         }
 
-        public void AddComent(CommentModel comment)
+        public void AddComment(CommentModel comment)
         {
-            CommentManager.AddNode(comment);
+            var temp = CommentManager;
+            temp.AddNode(comment);
+            CommentManager = temp;
+        }
+
+
+        public void UpdateComment(CommentModel comment)
+        {
+            var temp = CommentManager;
+            temp.UpdateComment(comment);
+            CommentManager = temp;
+        }
+
+
+        public void DeleteComment(String id)
+        {
+            var temp = CommentManager;
+            temp.DeleteComment(id);
+            CommentManager = temp;
         }
 
         public IEnumerable<UsersModel> CommentActiveUsers()
@@ -122,7 +157,13 @@ namespace WorkstationBrowser.Controllers.Remote{
 
         public void CloseFile()
         {
-            CommentManager.CloseFile();
+            if(Cache.HasKey(CacheCommentManagerQualifier))
+                CommentManager.CloseFile();
+        }
+
+        public void DisposeCommentManager()
+        {
+            Cache.Remove(CacheCommentManagerQualifier);
         }
         #endregion
 

@@ -1,13 +1,27 @@
-﻿@using WorkstationBrowser.Models
-@model  WorkstationBrowser.Models.FileTrackerModel
+﻿
+@using WorkstationBrowser.Models
+@model  FileTrackerModel
 
 @{
     ViewBag.Title = "Comments";
 
 }
 
+
 <h3> <strong> @Model.TrackedFile </strong></h3>
 <hr />
+
+
+<a href="@Url.Action("ProjectDocuments", "Project",
+        new {
+            project = (String)TempData["Project"],
+            projectid = (int)TempData["Projectid"]
+        })" class="btn btn-default">
+    <span class="glyphicon glyphicon-arrow-left"></span>
+    
+</a>
+
+<hr/>
 
 <div class="row">
     <h4 style="text-align:center"> <strong>Active users</strong></h4>
@@ -24,8 +38,11 @@
 
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
-        @using (Html.BeginForm("_AddComment", "Project", FormMethod.Post))
-        {
+        @using (Html.BeginForm("_AddComment", "Project", new{
+            Project = (String)TempData["Project"],
+            Filename = (String)TempData["Filename"],
+            Projectid = int.Parse(TempData["Projectid"].ToString()),},FormMethod.Post)){
+            
             @Html.AntiForgeryToken()
 
             CommentModel model = new CommentModel();
@@ -41,27 +58,36 @@
 
 <div class="row">
     <div class="col-xs-12 col-md-12 col-lg-12">
-        @foreach (var comment in Model.Comments)
-        {
-            <div class="row" style="margin-bottom:25px">
-                <div class="col-xs-12 col-md-12 col-lg-12">
-                    <a href="#" class="pull-right btn btn-danger ">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </a>
-                    <a href="#" class="pull-right btn btn-default ">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </a>
+        @for (int i = 0; i < Model.Comments.Count(); i++){
+        
+             <div class="row" style="margin-bottom: 25px">
+                 <div class="col-xs-12 col-md-12 col-lg-12">
+                     <a href="@Url.Action("_DeleteComment", new
+                         {
 
-                    <img src="~/UserContent/Profile/@(comment.Author.profilepic)" width="50" height="50" class="img-circle profile-image"/>
-                    @comment.Author.username
-                    <h6> @comment.Date </h6>
-                    
-                </div>
-               
-                <div class="col-xs-12 col-md-12 col-lg-12">
-                    @comment.Content
-                </div>
-            </div>
+                             id = Model.Comments.ElementAt(i).Id,
+                             Project = (String)TempData["Project"],
+                             Filename = (String)TempData["Filename"],
+                             Projectid = int.Parse(TempData["Projectid"].ToString()),
+                         })" 
+                            class="pull-right btn btn-danger ">
+                         <span class="glyphicon glyphicon-remove"></span>
+                     </a>
+                     <a href="#" class="pull-right btn btn-default ">
+                         <span class="glyphicon glyphicon-cog"></span>
+                     </a>
+
+                     <img src="~/UserContent/Profile/@(Model.Comments.ElementAt(i).Author.profilepic)" width="50" height="50" class="img-circle profile-image"/>
+                     @Model.Comments.ElementAt(i).Author.username
+                     <h6> @Model.Comments.ElementAt(i).Date </h6>
+
+                 </div>
+
+                 <div class="col-xs-12 col-md-12 col-lg-12">
+                     @Model.Comments.ElementAt(i).Content
+                 </div>
+             </div>
+         
         }
     </div>
 </div>

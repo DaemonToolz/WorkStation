@@ -27,6 +27,14 @@ namespace WorkstationBrowser.BLL.FileTracker
             };
         }
 
+        public bool UpdateComment(CommentModel model){
+            return UpdateMultipleNodes(model.Id, "comment",
+                new Dictionary<string, string>(){
+                    { "content",model.Content},
+                    { "date",model.Date.ToString()}
+                }, true).All(elem => elem);
+        }
+
         public bool AddNode(CommentModel model)
         {
 
@@ -59,6 +67,11 @@ namespace WorkstationBrowser.BLL.FileTracker
             };
 
             return AddNode("comments", newComment);
+        }
+
+        public bool DeleteComment(String id)
+        {
+            return DeleteNode(id, "comment");
         }
 
         public IEnumerable<CommentModel> ReadComments(){

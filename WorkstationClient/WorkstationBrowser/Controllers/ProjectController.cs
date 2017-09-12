@@ -316,13 +316,14 @@ namespace WorkstationBrowser.Controllers
         }
 
         // TODO
-        public ActionResult _AddComment(String Project, String Filename){
+        public ActionResult _AddComment(String Project, String Filename, int Projectid){
             string root = $@"{Server.MapPath("~/")}\UserContent\FileTracker\{Project}\Comments\";
 
             if (!Directory.Exists(root))
                 Directory.CreateDirectory(root);
 
             _Session.OpenFile(root, Filename, true);
+
             var comments = _Session.ReadComments().ToArray();
             for (var cmtIndex = 0; cmtIndex < comments.Count(); ++cmtIndex)
                 comments[cmtIndex].Author = _Session.GetUserByName(comments[cmtIndex].AuthorName);
@@ -334,19 +335,48 @@ namespace WorkstationBrowser.Controllers
                 Users = _Session.CommentActiveUsers().ToArray()
             };
 
+            TempData["Project"] = Project;
+            TempData["Filename"] = Filename;
+            TempData["Projectid"] = Projectid;
+
             return View("FileComments", Tracked);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void _AddComment([Bind(Include= "content") ] CommentModel Comment)
+        public ActionResult _AddComment([Bind(Include= "Content") ] CommentModel Comment, String Project, String Filename, int Projectid)
         {
             Comment.Author = _Session.CurrentUser;
             Comment.Date = DateTime.Now;
             
-            _Session.AddComent(Comment);
+            _Session.AddComment(Comment);
             //_Session.CloseFile();
-          
+
+            return RedirectToAction("_AddComment", new{Project = Project, Filename = Filename, Projectid = Projectid });
+            
+        }
+
+        
+        public ActionResult _EditComment([Bind(Include= "Id, AuthorName, Content, Date") ] CommentModel Comment)
+        {
+            Comment.Content = Comment.Content.Insert(0, $"Last Edit: {DateTime.Now.ToString()} \n");
+
+            Comment.Author = _Session.GetUserByName(Comment.AuthorName);
+            
+            _Session.UpdateComment(Comment);
+            //_Session.CloseFile();
+
+            return RedirectToAction("_AddComment", new{Project = (String)TempData["Project"], Filename = (String)TempData["Filename"], Projectid = int.Parse(TempData["Projectid"].ToString())});
+            
+        }
+
+        public ActionResult _DeleteComment(String id, String Project, String Filename, int Projectid)
+        {
+            _Session.DeleteComment(id);
+
+            return RedirectToAction("_AddComment", 
+                new { Project = Project, Filename = Filename, Projectid = Projectid});
+
         }
 
     }

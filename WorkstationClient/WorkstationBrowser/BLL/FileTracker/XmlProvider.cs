@@ -78,8 +78,11 @@ namespace WorkstationBrowser.BLL.FileTracker
                 _Locks[AbsoluteFile].AddUser(CurrentUser);
 
             if (!File.Exists(AbsoluteFile))
-                return OpenedDocument = new XDocument();
-
+            {
+                OpenedDocument = new XDocument();
+                AddNode(null);
+                return OpenedDocument;
+            }
             return OpenedDocument = XDocument.Load(AbsoluteFile);//OpenedDocument = XDocument.Load(Reader);    
         }
         /*
@@ -139,9 +142,10 @@ namespace WorkstationBrowser.BLL.FileTracker
             {
                 List<XElement> xmlData = new List<XElement>();
 
-                xmlData.AddRange(
-                    data.Select(XmlElementProvider.Recursive_ConvertToXElement)
-                );
+                if(data.Any())
+                    xmlData.AddRange(
+                        data.Select(XmlElementProvider.Recursive_ConvertToXElement)
+                    );
 
                 if (key == null)
                 {
@@ -331,7 +335,7 @@ namespace WorkstationBrowser.BLL.FileTracker
         // }
 
         // This code added to correctly implement the disposable pattern.
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
@@ -341,5 +345,44 @@ namespace WorkstationBrowser.BLL.FileTracker
         #endregion
 
 
+        public bool Equals(XmlProvider provider){
+
+            try
+            {
+                return CurrentUser.id == provider.CurrentUser.id &&
+                       AbsoluteFile.Equals(provider.AbsoluteFile) &&
+                       DictionaryEqual(KnownNodes, provider.KnownNodes);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        protected static bool DictionaryEqual<TKey, TValue>( 
+            IDictionary<TKey, TValue> first, IDictionary<TKey, TValue> second)
+        {
+            return DictionaryEqual(first, second, null);
+        }
+
+        protected static bool DictionaryEqual<TKey, TValue>(
+            IDictionary<TKey, TValue> first, IDictionary<TKey, TValue> second,
+            IEqualityComparer<TValue> valueComparer)
+        {
+            if (first == second) return true;
+            if ((first == null) || (second == null)) return false;
+            if (first.Count != second.Count) return false;
+
+            valueComparer = valueComparer ?? EqualityComparer<TValue>.Default;
+
+            foreach (var kvp in first)
+            {
+                TValue secondValue;
+
+                if (!second.TryGetValue(kvp.Key, out secondValue)) return false;
+                if (!secondValue.GetType().IsArray && !valueComparer.Equals(kvp.Value, secondValue)) return false;
+            }
+            return true;
+        }
     }
 }

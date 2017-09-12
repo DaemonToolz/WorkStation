@@ -144,7 +144,7 @@
                             }
 
                             @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "btn btn-default glyphicon glyphicon-cloud-download" })
-                            @Html.ActionLink(" ", "_AddComment", "Project", new{ Project = (String)ViewData["ProjectName"], FileName = item.Name }, new{@class="btn btn-default glyphicon glyphicon-comment "})
+                            @Html.ActionLink(" ", "_AddComment", "Project", new{ Project = (String)ViewData["ProjectName"], FileName = item.Name, ProjectId = (int)ViewData["Projectid"] }, new{@class="btn btn-default glyphicon glyphicon-comment "})
 
                         }
                         else

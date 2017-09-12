@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Threading;
+using System.Web.Caching;
 using WorkstationBrowser.SessionReference;
+using CacheItemPriority = System.Runtime.Caching.CacheItemPriority;
 
 namespace WorkstationBrowser.Controllers.Generic {
     public enum CachePriority
@@ -21,14 +23,19 @@ namespace WorkstationBrowser.Controllers.Generic {
         private static readonly ObjectCache _Cache = MemoryCache.Default;
 
         #region Generic Caching Model
-        public void Set(String Key, Object Item, CachePriority cacheItemPriority) {
+
+        public void Set(String Key, Object Item, CachePriority cacheItemPriority, Action<CacheEntryRemovedArguments> callback = null, double Minutes = 10.00) {
                 // 
             var _Policy = new CacheItemPolicy{
+               
                 Priority = (cacheItemPriority == CachePriority.Default)
                     ? CacheItemPriority.Default
                     : CacheItemPriority.NotRemovable,
-                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(10.00)
+                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(Minutes)
             };
+
+            if (callback != null)
+                _Policy.RemovedCallback = new CacheEntryRemovedCallback(callback);
 
             _Lock.EnterWriteLock();
             try {
@@ -48,6 +55,11 @@ namespace WorkstationBrowser.Controllers.Generic {
                 _Lock.ExitReadLock();
             }
             return retrieved;
+        }
+
+        public bool HasKey(String key)
+        {
+            return _Cache.Contains(key);
         }
 
         
@@ -174,14 +186,17 @@ namespace WorkstationBrowser.Controllers.Generic {
         }
         #endregion
 
-        public void Remove(String Key){
+        public Object Remove(String Key)
+        {
+            Object retrieved = null;
             _Lock.EnterWriteLock();
             try {
-                if (_Cache.Contains(Key)) 
-                    _Cache.Remove(Key);
+                if (_Cache.Contains(Key))
+                    retrieved = _Cache.Remove(Key);
             } finally {
                 _Lock.ExitWriteLock();
             }
+            return retrieved;
         }
 
         #endregion
