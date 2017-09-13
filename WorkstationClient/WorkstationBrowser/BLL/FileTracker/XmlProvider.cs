@@ -12,6 +12,10 @@ using WorkstationBrowser.SessionReference;
 
 namespace WorkstationBrowser.BLL.FileTracker
 {
+
+    // Model possibly deprecated
+    // https://stackoverflow.com/questions/31692333/multiple-users-writing-at-the-same-file
+    // For real-time multiple I/O
     public class XmlProvider : IDisposable
     {
         // REFERENCE https://lennilobel.wordpress.com/2009/09/02/streaming-into-linq-to-xml-using-c-custom-iterators-and-xmlreader/
@@ -147,17 +151,18 @@ namespace WorkstationBrowser.BLL.FileTracker
                         data.Select(XmlElementProvider.Recursive_ConvertToXElement)
                     );
 
+                if (OpenedDocument.Root == null)
+                    OpenedDocument.Add(new XElement("root", OpenedDocument.Root));
+
+                SaveFile();
+
                 if (key == null)
                 {
-                    if (OpenedDocument.Root == null)
-                        OpenedDocument.Add(new XElement("root", OpenedDocument.Root));
                     OpenedDocument.Root.Add(xmlData);
                 }
                 else
                 {
-                    if (OpenedDocument.Root == null)
-                        OpenedDocument.Add(new XElement("root", OpenedDocument.Root));
-
+                 
                     if (!OpenedDocument.Descendants(key).Any())
                         OpenedDocument.Root.Add(new XElement(key, xmlData));
                     else

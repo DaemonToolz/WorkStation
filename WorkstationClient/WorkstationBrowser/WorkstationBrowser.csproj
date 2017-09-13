@@ -356,6 +356,12 @@
     <Content Include="Connected Services\SessionReference\WorkstationBrowser.SessionReference.MessageModel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Connected Services\SessionReference\WorkstationBrowser.SessionReference.ChangeSetModel.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\SessionReference\WorkstationBrowser.SessionReference.FileModel.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

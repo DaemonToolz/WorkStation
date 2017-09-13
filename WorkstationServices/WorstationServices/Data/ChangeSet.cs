@@ -12,27 +12,26 @@ namespace WorkstationServices.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class File
+    public partial class ChangeSet
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public File()
+        public ChangeSet()
         {
-            this.ChangeSet = new HashSet<ChangeSet>();
+            this.ChangeSet1 = new HashSet<ChangeSet>();
         }
     
-        public string tracker_id { get; set; }
-        public string name { get; set; }
-        public int owner_id { get; set; }
-        public int last_updater { get; set; }
-        public System.DateTime creation_date { get; set; }
-        public System.DateTime last_update { get; set; }
-        public int change_count { get; set; }
-        public long project_id { get; set; }
+        public string shortName { get; set; }
+        public string description { get; set; }
+        public int addition { get; set; }
+        public int deletion { get; set; }
+        public int edition { get; set; }
+        public string trackerId { get; set; }
+        public System.Guid id { get; set; }
+        public Nullable<System.Guid> parent { get; set; }
     
+        public virtual File File { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChangeSet> ChangeSet { get; set; }
-        public virtual Project Project { get; set; }
-        public virtual Users Users { get; set; }
-        public virtual Users Users1 { get; set; }
+        public virtual ICollection<ChangeSet> ChangeSet1 { get; set; }
+        public virtual ChangeSet ChangeSet2 { get; set; }
     }
 }

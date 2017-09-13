@@ -35,5 +35,6 @@ namespace WorkstationServices.Data
         public virtual DbSet<NotificationUser> NotificationUser { get; set; }
         public virtual DbSet<Task> Task { get; set; }
         public virtual DbSet<File> File { get; set; }
+        public virtual DbSet<ChangeSet> ChangeSet { get; set; }
     }
 }

@@ -22,10 +22,17 @@ namespace WorkstationServices
     public class Session : ISession{
 
         private static HashSet<UsersModel> OnlineUsers;
+        private static readonly IdGenerator _IdGenerator;
+
+
 
         private ServicesManagementEntities entities;
         static Session(){
             OnlineUsers = new HashSet<UsersModel>();
+            _IdGenerator = new IdGenerator(1);
+
+            for (int i = 0; i < 3; ++i)
+                _IdGenerator.GenerateId(10);
         }
 
         public UsersModel LogIn(string Username, string Token){
@@ -646,6 +653,209 @@ namespace WorkstationServices
             return message.read;
         }
 
+
+        public FileModel CreateFile(FileModel model)
+        {
+            try
+            {
+                File file = new File()
+                {
+                    name = model.name,
+                    project_id = model.project_id,
+                    owner_id = model.owner_id,
+                    change_count = 0,
+                    creation_date = DateTime.Now,
+                    last_updater = model.owner_id,
+                    last_update = DateTime.Now,
+                    tracker_id = _IdGenerator.GenerateId(75)
+                };
+
+                
+                entities.File.Add(file);
+                entities.SaveChanges();
+
+                model.change_count = 0;
+                model.creation_date = file.creation_date;
+                model.last_update = file.last_update;
+                model.tracker_id = file.tracker_id;
+                model.last_updater = file.last_updater;
+
+                return model;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public bool UpdateFile(FileModel model){
+            try
+            {
+                var RelatedFile = entities.File.Single(record => record.tracker_id.Equals(model.tracker_id));
+
+                RelatedFile.name = model.name;
+                RelatedFile.change_count++;
+                RelatedFile.last_updater = model.last_updater;
+                RelatedFile.last_update = model.last_update;
+                RelatedFile.owner_id = model.owner_id;
+                RelatedFile.project_id = model.project_id;
+
+                entities.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteFile(String trackerId){
+            try
+            {
+                entities.File.Remove(entities.File.Single(record => record.tracker_id.Equals(trackerId)));
+                entities.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public FileModel GetFile(String trackerId){
+            try
+            {
+                var File = entities.File.Single(record => record.tracker_id.Equals(trackerId));
+                return new FileModel(){
+                    tracker_id = trackerId,
+                    change_count = File.change_count,
+                    creation_date = File.creation_date,
+                    last_update = File.last_update,
+                    last_updater = File.last_updater,
+                    name = File.name,
+                    owner_id = File.owner_id,
+                    project_id = File.project_id
+                };
+
+                
+            }
+            catch{
+                return null;
+            }
+        }
+
+        public ChangeSetModel CreateChangeSet(ChangeSetModel model){
+            try
+            {
+                var ChangeSet = new ChangeSet()
+                {
+                    shortName = model.shortName,
+                    edition = model.edition,
+                    addition = model.addition,
+                    deletion = model.deletion,
+                    description = model.description,
+                    trackerId = model.trackerId,
+                    parent = model.parent
+                };
+
+                entities.ChangeSet.Add(ChangeSet);
+                entities.SaveChanges();
+                model.id = ChangeSet.id;
+                return model;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public bool DeleteChangeSet(ChangeSetModel model)
+        {
+            try
+            {
+                entities.ChangeSet.Remove(entities.ChangeSet.Single(record => record.id.Equals(model.id)));
+                entities.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public ChangeSetModel GetChangeSet(Guid id){
+            try
+            {
+                var ChangeSet = entities.ChangeSet.Single(rec => rec.id.Equals(id));
+                return new ChangeSetModel(){
+                    id = id,
+                    addition = ChangeSet.addition,
+                    deletion = ChangeSet.deletion,
+                    description = ChangeSet.description,
+                    edition = ChangeSet.edition,
+                    shortName = ChangeSet.shortName,
+                    trackerId = ChangeSet.trackerId,
+                    parent = ChangeSet.parent
+                };
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<ChangeSetModel> GetChangeSetsPerFile(String trackerId){
+            try
+            {
+                var ChangeSets = entities.ChangeSet.Where(rec => rec.trackerId.Equals(trackerId));
+
+                List<ChangeSetModel> models = new List<ChangeSetModel>();
+                foreach(var changeSet in ChangeSets)
+                    models.Add(new ChangeSetModel(){
+                        id = changeSet.id,
+                        addition = changeSet.addition,
+                        deletion = changeSet.deletion,
+                        description = changeSet.description,
+                        edition = changeSet.edition,
+                        shortName = changeSet.shortName,
+                        trackerId = trackerId,
+                        parent = changeSet.parent
+                    });
+
+                return models;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public IEnumerable<ChangeSetModel> GetChangeSetsPerProject(long projectId){
+            try
+            {
+                var ChangeSets = entities.ChangeSet.Where(rec => rec.File.project_id.Equals(projectId));
+
+                List<ChangeSetModel> models = new List<ChangeSetModel>();
+                foreach (var changeSet in ChangeSets)
+                    models.Add(new ChangeSetModel(){
+                        id = changeSet.id,
+                        addition = changeSet.addition,
+                        deletion = changeSet.deletion,
+                        description = changeSet.description,
+                        edition = changeSet.edition,
+                        shortName = changeSet.shortName,
+                        trackerId = changeSet.trackerId,
+                        parent = changeSet.parent
+                    });
+
+                return models;
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         #region Callback
 

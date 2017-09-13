@@ -23,6 +23,8 @@ namespace WorkstationServices.Data
             this.Message1 = new HashSet<Message>();
             this.Project = new HashSet<Project>();
             this.Team1 = new HashSet<Team>();
+            this.File = new HashSet<File>();
+            this.File1 = new HashSet<File>();
         }
     
         public int id { get; set; }
@@ -49,5 +51,9 @@ namespace WorkstationServices.Data
         public virtual ICollection<Project> Project { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Team> Team1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<File> File { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<File> File1 { get; set; }
     }
 }

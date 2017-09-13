@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\ChangeSetModel.cs" />
     <Compile Include="Model\DepartmentModel.cs" />
+    <Compile Include="Model\FileModel.cs" />
     <Compile Include="Model\GenericModel.cs" />
     <Compile Include="Model\MessageModel.cs" />
     <Compile Include="Model\NotificationModel.cs" />

@@ -27,6 +27,12 @@
         <AssociationConnector Association="ManagementModel.p_fk_uid" />
         <AssociationConnector Association="ManagementModel.t_fk_mid" />
         <EntityTypeShape EntityType="ManagementModel.File" Width="1.5" PointX="7.375" PointY="7.75" />
+        <EntityTypeShape EntityType="ManagementModel.ChangeSet" Width="1.5" PointX="9.625" PointY="8" />
+        <AssociationConnector Association="ManagementModel.FK_TRACKERID_FILE" />
+        <AssociationConnector Association="ManagementModel.FK__File__project_id__04E4BC85" />
+        <AssociationConnector Association="ManagementModel.FK_File_Owner" />
+        <AssociationConnector Association="ManagementModel.FK_File_Updter" />
+        <AssociationConnector Association="ManagementModel.FK__ChangeSet__paren__0C85DE4D" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -40,6 +40,9 @@ namespace WorkstationServices
         [OperationContract]
         bool DeleteProject(ProjectModel newInfo);
 
+        [OperationContract]
+        ProjectModel CreateProject(ProjectModel model);
+
 
         [OperationContract]
         IList<UsersModel> GetAllUsers();
@@ -129,10 +132,36 @@ namespace WorkstationServices
 
         [OperationContract]
         bool DeleteTeam(TeamModel model);
+        
+
+        [OperationContract]
+        FileModel CreateFile(FileModel model);
+
+        [OperationContract]
+        bool UpdateFile(FileModel model);
+
+        [OperationContract]
+        bool DeleteFile(String trackerId);
+
+        [OperationContract]
+        FileModel GetFile(String trackerId);
 
 
         [OperationContract]
-        ProjectModel CreateProject(ProjectModel model);
+        ChangeSetModel CreateChangeSet(ChangeSetModel model);
+
+        [OperationContract]
+        bool DeleteChangeSet(ChangeSetModel model);
+
+        [OperationContract]
+        ChangeSetModel GetChangeSet(Guid id);
+
+        [OperationContract]
+        IEnumerable<ChangeSetModel> GetChangeSetsPerFile(String trackerId);
+
+        [OperationContract]
+        IEnumerable<ChangeSetModel> GetChangeSetsPerProject(long projectId);
+
     }
 
     public interface IUpdateNotificationCallback

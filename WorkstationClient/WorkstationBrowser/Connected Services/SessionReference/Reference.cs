@@ -873,6 +873,304 @@ namespace WorkstationBrowser.SessionReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FileModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
+    [System.SerializableAttribute()]
+    public partial class FileModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private int change_countField;
+        
+        private System.DateTime creation_dateField;
+        
+        private System.DateTime last_updateField;
+        
+        private int last_updaterField;
+        
+        private string nameField;
+        
+        private int owner_idField;
+        
+        private long project_idField;
+        
+        private string tracker_idField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int change_count {
+            get {
+                return this.change_countField;
+            }
+            set {
+                if ((this.change_countField.Equals(value) != true)) {
+                    this.change_countField = value;
+                    this.RaisePropertyChanged("change_count");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.DateTime creation_date {
+            get {
+                return this.creation_dateField;
+            }
+            set {
+                if ((this.creation_dateField.Equals(value) != true)) {
+                    this.creation_dateField = value;
+                    this.RaisePropertyChanged("creation_date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.DateTime last_update {
+            get {
+                return this.last_updateField;
+            }
+            set {
+                if ((this.last_updateField.Equals(value) != true)) {
+                    this.last_updateField = value;
+                    this.RaisePropertyChanged("last_update");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int last_updater {
+            get {
+                return this.last_updaterField;
+            }
+            set {
+                if ((this.last_updaterField.Equals(value) != true)) {
+                    this.last_updaterField = value;
+                    this.RaisePropertyChanged("last_updater");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.nameField, value) != true)) {
+                    this.nameField = value;
+                    this.RaisePropertyChanged("name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int owner_id {
+            get {
+                return this.owner_idField;
+            }
+            set {
+                if ((this.owner_idField.Equals(value) != true)) {
+                    this.owner_idField = value;
+                    this.RaisePropertyChanged("owner_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public long project_id {
+            get {
+                return this.project_idField;
+            }
+            set {
+                if ((this.project_idField.Equals(value) != true)) {
+                    this.project_idField = value;
+                    this.RaisePropertyChanged("project_id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string tracker_id {
+            get {
+                return this.tracker_idField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.tracker_idField, value) != true)) {
+                    this.tracker_idField = value;
+                    this.RaisePropertyChanged("tracker_id");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ChangeSetModel", Namespace="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model")]
+    [System.SerializableAttribute()]
+    public partial class ChangeSetModel : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private int additionField;
+        
+        private int deletionField;
+        
+        private string descriptionField;
+        
+        private int editionField;
+        
+        private System.Guid idField;
+        
+        private System.Nullable<System.Guid> parentField;
+        
+        private string shortNameField;
+        
+        private string trackerIdField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int addition {
+            get {
+                return this.additionField;
+            }
+            set {
+                if ((this.additionField.Equals(value) != true)) {
+                    this.additionField = value;
+                    this.RaisePropertyChanged("addition");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int deletion {
+            get {
+                return this.deletionField;
+            }
+            set {
+                if ((this.deletionField.Equals(value) != true)) {
+                    this.deletionField = value;
+                    this.RaisePropertyChanged("deletion");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.descriptionField, value) != true)) {
+                    this.descriptionField = value;
+                    this.RaisePropertyChanged("description");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int edition {
+            get {
+                return this.editionField;
+            }
+            set {
+                if ((this.editionField.Equals(value) != true)) {
+                    this.editionField = value;
+                    this.RaisePropertyChanged("edition");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.Guid id {
+            get {
+                return this.idField;
+            }
+            set {
+                if ((this.idField.Equals(value) != true)) {
+                    this.idField = value;
+                    this.RaisePropertyChanged("id");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.Nullable<System.Guid> parent {
+            get {
+                return this.parentField;
+            }
+            set {
+                if ((this.parentField.Equals(value) != true)) {
+                    this.parentField = value;
+                    this.RaisePropertyChanged("parent");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string shortName {
+            get {
+                return this.shortNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.shortNameField, value) != true)) {
+                    this.shortNameField = value;
+                    this.RaisePropertyChanged("shortName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public string trackerId {
+            get {
+                return this.trackerIdField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.trackerIdField, value) != true)) {
+                    this.trackerIdField = value;
+                    this.RaisePropertyChanged("trackerId");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SessionReference.ISession", CallbackContract=typeof(WorkstationBrowser.SessionReference.ISessionCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface ISession {
@@ -913,6 +1211,12 @@ namespace WorkstationBrowser.SessionReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteProject", ReplyAction="http://tempuri.org/ISession/DeleteProjectResponse")]
         System.Threading.Tasks.Task<bool> DeleteProjectAsync(WorkstationBrowser.SessionReference.ProjectModel newInfo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateProject", ReplyAction="http://tempuri.org/ISession/CreateProjectResponse")]
+        WorkstationBrowser.SessionReference.ProjectModel CreateProject(WorkstationBrowser.SessionReference.ProjectModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateProject", ReplyAction="http://tempuri.org/ISession/CreateProjectResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel> CreateProjectAsync(WorkstationBrowser.SessionReference.ProjectModel model);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetAllUsers", ReplyAction="http://tempuri.org/ISession/GetAllUsersResponse")]
         WorkstationBrowser.SessionReference.UsersModel[] GetAllUsers();
@@ -1082,11 +1386,59 @@ namespace WorkstationBrowser.SessionReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteTeam", ReplyAction="http://tempuri.org/ISession/DeleteTeamResponse")]
         System.Threading.Tasks.Task<bool> DeleteTeamAsync(WorkstationBrowser.SessionReference.TeamModel model);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateProject", ReplyAction="http://tempuri.org/ISession/CreateProjectResponse")]
-        WorkstationBrowser.SessionReference.ProjectModel CreateProject(WorkstationBrowser.SessionReference.ProjectModel model);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateFile", ReplyAction="http://tempuri.org/ISession/CreateFileResponse")]
+        WorkstationBrowser.SessionReference.FileModel CreateFile(WorkstationBrowser.SessionReference.FileModel model);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateProject", ReplyAction="http://tempuri.org/ISession/CreateProjectResponse")]
-        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel> CreateProjectAsync(WorkstationBrowser.SessionReference.ProjectModel model);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateFile", ReplyAction="http://tempuri.org/ISession/CreateFileResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.FileModel> CreateFileAsync(WorkstationBrowser.SessionReference.FileModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/UpdateFile", ReplyAction="http://tempuri.org/ISession/UpdateFileResponse")]
+        bool UpdateFile(WorkstationBrowser.SessionReference.FileModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/UpdateFile", ReplyAction="http://tempuri.org/ISession/UpdateFileResponse")]
+        System.Threading.Tasks.Task<bool> UpdateFileAsync(WorkstationBrowser.SessionReference.FileModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteFile", ReplyAction="http://tempuri.org/ISession/DeleteFileResponse")]
+        bool DeleteFile(string trackerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteFile", ReplyAction="http://tempuri.org/ISession/DeleteFileResponse")]
+        System.Threading.Tasks.Task<bool> DeleteFileAsync(string trackerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetFile", ReplyAction="http://tempuri.org/ISession/GetFileResponse")]
+        WorkstationBrowser.SessionReference.FileModel GetFile(string trackerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetFile", ReplyAction="http://tempuri.org/ISession/GetFileResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.FileModel> GetFileAsync(string trackerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateChangeSet", ReplyAction="http://tempuri.org/ISession/CreateChangeSetResponse")]
+        WorkstationBrowser.SessionReference.ChangeSetModel CreateChangeSet(WorkstationBrowser.SessionReference.ChangeSetModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateChangeSet", ReplyAction="http://tempuri.org/ISession/CreateChangeSetResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ChangeSetModel> CreateChangeSetAsync(WorkstationBrowser.SessionReference.ChangeSetModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteChangeSet", ReplyAction="http://tempuri.org/ISession/DeleteChangeSetResponse")]
+        bool DeleteChangeSet(WorkstationBrowser.SessionReference.ChangeSetModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteChangeSet", ReplyAction="http://tempuri.org/ISession/DeleteChangeSetResponse")]
+        System.Threading.Tasks.Task<bool> DeleteChangeSetAsync(WorkstationBrowser.SessionReference.ChangeSetModel model);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetChangeSet", ReplyAction="http://tempuri.org/ISession/GetChangeSetResponse")]
+        WorkstationBrowser.SessionReference.ChangeSetModel GetChangeSet(System.Guid id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetChangeSet", ReplyAction="http://tempuri.org/ISession/GetChangeSetResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ChangeSetModel> GetChangeSetAsync(System.Guid id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetChangeSetsPerFile", ReplyAction="http://tempuri.org/ISession/GetChangeSetsPerFileResponse")]
+        WorkstationBrowser.SessionReference.ChangeSetModel[] GetChangeSetsPerFile(string trackerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetChangeSetsPerFile", ReplyAction="http://tempuri.org/ISession/GetChangeSetsPerFileResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ChangeSetModel[]> GetChangeSetsPerFileAsync(string trackerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetChangeSetsPerProject", ReplyAction="http://tempuri.org/ISession/GetChangeSetsPerProjectResponse")]
+        WorkstationBrowser.SessionReference.ChangeSetModel[] GetChangeSetsPerProject(long projectId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetChangeSetsPerProject", ReplyAction="http://tempuri.org/ISession/GetChangeSetsPerProjectResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ChangeSetModel[]> GetChangeSetsPerProjectAsync(long projectId);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1173,6 +1525,14 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task<bool> DeleteProjectAsync(WorkstationBrowser.SessionReference.ProjectModel newInfo) {
             return base.Channel.DeleteProjectAsync(newInfo);
+        }
+        
+        public WorkstationBrowser.SessionReference.ProjectModel CreateProject(WorkstationBrowser.SessionReference.ProjectModel model) {
+            return base.Channel.CreateProject(model);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel> CreateProjectAsync(WorkstationBrowser.SessionReference.ProjectModel model) {
+            return base.Channel.CreateProjectAsync(model);
         }
         
         public WorkstationBrowser.SessionReference.UsersModel[] GetAllUsers() {
@@ -1399,12 +1759,76 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.DeleteTeamAsync(model);
         }
         
-        public WorkstationBrowser.SessionReference.ProjectModel CreateProject(WorkstationBrowser.SessionReference.ProjectModel model) {
-            return base.Channel.CreateProject(model);
+        public WorkstationBrowser.SessionReference.FileModel CreateFile(WorkstationBrowser.SessionReference.FileModel model) {
+            return base.Channel.CreateFile(model);
         }
         
-        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ProjectModel> CreateProjectAsync(WorkstationBrowser.SessionReference.ProjectModel model) {
-            return base.Channel.CreateProjectAsync(model);
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.FileModel> CreateFileAsync(WorkstationBrowser.SessionReference.FileModel model) {
+            return base.Channel.CreateFileAsync(model);
+        }
+        
+        public bool UpdateFile(WorkstationBrowser.SessionReference.FileModel model) {
+            return base.Channel.UpdateFile(model);
+        }
+        
+        public System.Threading.Tasks.Task<bool> UpdateFileAsync(WorkstationBrowser.SessionReference.FileModel model) {
+            return base.Channel.UpdateFileAsync(model);
+        }
+        
+        public bool DeleteFile(string trackerId) {
+            return base.Channel.DeleteFile(trackerId);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteFileAsync(string trackerId) {
+            return base.Channel.DeleteFileAsync(trackerId);
+        }
+        
+        public WorkstationBrowser.SessionReference.FileModel GetFile(string trackerId) {
+            return base.Channel.GetFile(trackerId);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.FileModel> GetFileAsync(string trackerId) {
+            return base.Channel.GetFileAsync(trackerId);
+        }
+        
+        public WorkstationBrowser.SessionReference.ChangeSetModel CreateChangeSet(WorkstationBrowser.SessionReference.ChangeSetModel model) {
+            return base.Channel.CreateChangeSet(model);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ChangeSetModel> CreateChangeSetAsync(WorkstationBrowser.SessionReference.ChangeSetModel model) {
+            return base.Channel.CreateChangeSetAsync(model);
+        }
+        
+        public bool DeleteChangeSet(WorkstationBrowser.SessionReference.ChangeSetModel model) {
+            return base.Channel.DeleteChangeSet(model);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DeleteChangeSetAsync(WorkstationBrowser.SessionReference.ChangeSetModel model) {
+            return base.Channel.DeleteChangeSetAsync(model);
+        }
+        
+        public WorkstationBrowser.SessionReference.ChangeSetModel GetChangeSet(System.Guid id) {
+            return base.Channel.GetChangeSet(id);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ChangeSetModel> GetChangeSetAsync(System.Guid id) {
+            return base.Channel.GetChangeSetAsync(id);
+        }
+        
+        public WorkstationBrowser.SessionReference.ChangeSetModel[] GetChangeSetsPerFile(string trackerId) {
+            return base.Channel.GetChangeSetsPerFile(trackerId);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ChangeSetModel[]> GetChangeSetsPerFileAsync(string trackerId) {
+            return base.Channel.GetChangeSetsPerFileAsync(trackerId);
+        }
+        
+        public WorkstationBrowser.SessionReference.ChangeSetModel[] GetChangeSetsPerProject(long projectId) {
+            return base.Channel.GetChangeSetsPerProject(projectId);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.ChangeSetModel[]> GetChangeSetsPerProjectAsync(long projectId) {
+            return base.Channel.GetChangeSetsPerProjectAsync(projectId);
         }
     }
 }

@@ -106,6 +106,9 @@
     <Compile Include="App_Code\Security\CustomValidationProcess.cs" />
     <Compile Include="App_Code\Security\InputValidationFaultContract.cs" />
     <Compile Include="App_Code\Security\UserAccessModel.cs" />
+    <Compile Include="Data\ChangeSet.cs">
+      <DependentUpon>ManagementModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Department.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>
@@ -151,6 +154,7 @@
     <Compile Include="Data\Users.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="App_Code\Security\IdGenerator.cs" />
     <Compile Include="Session.svc.cs">
       <DependentUpon>Session.svc</DependentUpon>
     </Compile>

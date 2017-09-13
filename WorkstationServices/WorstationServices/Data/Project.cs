@@ -19,6 +19,7 @@ namespace WorkstationServices.Data
         {
             this.Team = new HashSet<Team>();
             this.Task = new HashSet<Task>();
+            this.File = new HashSet<File>();
         }
     
         public long id { get; set; }
@@ -33,5 +34,7 @@ namespace WorkstationServices.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task> Task { get; set; }
         public virtual Users Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<File> File { get; set; }
     }
 }

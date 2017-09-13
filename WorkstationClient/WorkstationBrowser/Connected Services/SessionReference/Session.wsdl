@@ -59,6 +59,12 @@
   <wsdl:message name="ISession_DeleteProject_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteProjectResponse" />
   </wsdl:message>
+  <wsdl:message name="ISession_CreateProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProject" />
+  </wsdl:message>
+  <wsdl:message name="ISession_CreateProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateProjectResponse" />
+  </wsdl:message>
   <wsdl:message name="ISession_GetAllUsers_InputMessage">
     <wsdl:part name="parameters" element="tns:GetAllUsers" />
   </wsdl:message>
@@ -215,11 +221,59 @@
   <wsdl:message name="ISession_DeleteTeam_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteTeamResponse" />
   </wsdl:message>
-  <wsdl:message name="ISession_CreateProject_InputMessage">
-    <wsdl:part name="parameters" element="tns:CreateProject" />
+  <wsdl:message name="ISession_CreateFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateFile" />
   </wsdl:message>
-  <wsdl:message name="ISession_CreateProject_OutputMessage">
-    <wsdl:part name="parameters" element="tns:CreateProjectResponse" />
+  <wsdl:message name="ISession_CreateFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_UpdateFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFile" />
+  </wsdl:message>
+  <wsdl:message name="ISession_UpdateFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFile" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFile" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_CreateChangeSet_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateChangeSet" />
+  </wsdl:message>
+  <wsdl:message name="ISession_CreateChangeSet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateChangeSetResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteChangeSet_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteChangeSet" />
+  </wsdl:message>
+  <wsdl:message name="ISession_DeleteChangeSet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteChangeSetResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetChangeSet_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetChangeSet" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetChangeSet_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetChangeSetResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetChangeSetsPerFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetChangeSetsPerFile" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetChangeSetsPerFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetChangeSetsPerFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetChangeSetsPerProject_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetChangeSetsPerProject" />
+  </wsdl:message>
+  <wsdl:message name="ISession_GetChangeSetsPerProject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetChangeSetsPerProjectResponse" />
   </wsdl:message>
   <wsdl:message name="ISession_NotificationPull_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:NotificationPull" />
@@ -251,6 +305,10 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteProject">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteProject" message="tns:ISession_DeleteProject_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteProjectResponse" message="tns:ISession_DeleteProject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CreateProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/CreateProject" message="tns:ISession_CreateProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/CreateProjectResponse" message="tns:ISession_CreateProject_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllUsers">
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetAllUsers" message="tns:ISession_GetAllUsers_InputMessage" />
@@ -360,9 +418,41 @@
       <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteTeam" message="tns:ISession_DeleteTeam_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteTeamResponse" message="tns:ISession_DeleteTeam_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CreateProject">
-      <wsdl:input wsaw:Action="http://tempuri.org/ISession/CreateProject" message="tns:ISession_CreateProject_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/ISession/CreateProjectResponse" message="tns:ISession_CreateProject_OutputMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CreateFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/CreateFile" message="tns:ISession_CreateFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/CreateFileResponse" message="tns:ISession_CreateFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UpdateFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/UpdateFile" message="tns:ISession_UpdateFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/UpdateFileResponse" message="tns:ISession_UpdateFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteFile" message="tns:ISession_DeleteFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteFileResponse" message="tns:ISession_DeleteFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetFile" message="tns:ISession_GetFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetFileResponse" message="tns:ISession_GetFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CreateChangeSet">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/CreateChangeSet" message="tns:ISession_CreateChangeSet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/CreateChangeSetResponse" message="tns:ISession_CreateChangeSet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeleteChangeSet">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/DeleteChangeSet" message="tns:ISession_DeleteChangeSet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/DeleteChangeSetResponse" message="tns:ISession_DeleteChangeSet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetChangeSet">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetChangeSet" message="tns:ISession_GetChangeSet_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetChangeSetResponse" message="tns:ISession_GetChangeSet_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetChangeSetsPerFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetChangeSetsPerFile" message="tns:ISession_GetChangeSetsPerFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetChangeSetsPerFileResponse" message="tns:ISession_GetChangeSetsPerFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetChangeSetsPerProject">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISession/GetChangeSetsPerProject" message="tns:ISession_GetChangeSetsPerProject_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISession/GetChangeSetsPerProjectResponse" message="tns:ISession_GetChangeSetsPerProject_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotificationPull">
       <wsdl:output wsaw:Action="http://tempuri.org/ISession/NotificationPull" message="tns:ISession_NotificationPull_OutputCallbackMessage" />
@@ -421,6 +511,15 @@
     </wsdl:operation>
     <wsdl:operation name="DeleteProject">
       <soap12:operation soapAction="http://tempuri.org/ISession/DeleteProject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateProject">
+      <soap12:operation soapAction="http://tempuri.org/ISession/CreateProject" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -668,8 +767,80 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="CreateProject">
-      <soap12:operation soapAction="http://tempuri.org/ISession/CreateProject" style="document" />
+    <wsdl:operation name="CreateFile">
+      <soap12:operation soapAction="http://tempuri.org/ISession/CreateFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFile">
+      <soap12:operation soapAction="http://tempuri.org/ISession/UpdateFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFile">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateChangeSet">
+      <soap12:operation soapAction="http://tempuri.org/ISession/CreateChangeSet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChangeSet">
+      <soap12:operation soapAction="http://tempuri.org/ISession/DeleteChangeSet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChangeSet">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetChangeSet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChangeSetsPerFile">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetChangeSetsPerFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChangeSetsPerProject">
+      <soap12:operation soapAction="http://tempuri.org/ISession/GetChangeSetsPerProject" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

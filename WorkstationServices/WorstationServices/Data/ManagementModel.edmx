@@ -5,6 +5,19 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChangeSet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="shortName" Type="varchar" MaxLength="64" />
+          <Property Name="description" Type="varchar" MaxLength="256" />
+          <Property Name="addition" Type="int" Nullable="false" />
+          <Property Name="deletion" Type="int" Nullable="false" />
+          <Property Name="edition" Type="int" Nullable="false" />
+          <Property Name="trackerId" Type="varchar" MaxLength="75" Nullable="false" />
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="parent" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="id" />
@@ -22,6 +35,8 @@
           <Property Name="last_updater" Type="int" Nullable="false" />
           <Property Name="creation_date" Type="datetime" Nullable="false" />
           <Property Name="last_update" Type="datetime" Nullable="false" />
+          <Property Name="change_count" Type="int" Nullable="false" />
+          <Property Name="project_id" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Message">
           <Key>
@@ -111,6 +126,30 @@
           <Property Name="rank" Type="varchar" MaxLength="64" />
           <Property Name="profilepic" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
+        <Association Name="FK__ChangeSet__paren__0C85DE4D">
+          <End Role="ChangeSet" Type="Self.ChangeSet" Multiplicity="0..1" />
+          <End Role="ChangeSet1" Type="Self.ChangeSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChangeSet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ChangeSet1">
+              <PropertyRef Name="parent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__File__project_id__04E4BC85">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Message__from__6A30C649">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Message" Type="Self.Message" Multiplicity="*" />
@@ -195,6 +234,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_File_Owner">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="owner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_File_Updter">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="last_updater" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_NotificationUser_Notification">
           <End Role="Notification" Type="Self.Notification" Multiplicity="1" />
           <End Role="NotificationUser" Type="Self.NotificationUser" Multiplicity="*" />
@@ -216,6 +279,18 @@
             </Principal>
             <Dependent Role="NotificationUser">
               <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TRACKERID_FILE">
+          <End Role="File" Type="Self.File" Multiplicity="1" />
+          <End Role="ChangeSet" Type="Self.ChangeSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="tracker_id" />
+            </Principal>
+            <Dependent Role="ChangeSet">
+              <PropertyRef Name="trackerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -256,6 +331,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ManagementModelStoreContainer">
+          <EntitySet Name="ChangeSet" EntityType="Self.ChangeSet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
@@ -266,6 +342,14 @@
           <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ChangeSet__paren__0C85DE4D" Association="Self.FK__ChangeSet__paren__0C85DE4D">
+            <End Role="ChangeSet" EntitySet="ChangeSet" />
+            <End Role="ChangeSet1" EntitySet="ChangeSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__project_id__04E4BC85" Association="Self.FK__File__project_id__04E4BC85">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
           <AssociationSet Name="FK__Message__from__6A30C649" Association="Self.FK__Message__from__6A30C649">
             <End Role="Users" EntitySet="Users" />
             <End Role="Message" EntitySet="Message" />
@@ -294,6 +378,14 @@
             <End Role="Team" EntitySet="Team" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_File_Owner" Association="Self.FK_File_Owner">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <AssociationSet Name="FK_File_Updter" Association="Self.FK_File_Updter">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
           <AssociationSet Name="FK_NotificationUser_Notification" Association="Self.FK_NotificationUser_Notification">
             <End Role="Notification" EntitySet="Notification" />
             <End Role="NotificationUser" EntitySet="NotificationUser" />
@@ -301,6 +393,10 @@
           <AssociationSet Name="FK_NotificationUser_Users" Association="Self.FK_NotificationUser_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="NotificationUser" EntitySet="NotificationUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TRACKERID_FILE" Association="Self.FK_TRACKERID_FILE">
+            <End Role="File" EntitySet="File" />
+            <End Role="ChangeSet" EntitySet="ChangeSet" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Ranks" Association="Self.FK_Users_Ranks">
             <End Role="Rank" EntitySet="Rank" />
@@ -340,6 +436,7 @@
           <Property Name="precedence" Type="Int16" Nullable="false" />
           <Property Name="admin_id" Type="Int32" />
           <NavigationProperty Name="Users" Relationship="ManagementModel.p_fk_uid" FromRole="Project" ToRole="Users" />
+          <NavigationProperty Name="File" Relationship="ManagementModel.FK__File__project_id__04E4BC85" FromRole="Project" ToRole="File" />
         </EntityType>
         <EntityType Name="Rank">
           <Key>
@@ -385,6 +482,8 @@
           <Property Name="profilepic" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Project" Relationship="ManagementModel.p_fk_uid" FromRole="Users" ToRole="Project" />
           <NavigationProperty Name="Team1" Relationship="ManagementModel.t_fk_mid" FromRole="Users" ToRole="Team" />
+          <NavigationProperty Name="File" Relationship="ManagementModel.FK_File_Owner" FromRole="Users" ToRole="File" />
+          <NavigationProperty Name="File1" Relationship="ManagementModel.FK_File_Updter" FromRole="Users" ToRole="File" />
           </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -481,6 +580,27 @@
             <End Role="Team" EntitySet="Team" />
           </AssociationSet>
           <EntitySet Name="File" EntityType="ManagementModel.File" />
+          <EntitySet Name="ChangeSet" EntityType="ManagementModel.ChangeSet" />
+          <AssociationSet Name="FK_TRACKERID_FILE" Association="ManagementModel.FK_TRACKERID_FILE">
+            <End Role="File" EntitySet="File" />
+            <End Role="ChangeSet" EntitySet="ChangeSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__project_id__04E4BC85" Association="ManagementModel.FK__File__project_id__04E4BC85">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <AssociationSet Name="FK_File_Owner" Association="ManagementModel.FK_File_Owner">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <AssociationSet Name="FK_File_Updter" Association="ManagementModel.FK_File_Updter">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="File" EntitySet="File" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChangeSet__paren__0C85DE4D" Association="ManagementModel.FK__ChangeSet__paren__0C85DE4D">
+            <End Role="ChangeSet" EntitySet="ChangeSet" />
+            <End Role="ChangeSet1" EntitySet="ChangeSet" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Users_Ranks">
           <End Type="ManagementModel.Rank" Role="Rank" Multiplicity="0..1" />
@@ -652,7 +772,89 @@
           <Property Name="last_updater" Type="Int32" Nullable="false" />
           <Property Name="creation_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="last_update" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="change_count" Type="Int32" Nullable="false" />
+          <Property Name="project_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ChangeSet" Relationship="ManagementModel.FK_TRACKERID_FILE" FromRole="File" ToRole="ChangeSet" />
+          <NavigationProperty Name="Project" Relationship="ManagementModel.FK__File__project_id__04E4BC85" FromRole="File" ToRole="Project" />
+          <NavigationProperty Name="Users" Relationship="ManagementModel.FK_File_Owner" FromRole="File" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="ManagementModel.FK_File_Updter" FromRole="File" ToRole="Users" />
         </EntityType>
+        <EntityType Name="ChangeSet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="shortName" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="addition" Type="Int32" Nullable="false" />
+          <Property Name="deletion" Type="Int32" Nullable="false" />
+          <Property Name="edition" Type="Int32" Nullable="false" />
+          <Property Name="trackerId" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="File" Relationship="ManagementModel.FK_TRACKERID_FILE" FromRole="ChangeSet" ToRole="File" />
+          <Property Name="parent" Type="Guid" />
+          <NavigationProperty Name="ChangeSet1" Relationship="ManagementModel.FK__ChangeSet__paren__0C85DE4D" FromRole="ChangeSet" ToRole="ChangeSet1" />
+          <NavigationProperty Name="ChangeSet2" Relationship="ManagementModel.FK__ChangeSet__paren__0C85DE4D" FromRole="ChangeSet1" ToRole="ChangeSet" />
+        </EntityType>
+        <Association Name="FK_TRACKERID_FILE">
+          <End Type="ManagementModel.File" Role="File" Multiplicity="1" />
+          <End Type="ManagementModel.ChangeSet" Role="ChangeSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="tracker_id" />
+            </Principal>
+            <Dependent Role="ChangeSet">
+              <PropertyRef Name="trackerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__File__project_id__04E4BC85">
+          <End Type="ManagementModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="ManagementModel.File" Role="File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_File_Owner">
+          <End Type="ManagementModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ManagementModel.File" Role="File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="owner_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_File_Updter">
+          <End Type="ManagementModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="ManagementModel.File" Role="File" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="File">
+              <PropertyRef Name="last_updater" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChangeSet__paren__0C85DE4D">
+          <End Type="ManagementModel.ChangeSet" Role="ChangeSet" Multiplicity="0..1" />
+          <End Type="ManagementModel.ChangeSet" Role="ChangeSet1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChangeSet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ChangeSet1">
+              <PropertyRef Name="parent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -765,12 +967,28 @@
           <EntitySetMapping Name="File">
             <EntityTypeMapping TypeName="ManagementModel.File">
               <MappingFragment StoreEntitySet="File">
+                <ScalarProperty Name="project_id" ColumnName="project_id" />
+                <ScalarProperty Name="change_count" ColumnName="change_count" />
                 <ScalarProperty Name="last_update" ColumnName="last_update" />
                 <ScalarProperty Name="creation_date" ColumnName="creation_date" />
                 <ScalarProperty Name="last_updater" ColumnName="last_updater" />
                 <ScalarProperty Name="owner_id" ColumnName="owner_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="tracker_id" ColumnName="tracker_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChangeSet">
+            <EntityTypeMapping TypeName="ManagementModel.ChangeSet">
+              <MappingFragment StoreEntitySet="ChangeSet">
+                <ScalarProperty Name="parent" ColumnName="parent" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="trackerId" ColumnName="trackerId" />
+                <ScalarProperty Name="edition" ColumnName="edition" />
+                <ScalarProperty Name="deletion" ColumnName="deletion" />
+                <ScalarProperty Name="addition" ColumnName="addition" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="shortName" ColumnName="shortName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
