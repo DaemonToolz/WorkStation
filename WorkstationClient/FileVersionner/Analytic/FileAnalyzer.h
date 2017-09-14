@@ -8,7 +8,7 @@
 #include <iostream>
 #include <chrono>
 #include <ctime>
-
+#include "FileItem.h"
 namespace Workstation {
 	namespace Analytic {
 		enum FileAction{
@@ -22,13 +22,9 @@ namespace Workstation {
 
 		public:
 			FileAnalyzer(std::string original, std::string fnew, std::string filepath){
-				originalFilename = original;
-				newFilename = fnew;
-
 				originalFilepath = filepath;
-				tempFilepath = filepath + "/temp/";
-				backupPath = filepath + "/backup/";
-
+				this->original = new FileItem(filepath, original, std::ios::binary);
+				this->modified = new FileItem(filepath, fnew, std::ios::binary);
 				comparator = new FileCompareResultList();
 			}
 
@@ -44,13 +40,23 @@ namespace Workstation {
 			void Decide(FileAction);
 			void CreateBackup(int);
 
+			const FileCompareResultList& getResultList()const{
+				return *comparator;
+			}
+
+			FileCompareResultList getResultListCopy()const {
+				return *comparator;
+			}
+
 			void OpenFile();
 			void CloseFile();
 
 		private:
 			FileCompareResultList* comparator;
-			std::ifstream original, modified, temp;
-			std::string originalFilename, newFilename, originalFilepath, tempFilepath, backupPath;
+			FileItem* original, *modified, *temp;
+			std::string originalFilepath;
+			//std::ifstream original, modified, temp;
+			//std::string originalFilename, newFilename, originalFilepath, tempFilepath, backupPath;
 
 			void Merge();
 			void Overwrite();

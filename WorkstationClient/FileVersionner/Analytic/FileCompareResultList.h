@@ -17,7 +17,15 @@ namespace Workstation {
 			vector::~vector();
 		}
 		
-
+		
+		const FileCompareResult* pop_front() {
+			if (!empty()) {
+				FileCompareResult frontObject = *(begin());
+				erase(begin());
+				return &frontObject;
+			}
+			return nullptr;
+		}
 
 	private:
 
