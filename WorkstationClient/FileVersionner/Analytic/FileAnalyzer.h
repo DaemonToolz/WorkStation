@@ -1,24 +1,27 @@
 #pragma once
 
+#ifdef WS_VERSIONER_API  
+#define WS_VERSIONER_API __declspec(dllexport)   
+#else  
+#define WS_VERSIONER_API __declspec(dllimport)   
+#endif  
+
 #include <algorithm>
 #include <iterator>
-#include <string>
-#include <fstream>
 #include "FileCompareResultList.h"
-#include <iostream>
 #include <chrono>
 #include <ctime>
 #include "FileItem.h"
 namespace Workstation {
 	namespace Analytic {
-		enum FileAction{
+		WS_VERSIONER_API enum FileAction{
 			KeepOriginal = 0,
 			Overwrite,
 			Merge,
 			SelectChanges
 		};
 
-		class FileAnalyzer {
+		WS_VERSIONER_API class FileAnalyzer {
 
 		public:
 			FileAnalyzer(std::string original, std::string fnew, std::string filepath){
@@ -31,13 +34,13 @@ namespace Workstation {
 			~FileAnalyzer()
 			{
 				CloseFile();
-				comparator->~FileCompareResultList();
+				delete comparator;
+				delete original, temp, modified;	
 			}
 			
 
 			void CreateShadowCopy(const char* filepath);
 			void AnalyseFile();
-			void Decide(FileAction);
 			void CreateBackup(int);
 
 			const FileCompareResultList& getResultList()const{
@@ -49,7 +52,7 @@ namespace Workstation {
 			}
 
 			void OpenFile();
-			void CloseFile();
+			void CloseFile() const;
 
 		private:
 			FileCompareResultList* comparator;
@@ -58,10 +61,7 @@ namespace Workstation {
 			//std::ifstream original, modified, temp;
 			//std::string originalFilename, newFilename, originalFilepath, tempFilepath, backupPath;
 
-			void Merge();
-			void Overwrite();
-			void SelectChanges(int*);
-
+			
 
 		protected:
 

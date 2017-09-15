@@ -13,28 +13,28 @@ void Workstation::Analytic::FileAnalyzer::CreateShadowCopy(const char* filepath)
 }
 
 void Workstation::Analytic::FileAnalyzer::AnalyseFile() {
-	int maxLines = 0;
-
-	std::cout << "Opening original and modified files..." << std::endl;
+	comparator->clear();
 	original->discoverFile();
 	modified->discoverFile();
-	std::cout << "Done" << std::endl;
-	std::cout << "Comparing sequences" << std::endl;
 	original->compareTo(*modified, comparator);
+	//modified->compareTo(*original, comparator);
 
-	std::cout << "Done" << std::endl;
 }
 
-void Workstation::Analytic::FileAnalyzer::Decide(FileAction action) {
-	// TODO Chose between Merge / Keep ...
-}
 
 void Workstation::Analytic::FileAnalyzer::CreateBackup(int fileno){
 	//std::ofstream backup = std::ofstream(backupPath + originalFilename + std::to_string(fileno));
 	std::string from = 
 		original->getAbsolutePath(), 
-			to = originalFilepath + "/temp/" + original->getFilename() + std::to_string(fileno);
+			to = originalFilepath + "temp\\" + original->getFilename() + "_" + std::to_string(fileno);
 	
+	try {
+		CreateDirectory((LPCTSTR)(originalFilepath + "temp\\").c_str(), NULL);
+	} catch(std::exception e){
+	}
+
+	if(GetLastError() != ERROR_ALREADY_EXISTS)
+		throw std::exception("Could not create the directory");
 	CopyFile(from.c_str(), to.c_str(), FALSE);
 }
 
@@ -47,20 +47,8 @@ void Workstation::Analytic::FileAnalyzer::OpenFile() {
 	
 }
 
-void Workstation::Analytic::FileAnalyzer::CloseFile(){
+void Workstation::Analytic::FileAnalyzer::CloseFile() const{
 	original->closeFile();
 	modified->closeFile();
 	temp->closeFile();
-}
-
-void Workstation::Analytic::FileAnalyzer::Merge()
-{
-}
-
-void Workstation::Analytic::FileAnalyzer::Overwrite()
-{
-}
-
-void Workstation::Analytic::FileAnalyzer::SelectChanges(int*)
-{
 }

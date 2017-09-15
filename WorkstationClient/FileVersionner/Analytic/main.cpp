@@ -26,17 +26,17 @@ void main()
 	cout << "There are " << abs(firstItem->AdditionalLines) << " new / missing lines" << endl;
 
 	for (auto iter = resultList.begin(); iter != resultList.end(); ++iter) {
-		cout << (iter->changeType) << endl;
+		cout << (iter->changeType == 0 ? "Line change" : (iter->changeType == 1 ? "New Content" : "Deleted items")) << endl;
 		cout << iter->StartingLine << " - " << iter->EndLine << endl;
-		cout << iter->OriginalLineContent << endl;
-		cout << iter->ModifiedContent << std::endl;
 		
-		if (!iter->ChangeSet.empty())
+		if (&iter->ChangeSet != nullptr && !iter->ChangeSet.empty())
 			for (auto subiter = iter->ChangeSet.begin(); subiter != iter->ChangeSet.end(); ++subiter)
 				cout << "----+ " << (*subiter) << endl;
 
 		std::cout << std::endl;
 	}
+
+	analyzer->CreateBackup(0);
 
 	getchar();
 }

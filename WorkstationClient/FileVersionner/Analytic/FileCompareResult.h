@@ -3,19 +3,19 @@
 
 namespace Workstation {
 
-	enum ChangeType
+	WS_VERSIONER_API enum ChangeType
 	{
 		LineChange = 0,
 		NewContent,
 		RemovedContent
 	};
 
-	struct FileCompareResult final {
+	WS_VERSIONER_API struct FileCompareResult final {
 		int StartingLine, EndLine, AdditionalLines;
 		ChangeType changeType;
 		
 		// Single line change
-		char *OriginalLineContent, *ModifiedContent; 
+		std::string OriginalLineContent, ModifiedContent; 
 
 		std::list<std::string> ChangeSet;
 
