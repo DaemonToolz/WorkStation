@@ -77,13 +77,14 @@ namespace WorkstationClrVersionner {
 		void OpenFileUnsafe();
 		FileCompareResultList AnalyzeFileUnsafe();
 		void CloseFileUnsafe();
-		
+		bool IsOpenUnsafe();
 
 	public:
 		AnalyzerWrapper(String^ oldfile, String^ newfile, String^ path);
 
 		void OpenFile() { OpenFileUnsafe(); }
 		void CloseFile() { CloseFileUnsafe(); }
+		bool IsOpen() { return IsOpenUnsafe(); }
 
 		AnalyzeResultList^ AnalyzeFile();
 

@@ -21,6 +21,7 @@ void Workstation::Analytic::FileAnalyzer::AnalyseFile() {
 
 }
 
+// TODO COPY TO C#
 
 void Workstation::Analytic::FileAnalyzer::CreateBackup(int fileno){
 	//std::ofstream backup = std::ofstream(backupPath + originalFilename + std::to_string(fileno));

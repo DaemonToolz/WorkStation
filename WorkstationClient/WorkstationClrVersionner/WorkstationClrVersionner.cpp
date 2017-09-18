@@ -19,6 +19,12 @@ void WorkstationClrVersionner::AnalyzerWrapper::OpenFileUnsafe()
 	analyzer->OpenFile();
 }
 
+bool WorkstationClrVersionner::AnalyzerWrapper::IsOpenUnsafe()
+{
+	return analyzer->isOpen();
+}
+
+
 FileCompareResultList WorkstationClrVersionner::AnalyzerWrapper::AnalyzeFileUnsafe(){
 	analyzer->CreateBackup(0);
 	analyzer->AnalyseFile();

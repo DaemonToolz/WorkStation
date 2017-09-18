@@ -51,6 +51,11 @@ namespace Workstation {
 				return *comparator;
 			}
 
+			const bool isOpen() const
+			{
+				return original->isOpen() && modified->isOpen();
+			}
+
 			void OpenFile();
 			void CloseFile() const;
 

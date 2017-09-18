@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Ionic.Zip;
+using WorkstationBrowser.BLL.FileTracker;
 using WorkstationBrowser.Controllers.Generic;
 using WorkstationBrowser.Controllers.Remote;
 using WorkstationBrowser.Models;
@@ -24,6 +25,7 @@ namespace WorkstationBrowser.Controllers
             if (!Request.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
+       
             IEnumerable<ProjectModel> projects = _Session.GetAllProjects();
             if (limit > 0) {
                 if (offset >= 0) {
@@ -176,6 +178,7 @@ namespace WorkstationBrowser.Controllers
             TempData["extension"] = extension;
             TempData["filename"] = filename;
             TempData["filepath"] = filepath;
+
             return View();
         }
 
@@ -192,7 +195,16 @@ namespace WorkstationBrowser.Controllers
                 return View();
             }*/
             //String projectPath = $@"C:\inetpub\ftproot\{(String) TempData["Project"]}\";
-            System.IO.File.WriteAllText($@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{project}\{title}.{extension}", content);
+            var root = $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{project}\";
+            var file = $"{title}.{extension}";
+
+            if (System.IO.File.Exists(root + file)){
+                if (!System.IO.Directory.Exists(root + @"backup\"))
+                    Directory.CreateDirectory(root + @"backup\");
+                System.IO.File.Copy(root + file, root + @"backup\" + file);
+            }
+
+            System.IO.File.WriteAllText(root + file, content);
         
             return RedirectToAction("ProjectDocuments", new{project = project, projectid = projectid });
         }
@@ -377,6 +389,44 @@ namespace WorkstationBrowser.Controllers
             return RedirectToAction("_AddComment", 
                 new { Project = Project, Filename = Filename, Projectid = Projectid});
 
+        }
+
+        public ActionResult SeeChanges(String Project, String Filename, int Projectid){
+            string root = $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{Project}\";
+
+            if (!Directory.Exists(root))
+                Directory.CreateDirectory(root);
+
+            List<VerComparativeItem> changeList = new List<VerComparativeItem>();
+
+            try
+            {
+               //var versionner = new BinaryVersionner(Filename, $@"backup\{Filename}", root);
+                /*
+               versionner.OpenFiles();
+               changeList.AddRange(versionner.CheckDifferences()
+                        .Results.Select(change => new VerComparativeItem()
+                        {
+                            BeginLine = change.BeginLine,
+                            EndLine = change.EndLine,
+                            Code = change.ChangeType,
+                            Differences = change.Results.ToArray()
+                        }));
+
+                versionner.CloseFiles();
+                */
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            TempData["Project"] = Project;
+            TempData["Filename"] = Filename;
+            TempData["Projectid"] = Projectid;
+
+            ViewData["Root"] = root;
+            return View("SeeChanges", changeList);
         }
 
     }

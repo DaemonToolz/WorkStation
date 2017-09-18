@@ -37,6 +37,11 @@ namespace Workstation{
 						closeFile();
 			}
 
+			bool isOpen()
+			{
+				return file.is_open();
+			}
+
 			void discoverFile(){
 				totalLines = 0;
 				std::string nutshell;
@@ -106,13 +111,36 @@ namespace Workstation{
 				// TODO Optimize
 				while (!file.eof()) {
 					originalOffset = file.tellg();
+					variation = 0;
+					if(other.file.eof()){
+						auto fcr = FileCompareResult();
+
+						fcr.StartingLine = other.getTotalLines() + 1;
+						
+						fcr.ChangeSet = std::list<std::string>();
+						fcr.changeType = ChangeType::RemovedContent;
+						fcr.ModifiedContent = fcr.OriginalLineContent = "";
+
+						while (!file.eof()) {
+							variation++;
+
+							file.getline(originalContentCopy, size);
+							fcr.ChangeSet.push_back(originalContentCopy);
+						}
+
+						fcr.EndLine = currentLine + variation;
+
+						output->push_back(fcr);
+						variation = 0;
+						break;
+					}
 
 					file.getline(originalContent, size);
 					other.file.getline(newContent, size);
 					atleastOneChange = foundInCopy = fileLimitReached = false;
 
 					currentLine++;
-					variation = 0;
+					
 					changes = strcmp(originalContent, newContent);
 					movingOffset = other.file.tellg();
 
@@ -220,12 +248,31 @@ namespace Workstation{
 					}
 
 				}
+
+				if(file.eof() && !other.file.eof()){
+					auto fcr = FileCompareResult();
+
+					fcr.StartingLine = getTotalLines() + 1;
+					
+					fcr.ChangeSet = std::list<std::string>();
+					fcr.changeType = ChangeType::NewContent;
+					fcr.ModifiedContent = fcr.OriginalLineContent = "";
+
+					variation = 0;
+					while (!other.file.eof()) {
+						variation++;
+						other.file.getline(newContentCopy, size);
+						fcr.ChangeSet.push_back(newContentCopy);
+					}
+					fcr.EndLine = getTotalLines() + variation;
+					output->push_back(fcr);
+				}
+
 				file.clear();   //  sets a new value for the error control state
 				file.seekg(0, std::ios::beg);
 
 				other.file.clear();   
 				other.file.seekg(0, std::ios::beg);
-	
 			}
 		private:
 			

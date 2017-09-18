@@ -166,6 +166,29 @@ a.menu-hyperlink {
     border-color: red;
 }
 
+.noChanges {
+    background-color: black;
+    color:white;
+}
+
+.rowChange {
+    background-color: #ffbf4e;
+    color:white;
+}
+
+.newContent {
+    background-color:  #b6ff95;
+    color: white;
+}
+
+.deleteContent {
+    background-color: #ff8989;
+    color: white;
+}
+
+
+
+
 .begin {
     
 }
