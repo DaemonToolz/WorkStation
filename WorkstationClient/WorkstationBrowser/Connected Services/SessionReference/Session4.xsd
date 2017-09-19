@@ -124,6 +124,12 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="FileModel" nillable="true" type="tns:FileModel" />
+  <xs:complexType name="ArrayOfFileModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FileModel" nillable="true" type="tns:FileModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFileModel" nillable="true" type="tns:ArrayOfFileModel" />
   <xs:complexType name="ChangeSetModel">
     <xs:sequence>
       <xs:element name="addition" type="xs:int" />

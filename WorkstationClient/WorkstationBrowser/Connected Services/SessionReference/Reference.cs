@@ -1410,6 +1410,12 @@ namespace WorkstationBrowser.SessionReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetFile", ReplyAction="http://tempuri.org/ISession/GetFileResponse")]
         System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.FileModel> GetFileAsync(string trackerId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetFiles", ReplyAction="http://tempuri.org/ISession/GetFilesResponse")]
+        WorkstationBrowser.SessionReference.FileModel[] GetFiles(long projectId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetFiles", ReplyAction="http://tempuri.org/ISession/GetFilesResponse")]
+        System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.FileModel[]> GetFilesAsync(long projectId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/CreateChangeSet", ReplyAction="http://tempuri.org/ISession/CreateChangeSetResponse")]
         WorkstationBrowser.SessionReference.ChangeSetModel CreateChangeSet(WorkstationBrowser.SessionReference.ChangeSetModel model);
         
@@ -1789,6 +1795,14 @@ namespace WorkstationBrowser.SessionReference {
         
         public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.FileModel> GetFileAsync(string trackerId) {
             return base.Channel.GetFileAsync(trackerId);
+        }
+        
+        public WorkstationBrowser.SessionReference.FileModel[] GetFiles(long projectId) {
+            return base.Channel.GetFiles(projectId);
+        }
+        
+        public System.Threading.Tasks.Task<WorkstationBrowser.SessionReference.FileModel[]> GetFilesAsync(long projectId) {
+            return base.Channel.GetFilesAsync(projectId);
         }
         
         public WorkstationBrowser.SessionReference.ChangeSetModel CreateChangeSet(WorkstationBrowser.SessionReference.ChangeSetModel model) {

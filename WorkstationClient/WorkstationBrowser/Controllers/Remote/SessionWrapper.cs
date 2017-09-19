@@ -138,6 +138,7 @@ namespace WorkstationBrowser.Controllers.Remote{
         }
 
 
+
         public void DeleteComment(String id)
         {
             var temp = CommentManager;
@@ -286,6 +287,46 @@ namespace WorkstationBrowser.Controllers.Remote{
         public IEnumerable<TaskModel> GetTasksByUser(int user_id){
             return Cache.GetAll("0_tasks_" + user_id, () => WorkstationSession.GetAllTasks(null, user_id));
         }
+
+        public IEnumerable<ChangeSetModel> GetAllChangeSets(String filename)
+        {
+            return Cache.GetAll($"f{filename.GetHashCode()}", () => WorkstationSession.GetChangeSetsPerFile(filename));
+        }
+
+        public void CreateChangeSet(ChangeSetModel model)
+        {
+            WorkstationSession.CreateChangeSet(model);
+        }
+
+        public IEnumerable<ChangeSetModel> GetChangeSetPerProject(long projectId)
+        {
+            return WorkstationSession.GetChangeSetsPerProject(projectId);
+        }
+
+        public IEnumerable<ChangeSetModel> GetChangeSetPerFile(String trackerid)
+        {
+            return WorkstationSession.GetChangeSetsPerFile(trackerid);
+        }
+
+        public IEnumerable<FileModel> GetFiles(int ProjectId)
+        {
+            return Cache.GetAll($"SPF_{ProjectId}", () => WorkstationSession.GetFiles(ProjectId));
+        }
+
+        public bool CreateFile(FileModel model){
+            return Cache.Add<FileModel>($"SPF_{model.project_id}", WorkstationSession.CreateFile, GetFiles, model, (int)model.project_id);
+        }
+
+        //public bool DeleteFile(FileModel model)
+        //{
+        //    return Cache.Delete<FileModel>($"SPF_{model.project_id}", WorkstationSession.DeleteFile, model);
+        //}
+
+
+        //public bool UpdateFile(FileModel model)
+        //{
+        //return Cache.Edit<FileModel>($"SPF_{model.project_id}", WorkstationSession.CreateFile, GetFiles, model, (int)model.project_id);
+        //}
 
 
 

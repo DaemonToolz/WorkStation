@@ -146,6 +146,9 @@ namespace WorkstationServices
         [OperationContract]
         FileModel GetFile(String trackerId);
 
+        [OperationContract]
+        IEnumerable<FileModel> GetFiles(long projectId);
+
 
         [OperationContract]
         ChangeSetModel CreateChangeSet(ChangeSetModel model);

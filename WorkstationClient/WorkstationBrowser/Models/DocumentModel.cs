@@ -20,5 +20,11 @@ namespace WorkstationBrowser.Models {
 
         [Required]
         public String Parent { get; set; }
+
+        [Required]
+        public int ActiveComments { get; set; }
+
+        [Required]
+        public int TotalChanges { get; set; }
     }
 }

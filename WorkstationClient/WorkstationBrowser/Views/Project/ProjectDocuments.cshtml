@@ -129,6 +129,11 @@
 
                         @if (!item.Directory)
                         {
+                            <a href="@Url.Action("_AddComment", "Project", new {Project = (String) ViewData["ProjectName"], FileName = item.Name, ProjectId = (int) ViewData["Projectid"]})" class="btn btn-default">
+                                <span class="glyphicon glyphicon-comment"></span> 
+                                <span class="badge"> @item.ActiveComments</span>
+                            </a>
+
                             if (item.Extension.Contains("txt") || item.Extension.Contains("html"))
                             {
                                 @Html.ActionLink(" ", "_DocumentCreator", "Project",
@@ -142,14 +147,16 @@
                             }, new { @class = "btn btn-default glyphicon glyphicon-cog" })
                             }
 
+
+
                             if (!item.Path.Contains("docx"))
                             {
                                 @Ajax.ActionLink(" ", "_FileContent", "Project", new { path = tmp }, ViewOptions, new { @class = "btn btn-default glyphicon glyphicon-eye-open" })
                             }
 
                             @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "btn btn-default glyphicon glyphicon-cloud-download" })
-                            @Html.ActionLink(" ", "_AddComment", "Project", new{ Project = (String)ViewData["ProjectName"], FileName = item.Name, ProjectId = (int)ViewData["Projectid"] }, new{@class="btn btn-default glyphicon glyphicon-comment "})
-
+                          
+                          
                             if (item.Path.ToLower().Contains("html") || item.Path.ToLower().Contains("txt")){
                                 @Html.ActionLink(" ", "SeeChanges", "Project", new {Project = (String) ViewData["ProjectName"], FileName = item.Name, ProjectId = (int) ViewData["Projectid"]}, new {@class = "btn btn-default glyphicon glyphicon-list "})
                             }

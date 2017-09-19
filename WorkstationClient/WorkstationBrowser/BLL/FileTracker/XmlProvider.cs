@@ -188,7 +188,7 @@ namespace WorkstationBrowser.BLL.FileTracker
 
         public virtual IEnumerable<XmlElementProvider> ReadNode(String key)
         {
-            if (OpenedDocument.Root == null) return new List<XmlElementProvider>();
+            if (OpenedDocument?.Root == null) return new List<XmlElementProvider>();
             var comments = OpenedDocument.Descendants(key).Elements();
             
 

@@ -94,6 +94,21 @@ namespace WorkstationBrowser.Controllers.Generic {
             return true;
         }
 
+        public bool Add<T>(String Key, Func<T, T> baseUpdater, Func<int,IEnumerable<T>> fetcher, T instance, int id)
+        {
+            var result = baseUpdater.Invoke(instance);
+            if (result == null) return false;
+
+            var all = fetcher.Invoke(id);
+            var allModels = all as IList<T> ?? all.ToList();
+            allModels.Add(result);
+            Set(Key, allModels.ToArray(), CachePriority.Default);
+
+            return true;
+        }
+
+
+
         public bool CrossAdd<T>(String Key1, String Key2, Func<T, T> baseUpdater, 
             Func<int, IEnumerable<T>> fetcher1, Func<int, IEnumerable<T>> fetcher2, T instance, int param1, int param2, bool crossCondition) where T:GenericModel
         {

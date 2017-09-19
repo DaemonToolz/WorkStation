@@ -518,24 +518,38 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetFiles">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="projectId" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFilesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetFilesResult" nillable="true" type="q42:ArrayOfFileModel" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="CreateChangeSet">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="model" nillable="true" type="q42:ChangeSetModel" />
+        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="model" nillable="true" type="q43:ChangeSetModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateChangeSetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q43="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="CreateChangeSetResult" nillable="true" type="q43:ChangeSetModel" />
+        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="CreateChangeSetResult" nillable="true" type="q44:ChangeSetModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="DeleteChangeSet">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q44="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="model" nillable="true" type="q44:ChangeSetModel" />
+        <xs:element xmlns:q45="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="model" nillable="true" type="q45:ChangeSetModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -549,14 +563,14 @@
   <xs:element name="GetChangeSet">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q45="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="id" type="q45:guid" />
+        <xs:element xmlns:q46="http://schemas.microsoft.com/2003/10/Serialization/" minOccurs="0" name="id" type="q46:guid" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetChangeSetResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q46="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetChangeSetResult" nillable="true" type="q46:ChangeSetModel" />
+        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetChangeSetResult" nillable="true" type="q47:ChangeSetModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -570,7 +584,7 @@
   <xs:element name="GetChangeSetsPerFileResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q47="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetChangeSetsPerFileResult" nillable="true" type="q47:ArrayOfChangeSetModel" />
+        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetChangeSetsPerFileResult" nillable="true" type="q48:ArrayOfChangeSetModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -584,14 +598,14 @@
   <xs:element name="GetChangeSetsPerProjectResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q48="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetChangeSetsPerProjectResult" nillable="true" type="q48:ArrayOfChangeSetModel" />
+        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="GetChangeSetsPerProjectResult" nillable="true" type="q49:ArrayOfChangeSetModel" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="NotificationPull">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q49="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q49:ArrayOfNotificationModel" />
+        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q50:ArrayOfNotificationModel" />
         <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
@@ -599,7 +613,7 @@
   <xs:element name="MessagePull">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q50="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q50:ArrayOfMessageModel" />
+        <xs:element xmlns:q51="http://schemas.datacontract.org/2004/07/WorkstationMessaging.Model" minOccurs="0" name="notifications" nillable="true" type="q51:ArrayOfMessageModel" />
         <xs:element minOccurs="0" name="caller" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>

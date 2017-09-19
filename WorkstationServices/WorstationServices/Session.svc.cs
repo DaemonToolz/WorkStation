@@ -745,6 +745,37 @@ namespace WorkstationServices
             }
         }
 
+        public IEnumerable<FileModel> GetFiles(long projectId)
+        {
+            try
+            {
+                var Files = entities.File.Where(record => record.project_id.Equals(projectId));
+                List<FileModel> Models = new List<FileModel>();
+
+                foreach (var File in Files)
+                {
+                    Models.Add(new FileModel()
+                    {
+                        tracker_id = File.tracker_id,
+                        change_count = File.change_count,
+                        creation_date = File.creation_date,
+                        last_update = File.last_update,
+                        last_updater = File.last_updater,
+                        name = File.name,
+                        owner_id = File.owner_id,
+                        project_id = projectId
+                    });
+                }
+
+                return Models;
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public ChangeSetModel CreateChangeSet(ChangeSetModel model){
             try
             {
