@@ -663,6 +663,12 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\SessionReference\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorkstationUtilitiesV2\WorkstationUtilitiesV2.csproj">
+      <Project>{b54d08cb-2866-4315-ad45-e79cb7544f60}</Project>
+      <Name>WorkstationUtilitiesV2</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

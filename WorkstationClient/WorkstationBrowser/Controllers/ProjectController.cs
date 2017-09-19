@@ -201,6 +201,10 @@ namespace WorkstationBrowser.Controllers
             if (System.IO.File.Exists(root + file)){
                 if (!System.IO.Directory.Exists(root + @"backup\"))
                     Directory.CreateDirectory(root + @"backup\");
+
+                if (System.IO.File.Exists(root + @"backup\" + file))
+                    System.IO.File.Delete(root + @"backup\" + file);
+
                 System.IO.File.Copy(root + file, root + @"backup\" + file);
             }
 
@@ -401,20 +405,15 @@ namespace WorkstationBrowser.Controllers
 
             try
             {
-               //var versionner = new BinaryVersionner(Filename, $@"backup\{Filename}", root);
-                /*
-               versionner.OpenFiles();
+               var versionner = new BinaryVersionner(Filename,Filename, root, @"\backup\");
                changeList.AddRange(versionner.CheckDifferences()
-                        .Results.Select(change => new VerComparativeItem()
+                        .Select(change => new VerComparativeItem()
                         {
-                            BeginLine = change.BeginLine,
+                            BeginLine = change.StartingLine,
                             EndLine = change.EndLine,
-                            Code = change.ChangeType,
-                            Differences = change.Results.ToArray()
+                            Code = (int)change.changeType,
+                            Differences = change.ChangeSet.ToArray()
                         }));
-
-                versionner.CloseFiles();
-                */
             }
             catch (Exception e)
             {

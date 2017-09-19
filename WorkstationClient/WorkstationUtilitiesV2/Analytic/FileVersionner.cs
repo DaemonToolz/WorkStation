@@ -36,17 +36,18 @@ namespace WorkstationUtilities.Analytic{
 
         private string FilePath { get; set; }
 
-        public FileVersionner(string OriginalFile, string NewFile, string Path){
+        public FileVersionner(string OriginalFile, string NewFile, string Path, string OtherRepository = ""){
             FilePath = Path;
             Original = new FileItem(Path, OriginalFile);
-            Modified = new FileItem(Path, NewFile);
+            Modified = new FileItem(Path + OtherRepository, NewFile);
+            Changes = new List<FileComparisonItem>();
         }
 
         public List<FileComparisonItem> AnalyzeFile(){
             Changes.Clear();
             Original.DiscoverFile();
             Modified.DiscoverFile();
-            Original.CompareTo(ref _Modified, ref _Changes);
+            Original.CompareTo_2(ref _Modified, ref _Changes);
 
             return Changes;
         }

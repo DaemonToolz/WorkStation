@@ -110,6 +110,10 @@
 
             @foreach (var item in Model)
             {
+                // Excluding the backup folder
+                if (item.Directory && item.Name.Contains("backup")){
+                    continue;
+                }
                 <tr>
                     <td style="vertical-align:middle;">
                         @Html.DisplayFor(modelItem => item.Name)
@@ -145,8 +149,10 @@
 
                             @Html.ActionLink(" ", "Download", "Project", new { path = tmp }, new { @class = "btn btn-default glyphicon glyphicon-cloud-download" })
                             @Html.ActionLink(" ", "_AddComment", "Project", new{ Project = (String)ViewData["ProjectName"], FileName = item.Name, ProjectId = (int)ViewData["Projectid"] }, new{@class="btn btn-default glyphicon glyphicon-comment "})
-                            @Html.ActionLink(" ", "SeeChanges", "Project", new { Project = (String)ViewData["ProjectName"], FileName = item.Name, ProjectId = (int)ViewData["Projectid"] }, new { @class = "btn btn-default glyphicon glyphicon-list " })
 
+                            if (item.Path.ToLower().Contains("html") || item.Path.ToLower().Contains("txt")){
+                                @Html.ActionLink(" ", "SeeChanges", "Project", new {Project = (String) ViewData["ProjectName"], FileName = item.Name, ProjectId = (int) ViewData["Projectid"]}, new {@class = "btn btn-default glyphicon glyphicon-list "})
+                            }
                         }
                         else
                         {

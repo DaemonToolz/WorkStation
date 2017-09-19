@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WorkstationBrowser.Models.VerComparativeItem>
+﻿@using WorkstationBrowser.Models
+@model IEnumerable<WorkstationBrowser.Models.VerComparativeItem>
 
 
 @{
@@ -6,6 +7,17 @@
 
     String Filename = TempData["Filename"].ToString();
     String Root = ViewData["Root"].ToString();
+
+    Dictionary<int[], VerComparativeItem> Map = new Dictionary<int[], VerComparativeItem>();
+
+    List<int[]> Keys = new List<int[]>();
+
+    foreach (var item in Model)
+    {
+        var key = new int[2] {item.BeginLine, item.EndLine};
+        Keys.Add(key);
+        Map.Add(key, item);
+    }
 }
 
 <h2> Changes </h2>
@@ -20,46 +32,87 @@
     
 </a>
 
+<a href="#" id="ShowChangesOnlyRef" class="btn btn-default" >
+    <span class="glyphicon glyphicon-eye-open"></span>
+</a>
+
+<a href="#" id="ShowCurrentOnlyRef" class="btn btn-default">
+    <span class="glyphicon glyphicon-eye-close"></span>
+</a>
 
 <hr/>
-<div class="col-xs-12 col-lg-12 col-md-12" style="margin-bottom:10px">
+<div class="col-xs-12 col-md-12 col-lg-12" style="margin-bottom:20px">
+    This document is the actual version, the elements highlightened are
+    either modified, added or removed regarding the previous version.
+</div>
+<hr/>
+
+<div class="col-xs-12 col-lg-12 col-md-12 section-scroll-2" style="margin-bottom:10px">
     @{
         String[] lines = System.IO.File.ReadAllLines(Root + Filename);
-        int myLine = 0;
+        int myLine = 1;
 
         string className = "noChanges";
-
-        <div class="col-xs-6 col-md-6 col-lg-6">
+        
+        <div class="col-xs-12 col-md-12 col-lg-12">
             @foreach (var line in lines)
             {
-                <div class="row" style="background-color: black; color: white;">
-                    <span style="text-align:center; float:left; width:20px; border-right: 1px solid aliceblue"></span>
-                    <span style="text-align:center; float:left; width:20px; border-right: 1px solid aliceblue"> @myLine </span>
-                    <span class="@className"> @Html.DisplayTextFor(Line => line) </span>
-                </div>
+                string changeType = "";
+                className = "noChanges";
+                if (Keys.Any(element => element[0] == myLine)){
+                    var myElement = Map[Keys.Single(element => element[0] == myLine)];
+                    var lineCopy = myLine;
 
+                    switch (myElement.Code){
+                        case 0:
+                            className = "rowChange";
+                            changeType = "~";
+                            break;
+                        case 1:
+                            className = "deleteContent";
+                            changeType = "-";
+                            break;
+                        case 2:
+                            className = "newContent";
+                            changeType = "+";
+                            break;
+                    }
+
+                    foreach (var record in myElement.Differences){
+                        <div class="row @(className) changes">
+                            <div style="text-align: center; float: left; width: 30px; border-right: 1px solid aliceblue"> @changeType</div>
+                            <div style="text-align: center; float: left; width: 50px; border-right: 1px solid aliceblue"> @lineCopy </div>
+                            <div class="@className" style="margin-left:10px;"> @record </div>
+                        </div>
+                        lineCopy++;
+                    }
+                }
+                else{
+                    <div class="row standard" style="background-color: black; color: white;">
+                        <div style="text-align: center; float: left; width: 80px; border-right: 1px solid aliceblue"> @myLine </div>
+                        <div class="@className" style="margin-left:10px;"> @Html.DisplayTextFor(Line => line) </div>
+                    </div>
+                }
                 myLine++;
             }
 
         </div>
-
-        lines = System.IO.File.ReadAllLines(Root + @"backup\" + Filename);
-        myLine = 0;
-
-        <div class="col-xs-6 col-md-6 col-lg-6">
-            @foreach (var line in lines)
-            {
-                <div class="row" style="background-color: black; color: white;">
-                    <span style="text-align:center; float:left; width:20px; border-right: 1px solid aliceblue"></span>
-                    <span style="text-align:center; float:left; width:20px; border-right: 1px solid aliceblue"> @myLine </span>
-                    <span class="@className"> @Html.DisplayTextFor(Line => line) </span>
-                </div>
-
-                myLine++;
-            }
-
-        </div>
+       
+       
     }
 
     <hr/>
 </div>
+
+@section Scripts{
+    <script>
+        $("#ShowChangesOnlyRef").click(function () {
+            $(".standard").fadeToggle(500);
+        });
+
+        $("#ShowCurrentOnlyRef").click(function () {
+            $(".changes").fadeToggle(500);
+
+        });
+    </script>
+}
