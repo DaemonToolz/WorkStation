@@ -139,6 +139,8 @@ namespace WorkstationBrowser.Controllers
 
             ViewData["Projectid"] = projectid;
             TempData["FileUploadRoot"] = root;
+            TempData["Projectid"] = projectid;
+
             List<DocumentModel> files = new List<DocumentModel>();
 
             foreach (var dir in Directory.GetDirectories(root))
@@ -167,7 +169,17 @@ namespace WorkstationBrowser.Controllers
                 var TotalComments = _Session.ReadComments().Count();
                 _Session.CloseFile();
 
-                var ChangeCount = _Session.GetAllChangeSets(project + fileinfo.Name).Count();
+                string totalName = $"{project}/{fileinfo.Name}";
+                String trackerid;
+                try{
+                    trackerid = _Session.GetFiles(projectid).Single(rec => rec.name.Equals(totalName))
+                        .tracker_id;
+                }
+                catch{
+                    trackerid = totalName;
+                }
+
+                var ChangeCount = _Session.GetChangeSetPerFile(trackerid).Count();
 
                 files.Add(new DocumentModel()
                 {
@@ -210,7 +222,7 @@ namespace WorkstationBrowser.Controllers
             var root = $@"{Server.MapPath("~/")}\UserContent\ProjectFiles\{project}\";
             var file = $"{title}.{extension}";
 
-            
+            // REDUNDANCY
             if (System.IO.File.Exists(root + file))
             {
                 if (!System.IO.Directory.Exists(root + @"backup\"))
@@ -222,10 +234,14 @@ namespace WorkstationBrowser.Controllers
                 System.IO.File.Copy(root + file, root + @"backup\" + file);
             }
 
-            if (!_Session.GetFiles(projectid).Any(record => record.name.Equals(file))){
+            System.IO.File.WriteAllText(root + file, content);
+            string recName = $"{project}/{file}";
+
+            // REDUNDANCY
+            if (!_Session.GetFiles(projectid).Any(record => record.name.Equals(recName))){
                 _Session.CreateFile(new FileModel()
                 {
-                    name = file,
+                    name = recName,
                     change_count = 0,
                     creation_date = DateTime.Now,
                     owner_id = (int) _Session.CurrentUser.id,
@@ -235,11 +251,13 @@ namespace WorkstationBrowser.Controllers
                 });
             }
 
-            var myFile = _Session.GetFiles(projectid).First(record => record.name.Equals(file));
+            var myFile = _Session.GetFiles(projectid).First(record => record.name.Equals(recName));
 
+            // REDUNDANCY
             List<VerComparativeItem> changeList = new List<VerComparativeItem>();
 
             int addition = 0, edition = 0, removal = 0; 
+            // Values are inverted here
             try
             {
                 var versionner = new BinaryVersionner(file, file, root, @"\backup\");
@@ -249,34 +267,38 @@ namespace WorkstationBrowser.Controllers
                 if(values.Any(rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.LineChange))
                     foreach (var editedLine in values.Where(
                         rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.LineChange))
-                        edition += (editedLine.EndLine - editedLine.StartingLine) + 1;
+                        edition += Math.Abs(editedLine.EndLine - editedLine.StartingLine) + 1;
 
                 if (values.Any(rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.NewContent))
                     foreach (var editedLine in values.Where(
                         rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.NewContent))
-                        addition += (editedLine.EndLine - editedLine.StartingLine) + 1;
+                        addition += Math.Abs(editedLine.EndLine - editedLine.StartingLine) + 1;
 
                 if (values.Any(rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.RemovedContent))
                     foreach (var editedLine in values.Where(
                         rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.RemovedContent))
-                        removal += (editedLine.EndLine - editedLine.StartingLine) + 1;
+                        removal += Math.Abs(editedLine.EndLine - editedLine.StartingLine) + 1;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
 
+            myFile.change_count += 1;
+            myFile.last_updater = (int)_Session.CurrentUser.id;
+            myFile.last_update = DateTime.Now;
+
+            _Session.UpdateFile(myFile);
+
             _Session.CreateChangeSet(new ChangeSetModel(){
                  trackerId = myFile.tracker_id,
                  description = "",
-                 shortName = $"{file} Update",
-                 addition = addition,
-                 deletion = removal,
+                 shortName = $"{recName} Update",
+                 addition = removal,
+                 deletion = addition,
                  edition = edition    
             });
 
-            System.IO.File.WriteAllText(root + file, content);
-        
             return RedirectToAction("ProjectDocuments", new{project = project, projectid = projectid });
         }
 
@@ -316,7 +338,7 @@ namespace WorkstationBrowser.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void UploadFiles(IEnumerable<HttpPostedFileBase> files, String directoryPath){
+        public void UploadFiles(IEnumerable<HttpPostedFileBase> files, String directoryPath, int projectid){
             if (files != null){
                 foreach (var file in files)
                 {
@@ -327,7 +349,89 @@ namespace WorkstationBrowser.Controllers
                         var fileName = Path.GetFileName(file.FileName);
                         // TODO: need to define destination
                         var path = Path.Combine(directoryPath, fileName);
+
+                        // REDUNDANCY
+                        if (System.IO.File.Exists(path))
+                        {
+                            if (!System.IO.Directory.Exists(directoryPath + @"backup\"))
+                                Directory.CreateDirectory(directoryPath + @"backup\");
+
+                            if (System.IO.File.Exists(directoryPath + @"backup\" + file))
+                                System.IO.File.Delete(directoryPath + @"backup\" + file);
+
+                            System.IO.File.Copy(path, directoryPath + @"backup\" + file);
+                        }
+
                         file.SaveAs(path);
+
+                        // REDUNDANCY
+                        String ProjectName = _Session.GetProject((long) projectid).name;
+                        String nameToSave = path.Substring(path.IndexOf(ProjectName));
+                        String recordNam = $"{nameToSave}/{file}";
+                        if (!_Session.GetFiles(projectid).Any(record => record.name.Equals(recordNam))){
+                            _Session.CreateFile(new FileModel()
+                            {
+                                name = recordNam,
+                                change_count = 0,
+                                creation_date = DateTime.Now,
+                                owner_id = (int) _Session.CurrentUser.id,
+                                project_id = projectid,
+                                last_update = DateTime.Now,
+                                last_updater = (int) _Session.CurrentUser.id
+                            });
+                        }
+                        else
+                        {
+                            var oldModel = _Session.GetFiles(projectid).Single(rec => rec.name.Equals(recordNam));
+
+                            oldModel.last_update = DateTime.Now;
+                            oldModel.last_updater = (int)_Session.CurrentUser.id;
+                            oldModel.change_count++;
+
+                            _Session.UpdateFile(oldModel);
+
+                            // REDUNDANCY
+                            List<VerComparativeItem> changeList = new List<VerComparativeItem>();
+
+                            int addition = 0, edition = 0, removal = 0;
+                            try
+                            {
+                                var versionner = new BinaryVersionner(fileName, fileName, directoryPath, @"\backup\");
+                                var values = versionner.CheckDifferences();
+                                versionner.Dispose();
+
+                                if (values.Any(rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.LineChange))
+                                    foreach (var editedLine in values.Where(
+                                        rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.LineChange))
+                                        edition += Math.Abs(editedLine.EndLine - editedLine.StartingLine) + 1;
+
+                                if (values.Any(rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.NewContent))
+                                    foreach (var editedLine in values.Where(
+                                        rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.NewContent))
+                                        addition += Math.Abs(editedLine.EndLine - editedLine.StartingLine) + 1;
+
+                                if (values.Any(rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.RemovedContent))
+                                    foreach (var editedLine in values.Where(
+                                        rec => rec.changeType == WorkstationUtilities.Analytic.ChangeType.RemovedContent))
+                                        removal += Math.Abs(editedLine.EndLine - editedLine.StartingLine) + 1;
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                            }
+
+                            _Session.CreateChangeSet(new ChangeSetModel()
+                            {
+                                trackerId = oldModel.tracker_id,
+                                description = "",
+                                shortName = $"{recordNam} Update",
+                                addition = addition,
+                                deletion = removal,
+                                edition = edition
+                            });
+
+                        }
+
                     }
                 }
             }
@@ -341,8 +445,12 @@ namespace WorkstationBrowser.Controllers
                 Directory.Delete(path);
             else 
                 System.IO.File.Delete(path);
+
+            
+
             return RedirectToAction("ProjectDocuments", "Project", new {project = project, projectid = id});
         }
+
 
 
         public ActionResult Edit(long id)
@@ -468,6 +576,7 @@ namespace WorkstationBrowser.Controllers
             if (!Directory.Exists(root))
                 Directory.CreateDirectory(root);
 
+            // REDUNDANCY
             List<VerComparativeItem> changeList = new List<VerComparativeItem>();
 
             try

@@ -17,6 +17,13 @@
         <AssociationConnector Association="UserModel.FK_Users_Users" />
         <AssociationConnector Association="UserModel.p_fk_uid" />
         <AssociationConnector Association="UserModel.t_fk_mid" />
+        <EntityTypeShape EntityType="UserModel.ChangeSet" Width="1.5" PointX="9.75" PointY="2.625" />
+        <EntityTypeShape EntityType="UserModel.File" Width="1.5" PointX="7.5" PointY="2.625" />
+        <AssociationConnector Association="UserModel.FK__ChangeSet__paren__0C85DE4D" />
+        <AssociationConnector Association="UserModel.FK_TRACKERID_FILE" />
+        <AssociationConnector Association="UserModel.FK__File__project_id__04E4BC85" />
+        <AssociationConnector Association="UserModel.FK_File_Owner" />
+        <AssociationConnector Association="UserModel.FK_File_Updter" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

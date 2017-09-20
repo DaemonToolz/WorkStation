@@ -288,11 +288,12 @@ namespace WorkstationBrowser.Controllers.Remote{
             return Cache.GetAll("0_tasks_" + user_id, () => WorkstationSession.GetAllTasks(null, user_id));
         }
 
-        public IEnumerable<ChangeSetModel> GetAllChangeSets(String filename)
+        /*
+        public IEnumerable<ChangeSetModel> GetAllChangeSets(String trackerId)
         {
-            return Cache.GetAll($"f{filename.GetHashCode()}", () => WorkstationSession.GetChangeSetsPerFile(filename));
+            return Cache.GetAll($"f{trackerId}", () => WorkstationSession.GetChangeSetsPerFile(trackerId));
         }
-
+        */
         public void CreateChangeSet(ChangeSetModel model)
         {
             WorkstationSession.CreateChangeSet(model);
@@ -314,19 +315,17 @@ namespace WorkstationBrowser.Controllers.Remote{
         }
 
         public bool CreateFile(FileModel model){
-            return Cache.Add<FileModel>($"SPF_{model.project_id}", WorkstationSession.CreateFile, GetFiles, model, (int)model.project_id);
+            return Cache.Add<FileModel, int>($"SPF_{model.project_id}", WorkstationSession.CreateFile, GetFiles, model, (int)model.project_id);
         }
 
-        //public bool DeleteFile(FileModel model)
-        //{
-        //    return Cache.Delete<FileModel>($"SPF_{model.project_id}", WorkstationSession.DeleteFile, model);
-        //}
+        public bool DeleteFile(FileModel model)
+        {
+            return Cache.DeleteReflection<FileModel, int>($"SPF_{model.project_id}", WorkstationSession.DeleteFile, GetFiles, model, (int)model.project_id, "tracker_id");
+        }
 
-
-        //public bool UpdateFile(FileModel model)
-        //{
-        //return Cache.Edit<FileModel>($"SPF_{model.project_id}", WorkstationSession.CreateFile, GetFiles, model, (int)model.project_id);
-        //}
+        public bool UpdateFile(FileModel model){
+            return Cache.EditReflection<FileModel, int>($"SPF_{model.project_id}",  GetFiles, WorkstationSession.UpdateFile, model, (int)model.project_id, "tracker_id");
+        }
 
 
 

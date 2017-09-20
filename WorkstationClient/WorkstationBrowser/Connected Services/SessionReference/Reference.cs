@@ -1399,10 +1399,10 @@ namespace WorkstationBrowser.SessionReference {
         System.Threading.Tasks.Task<bool> UpdateFileAsync(WorkstationBrowser.SessionReference.FileModel model);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteFile", ReplyAction="http://tempuri.org/ISession/DeleteFileResponse")]
-        bool DeleteFile(string trackerId);
+        bool DeleteFile(WorkstationBrowser.SessionReference.FileModel model);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/DeleteFile", ReplyAction="http://tempuri.org/ISession/DeleteFileResponse")]
-        System.Threading.Tasks.Task<bool> DeleteFileAsync(string trackerId);
+        System.Threading.Tasks.Task<bool> DeleteFileAsync(WorkstationBrowser.SessionReference.FileModel model);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISession/GetFile", ReplyAction="http://tempuri.org/ISession/GetFileResponse")]
         WorkstationBrowser.SessionReference.FileModel GetFile(string trackerId);
@@ -1781,12 +1781,12 @@ namespace WorkstationBrowser.SessionReference {
             return base.Channel.UpdateFileAsync(model);
         }
         
-        public bool DeleteFile(string trackerId) {
-            return base.Channel.DeleteFile(trackerId);
+        public bool DeleteFile(WorkstationBrowser.SessionReference.FileModel model) {
+            return base.Channel.DeleteFile(model);
         }
         
-        public System.Threading.Tasks.Task<bool> DeleteFileAsync(string trackerId) {
-            return base.Channel.DeleteFileAsync(trackerId);
+        public System.Threading.Tasks.Task<bool> DeleteFileAsync(WorkstationBrowser.SessionReference.FileModel model) {
+            return base.Channel.DeleteFileAsync(model);
         }
         
         public WorkstationBrowser.SessionReference.FileModel GetFile(string trackerId) {

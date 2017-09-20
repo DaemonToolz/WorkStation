@@ -154,6 +154,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -163,7 +164,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Database\ChangeSet.cs">
+      <DependentUpon>ManagementModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Database\Department.cs">
+      <DependentUpon>ManagementModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\File.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\ManagementModel.Context.cs">
@@ -193,6 +200,7 @@
     <Compile Include="Models\Database\Users.cs">
       <DependentUpon>ManagementModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjectHeavyModel.cs" />
     <Compile Include="Models\SystemInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -298,7 +306,7 @@
     <Content Include="Views\Shared\_StdLayout.cshtml" />
     <Content Include="Views\Home\Partial\_ActionButtons.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
-    <Content Include="Views\Home\_DashboardProjects.cshtml" />
+    <Content Include="Views\Dashboard\DashboardProjects.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

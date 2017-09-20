@@ -1,0 +1,58 @@
+﻿@model WorkstationManagementServices.Models.ProjectHeavyModel
+
+
+<p>
+    @Html.ActionLink(" ", "Dashboard", "Home", null, new {@class="btn btn-default glyphicon glyphicon-arrow-left"})
+</p>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <script>
+        var lineChanges = [];
+        var newContents = [];
+        var remContents = [];
+        var files = [];
+
+        @foreach (var item in Model.FileModels){
+            @:lineChanges.push(@Math.Abs(item.Changes));
+            @:newContents.push(@Math.Abs(item.NewContent));
+            @:remContents.push(@Math.Abs(item.RemovedContent));
+            @:files.push("@item.Filename");
+        }
+
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Total changes on this project'
+            },
+            xAxis: {
+                categories: files
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Line Edit',
+                data: lineChanges,
+                color: 'yellow'
+            }, {
+                name: 'New Content',
+                data: newContents,
+                color: 'green'
+            }, {
+                name: 'Removed Content',
+                data: remContents,
+                color: 'red'
+            }]
+        });
+    </script>
+
+}

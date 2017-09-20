@@ -142,15 +142,6 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="React.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
-      <HintPath>..\packages\React.Core.3.1.0\lib\net40\React.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="React.Web, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
-      <HintPath>..\packages\React.Web.3.1.0\lib\net40\React.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="React.Web.Mvc4, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
-      <HintPath>..\packages\React.Web.Mvc4.3.1.0\lib\net40\React.Web.Mvc4.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -222,7 +213,6 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\AuthConfig..cs" />
     <Compile Include="BLL\ExcelEngine.cs" />
@@ -648,6 +638,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Error\" />
+    <Folder Include="Scripts\typescript\" />
     <Folder Include="UserContent\FileTracker\" />
     <Folder Include="UserContent\ProjectFiles\" />
     <Folder Include="Views\Generic\" />

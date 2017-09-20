@@ -141,7 +141,7 @@ namespace WorkstationServices
         bool UpdateFile(FileModel model);
 
         [OperationContract]
-        bool DeleteFile(String trackerId);
+        bool DeleteFile(FileModel model);
 
         [OperationContract]
         FileModel GetFile(String trackerId);

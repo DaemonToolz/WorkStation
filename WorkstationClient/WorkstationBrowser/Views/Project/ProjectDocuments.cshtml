@@ -65,8 +65,8 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Extension)
+                <th style="text-align:center;">
+                    Total Changes
                 </th>
                 <th>
 
@@ -117,9 +117,13 @@
                 <tr>
                     <td style="vertical-align:middle;">
                         @Html.DisplayFor(modelItem => item.Name)
+                 
                     </td>
-                    <td style="vertical-align:middle;">
-                        @Html.DisplayFor(modelItem => item.Extension)
+                    <td style="vertical-align:middle; text-align:center;">
+                       @if (!item.Directory)
+                       {
+                           @item.TotalChanges
+                       }
                     </td>
                     <td></td>
                     <td style="vertical-align:middle;">
@@ -137,14 +141,14 @@
                             if (item.Extension.Contains("txt") || item.Extension.Contains("html"))
                             {
                                 @Html.ActionLink(" ", "_DocumentCreator", "Project",
-                            new
-                            {
-                                project = (String)ViewData["ProjectName"],
-                                projectid = (int)ViewData["Projectid"],
-                                filename = item.Name,
-                                extension = item.Extension,
-                                filepath = tmp
-                            }, new { @class = "btn btn-default glyphicon glyphicon-cog" })
+                                    new
+                                    {
+                                        project = (String)ViewData["ProjectName"],
+                                        projectid = (int)ViewData["Projectid"],
+                                        filename = item.Name,
+                                        extension = item.Extension,
+                                        filepath = tmp
+                                    }, new { @class = "btn btn-default glyphicon glyphicon-cog" })
                             }
 
 

@@ -30,5 +30,7 @@ namespace WorkstationManagementServices.Models.Database
         public virtual DbSet<Rank> Rank { get; set; }
         public virtual DbSet<Team> Team { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<ChangeSet> ChangeSet { get; set; }
+        public virtual DbSet<File> File { get; set; }
     }
 }

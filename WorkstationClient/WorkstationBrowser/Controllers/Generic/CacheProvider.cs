@@ -81,6 +81,22 @@ namespace WorkstationBrowser.Controllers.Generic {
             return true;
         }
 
+
+        public bool EditReflection<T, TInput>(String Key, Func<TInput, IEnumerable<T>> fetcher, Func<T, bool> editFunc, T instance, TInput Input, String FieldName)
+        {
+            if (!editFunc.Invoke(instance)) return false;
+            var all = fetcher.Invoke(Input);
+            var allModels = all as IList<T> ?? all.ToList();
+
+
+            var field = instance.GetType().GetProperty(FieldName);
+
+            allModels.Remove(allModels.Single(model => field.GetValue(model).Equals(field.GetValue(instance))));
+            allModels.Add(instance);
+            Set(Key, allModels.ToArray(), CachePriority.Default);
+            return true;
+        }
+
         public bool Add<T>(String Key, Func<T,T> baseUpdater, Func<IEnumerable<T>> fetcher, T instance) 
         {
             var result = baseUpdater.Invoke(instance);
@@ -94,7 +110,7 @@ namespace WorkstationBrowser.Controllers.Generic {
             return true;
         }
 
-        public bool Add<T>(String Key, Func<T, T> baseUpdater, Func<int,IEnumerable<T>> fetcher, T instance, int id)
+        public bool Add<T,Input>(String Key, Func<T, T> baseUpdater, Func<Input, IEnumerable<T>> fetcher, T instance, Input id)
         {
             var result = baseUpdater.Invoke(instance);
             if (result == null) return false;
@@ -142,6 +158,18 @@ namespace WorkstationBrowser.Controllers.Generic {
             if (otherStep){
                 nextStep?.Invoke(instance);
             }
+
+            return true;
+        }
+
+        public bool DeleteReflection<T, TInput>(String Key, Func<T, bool> updater, Func<TInput, IEnumerable<T>> fetcher, T instance, TInput input, String FieldName){
+            if (!updater.Invoke(instance)) return false;
+            var allModels = fetcher.Invoke(input).ToList();
+
+            var field = instance.GetType().GetProperty(FieldName);
+
+            allModels.Remove(allModels.Single(model => field.GetValue(model).Equals(field.GetValue(instance))));
+            Set(Key, allModels.ToArray(), CachePriority.Default);
 
             return true;
         }

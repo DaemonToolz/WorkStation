@@ -710,10 +710,11 @@ namespace WorkstationServices
             }
         }
 
-        public bool DeleteFile(String trackerId){
+        public bool DeleteFile(FileModel model)
+        {
             try
             {
-                entities.File.Remove(entities.File.Single(record => record.tracker_id.Equals(trackerId)));
+                entities.File.Remove(entities.File.Single(record => record.tracker_id.Equals(model.tracker_id)));
                 entities.SaveChanges();
                 return true;
             }
@@ -781,6 +782,7 @@ namespace WorkstationServices
             {
                 var ChangeSet = new ChangeSet()
                 {
+                    id = Guid.NewGuid(),
                     shortName = model.shortName,
                     edition = model.edition,
                     addition = model.addition,
