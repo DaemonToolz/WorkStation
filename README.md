@@ -9,6 +9,8 @@ The client project regroups all targets:
   - Application, using WPF and framework 4.6.2
   - Mobile, hopefully on Android, iOs and Windows.
   
+  - One part will be both on Client and Serverside and mostly written in Go for large data transfert and treatment across the network. 
+  
 The server project:
   - Authentication Services, token-based for the most. This one intends to be used on a wider range of projects not, necessarily, combining a username / password + token auth. Using ASP.NET Core 1.
   - Global Management Services, for a direct control of the database. It is based on a Windows Authentication system, restricting the utilization. Using ASP.NET MVC and framework 4.6.2.
