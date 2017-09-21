@@ -7,6 +7,7 @@ namespace WorkstationManagementServices.Models{
     public class SystemInfoModel {
         public IEnumerable<DbConnectionModel> Databases { get; set; }
         public IEnumerable<SiteModel> WebSites { get; set; }
+        public Dictionary<String, Dictionary<String, String>> SideProcess { get; set; }
     }
 
     public class DbConnectionModel

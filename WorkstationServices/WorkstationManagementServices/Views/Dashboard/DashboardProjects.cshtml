@@ -4,8 +4,38 @@
 <p>
     @Html.ActionLink(" ", "Dashboard", "Home", null, new {@class="btn btn-default glyphicon glyphicon-arrow-left"})
 </p>
+
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
+<div class="col-md-12">
+    <h3> Comment Activity </h3>
+
+    @if (@ViewData["XmlActivity"] != null)
+    {
+        foreach (var item in (dynamic[]) ViewData["XmlActivity"])
+        {
+
+            String friendlyName = item.Name;
+            
+            <div class="col-md-6">
+                @friendlyName.Replace("_comtrack", "").Replace(".xml", "")
+                <span class="badge pull-right">
+                    @if (item.Root.Comments != null)
+                    {
+                        @(item.Root.Comments[0].Content.Count)
+
+                    }
+                    else
+                    {
+                        @(0)
+
+                    }
+                </span>
+            </div>
+
+        }
+    }
+</div>
 
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")

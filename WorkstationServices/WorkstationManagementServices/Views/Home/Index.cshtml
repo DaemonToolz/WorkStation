@@ -10,43 +10,77 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h2> Services states</h2>
-        
-        @if (Model.WebSites != null){
-            foreach (var item in Model.WebSites)
-             {
-                 <p>
-                     Data sources : @Html.DisplayFor(model => item.Name)
-                 </p>
-                 <p>
-                     Server version : @Html.DisplayFor(model => item.PhysicalPath)
-                 </p>
-                 <p>
-                     Database info : @Html.DisplayFor(model => item.State)
-                 </p>
-             }
-        }
-        else {
-            <p> Could not list the related services, please increase the security level. </p>
-        }
-        <h2> Database state </h2>
-        
-        @foreach (var item in Model.Databases)
-        {
-            <p>
-                Data sources : @Html.DisplayFor(model => item.DataSource)
-            </p>
-            <p>
-                Server version : @Html.DisplayFor(model => item.ServerInfo)
-            </p>
-            <p>
-                Database info : @Html.DisplayFor(model => item.Database)
-            </p>
-            <p>
-                Current state : @Html.DisplayFor(model => item.State)
-            </p>
-        }
+        <div class="col-md-12">
+            <h2> Services states</h2>
+
+            @if (Model.WebSites != null)
+            {
+                foreach (var item in Model.WebSites)
+                {
+                    <div class="col-md-4">
+                        <p>
+                            Data sources : @Html.DisplayFor(model => item.Name)
+                        </p>
+                        <p>
+                            Server version : @Html.DisplayFor(model => item.PhysicalPath)
+                        </p>
+                        <p>
+                            Database info : @Html.DisplayFor(model => item.State)
+                        </p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p> Could not list the related services, please increase the security level. </p>
+            }
+        </div>
+        <div class="col-md-12">
+            <h2> Database state </h2>
+
+            @foreach (var item in Model.Databases)
+            {
+                <div class="col-md-4">
+                    <p>
+                        Data sources : @Html.DisplayFor(model => item.DataSource)
+                    </p>
+                    <p>
+                        Server version : @Html.DisplayFor(model => item.ServerInfo)
+                    </p>
+                    <p>
+                        Database info : @Html.DisplayFor(model => item.Database)
+                    </p>
+                    <p>
+                        Current state : @Html.DisplayFor(model => item.State)
+                    </p>
+                </div>
+
+            }
 
 
+        </div>
+   
+        <div class="col-md-12">
+            <h2> Side services </h2>
+
+            @foreach (var item in Model.SideProcess)
+            {
+                <div class="col-md-4">
+                    <p>
+                        Service name : @Html.DisplayFor(model => item.Key)
+                    </p>
+                    <p>
+                        Processus name : @Html.DisplayFor(model => item.Value["Name"])
+                    </p>
+                    <p>
+                        Is Responding : @Html.DisplayFor(model => item.Value["Responding"])
+                    </p>
+                    <p>
+                        Exited : @Html.DisplayFor(model => item.Value["Exited"])
+                    </p>
+                </div>
+
+            }
+        </div>
     </div>
-</div>
+ </div>

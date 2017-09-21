@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
+using WorkstationManagementServices.Controllers.Background;
 using WorkstationManagementServices.Models;
 using WorkstationManagementServices.Models.Database;
 
@@ -28,11 +29,14 @@ namespace WorkstationManagementServices.Controllers
                 }
             };
 
+            model.SideProcess = SideServicesManager.GetSideServicesInfo();
+
             try {
                 model.WebSites = null;//IISWebServices();
             } catch { }
 
             db.Database.Connection.Close();
+
             return View(model);
         }
 

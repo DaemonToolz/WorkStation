@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<scripts>
+  <script name="Xml Comment Drone">
+    <path>C:/Users/macie/Source/Repos/WorkStation/WorkstationClient/WorkstationDashboardDrone/</path>
+    <exe>WorkstationDashboardDrone.exe</exe>
+    <services>
+      <service name="Comments" base="http://localhost" port="10450">
+        <access name="AllComments"  type="GET" input="projectName:System.String" response="application/json">/Comments/{projectName}</access>
+      </service>
+    </services>
+  </script>
+</scripts>

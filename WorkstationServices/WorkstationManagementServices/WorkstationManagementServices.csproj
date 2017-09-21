@@ -154,6 +154,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Background\SideService.cs" />
+    <Compile Include="Controllers\Background\SideServicesManager.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -211,6 +213,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Controllers\Background\Data\Scripts.xml" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
