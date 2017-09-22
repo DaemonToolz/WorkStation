@@ -1,36 +1,78 @@
-﻿@model WorkstationManagementServices.Models.ProjectHeavyModel
+﻿@using WorkstationManagementServices.Models.Database
+@model WorkstationManagementServices.Models.ProjectHeavyModel
 
-
+@{
+    Dictionary<String, Dictionary<String, int>> Activities = new Dictionary<string, Dictionary<String, int>>();
+    var ChangeSets = ViewData["CSActivity"] as Dictionary<String, Dictionary<string, int>>;
+}
+<br/>
 <p>
     @Html.ActionLink(" ", "Dashboard", "Home", null, new {@class="btn btn-default glyphicon glyphicon-arrow-left"})
 </p>
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div class="col-md-12">
+    <h2> All Activities </h2>
+    <hr />
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    
+</div>
 
 <div class="col-md-12">
-    <h3> Comment Activity </h3>
-
+    <h3> Activity per File </h3>
+    <hr/>
     @if (@ViewData["XmlActivity"] != null)
     {
-        foreach (var item in (dynamic[]) ViewData["XmlActivity"])
-        {
+        var i = 0;
+        foreach (var item in (dynamic[]) ViewData["XmlActivity"]){
 
             String friendlyName = item.Name;
             
-            <div class="col-md-6">
-                @friendlyName.Replace("_comtrack", "").Replace(".xml", "")
-                <span class="badge pull-right">
-                    @if (item.Root.Comments != null)
-                    {
-                        @(item.Root.Comments[0].Content.Count)
-
+            <div class="col-md-12 col-xs-12 col-lg-12" style="margin-top:25px">
+                <div class="col-md-12 col-xs-12 col-lg-12">
+                    @{
+                        String RealFilename = friendlyName.Replace("_comtrack", "").Replace(".xml", "").Substring(1);
                     }
-                    else
-                    {
-                        @(0)
 
+                    @RealFilename
+                    <button type="button" data-toggle="collapse" class="pull-right btn btn-default btn-circle" data-target="#dcollapse@(i)">
+                        <span class="glyphicon glyphicon-arrow-down">  </span> 
+                    </button>
+                    <hr/>
+                </div>
+                
+                <!-- Check if contains either comments or changes-->
+                <div class="col-md-12 col-xs-12 col-lg-12 collapse" id="dcollapse@(i++)">
+                    <!-- Check if contains comment activities -->
+                    <div class="col-md-6 col-xs-12 col-lg-6 ">
+                        <div id="c_@friendlyName"></div>
+                    </div>
+                    <!-- Check if contains changeset Activities-->
+                    <div class="col-md-6 col-xs-12 col-lg-6 ">
+                        <div id="a_@RealFilename"></div>
+                    </div>
+                </div>
+                
+                @{
+                    var Dict = new Dictionary<String, int>();
+                }
+ 
+                @if (item.Root.Comments != null){
+                    foreach (var comment in item.Root.Comments[0].Content){
+                        DateTime date;
+                        if (DateTime.TryParse(comment.Date.ToString(), out date)){
+                            if (!Dict.ContainsKey(date.ToShortDateString())){
+                                Dict.Add(date.ToShortDateString(), 1);
+                            }
+                            else {
+                                Dict[date.ToShortDateString()]++;
+                            }
+                        }
                     }
-                </span>
+                } 
+                
+                @{
+                    Activities.Add($"c_{friendlyName}", Dict);
+                }
             </div>
 
         }
@@ -56,33 +98,99 @@
             @:files.push("@item.Filename");
         }
 
-        Highcharts.chart('container', {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Total changes on this project'
-            },
-            xAxis: {
-                categories: files
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'Line Edit',
-                data: lineChanges,
-                color: 'yellow'
-            }, {
-                name: 'New Content',
-                data: newContents,
-                color: 'green'
-            }, {
-                name: 'Removed Content',
-                data: remContents,
-                color: 'red'
-            }]
-        });
-    </script>
+        Highcharts.chart('container',
+            {
+                chart: { type: 'column' },
+                title: { text: 'Total changes on this project' },
+                xAxis: { categories: files },
+                credits: { enabled: false },
+                series: [
+                    { name: 'Line Edit', data: lineChanges, color: 'yellow' },
+                    { name: 'New Content', data: newContents, color: 'green' },
+                    { name: 'Removed Content', data: remContents, color: 'red' }
+                ]
+            });
 
+        var xAxis = [];
+        var yAxis = [];
+
+        @foreach (var file in Activities)
+        {
+            if (file.Value.Count > 0)
+            {
+                <text>
+                    xAxis.length = 0;
+                    yAxis.length = 0;
+                    @foreach (var comments in file.Value)
+                    {
+                        @:xAxis.push("@comments.Key");
+                        @:yAxis.push(@comments.Value);
+                    }
+
+                    Highcharts.chart("@file.Key",
+                        {
+                            title: { text: 'Comment activity' },
+                            yAxis: {
+                                tickInterval: 1,
+                                //minRange: 1,
+                                allowDecimals: false,
+                                title: { text: 'Comment count' }
+                            },
+                            xAxis: { categories: xAxis },
+
+                            plotOptions: { line: { dataLabels: { enabled: true }, enableMouseTracking: false } },
+                            series: [
+                                {
+                                    name: 'Comment count',
+                                    data: yAxis
+                                }
+                            ]
+                        });
+
+
+                </text>
+            }
+        }
+
+        @foreach (var file in ChangeSets)
+        {
+            <text>
+        xAxis.length = 0;
+        yAxis.length = 0;
+
+        @foreach (var activity in file.Value)
+        {
+            @:xAxis.push("@activity.Key");
+            @:yAxis.push(@activity.Value);
+        }
+
+        @{
+            String divName = $"a_{file.Key.Remove(0, file.Key.IndexOf("/")+1)}";
+        }
+
+        if ($("div[id^='@divName']").length === 1) {
+            Highcharts.chart("@divName",
+                {
+                    title: { text: 'Change activity' },
+                    yAxis: {
+                        title: { text: 'Change count' },
+                        tickInterval: 1,
+                        //minRange: 1,
+                        allowDecimals: false },
+                    xAxis: { categories: xAxis },
+
+                    plotOptions: { line: { dataLabels: { enabled: true }, enableMouseTracking: false } },
+                    series: [
+                        {
+                            name: 'Comment count',
+                            data: yAxis
+                        }
+                    ]
+                });
+        }
+
+   
+            </text>
+        }
+    </script>
 }

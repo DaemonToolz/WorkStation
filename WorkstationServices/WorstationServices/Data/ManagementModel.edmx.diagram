@@ -33,6 +33,7 @@
         <AssociationConnector Association="ManagementModel.FK_File_Owner" />
         <AssociationConnector Association="ManagementModel.FK_File_Updter" />
         <AssociationConnector Association="ManagementModel.FK__ChangeSet__paren__0C85DE4D" />
+        <AssociationConnector Association="ManagementModel.FK__ChangeSet__origi__151B244E" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

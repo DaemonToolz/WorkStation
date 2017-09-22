@@ -28,10 +28,13 @@ namespace WorkstationServices.Data
         public string trackerId { get; set; }
         public System.Guid id { get; set; }
         public Nullable<System.Guid> parent { get; set; }
+        public int origin { get; set; }
+        public System.DateTime stamp { get; set; }
     
         public virtual File File { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChangeSet> ChangeSet1 { get; set; }
         public virtual ChangeSet ChangeSet2 { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

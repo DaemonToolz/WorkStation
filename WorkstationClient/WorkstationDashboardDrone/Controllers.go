@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func ReadDir(DirPath string) Query {
+func ReadDir(DirPath string, parent string) Query {
 	files, err := ioutil.ReadDir(DirPath)
 	if err != nil {
 		fmt.Println("Error opening file:", err)
@@ -21,7 +21,7 @@ func ReadDir(DirPath string) Query {
 	for _, f := range files {
 		if f.IsDir() == false {
 
-			name := f.Name()
+			name := parent + "/" + f.Name()
 			cmts := ReadFile(DirPath + "\\" + f.Name())
 
 			descriptor := FileDescription{}
@@ -29,6 +29,8 @@ func ReadDir(DirPath string) Query {
 			descriptor.Comments = cmts
 
 			query.Files = append(query.Files, descriptor)
+		} else {
+			query.Files = append(query.Files, ReadDir(DirPath+"\\"+f.Name(), parent+"/"+f.Name()).Files...)
 		}
 	}
 

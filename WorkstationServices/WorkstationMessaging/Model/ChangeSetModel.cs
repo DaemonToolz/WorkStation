@@ -34,5 +34,11 @@ namespace WorkstationMessaging.Model
         [DataMember(IsRequired = true)]
         public Nullable<Guid> parent{ get; set; }
 
+        [DataMember(IsRequired = true)]
+        public DateTime stamp { get; set; }
+
+        [DataMember(IsRequired = true)]
+        public int origin { get; set; }
+
     }
 }

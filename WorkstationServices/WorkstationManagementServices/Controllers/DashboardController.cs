@@ -42,12 +42,38 @@ namespace WorkstationManagementServices.Controllers
 
                 }
 
+            var ProjectName = db.Project.Single(proj => proj.id.Equals(projectid)).name;
+
             // Test
             var response = JObject.Parse( SideServicesManager.CallService("Xml Comment Drone", "Comments", "GET", "AllComments",
-                new Dictionary<string, object>() { { "projectName", "Workstation" } }));
-            JArray files = (JArray)response["files"];
+                new Dictionary<string, object>() { { "projectName", ProjectName } }));
 
-            ViewData["XmlActivity"] = files.Select(c => c).ToArray(); ;
+            JArray files = response["files"].HasValues ? (JArray)response["files"] : null;
+
+            ViewData["XmlActivity"] = files?.ToArray();
+
+            var dict = new Dictionary<string, Dictionary<string, int>>();
+
+            foreach (var item in db.File)
+            {
+                if (!db.ChangeSet.Any(rec => rec.trackerId.Equals(item.tracker_id)))
+                    continue;
+                var tracks = db.ChangeSet.Where(rec => rec.trackerId.Equals(item.tracker_id)).ToList();
+                var temp = new Dictionary<string, int>();
+
+                foreach (var activity in tracks)
+                {
+                    if (!temp.ContainsKey(activity.stamp.ToShortDateString()))
+                        temp.Add(activity.stamp.ToShortDateString(), 1);
+                    else
+                        temp[activity.stamp.ToShortDateString()]++;
+                }
+
+                dict.Add(item.name, temp);
+            }
+
+            ViewData["CSActivity"] = dict;
+
             return View(new ProjectHeavyModel() { FileModels = Detailed.ToArray() });
         }
     }

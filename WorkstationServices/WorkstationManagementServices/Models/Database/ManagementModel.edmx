@@ -17,6 +17,8 @@
           <Property Name="trackerId" Type="varchar" MaxLength="75" Nullable="false" />
           <Property Name="id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="parent" Type="uniqueidentifier" />
+          <Property Name="origin" Type="int" Nullable="false" />
+          <Property Name="stamp" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -81,6 +83,18 @@
           <Property Name="rank" Type="varchar" MaxLength="64" />
           <Property Name="profilepic" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
+        <Association Name="FK__ChangeSet__origi__151B244E">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ChangeSet" Type="Self.ChangeSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ChangeSet">
+              <PropertyRef Name="origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__ChangeSet__paren__0C85DE4D">
           <End Role="ChangeSet" Type="Self.ChangeSet" Multiplicity="0..1" />
           <End Role="ChangeSet1" Type="Self.ChangeSet" Multiplicity="*" />
@@ -221,6 +235,10 @@
           <EntitySet Name="Rank" EntityType="Self.Rank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ChangeSet__origi__151B244E" Association="Self.FK__ChangeSet__origi__151B244E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ChangeSet" EntitySet="ChangeSet" />
+          </AssociationSet>
           <AssociationSet Name="FK__ChangeSet__paren__0C85DE4D" Association="Self.FK__ChangeSet__paren__0C85DE4D">
             <End Role="ChangeSet" EntitySet="ChangeSet" />
             <End Role="ChangeSet1" EntitySet="ChangeSet" />
@@ -326,6 +344,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="File" EntitySet="File" />
           </AssociationSet>
+          <AssociationSet Name="FK__ChangeSet__origi__151B244E" Association="UserModel.FK__ChangeSet__origi__151B244E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ChangeSet" EntitySet="ChangeSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Department">
           <Key>
@@ -393,6 +415,7 @@
           <NavigationProperty Name="Team1" Relationship="UserModel.t_fk_mid" FromRole="Users" ToRole="Team" />
           <NavigationProperty Name="File" Relationship="UserModel.FK_File_Owner" FromRole="Users" ToRole="File" />
           <NavigationProperty Name="File1" Relationship="UserModel.FK_File_Updter" FromRole="Users" ToRole="File" />
+          <NavigationProperty Name="ChangeSet" Relationship="UserModel.FK__ChangeSet__origi__151B244E" FromRole="Users" ToRole="ChangeSet" />
         </EntityType>
         <Association Name="FK__Team__department__49C3F6B7">
           <End Type="UserModel.Department" Role="Department" Multiplicity="0..1" />
@@ -493,6 +516,9 @@
           <NavigationProperty Name="ChangeSet1" Relationship="UserModel.FK__ChangeSet__paren__0C85DE4D" FromRole="ChangeSet" ToRole="ChangeSet1" />
           <NavigationProperty Name="ChangeSet2" Relationship="UserModel.FK__ChangeSet__paren__0C85DE4D" FromRole="ChangeSet1" ToRole="ChangeSet" />
           <NavigationProperty Name="File" Relationship="UserModel.FK_TRACKERID_FILE" FromRole="ChangeSet" ToRole="File" />
+          <Property Name="origin" Type="Int32" Nullable="false" />
+          <Property Name="stamp" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Users" Relationship="UserModel.FK__ChangeSet__origi__151B244E" FromRole="ChangeSet" ToRole="Users" />
         </EntityType>
         <EntityType Name="File">
           <Key>
@@ -571,6 +597,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__ChangeSet__origi__151B244E">
+          <End Type="UserModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="UserModel.ChangeSet" Role="ChangeSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ChangeSet">
+              <PropertyRef Name="origin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -635,6 +673,8 @@
           <EntitySetMapping Name="ChangeSet">
             <EntityTypeMapping TypeName="UserModel.ChangeSet">
               <MappingFragment StoreEntitySet="ChangeSet">
+                <ScalarProperty Name="stamp" ColumnName="stamp" />
+                <ScalarProperty Name="origin" ColumnName="origin" />
                 <ScalarProperty Name="parent" ColumnName="parent" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="trackerId" ColumnName="trackerId" />

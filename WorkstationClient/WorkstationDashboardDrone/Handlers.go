@@ -15,7 +15,7 @@ func AllComments(w http.ResponseWriter, r *http.Request) {
 	// Find workaround"
 	concretePath :=
 		"C:\\Users\\macie\\Source\\Repos\\WorkStation\\WorkstationClient\\WorkstationBrowser\\UserContent\\FileTracker\\" + projectName + "\\Comments\\"
-	result := ReadDir(concretePath)
+	result := ReadDir(concretePath, "")
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)

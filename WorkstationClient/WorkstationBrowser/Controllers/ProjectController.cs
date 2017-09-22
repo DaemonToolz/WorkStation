@@ -158,7 +158,18 @@ namespace WorkstationBrowser.Controllers
                 });
             }
 
-            string CommentRoot = $@"{Server.MapPath("~/")}\UserContent\FileTracker\{project}\Comments\";
+            string projectName, commentPath;
+            if (project.Contains("/"))
+            {
+                projectName = project.Remove(project.IndexOf("/"));
+                commentPath = project.Substring(project.IndexOf("/") + 1);
+            }
+            else
+            {
+                projectName = project;
+                commentPath = "";
+            }
+            string CommentRoot = $@"{Server.MapPath("~/")}\UserContent\FileTracker\{projectName}\Comments\{commentPath}\";
      
             foreach (string file in Directory.EnumerateFiles(root))
             {
@@ -296,7 +307,9 @@ namespace WorkstationBrowser.Controllers
                  shortName = $"{recName} Update",
                  addition = removal,
                  deletion = addition,
-                 edition = edition    
+                 edition = edition,
+                 origin = (int)_Session.CurrentUser.id,
+                 stamp = DateTime.Now
             });
 
             return RedirectToAction("ProjectDocuments", new{project = project, projectid = projectid });
@@ -427,7 +440,9 @@ namespace WorkstationBrowser.Controllers
                                 shortName = $"{recordNam} Update",
                                 addition = addition,
                                 deletion = removal,
-                                edition = edition
+                                edition = edition,
+                                origin = (int)_Session.CurrentUser.id,
+                                stamp = DateTime.Now
                             });
 
                         }
@@ -507,8 +522,21 @@ namespace WorkstationBrowser.Controllers
         }
 
         // TODO
-        public ActionResult _AddComment(String Project, String Filename, int Projectid){
-            string root = $@"{Server.MapPath("~/")}\UserContent\FileTracker\{Project}\Comments\";
+        public ActionResult _AddComment(String Project, String Filename, int Projectid)
+        {
+
+            string projectName, commentPath;
+            if (Project.Contains("/"))
+            {
+                projectName = Project.Remove(Project.IndexOf("/"));
+                commentPath = Project.Substring(Project.IndexOf("/") + 1);
+            }
+            else
+            {
+                projectName = Project;
+                commentPath = "";
+            }
+            string root = $@"{Server.MapPath("~/")}\UserContent\FileTracker\{projectName}\Comments\{commentPath}\";
 
             if (!Directory.Exists(root))
                 Directory.CreateDirectory(root);

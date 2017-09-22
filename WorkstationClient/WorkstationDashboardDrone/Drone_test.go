@@ -14,7 +14,7 @@ func TestReadDir(t *testing.T) {
 	}
 	for _, tt := range tests {
 
-		jsonMarshalled, _ := json.Marshal(ReadDir(tt.DirPath))
+		jsonMarshalled, _ := json.Marshal(ReadDir(tt.DirPath, ""))
 
 		fmt.Println(string(jsonMarshalled))
 	}

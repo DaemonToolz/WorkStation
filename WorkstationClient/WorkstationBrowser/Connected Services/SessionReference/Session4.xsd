@@ -137,8 +137,10 @@
       <xs:element name="description" nillable="true" type="xs:string" />
       <xs:element name="edition" type="xs:int" />
       <xs:element name="id" type="ser:guid" />
+      <xs:element name="origin" type="xs:int" />
       <xs:element name="parent" nillable="true" type="ser:guid" />
       <xs:element name="shortName" nillable="true" type="xs:string" />
+      <xs:element name="stamp" type="xs:dateTime" />
       <xs:element name="trackerId" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>

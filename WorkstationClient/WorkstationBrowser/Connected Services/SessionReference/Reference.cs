@@ -1041,9 +1041,13 @@ namespace WorkstationBrowser.SessionReference {
         
         private System.Guid idField;
         
+        private int originField;
+        
         private System.Nullable<System.Guid> parentField;
         
         private string shortNameField;
+        
+        private System.DateTime stampField;
         
         private string trackerIdField;
         
@@ -1123,6 +1127,19 @@ namespace WorkstationBrowser.SessionReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public int origin {
+            get {
+                return this.originField;
+            }
+            set {
+                if ((this.originField.Equals(value) != true)) {
+                    this.originField = value;
+                    this.RaisePropertyChanged("origin");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
         public System.Nullable<System.Guid> parent {
             get {
                 return this.parentField;
@@ -1144,6 +1161,19 @@ namespace WorkstationBrowser.SessionReference {
                 if ((object.ReferenceEquals(this.shortNameField, value) != true)) {
                     this.shortNameField = value;
                     this.RaisePropertyChanged("shortName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
+        public System.DateTime stamp {
+            get {
+                return this.stampField;
+            }
+            set {
+                if ((this.stampField.Equals(value) != true)) {
+                    this.stampField = value;
+                    this.RaisePropertyChanged("stamp");
                 }
             }
         }

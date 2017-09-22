@@ -24,6 +24,7 @@
         <AssociationConnector Association="UserModel.FK__File__project_id__04E4BC85" />
         <AssociationConnector Association="UserModel.FK_File_Owner" />
         <AssociationConnector Association="UserModel.FK_File_Updter" />
+        <AssociationConnector Association="UserModel.FK__ChangeSet__origi__151B244E" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

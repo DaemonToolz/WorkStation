@@ -789,7 +789,9 @@ namespace WorkstationServices
                     deletion = model.deletion,
                     description = model.description,
                     trackerId = model.trackerId,
-                    parent = model.parent
+                    parent = model.parent,
+                    stamp = model.stamp,
+                    origin = model.origin
                 };
 
                 entities.ChangeSet.Add(ChangeSet);
@@ -829,7 +831,9 @@ namespace WorkstationServices
                     edition = ChangeSet.edition,
                     shortName = ChangeSet.shortName,
                     trackerId = ChangeSet.trackerId,
-                    parent = ChangeSet.parent
+                    parent = ChangeSet.parent,
+                    origin = ChangeSet.origin,
+                    stamp = ChangeSet.stamp
                 };
             }
             catch
@@ -853,7 +857,9 @@ namespace WorkstationServices
                         edition = changeSet.edition,
                         shortName = changeSet.shortName,
                         trackerId = trackerId,
-                        parent = changeSet.parent
+                        parent = changeSet.parent,
+                        origin = changeSet.origin,
+                        stamp = changeSet.stamp
                     });
 
                 return models;
@@ -879,7 +885,9 @@ namespace WorkstationServices
                         edition = changeSet.edition,
                         shortName = changeSet.shortName,
                         trackerId = changeSet.trackerId,
-                        parent = changeSet.parent
+                        parent = changeSet.parent,
+                        origin = changeSet.origin,
+                        stamp = changeSet.stamp
                     });
 
                 return models;
