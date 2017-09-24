@@ -74,7 +74,55 @@ namespace WorkstationManagementServices.Controllers
 
             ViewData["CSActivity"] = dict;
 
+            //var result = MergeModel(files?.ToArray());
+            
             return View(new ProjectHeavyModel() { FileModels = Detailed.ToArray() });
+        }
+
+        private List<DashboardItem> MergeModel(JToken[] jsoned)
+        {
+            throw new NotImplementedException();
+            //files > [Name, Root > Comments > [Content > [Author, Date,Content]]
+            var items = new List<DashboardItem>();
+
+            foreach (var item in jsoned){
+                var name = item["Name"].ToString();
+                var dItem = new DashboardItem(){
+                    Name = name.Remove(name.LastIndexOf("/") + 1).Replace("_comtrack", "").Replace(".xml",""),
+                    Parent = name.Substring(0, name.LastIndexOf("/") + 1),
+                    Comments = item["Root"]["Comments"][0]["Content"].ToObject<CommentModel[]>(),
+                };
+
+                var changes = new List<ChangeSet>();
+                try {
+                    var relatedFile = db.File.Single(rec => rec.name.Equals(dItem.Absolute));
+                    changes = db.ChangeSet.Where(rec => rec.trackerId.Equals(relatedFile.tracker_id)).ToList();
+                } catch { }
+
+                dItem.Changes = changes.ToArray();
+                items.Add(dItem);
+            }
+
+            foreach (var uncommented in db.File.Where(rec => items.Select(it => it.Absolute).Contains(rec.name)))
+            {
+                var name = uncommented.name;
+                var dItem = new DashboardItem()
+                {
+                    Name = name.Remove(name.LastIndexOf("/") + 1).Replace("_comtrack", "").Replace(".xml", ""),
+                    Parent = name.Substring(0, name.LastIndexOf("/") + 1),
+                    Comments = new List<CommentModel>().ToArray()
+                };
+
+                var changes = new List<ChangeSet>();
+                try {
+                    changes = db.ChangeSet.Where(rec => rec.trackerId.Equals(uncommented.tracker_id)).ToList();
+                } catch { }
+
+                dItem.Changes = changes.ToArray();
+                items.Add(dItem);
+            }
+
+            return items;
         }
     }
 }

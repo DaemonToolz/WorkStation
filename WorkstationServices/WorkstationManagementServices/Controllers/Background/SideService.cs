@@ -42,6 +42,8 @@ namespace WorkstationManagementServices.Controllers.Background {
                 var webRequest = (HttpWebRequest)System.Net.WebRequest.Create($@"{Base}:{Port}{path}");
                 webRequest.Method = selected.Access;
                 webRequest.ContentType = selected.ResponseType;
+                webRequest.UserAgent = "Workstation Probing Agent";
+                webRequest.Headers.Add("Token", "Jkd855c6x9Aqcf");
                 using (HttpWebResponse response = (HttpWebResponse) webRequest.GetResponse()){
                     using (var s = response.GetResponseStream()){
                         using (var sr = new System.IO.StreamReader(s)){
