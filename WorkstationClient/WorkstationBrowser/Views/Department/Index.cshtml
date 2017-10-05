@@ -2,12 +2,13 @@
 
 @{
     ViewBag.Title = "Index";
+
 }
 
 <div class="row" style="padding-top: 50px">
 @foreach (var item in Model)
 {
-    <div class="col-md-4 col-xs-6 col-lg-3 col-sm-offset-1 col-xs-offset-1 col-md-offset-1 col-lg-offset-1" style="border: solid 1px #d7d7d7; border-radius:5px; margin-bottom:10px;">
+    <div class="dept-project  col-md-5 col-xs-12 col-lg-3 col-sm-offset-1 col-xs-offset-1 col-md-offset-1 col-lg-offset-1" style="border: solid 1px #d7d7d7; border-radius:5px; margin-bottom:10px;">
         <div style="margin-top: 5px; vertical-align: middle;" class="panel-title">
             @Html.DisplayFor(modelItem => item.OriginalModel.name)
             <a href="#" style="color:red" class="pull-right btn btn-default glyphicon glyphicon-remove"></a>
@@ -34,8 +35,6 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
             Integer dictum lorem convallis nisi imperdiet, dictum pellentesque nisi ultrices. 
             Aenean vel dignissim massa. 
-     
-
         </div>
 
     </div>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationAuthentication", "WorkstationAuthentication\WorkstationAuthentication.csproj", "{52D39487-698F-4CA0-BD3C-0B29E9DECB15}"
 EndProject
@@ -23,6 +23,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorstationServices", "WorstationServices\WorstationServices.csproj", "{91FC68F7-85F1-40E4-A87C-B1FA1683B565}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationMessaging", "WorkstationMessaging\WorkstationMessaging.csproj", "{07E3B36A-2367-4231-AC5F-BFFA1B02F23F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{A2A4BF76-5368-498E-AB0C-4363A9120148}"
+	ProjectSection(SolutionItems) = preProject
+		SonarQube\fs126qd9zCSharp.ruleset = SonarQube\fs126qd9zCSharp.ruleset
+		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,5 +75,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3DE294EE-C132-4CF1-B7A6-20C04EE8E9F0}
 	EndGlobalSection
 EndGlobal

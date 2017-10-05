@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>WorkstationManagementServices</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>ae919789-02c4-41ee-9192-e0bd7036b5d7</ProjectGuid>
+  <FullPath>C:\Users\macie\Source\Repos\WorkStation\WorkstationServices\WorkstationManagementServices\WorkstationManagementServices.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\macie\Source\Repos\WorkStation\WorkstationServices\.sonarqube\out\\WorkstationManagementServices_6473\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">C:\Users\macie\Source\Repos\WorkStation\WorkstationServices\WorkstationManagementServices\bin\WorkstationManagementServices.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">C:\Users\macie\Source\Repos\WorkStation\WorkstationServices\.sonarqube\out\\WorkstationManagementServices_6473</Property>
+    <Property Name="sonar.stylecop.projectFilePath">C:\Users\macie\Source\Repos\WorkStation\WorkstationServices\WorkstationManagementServices\WorkstationManagementServices.csproj</Property>
+  </AnalysisSettings>
+</ProjectInfo>

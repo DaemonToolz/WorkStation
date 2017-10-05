@@ -19,6 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationLiveTester", "Wo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkstationUtilitiesV2", "WorkstationUtilitiesV2\WorkstationUtilitiesV2.csproj", "{B54D08CB-2866-4315-AD45-E79CB7544F60}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{B14A71E1-81E8-40DF-A212-5B8DEB40B5EA}"
+	ProjectSection(SolutionItems) = preProject
+		SonarQube\GP_K01SCSharp.ruleset = SonarQube\GP_K01SCSharp.ruleset
+		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

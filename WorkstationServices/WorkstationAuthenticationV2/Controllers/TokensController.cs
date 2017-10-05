@@ -157,8 +157,8 @@ namespace WorkstationAuthenticationV2.Controllers
                 bool changes = false;
 
                 String jni = IdGenerationModel.GenerateId(_ID_GEN_SIZE);
-                var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jni));
-                signingKey.KeyId = IdGenerationModel.GenerateId(24);
+                var signingKey =
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jni)) {KeyId = IdGenerationModel.GenerateId(24)};
                 var signingCredentials =
                     new SigningCredentials(signingKey,
                         SecurityAlgorithms

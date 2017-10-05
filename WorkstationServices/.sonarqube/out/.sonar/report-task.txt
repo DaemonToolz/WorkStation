@@ -1,0 +1,6 @@
+projectKey=fs126qd9z
+serverUrl=http://localhost:9000
+serverVersion=6.5.0.27846
+dashboardUrl=http://localhost:9000/dashboard/index/fs126qd9z
+ceTaskId=AV7iDwiOuNUIJdq_ul-r
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AV7iDwiOuNUIJdq_ul-r

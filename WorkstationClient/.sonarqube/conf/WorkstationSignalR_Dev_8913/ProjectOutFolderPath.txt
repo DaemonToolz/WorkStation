@@ -1,0 +1,1 @@
+C:\Users\macie\Source\Repos\WorkStation\WorkstationClient\.sonarqube\out\\WorkstationSignalR_Dev_8913

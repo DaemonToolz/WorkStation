@@ -1,10 +1,7 @@
 ﻿@using WorkstationManagementServices.Models.Database
-@model WorkstationManagementServices.Models.ProjectHeavyModel
+@model List<WorkstationManagementServices.Models.DashboardItem>
 
-@{
-    Dictionary<String, Dictionary<String, int>> Activities = new Dictionary<string, Dictionary<String, int>>();
-    var ChangeSets = ViewData["CSActivity"] as Dictionary<String, Dictionary<string, int>>;
-}
+
 <br/>
 <p>
     @Html.ActionLink(" ", "Dashboard", "Home", null, new {@class="btn btn-default glyphicon glyphicon-arrow-left"})
@@ -18,22 +15,47 @@
 </div>
 
 <div class="col-md-12">
+    <h3> Folders </h3>
+    <hr/>
+    @if (ViewData["Folders"] != null) {
+      
+
+        if (ViewData["Root"] != null)
+        {
+            <a href="@Url.Action("DashboardProjects", "DashBoard", new {parent = "/", projectid = (int) ViewData["Project"]})" class="btn btn-default">
+                <span class="glyphicon glyphicon-chevron-up"></span> 
+                <label>Root</label>
+            </a>
+            <br />
+            <a href="@Url.Action("DashboardProjects", "DashBoard", new {parent = ViewData["Root"].ToString(), projectid = (int) ViewData["Project"]})" class="btn btn-default">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <label>Previous</label>
+            </a>
+            <br/>
+        }
+        foreach (var parent in ViewData["Folders"] as List<String>) {
+            
+            var name = parent.Remove(parent.LastIndexOf("/"), 1);
+            name = name.Remove(0, name.LastIndexOf("/")).Remove(0,1);
+             
+
+            <a href="@Url.Action("DashboardProjects", "DashBoard", new {parent = parent, projectid = (int) ViewData["Project"]})" class="btn btn-default">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <label>@name</label>
+            </a>
+        }
+    }
+</div>
+
+<div class="col-md-12">
     <h3> Activity per File </h3>
     <hr/>
-    @if (@ViewData["XmlActivity"] != null)
-    {
-        var i = 0;
-        foreach (var item in (dynamic[]) ViewData["XmlActivity"]){
-
-            String friendlyName = item.Name;
-            
+   
+        @{var i = 0;}
+        @foreach (var item in Model){
             <div class="col-md-12 col-xs-12 col-lg-12" style="margin-top:25px">
                 <div class="col-md-12 col-xs-12 col-lg-12">
-                    @{
-                        String RealFilename = friendlyName.Replace("_comtrack", "").Replace(".xml", "").Substring(1);
-                    }
-
-                    @RealFilename
+                    @item.Name
                     <button type="button" data-toggle="collapse" class="pull-right btn btn-default btn-circle" data-target="#dcollapse@(i)">
                         <span class="glyphicon glyphicon-arrow-down">  </span> 
                     </button>
@@ -44,39 +66,17 @@
                 <div class="col-md-12 col-xs-12 col-lg-12 collapse" id="dcollapse@(i++)">
                     <!-- Check if contains comment activities -->
                     <div class="col-md-6 col-xs-12 col-lg-6 ">
-                        <div id="c_@friendlyName"></div>
+                        <div id="c_@item.Absolute"></div>
                     </div>
                     <!-- Check if contains changeset Activities-->
                     <div class="col-md-6 col-xs-12 col-lg-6 ">
-                        <div id="a_@RealFilename"></div>
+                        <div id="a_@item.Absolute"></div>
                     </div>
                 </div>
-                
-                @{
-                    var Dict = new Dictionary<String, int>();
-                }
- 
-                @if (item.Root.Comments != null){
-                    foreach (var comment in item.Root.Comments[0].Content){
-                        DateTime date;
-                        if (DateTime.TryParse(comment.Date.ToString(), out date)){
-                            if (!Dict.ContainsKey(date.ToShortDateString())){
-                                Dict.Add(date.ToShortDateString(), 1);
-                            }
-                            else {
-                                Dict[date.ToShortDateString()]++;
-                            }
-                        }
-                    }
-                } 
-                
-                @{
-                    Activities.Add($"c_{friendlyName}", Dict);
-                }
             </div>
 
         }
-    }
+    
 </div>
 
 @section Scripts{
@@ -84,18 +84,62 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
+    
     <script>
+        /*
+            TODO
+            - Update & Improve general UI
+            - SignalR Integration
+            - AJAX integration for the UI
+        */
+
         var lineChanges = [];
         var newContents = [];
         var remContents = [];
         var files = [];
 
-        @foreach (var item in Model.FileModels){
-            @:lineChanges.push(@Math.Abs(item.Changes));
-            @:newContents.push(@Math.Abs(item.NewContent));
-            @:remContents.push(@Math.Abs(item.RemovedContent));
-            @:files.push("@item.Filename");
+        var xAxis = [];
+        var yAxis = [];
+
+        @{
+            var data = new Dictionary<string, Dictionary<string, int>>();
+        }
+
+        @foreach (var item in Model){
+            var commentDate = new Dictionary<string, int>();
+            int totalChanges = 0, totalAdds = 0, totalDel = 0;
+            foreach (var sub in item.Changes)
+            {
+                totalChanges += Math.Abs(sub.edition);
+                totalAdds += Math.Abs(sub.addition);
+                totalDel += Math.Abs(sub.deletion);
+               
+                if (!commentDate.ContainsKey(sub.stamp.ToShortDateString())){
+                    commentDate.Add(sub.stamp.ToShortDateString(), 0);
+                }
+
+                commentDate[sub.stamp.ToShortDateString()]++;
+            }
+
+            @:lineChanges.push(@totalChanges);
+            @:newContents.push(@totalAdds);
+            @:remContents.push(@totalDel);
+            @:files.push("@item.Name");
+
+            data.Add($"a_{item.Absolute}", commentDate);
+
+            commentDate = new Dictionary<string, int>();
+            foreach (var sub in item.Comments){
+                if (!commentDate.ContainsKey(sub.Date)) {
+                    commentDate.Add(sub.Date, 0);
+                }
+                commentDate[sub.Date]++;
+            }
+            data.Add($"c_{item.Absolute}", commentDate);
+
+
+
+
         }
 
         Highcharts.chart('container',
@@ -111,86 +155,46 @@
                 ]
             });
 
-        var xAxis = [];
-        var yAxis = [];
-
-        @foreach (var file in Activities)
-        {
-            if (file.Value.Count > 0)
-            {
-                <text>
-                    xAxis.length = 0;
-                    yAxis.length = 0;
-                    @foreach (var comments in file.Value)
-                    {
-                        @:xAxis.push("@comments.Key");
-                        @:yAxis.push(@comments.Value);
-                    }
-
-                    Highcharts.chart("@file.Key",
-                        {
-                            title: { text: 'Comment activity' },
-                            yAxis: {
-                                tickInterval: 1,
-                                //minRange: 1,
-                                allowDecimals: false,
-                                title: { text: 'Comment count' }
-                            },
-                            xAxis: { categories: xAxis },
-
-                            plotOptions: { line: { dataLabels: { enabled: true }, enableMouseTracking: false } },
-                            series: [
-                                {
-                                    name: 'Comment count',
-                                    data: yAxis
-                                }
-                            ]
-                        });
-
-
-                </text>
-            }
-        }
-
-        @foreach (var file in ChangeSets)
-        {
+        @foreach (var content in data){
             <text>
-        xAxis.length = 0;
-        yAxis.length = 0;
+            xAxis.length = 0;
+            yAxis.length = 0;
 
-        @foreach (var activity in file.Value)
-        {
-            @:xAxis.push("@activity.Key");
-            @:yAxis.push(@activity.Value);
-        }
+            @foreach (var subContent in content.Value){
+                 @:xAxis.push("@subContent.Key");
+                 @:yAxis.push(@subContent.Value);
+            }
 
-        @{
-            String divName = $"a_{file.Key.Remove(0, file.Key.IndexOf("/")+1)}";
-        }
+            var text = "Activity";
 
-        if ($("div[id^='@divName']").length === 1) {
-            Highcharts.chart("@divName",
-                {
-                    title: { text: 'Change activity' },
-                    yAxis: {
-                        title: { text: 'Change count' },
+            @if (content.Key.StartsWith("c_")){
+                @:text = "Comment";
+
+            }
+
+
+                Highcharts.chart("@content.Key", {
+                    title: { text: text },
+                yAxis: {
                         tickInterval: 1,
-                        //minRange: 1,
-                        allowDecimals: false },
-                    xAxis: { categories: xAxis },
+                    //minRange: 1,
+                    allowDecimals: false,
+                    title: { text: 'Count' }
+                    },
+                xAxis: { categories: xAxis },
 
-                    plotOptions: { line: { dataLabels: { enabled: true }, enableMouseTracking: false } },
-                    series: [
-                        {
-                            name: 'Comment count',
-                            data: yAxis
-                        }
-                    ]
-                });
-        }
+                plotOptions: { line: { dataLabels: { enabled: true }, enableMouseTracking: false } },
+                series: [ {
+                        name: 'Comment count',
+                    data: yAxis
+                }]
+            });
 
-   
+
             </text>
         }
+
+
+
     </script>
 }

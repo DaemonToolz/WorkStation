@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>WorkstationSignalR_Dev</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>2df7f21b-d5c8-4d92-aaf4-0376505219fd</ProjectGuid>
+  <FullPath>C:\Users\macie\Source\Repos\WorkStation\WorkstationClient\WorkstationSignalR_Dev\WorkstationSignalR_Dev.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\macie\Source\Repos\WorkStation\WorkstationClient\.sonarqube\out\\WorkstationSignalR_Dev_8913\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">C:\Users\macie\Source\Repos\WorkStation\WorkstationClient\WorkstationSignalR_Dev\bin\WorkstationSignalR_Dev.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">C:\Users\macie\Source\Repos\WorkStation\WorkstationClient\.sonarqube\out\\WorkstationSignalR_Dev_8913</Property>
+    <Property Name="sonar.stylecop.projectFilePath">C:\Users\macie\Source\Repos\WorkStation\WorkstationClient\WorkstationSignalR_Dev\WorkstationSignalR_Dev.csproj</Property>
+  </AnalysisSettings>
+</ProjectInfo>

@@ -13,7 +13,7 @@ namespace WorkstationManagementServices.Models {
         public String Absolute => Parent + Name;
         public String CommentAbsolute => Parent + CommentFile;
 
-        public CommentModel[] Comments { get; set; }
+        public IEnumerable<CommentModel> Comments { get; set; }
         public ChangeSet[] Changes { get; set; }
     }
 

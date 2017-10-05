@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>WorkstationBrowser.Tests</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Test</ProjectType>
+  <ProjectGuid>1632a0c2-2edf-46fa-9322-1cdef80bfc05</ProjectGuid>
+  <FullPath>C:\Users\macie\Source\Repos\WorkStation\WorkstationClient\WorkstationBrowser.Tests\WorkstationBrowser.Tests.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\macie\Source\Repos\WorkStation\WorkstationClient\.sonarqube\out\\WorkstationBrowser.Tests_8250\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.stylecop.projectFilePath">C:\Users\macie\Source\Repos\WorkStation\WorkstationClient\WorkstationBrowser.Tests\WorkstationBrowser.Tests.csproj</Property>
+  </AnalysisSettings>
+</ProjectInfo>

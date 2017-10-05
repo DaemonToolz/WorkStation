@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="SonarQube - GP_K01S Sonar way" ToolsVersion="15.0">
+  <Include Path="..\sonarqube\gp_k01scsharp.ruleset" Action="Default" />
+</RuleSet>

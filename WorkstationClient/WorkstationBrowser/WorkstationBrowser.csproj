@@ -38,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
     <LangVersion>7</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>WorkstationBrowser.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +50,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>WorkstationBrowser.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AntiXssLibrary, Version=4.3.0.0, Culture=neutral, PublicKeyToken=d127efab8a9c114f, processorArchitecture=MSIL">
@@ -634,6 +636,7 @@
     <Content Include="Views\Department\Details.cshtml" />
     <Content Include="Views\Project\FileComments.cshtml" />
     <Content Include="Views\Project\SeeChanges.cshtml" />
+    <Content Include="WorkstationBrowser.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

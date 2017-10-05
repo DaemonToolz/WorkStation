@@ -570,3 +570,29 @@ a.menu-hyperlink {
     padding: 5px 10px;
     position: relative;
 }
+
+
+
+
+.dept-project {
+    border: 0.25px solid rgba(183, 183, 183, 0.25);
+}
+
+    .dept-project:hover {
+        border: 1px solid rgba(183, 183, 183, 0.5);
+        background-color: rgba(202, 255, 191, 0.15);
+    }
+
+
+
+.dptRow {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+    .dptRow > [class*='col-'] {
+        display: flex;
+        flex-direction: column;
+    }
