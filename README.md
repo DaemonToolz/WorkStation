@@ -1,4 +1,4 @@
-# WorkStation
+# WorkStation - Standby
 Workstation is a simplified and open collaboritve tools.
 
 
