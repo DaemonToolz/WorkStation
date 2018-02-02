@@ -17,6 +17,8 @@ The server project:
   - Database Management Services, local Windows Services to clean and review the databases.
   - Workstation Services, the "mainframe" WCF service interacting with the previous clients. This one is based both on a Username / Password verification and a token generation. It could have been simpler, yet this project is mainly an "experimentation". 
   
+Both projects are / will be checked with SonarQube.
+ 
 ## How does it work?
 
 ## Note
