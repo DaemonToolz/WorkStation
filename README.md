@@ -1,11 +1,11 @@
-# WorkStation - Standby
+# WorkStation
 Workstation is a simplified and open collaboritve tools.
 
 
 ## What is it?
 By itself, it is a bundle divided into 2 projects, a client-side and a server-side.
 The client project regroups all targets:
-  - Browser, using ASP.NET MVC, framework 4.6.2, and SignalR 
+  - Browser, using ASP.NET MVC, framework 4.6.2, and SignalR | ASP.NET Core MVC, Angular 5 and SignalR
   - Application, using WPF and framework 4.6.2
   - Mobile, hopefully on Android, iOs and Windows.
   
