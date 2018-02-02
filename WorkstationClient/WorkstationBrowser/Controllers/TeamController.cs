@@ -33,7 +33,7 @@ namespace WorkstationBrowser.Controllers
             ViewData["TeamId"] = _Session.CurrentUser.team_id;
             ViewData["AllDepartments"] = _Session.GetAllDepartments().ToArray();
             ViewData["AllProjects"] = _Session.GetAllProjects().ToArray();
-
+            
             return View(teams);
         }
 

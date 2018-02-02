@@ -401,12 +401,23 @@
     <Content Include="Connected Services\SessionReference\WorkstationBrowser.SessionReference.FileModel.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <Content Include="Root\app.js" />
+    <Content Include="Root\components\AJS_HomeController.js" />
+    <Content Include="Root\components\templates\home\homeone_template.html" />
+    <Content Include="Root\services\AJS_HomeService.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />
@@ -637,10 +648,13 @@
     <Content Include="Views\Project\FileComments.cshtml" />
     <Content Include="Views\Project\SeeChanges.cshtml" />
     <Content Include="WorkstationBrowser.ruleset" />
+    <Content Include="Views\Home\AngularTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Error\" />
+    <Folder Include="Root\modules\" />
+    <Folder Include="Root\navbar\" />
     <Folder Include="Scripts\typescript\" />
     <Folder Include="UserContent\FileTracker\" />
     <Folder Include="UserContent\ProjectFiles\" />

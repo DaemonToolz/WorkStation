@@ -9,15 +9,16 @@
         <div class="col-md-8=12 col-xs-12 col-lg-12">
             <h3 class="text-center"> Your Tasks </h3>
             <div class="section-scroll-1 ">
-            @{
-                if (Request.IsAuthenticated)
-                {
-                    Html.RenderAction("_Index", "Task", new {
+                @{
+                    if (Request.IsAuthenticated)
+                    {
+                        Html.RenderAction("_Index", "Task", new
+                        {
                             userid = ((SessionWrapper)Session["WorkstationConnection"]).CurrentUser.id,
                         }
-                    );
+                        );
+                    }
                 }
-            }
             </div>
 
         </div>
@@ -29,13 +30,32 @@
                     if (Request.IsAuthenticated)
                     {
                         Html.RenderAction("_Index", "Message");
+
                     }
                 }
             </div>
         </div>
     </div>
-    <hr/>
+    <hr />
+    <div class="row">
 
+
+        <div class="col-md-12 col-xs-12 col-lg-12">
+            <h3 class="text-center"> Information </h3>
+        </div>
+
+        <a href="/#angulartest" class="btn btn-group-lg btn-default">Recommandations</a>
+        <a href="/#angulartest" class="btn btn-group-lg btn-default">Tips of the day</a>
+
+        <div ng-app="app" class="row">
+
+            <div ng-view>
+
+            </div>
+
+        </div>
+    </div>
+    <hr/>
 }
 <div class="row">
 
@@ -45,5 +65,12 @@
 
     </div>
 
-
+   
 </div>
+
+@section scripts{
+
+    <script src="~/Root/services/AJS_HomeService.js"> </script>
+    <script src="~/Root/components/AJS_HomeController.js"></script>
+}
+

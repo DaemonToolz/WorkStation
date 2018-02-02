@@ -8,9 +8,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Workstation Client</title>
+    
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-   
+    
+    @Scripts.Render("~/bundles/angular")
+    <script src="~/Root/app.js"> </script>
+
 </head>
 <body>
 
@@ -140,6 +144,8 @@
     </div>
 }
 
+
+
 <div class="container body-content">
 
     @RenderBody()
@@ -175,7 +181,6 @@
         </div>
     </div>
 </div>
-
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
